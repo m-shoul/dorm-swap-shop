@@ -1,0 +1,36 @@
+version: 2.1
+
+executors:
+  default:
+    docker:
+      - image: cimg/node:lts
+    working_directory: ~/dorm-swap-shop
+    environment:
+      NODE_VERSION: 16.20.2
+
+jobs:
+  eas_build:
+    executor: default
+    steps:
+      - checkout
+      - run:
+          name: Display Node.js Version
+          command: node -v
+      - run:
+          name: Install dependencies
+          command: npm ci
+      - run:
+          name: Login to Expo
+          command: npx expo login -u $EXPO_USERNAME -p $EXPO_PASSWORD
+      - run:
+          name: Trigger build
+          command: npx eas-cli build --platform android --non-interactive
+
+
+workflows:
+  build_app:
+    jobs:
+      - eas_build:
+          filters:
+            branches:
+              only: main

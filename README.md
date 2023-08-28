@@ -1,1 +1,1 @@
-# dorm-swap-shop
+# Dorm Swap and Shop
