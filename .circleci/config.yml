@@ -5,12 +5,17 @@ executors:
     docker:
       - image: cimg/node:lts
     working_directory: ~/dorm-swap-shop
+    environment:
+      NODE_VERSION: 16.20.2
 
 jobs:
   eas_build:
     executor: default
     steps:
       - checkout
+      - run:
+          name: Display Node.js Version
+          command: node -v
       - run:
           name: Install dependencies
           command: npm ci
