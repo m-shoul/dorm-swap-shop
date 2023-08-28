@@ -4,7 +4,7 @@ executors:
   default:
     docker:
       - image: cimg/node:lts
-    working_directory: ~/dorm-swap-shop/dorm-swap-shop
+    working_directory: ~/dorm-swap-shop
 
 jobs:
   eas_build:
