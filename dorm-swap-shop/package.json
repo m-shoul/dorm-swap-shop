@@ -1,5 +1,4 @@
-//This is an experimental comment to test GitHub pull requests. -Josh
-{
+  {
   "name": "dorm-swap-shop",
   "version": "1.0.0",
   "main": "node_modules/expo/AppEntry.js",
