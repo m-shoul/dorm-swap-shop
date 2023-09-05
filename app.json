@@ -1,0 +1,38 @@
+{
+  "expo": {
+    "name": "dorm-swap-shop",
+    "slug": "dorm-swap-shop",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.mshoul.dormswapshop"
+    },
+    "android": {
+      "package": "com.mshoul.dormswapshop",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "1b3085b2-8bcb-41b9-83ba-ecd122e0f2ea"
+      }
+    },
+    "owner": "m-shoul"
+  }
+}
