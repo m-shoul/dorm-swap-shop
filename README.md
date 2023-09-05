@@ -8,8 +8,10 @@
 ## Table of Contents
 * [Releases](https://github.com/m-shoul/dorm-swap-shop#releases)
 * [Introduction](https://github.com/m-shoul/dorm-swap-shop#introduction)
-* [Problem Statement](https://github.com/m-shouldorm-swap-shop#problem-statement)
+* [Problem Statement](https://github.com/m-shoul/dorm-swap-shop#problem-statement)
 * [Tech Stack](https://github.com/m-shoul/dorm-swap-shop#tech-stack)
+  * [Frontend](https://github.com/m-shoul/dorm-swap-shop#frontend)
+  * [Backend](https://github.com/m-shoul/dorm-swap-shop#backend)
 * [Installation and Local Testing](https://github.com/m-shoul/dorm-swap-shop#installation-and-local-testing)
 * [Demo](https://github.com/m-shoul/dorm-swap-shop#demo)
 * [Contributors](https://github.com/m-shoul/dorm-swap-shop#contributors)
