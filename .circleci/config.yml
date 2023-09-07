@@ -21,6 +21,16 @@ jobs:
           name: Trigger build
           command: npx eas-cli build --platform android --non-interactive
 
+  # eas_deploy:
+  #   executor: default
+  #   steps:
+  #   - checkout
+  #   - run:
+  #         name: Install EAS CLI
+  #         command: npm install -g eas-cli
+  #     - run:
+  #         name: Deploy to Expo
+  #         command: eas deploy --profile m-shoul
 
 workflows:
   build_app:
@@ -29,3 +39,7 @@ workflows:
           filters:
             branches:
               only: main
+
+      # -eas_deploy:
+      #   requires:
+      #     - eas_build        
