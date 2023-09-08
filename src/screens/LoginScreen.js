@@ -1,7 +1,7 @@
 import { StyleSheet, Text, SafeAreaView, TextInput, View, Button, Alert, TouchableOpacity} from 'react-native';
 import React from 'react';
 
-function LoginScreen(props) {
+const LoginScreen = ({navigation}) => {
     return (
        <SafeAreaView style={styles.background}>
             <View style={styles.view}>
@@ -19,7 +19,7 @@ function LoginScreen(props) {
                 <Text style={styles.loginText}>LOGIN</Text> 
             </TouchableOpacity>
 
-            <Text onPress={()=>Alert.alert('Creating Account')}>Not a User? Create an Account</Text>    
+            <Text onPress={()=>navigation.navigate('CreateUserScreen')}>Not a User? Create an Account</Text>    
        </SafeAreaView>
     );
 }
