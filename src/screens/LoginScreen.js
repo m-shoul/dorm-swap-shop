@@ -1,4 +1,4 @@
-import { StyleSheet, Text, SafeAreaView, TextInput, View} from 'react-native';
+import { StyleSheet, Text, SafeAreaView, TextInput, View, Button, Alert, TouchableOpacity} from 'react-native';
 import React from 'react';
 
 function LoginScreen(props) {
@@ -6,11 +6,20 @@ function LoginScreen(props) {
        <SafeAreaView style={styles.background}>
             <View style={styles.view}>
                 <Text>User Name:</Text>
-                <TextInput multiline={true} numberOfLines={1} style={styles.textBox}/>
+                <TextInput style={styles.textBox}/>
                 <Text>Password:</Text>
-                <TextInput multiline={true} numberOfLines={1} style={styles.textBox}/>
+                <TextInput style={styles.textBox}/>
             </View>
-            
+            <View>
+                <Text><Text>Remember me</Text>
+                <Text>Forgot Password</Text> </Text>
+            </View>
+
+            <TouchableOpacity style={styles.loginBtn}>
+                <Text style={styles.loginText}>LOGIN</Text> 
+            </TouchableOpacity>
+
+            <Text onPress={()=>Alert.alert('Creating Account')}>Not a User? Create an Account</Text>    
        </SafeAreaView>
     );
 }
@@ -20,17 +29,27 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: 'blue',
+        backgroundColor: 'lightblue',
     },
     view:{
-        alignItems: 'center',
-        width: '100%',
+        width: '80%',
     },
     textBox: {
-        alignItems: 'center',
         backgroundColor: '#fff',
-        width: "50%",
+        width: "100%",
         height: 30,
+    },
+    loginBtn: {
+        width: "80%",
+        borderRadius: 25,
+        height: 50,
+        alignItems: "center",
+        justifyContent: "center",
+        marginTop: 40,
+        backgroundColor: "#FF1493",
+    },
+    remember: {
+        padding: 40,
     }
 })
 
