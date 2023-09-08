@@ -1,14 +1,14 @@
 import { StyleSheet, Text, SafeAreaView, TextInput, View, Button, Alert, TouchableOpacity} from 'react-native';
-import React from 'react';
+import * as React from 'react';
 
-function LoginScreen(props) {
+const LoginScreen = ({navigation}) => {
     return (
-       <SafeAreaView style={styles.background}>
+       <SafeAreaView style={styles.container}>
             <View style={styles.view}>
-                <Text>User Name:</Text>
-                <TextInput style={styles.textBox}/>
+                <Text>User Name or Email:</Text>
+                <TextInput style={styles.textBox} placeholder='Username or Email'/>
                 <Text>Password:</Text>
-                <TextInput style={styles.textBox}/>
+                <TextInput style={styles.textBox} placeholder='Password'/>
             </View>
             <View>
                 <Text><Text>Remember me</Text>
@@ -19,17 +19,17 @@ function LoginScreen(props) {
                 <Text style={styles.loginText}>LOGIN</Text> 
             </TouchableOpacity>
 
-            <Text onPress={()=>Alert.alert('Creating Account')}>Not a User? Create an Account</Text>    
+            <Text onPress={() => navigation.navigate('CreateUserScreen')}>Not a User? Create an Account</Text>   
        </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
-    background: {
+    container: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: 'lightblue',
+        backgroundColor: 'lightblue'
     },
     view:{
         width: '80%',
