@@ -8,14 +8,13 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    //(<StatusBar style="auto" />),
-    (
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen name="LoginScreen" component={LoginScreen} />
-          <Stack.Screen name="CreateUserScreen" component={CreateUserScreen} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    )
+    <StatusBar hidden={true} />,
+
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="LoginScreen" component={LoginScreen} />
+        <Stack.Screen name="CreateUserScreen" component={CreateUserScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
