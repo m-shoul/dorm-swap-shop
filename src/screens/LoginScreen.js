@@ -2,10 +2,10 @@ import { StyleSheet, Text, SafeAreaView, TextInput, View, Button, Alert, Touchab
 import React from 'react';
 import { readData } from '../../backend/dbFunctions';
 
-readData("dorm-swap-shop").then((data) => {
+readData('/dorm_swap_shop/listings/listingId/description').then((data) => {
     console.log(data)
 });
-
+// The app wont read the data from the db. We want it to output "Description"
 
 const LoginScreen = ({navigation}) => {
     return (
@@ -22,7 +22,7 @@ const LoginScreen = ({navigation}) => {
             </View>
 
             <TouchableOpacity style={styles.loginBtn}>
-                <Text style={styles.loginText}>LOGIN</Text> 
+                <Text style={styles.loginText}>LOGIN</Text>
             </TouchableOpacity>
 
             <Text onPress={()=>navigation.navigate('CreateUserScreen')}>Not a User? Create an Account</Text>    
