@@ -1,14 +1,17 @@
 import { initializeApp } from 'firebase/app';
+import { getDatabase } from 'firebase/database';
+import { getFirestore } from "firebase/firestore";
+
 
 // Optionally import the services that you want to use
 // import {...} from "firebase/auth";
-// import {...} from "firebase/database";
-// import {...} from "firebase/firestore";
 // import {...} from "firebase/functions";
 // import {...} from "firebase/storage";
 
+
+console.log(process.env.FIREBASE_DB_URL);
 // Initialize Firebase
-const firebaseConfig = {    //--------> Intellisense not working on these....hmmmm....
+const firebaseConfig = {
   apiKey: process.env.FIREBASE_API_KEY,
   authDomain: process.env.FIREBASE_AUTH_DOMAIN,
   databaseURL: process.env.FIREBASE_DB_URL,
@@ -20,5 +23,8 @@ const firebaseConfig = {    //--------> Intellisense not working on these....hmm
 };
 
 const app = initializeApp(firebaseConfig);
+export const database = getDatabase(app);
+export const firestore = getFirestore(app);
+
 // For more information on how to access Firebase in your project,
 // see the Firebase documentation: https://firebase.google.com/docs/web/setup#access-firebase
