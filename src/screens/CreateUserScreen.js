@@ -1,44 +1,6 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  Button,
-  Pressable,
-  onPress,
-  title,
-  SafeAreaView,
-} from "react-native";
+import {StyleSheet,Text,View,TextInput,Button,Pressable,onPress,title,SafeAreaView,} from "react-native";
 import React from "react";
-
-const styles = StyleSheet.create({
-  container: {
-    marginTop: 50,
-  },
-  createUserInput: {
-    marginTop: 20,
-    textAlign: "center",
-    marginLeft: 20,
-    marginRight: 20,
-    borderWidth: 1,
-    borderRadius: 10,
-
-    fontWeight: "bold",
-    fontSize: 20,
-    padding: 7,
-  },
-
-  header: {
-    margin: 20,
-    fontWeight: "bold",
-    fontSize: 30,
-    alignContent: "center",
-    textAlign: "center",
-  },
-  button: {
-    textAlign: "center",
-  },
-});
+import styles from '../styleSheets/StyleSheet.js';
 
 const CreateUserScreen = ({ navigation }) => {
   return (

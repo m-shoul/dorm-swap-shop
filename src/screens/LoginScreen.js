@@ -1,5 +1,6 @@
 import { StyleSheet, Text, SafeAreaView, TextInput, View, Button, Alert, TouchableOpacity} from 'react-native';
 import React from 'react';
+import styles from '../styleSheets/StyleSheet.js';
 
 const LoginScreen = ({navigation}) => {
     return (
@@ -23,34 +24,4 @@ const LoginScreen = ({navigation}) => {
        </SafeAreaView>
     );
 }
-
-const styles = StyleSheet.create({
-    background: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: 'lightblue',
-    },
-    view:{
-        width: '80%',
-    },
-    textBox: {
-        backgroundColor: '#fff',
-        width: "100%",
-        height: 30,
-    },
-    loginBtn: {
-        width: "80%",
-        borderRadius: 25,
-        height: 50,
-        alignItems: "center",
-        justifyContent: "center",
-        marginTop: 40,
-        backgroundColor: "#FF1493",
-    },
-    remember: {
-        padding: 40,
-    }
-})
-
 export default LoginScreen;
