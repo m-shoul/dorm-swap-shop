@@ -1,20 +1,21 @@
-import { StyleSheet, Text, SafeAreaView, TextInput, View, Button, Alert, TouchableOpacity} from 'react-native';
+import {Text, SafeAreaView, TextInput, View, Button, Alert, TouchableOpacity} from 'react-native';
 import React from 'react';
 import styles from '../styleSheets/StyleSheet.js';
+
 
 const LoginScreen = ({navigation}) => {
     return (
        <SafeAreaView style={styles.background}>
-            <View style={styles.view}>
-                <Text>User Name:</Text>
-                <TextInput style={styles.textBox}/>
-                <Text>Password:</Text>
-                <TextInput style={styles.textBox}/>
-            </View>
             <View>
+                <Text style={styles.header}> Login </Text>
+            </View>
+            <View style={styles.forms}>
+                <TextInput style={styles.createUserInput} placeholder="Email or Username" />
+                <TextInput style={styles.createUserInput} placeholder="Password" />
                 <Text><Text>Remember me</Text>
                 <Text>Forgot Password</Text> </Text>
             </View>
+                
 
             <TouchableOpacity style={styles.loginBtn}>
                 <Text style={styles.loginText}>LOGIN</Text> 
@@ -24,4 +25,5 @@ const LoginScreen = ({navigation}) => {
        </SafeAreaView>
     );
 }
+
 export default LoginScreen;

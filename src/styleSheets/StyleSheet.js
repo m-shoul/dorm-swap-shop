@@ -5,15 +5,10 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: 'lightblue',
+        backgroundColor: '#F9F7F7',
     },
-    view:{
-        width: '80%',
-    },
-    textBox: {
-        backgroundColor: '#fff',
-        width: "100%",
-        height: 30,
+    forms: {
+      width: "80%",
     },
     loginBtn: {
         width: "80%",
@@ -31,14 +26,9 @@ const styles = StyleSheet.create({
         marginTop: 50,
       },
       createUserInput: {
-        marginTop: 20,
-        textAlign: "center",
-        marginLeft: 20,
-        marginRight: 20,
+        marginBottom: 20,
         borderWidth: 1,
-        borderRadius: 10,
-    
-        fontWeight: "bold",
+        borderRadius: 20,
         fontSize: 20,
         padding: 7,
       },

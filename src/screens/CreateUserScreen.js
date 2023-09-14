@@ -4,11 +4,11 @@ import styles from '../styleSheets/StyleSheet.js';
 
 const CreateUserScreen = ({ navigation }) => {
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.background}>
       <View>
         <Text style={styles.header}> Register </Text>
       </View>
-      <View>
+      <View style={styles.forms}>
         <TextInput style={styles.createUserInput} placeholder="First Name" />
         <TextInput style={styles.createUserInput} placeholder="Last Name" />
         <TextInput style={styles.createUserInput} placeholder="Username" />
