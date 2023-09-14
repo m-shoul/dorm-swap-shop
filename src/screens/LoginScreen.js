@@ -1,6 +1,11 @@
 import {Text, SafeAreaView, TextInput, View, Button, Alert, TouchableOpacity} from 'react-native';
 import React from 'react';
 import styles from '../styleSheets/StyleSheet.js';
+import { readData } from '../../backend/dbFunctions';
+
+readData("dorm-swap-shop").then((data) => {
+    console.log(data)
+});
 
 
 const LoginScreen = ({navigation}) => {
