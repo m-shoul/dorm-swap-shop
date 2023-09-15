@@ -4,10 +4,10 @@
     "slug": "dorm-swap-shop",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./src/expo/assets/icon.png",
+    "icon": "./src/assets/expo/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./src/expo/assets/splash.png",
+      "image": "./src/assets/expo/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -21,12 +21,12 @@
     "android": {
       "package": "com.mshoul.dormswapshop",
       "adaptiveIcon": {
-        "foregroundImage": "./src/expo/assets/adaptive-icon.png",
+        "foregroundImage": "./src/assets/expo/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       }
     },
     "web": {
-      "favicon": "./src/expo/assets/favicon.png"
+      "favicon": "./src/assets/expo/favicon.png"
     },
     "extra": {
       "eas": {
