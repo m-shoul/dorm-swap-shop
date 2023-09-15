@@ -5,7 +5,7 @@ const styles = StyleSheet.create({
     background: {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'center',
+        //justifyContent: 'center',
         backgroundColor: '#F9F7F7',
     },
     forms: {
@@ -32,9 +32,20 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         fontSize: 20,
         padding: 7,
+        backgroundColor: "white",
+        borderColor: "#B3B3B3",
       },
     
-      header: {
+      loginHeader: {
+        paddingTop: 125,
+        margin: 20,
+        fontWeight: "bold",
+        fontSize: 30,
+        alignContent: "center",
+        textAlign: "center",
+      },
+      registerHeader: {
+        paddingTop: 50,
         margin: 20,
         fontWeight: "bold",
         fontSize: 30,
