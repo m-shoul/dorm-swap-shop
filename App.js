@@ -1,6 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import LoginScreen from "./src/screens/LoginScreen";
 import CreateUserScreen from "./src/screens/CreateUserScreen";
+import ResetPasswordScreen from "./src/screens/ResetPasswordScreen";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 

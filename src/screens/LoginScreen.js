@@ -7,7 +7,6 @@ import styles from '../styleSheets/StyleSheet.js';
 //     console.log(data)
 // });
 
-
 const LoginScreen = ({navigation}) => {
     return (
        <SafeAreaView style={styles.background}>
@@ -23,7 +22,7 @@ const LoginScreen = ({navigation}) => {
 
             <View style={{flexDirection: 'row', color:'red'}}>
                 <Text style={{color:'#585858'}}>Remember Me</Text>
-                <Text style={{paddingLeft: 100, color:'#585858'}}>Forgot Password</Text>
+                <Text style={{paddingLeft: 100, color:'#585858'}} onPress={() => navigation.navigate("ResetPasswordScreen")}>Forgot Password</Text>
             </View>
                 
 

@@ -1,0 +1,46 @@
+{
+    "dorm_swap_shop": {
+        "users": {
+            "userId": {
+                "fname": "First Name",
+                "lname": "Last Name",
+                "username": "Username",
+                "email": "email@email.com",
+                "password": "Password123", 
+                "listings": {
+                    "listing_id_1": true
+                },
+                "messages": {
+                    "messageId_1": true
+                }
+            } 
+        },
+        "listings": {
+            "listingId": {
+                "title": "Item Name", 
+                "description": "Description", 
+                "timeUpload": "2023-09-13T12:00:00Z", 
+                "price": 12.50, 
+                "images": {
+                    "imageId_1": "your-firebase-storage-url.com/path/to/your/image.jpg",
+                    "imageId_2": "your-firebase-storage-url.com/path/to/your/image.jpg"
+                }
+            }
+        },
+        "chats": {
+            "chatId_1": {
+                "participants": {
+                    "userId_1": true,
+                    "userId_2": true
+                },
+                "messages": {
+                    "messageId_1": {
+                        "text": "Hello, is the 19 dollar fortnite card still available?",
+                        "sender": "userId_2",
+                        "timestamp": "2023-09-13T12:00:00Z"
+                    }
+                }
+            }
+        }
+    }
+}
