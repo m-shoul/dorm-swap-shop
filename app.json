@@ -7,9 +7,8 @@
     "icon": "./src/assets/expo/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./src/assets/expo/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "image": "./src/assets/expo/splash_screen_dark.png",
+      "resizeMode": "contain"
     },
     "assetBundlePatterns": [
       "**/*"

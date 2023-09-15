@@ -8,20 +8,15 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-    return  (
+  return (
+    <StatusBar hidden={true} />,
 
-    (<StatusBar style="auto" />),
-    (
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen name="LoginScreen" component={LoginScreen} />
-          <Stack.Screen name="CreateUserScreen" component={CreateUserScreen} />
-          <Stack.Screen
-            name="ResetPasswordScreen"
-            component={ResetPasswordScreen}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
-    )
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="LoginScreen" component={LoginScreen} />
+        <Stack.Screen name="CreateUserScreen" component={CreateUserScreen} />
+        <Stack.Screen name="ResetPasswordScreen" component={ResetPasswordScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }

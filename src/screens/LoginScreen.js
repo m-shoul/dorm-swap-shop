@@ -1,74 +1,43 @@
-import {
-  StyleSheet,
-  Text,
-  SafeAreaView,
-  TextInput,
-  View,
-  Button,
-  Alert,
-  TouchableOpacity,
-} from "react-native";
-import React from "react";
-import { readData } from "../../backend/dbFunctions";
+import {Text, SafeAreaView, TextInput, View, TouchableOpacity, RowContainer} from 'react-native';
+import React from 'react';
+import styles from '../styleSheets/StyleSheet.js';
+// import { readData } from '../../backend/dbFunctions';
 
-readData("dorm-swap-shop").then((data) => {
-  console.log(data);
-});
+// readData("dorm-swap-shop").then((data) => {
+//     console.log(data)
+// });
 
-const LoginScreen = ({ navigation }) => {
-  return (
-    <SafeAreaView style={styles.background}>
-      <View style={styles.view}>
-        <Text>User Name:</Text>
-        <TextInput style={styles.textBox} />
-        <Text>Password:</Text>
-        <TextInput style={styles.textBox} />
-      </View>
-      <View>
-        <Text>Remember me</Text>
-        <Text onPress={() => navigation.navigate("ResetPasswordScreen")}>
-          Forgot Password?
-        </Text>
-      </View>
+const LoginScreen = ({navigation}) => {
+    return (
+       <SafeAreaView style={styles.background}>
+            <View>
+                <Text style={styles.loginHeader}> Login </Text>  
+            </View>
+            <View style={{backgroundColor: "#B3B3B3", height: 1, width: '90%', marginBottom: 20}} />
 
-      <TouchableOpacity style={styles.loginBtn}>
-        <Text style={styles.loginText}>LOGIN</Text>
-      </TouchableOpacity>
+            <View style={styles.forms}>
+                <TextInput style={styles.createUserInput} placeholder="Email or Username" />
+                <TextInput style={styles.createUserInput} placeholder="Password" />
+            </View>
 
-      <Text onPress={() => navigation.navigate("CreateUserScreen")}>
-        Not a User? Create an Account
-      </Text>
-    </SafeAreaView>
-  );
-};
+            <View style={{flexDirection: 'row', color:'red'}}>
+                <Text style={{color:'#585858'}}>Remember Me</Text>
+                <Text style={{paddingLeft: 100, color:'#585858'}} onPress={() => navigation.navigate("ResetPasswordScreen")}>Forgot Password</Text>
+            </View>
+                
 
-const styles = StyleSheet.create({
-  background: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "lightblue",
-  },
-  view: {
-    width: "80%",
-  },
-  textBox: {
-    backgroundColor: "#fff",
-    width: "100%",
-    height: 30,
-  },
-  loginBtn: {
-    width: "80%",
-    borderRadius: 25,
-    height: 50,
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 40,
-    backgroundColor: "#FF1493",
-  },
-  remember: {
-    padding: 40,
-  },
-});
+            <TouchableOpacity style={styles.loginBtn}>
+                <Text style={styles.loginText}>LOGIN</Text> 
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={()=>navigation.navigate('CreateUserScreen')} style={styles.accountButtons} >
+                <Text>Not a User? </Text>
+                <Text>Create an Account</Text> 
+            </TouchableOpacity>    
+       </SafeAreaView>
+    );
+}
 
 export default LoginScreen;
+
+

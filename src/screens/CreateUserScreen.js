@@ -1,52 +1,14 @@
-import {
-    StyleSheet,
-    Text,
-    View,
-    TextInput,
-    Button,
-    Pressable,
-    onPress,
-    title,
-    SafeAreaView,
-} from "react-native";
+import {Text,View,TextInput,SafeAreaView,TouchableOpacity} from "react-native";
 import React from "react";
-
-const styles = StyleSheet.create({
-    container: {
-        marginTop: 50,
-    },
-    createUserInput: {
-        marginTop: 20,
-        textAlign: "center",
-        marginLeft: 20,
-        marginRight: 20,
-        borderWidth: 1,
-        borderRadius: 10,
-
-        fontWeight: "bold",
-        fontSize: 20,
-        padding: 7,
-    },
-
-    header: {
-        margin: 20,
-        fontWeight: "bold",
-        fontSize: 30,
-        alignContent: "center",
-        textAlign: "center",
-    },
-    button: {
-        textAlign: "center",
-    },
-});
+import styles from '../styleSheets/StyleSheet.js';
 
 const CreateUserScreen = ({ navigation }) => {
     return (
-        <SafeAreaView>
+        <SafeAreaView style={styles.background}>
             <View>
-                <Text style={styles.header}> Register </Text>
+                <Text style={styles.registerHeader}> Register </Text>
             </View>
-            <View>
+            <View style={styles.forms}>
                 <TextInput style={styles.createUserInput} placeholder="First Name" />
                 <TextInput style={styles.createUserInput} placeholder="Last Name" />
                 <TextInput style={styles.createUserInput} placeholder="Username" />
@@ -61,15 +23,17 @@ const CreateUserScreen = ({ navigation }) => {
                     secureTextEntry={true}
                     placeholder="Confirm Password"
                 />
-
-                <Button title="Create Account" />
-                <Text
-                    onPress={() => navigation.navigate("LoginScreen")}
-                    style={styles.button}
-                >
-                    Already have an account? Login
-                </Text>
             </View>
+
+            <TouchableOpacity style={styles.loginBtn}>
+                <Text style={styles.loginText}>Create an Account</Text> 
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={() => navigation.navigate("LoginScreen")} style={styles.accountButtons}>
+                <Text>Already have an account?</Text>
+                <Text>Login</Text> 
+            </TouchableOpacity>
+            
         </SafeAreaView>
     );
 };

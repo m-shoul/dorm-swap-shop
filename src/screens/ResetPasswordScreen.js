@@ -17,7 +17,7 @@ const ResetPasswordScreen = ({ navigation }) => {
       <View>
         <Text>Reset Password</Text>
         <Text>
-          Please enter the email address that is associtated with your account
+          Please enter the email address that is associated with your account
         </Text>
         <TextInput placeholder="Email Address" />
         <Button title="Reset Password" />
