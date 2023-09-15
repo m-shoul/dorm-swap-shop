@@ -1,4 +1,4 @@
-import {StyleSheet,Text,View,TextInput,Button,Pressable,onPress,title,SafeAreaView,} from "react-native";
+import {StyleSheet,Text,View,TextInput,SafeAreaView,TouchableOpacity} from "react-native";
 import React from "react";
 import styles from '../styleSheets/StyleSheet.js';
 
@@ -23,15 +23,17 @@ const CreateUserScreen = ({ navigation }) => {
           secureTextEntry={true}
           placeholder="Confirm Password"
         />
-
-        <Button title="Create Account" />
-        <Text
-          onPress={() => navigation.navigate("LoginScreen")}
-          style={styles.button}
-        >
-          Already have an account? Login
-        </Text>
       </View>
+
+        <TouchableOpacity style={styles.loginBtn}>
+          <Text style={styles.loginText}>Create an Account</Text> 
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => navigation.navigate("LoginScreen")} style={styles.accountButtons}>
+          <Text>Already have an account?</Text>
+          <Text>Login</Text> 
+        </TouchableOpacity>
+      
     </SafeAreaView>
   );
 };

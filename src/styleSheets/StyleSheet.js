@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import * as Font from 'expo-font';
 
 const styles = StyleSheet.create({
     background: {
@@ -11,20 +12,20 @@ const styles = StyleSheet.create({
       width: "80%",
     },
     loginBtn: {
-        width: "80%",
-        borderRadius: 25,
-        height: 50,
-        alignItems: "center",
-        justifyContent: "center",
-        marginTop: 40,
-        backgroundColor: "#FF1493",
+      width: "80%",
+      borderRadius: 25,
+      height: 50,
+      alignItems: "center",
+      justifyContent: "center",
+      marginTop: 40,
+      backgroundColor: "#3F72AF",
     },
-    remember: {
-        padding: 40,
+    loginText:{
+      color: "white",
     },
     container: {
-        marginTop: 50,
-      },
+      marginTop: 50,
+    },
       createUserInput: {
         marginBottom: 20,
         borderWidth: 1,
@@ -43,5 +44,10 @@ const styles = StyleSheet.create({
       button: {
         textAlign: "center",
       },
+      accountButtons: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingTop: 20,
+      }
 })
 export default styles;

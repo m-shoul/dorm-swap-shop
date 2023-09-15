@@ -1,11 +1,11 @@
-import {Text, SafeAreaView, TextInput, View, Button, Alert, TouchableOpacity} from 'react-native';
+import {Text, SafeAreaView, TextInput, View, TouchableOpacity} from 'react-native';
 import React from 'react';
 import styles from '../styleSheets/StyleSheet.js';
-import { readData } from '../../backend/dbFunctions';
+// import { readData } from '../../backend/dbFunctions';
 
-readData("dorm-swap-shop").then((data) => {
-    console.log(data)
-});
+// readData("dorm-swap-shop").then((data) => {
+//     console.log(data)
+// });
 
 
 const LoginScreen = ({navigation}) => {
@@ -14,11 +14,10 @@ const LoginScreen = ({navigation}) => {
             <View>
                 <Text style={styles.header}> Login </Text>
             </View>
+
             <View style={styles.forms}>
                 <TextInput style={styles.createUserInput} placeholder="Email or Username" />
                 <TextInput style={styles.createUserInput} placeholder="Password" />
-                <Text><Text>Remember me</Text>
-                <Text>Forgot Password</Text> </Text>
             </View>
                 
 
@@ -26,9 +25,14 @@ const LoginScreen = ({navigation}) => {
                 <Text style={styles.loginText}>LOGIN</Text> 
             </TouchableOpacity>
 
-            <Text onPress={()=>navigation.navigate('CreateUserScreen')}>Not a User? Create an Account</Text>    
+            <TouchableOpacity onPress={()=>navigation.navigate('CreateUserScreen')} style={styles.accountButtons} >
+                <Text>Not a User? </Text>
+                <Text>Create an Account</Text> 
+            </TouchableOpacity>    
        </SafeAreaView>
     );
 }
 
 export default LoginScreen;
+
+
