@@ -5,11 +5,11 @@ const styles = StyleSheet.create({
     background: {
         flex: 1,
         alignItems: 'center',
-        //justifyContent: 'center',
         backgroundColor: '#F9F7F7',
     },
     forms: {
       width: "80%",
+      paddingTop: 20,
     },
     loginBtn: {
       width: "80%",
@@ -37,7 +37,8 @@ const styles = StyleSheet.create({
       },
     
       loginHeader: {
-        paddingTop: 125,
+        paddingTop: 130,
+        paddingBottom: 20,
         margin: 20,
         fontWeight: "bold",
         fontSize: 30,
@@ -58,7 +59,7 @@ const styles = StyleSheet.create({
       accountButtons: {
         alignItems: 'center',
         justifyContent: 'center',
-        paddingTop: 20,
+        paddingTop: 50,
       }
 })
 export default styles;

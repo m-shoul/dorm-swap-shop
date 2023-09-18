@@ -8,6 +8,7 @@ const CreateUserScreen = ({ navigation }) => {
             <View>
                 <Text style={styles.registerHeader}> Register </Text>
             </View>
+            <View style={{backgroundColor: "#B3B3B3", height: 1, width: '90%', marginBottom: 20}} />
             <View style={styles.forms}>
                 <TextInput style={styles.createUserInput} placeholder="First Name" />
                 <TextInput style={styles.createUserInput} placeholder="Last Name" />
