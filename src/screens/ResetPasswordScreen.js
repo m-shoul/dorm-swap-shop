@@ -14,14 +14,45 @@ const ResetPasswordScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.background}>
       <View>
-        <Text style={styles.registerHeader}>Reset Password</Text>
+        <Text
+          style={{
+            paddingTop: "35%",
+            margin: 15,
+            fontWeight: "bold",
+            fontSize: 30,
+            alignContent: "center",
+            textAlign: "center",
+          }}
+        >
+          Reset Password
+        </Text>
       </View>
+      <View
+        style={{
+          backgroundColor: "#B3B3B3",
+          height: 1,
+          width: "90%",
+          marginBottom: 25,
+          marginTop: 40,
+        }}
+      />
 
       <View style={styles.forms}>
-        <Text style={{ textAlign: "center" }}>
+        <Text style={{ textAlign: "center", marginBottom: 25 }}>
           Please enter the email address that is associated with your account
         </Text>
-        <TextInput style={styles.createUserInput} placeholder="Email Address" />
+        <TextInput
+          style={{
+            borderWidth: 1,
+            borderRadius: 20,
+            fontSize: 20,
+            padding: 7,
+            marginBottom: -10,
+            backgroundColor: "white",
+            borderColor: "#B3B3B3",
+          }}
+          placeholder="Email Address"
+        />
       </View>
 
       <TouchableOpacity style={styles.loginBtn}>
