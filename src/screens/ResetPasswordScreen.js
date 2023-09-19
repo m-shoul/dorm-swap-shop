@@ -14,18 +14,7 @@ const ResetPasswordScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.background}>
       <View>
-        <Text
-          style={{
-            paddingTop: "35%",
-            margin: 15,
-            fontWeight: "bold",
-            fontSize: 30,
-            alignContent: "center",
-            textAlign: "center",
-          }}
-        >
-          Reset Password
-        </Text>
+        <Text style={styles.resetHeader}>Reset Password</Text>
       </View>
       <View
         style={{
