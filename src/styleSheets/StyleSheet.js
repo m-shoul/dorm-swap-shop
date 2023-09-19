@@ -22,6 +22,8 @@ const styles = StyleSheet.create({
   },
   loginText: {
     color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
   },
   container: {
     marginTop: 50,
