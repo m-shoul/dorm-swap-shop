@@ -4,6 +4,7 @@ import CreateUserScreen from "./src/screens/CreateUserScreen";
 import ResetPasswordScreen from "./src/screens/ResetPasswordScreen";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import HomeScreen from "./src/screens/HomeScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -16,6 +17,7 @@ export default function App() {
         <Stack.Screen name="LoginScreen" component={LoginScreen} />
         <Stack.Screen name="CreateUserScreen" component={CreateUserScreen} />
         <Stack.Screen name="ResetPasswordScreen" component={ResetPasswordScreen} />
+        <Stack.Screen name="HomeScreen" component={HomeScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
