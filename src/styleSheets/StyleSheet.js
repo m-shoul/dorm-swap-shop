@@ -38,6 +38,16 @@ const styles = StyleSheet.create({
     borderColor: "#B3B3B3",
   },
 
+  createUserInputError: {
+    marginBottom: 20,
+    borderWidth: 1,
+    borderRadius: 20,
+    fontSize: 20,
+    padding: 7,
+    backgroundColor: "white",
+    borderColor: "red",
+  },
+
   loginHeader: {
     paddingTop: 125,
     margin: 20,

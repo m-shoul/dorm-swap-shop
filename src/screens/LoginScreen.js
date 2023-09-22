@@ -1,5 +1,5 @@
-import {Text, SafeAreaView, TextInput, View, TouchableOpacity} from 'react-native';
-import React, {useState} from 'react';
+import { Text, SafeAreaView, TextInput, View, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
 import styles from '../styleSheets/StyleSheet.js';
 import { auth } from '../../backend/config/firebaseConfig';
 // import { readData } from '../../backend/dbFunctions';
@@ -8,13 +8,27 @@ import { auth } from '../../backend/config/firebaseConfig';
 //     console.log(data)
 // });
 
-const LoginScreen = ({navigation}) => {
+const LoginScreen = ({ navigation }) => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
-    const handleLogin = () =>{
-        {navigation.navigate('HomeScreen')}
+    const [style, setStyle] = useState(styles.createUserInput);
+    const handleLogin = () => {
+
+        if (!email && !password) {
+            setErrorMessage('Form Empty');
+            setStyle(styles.createUserInputError)
+        } else if (!email) {
+            setErrorMessage('Email Empty');
+            setStyle(styles.createUserInputError)
+        } else if (!password) {
+            setErrorMessage('Password Empty');
+            setStyle(styles.createUserInputError)
+        } else {
+            { navigation.navigate('HomeScreen') }
+        }
+
         // auth
         // .then(userCredentials => {
         //     const user = userCredentials.user;
@@ -22,50 +36,49 @@ const LoginScreen = ({navigation}) => {
         // })
         // .catch(error => setErrorMessage('* Invalid Email'))
     }
-    
+
 
     return (
-       <SafeAreaView style={styles.background}>
+        <SafeAreaView style={styles.background}>
             <View>
-                <Text style={styles.loginHeader}> Login </Text>  
+                <Text style={styles.loginHeader}> Login </Text>
             </View>
-            <View style={{backgroundColor: "#B3B3B3", height: 1, width: '90%', marginBottom: 20}} />
+            <View style={{ backgroundColor: "#B3B3B3", height: 1, width: '90%', marginBottom: 20 }} />
 
             <View style={styles.forms}>
-                <TextInput 
-                    style={styles.createUserInput}
+                <TextInput
+                    style={style}
                     value={email}
                     onChangeText={text => setEmail(text)}
-                    placeholder="Email or Username" 
+                    placeholder="Email or Username"
                 />
-                {errorMessage && <Text style={{color: 'red', paddingBottom: 20}}>{errorMessage}</Text>}
-                <TextInput 
-                    style={styles.createUserInput} 
+                {errorMessage && <Text style={{ color: 'red', paddingBottom: 20 }}>{errorMessage}</Text>}
+                <TextInput
+                    style={style}
                     value={password}
                     onChangeText={text => setPassword(text)}
-                    placeholder="Password" 
+                    placeholder="Password"
                 />
-                {errorMessage && <Text style={{color: 'red', paddingBottom: 20}}>{errorMessage}</Text>}
+                {errorMessage && <Text style={{ color: 'red', paddingBottom: 20 }}>{errorMessage}</Text>}
             </View>
 
-            <View style={{flexDirection: 'row', color:'red'}}>
-                <Text style={{color:'#585858'}}>Remember Me</Text>
-                <Text style={{paddingLeft: 100, color:'#585858'}} onPress={() => navigation.navigate("ResetPasswordScreen")}>Forgot Password</Text>
+            <View style={{ flexDirection: 'row', color: 'red' }}>
+                <Text style={{ color: '#585858' }}>Remember Me</Text>
+                <Text style={{ paddingLeft: 100, color: '#585858' }} onPress={() => navigation.navigate("ResetPasswordScreen")}>Forgot Password</Text>
             </View>
-                
+
 
             <TouchableOpacity style={styles.loginBtn} onPress={handleLogin}>
-                <Text style={styles.loginText} >LOGIN</Text> 
+                <Text style={styles.loginText} >LOGIN</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={()=>navigation.navigate('CreateUserScreen')} style={styles.accountButtons} >
+            <TouchableOpacity onPress={() => navigation.navigate('CreateUserScreen')} style={styles.accountButtons} >
                 <Text>Not a User? </Text>
-                <Text>Create an Account</Text> 
-            </TouchableOpacity>    
-       </SafeAreaView>
+                <Text>Create an Account</Text>
+            </TouchableOpacity>
+        </SafeAreaView>
     );
 }
 
 export default LoginScreen;
-
 
