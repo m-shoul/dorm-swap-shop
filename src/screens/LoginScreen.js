@@ -1,10 +1,11 @@
-import {Text, SafeAreaView, TextInput, View, TouchableOpacity, RowContainer} from 'react-native';
+import { Text, SafeAreaView, TextInput, View, TouchableOpacity } from 'react-native';
 import React from 'react';
 import styles from '../styleSheets/StyleSheet.js';
 import { useState } from "react";
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { getAuth } from "firebase/auth";
 
+import { auth } from '../../backend/config/firebaseConfig';
 // import { readData } from '../../backend/dbFunctions';
 
 // readData("dorm-swap-shop").then((data) => {
@@ -15,27 +16,22 @@ const LoginScreen = ({navigation}) => {
     const [username, setUsername] = useState('')
     const [email, setEmail] = useState(''); 
     const [password, setPassword] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
     const auth = getAuth();
 
-    // TODO: Implement this to check if the passwords match or not.
-    // Just trying to get the initial login and navigation working...
-    // const onRegisterPress = () => {
-    //     if (password !== confirmPassword) {
-    //         alert("Passwords don't match.")
-    //         return
-    //     }
-    // }
-
     // Logs the user in
-    const handleSubmit = async () => {
+    const userLogin = async () => {
         if (email && password) {
             try {
-                // Creates user into Firebase
+                // Signs user into Firebase
                 await signInWithEmailAndPassword(auth, email, password);
+                navigation.navigate("HomeScreen");
             } catch(error) {
                 console.log('Got error: ', error.message);
             }
+        } else {
+            alert("Please enter TEXT");
         }
     }
 
@@ -49,16 +45,19 @@ const LoginScreen = ({navigation}) => {
             <View style={styles.forms}>
                 <TextInput style={styles.createUserInput} 
                     placeholder="Email or Username" 
-                    value={username}
-                    onChangeText={(value) => setUsername(value)}
+                    value={email}
+                    onChangeText={(value) => setEmail(value)}
                     // TODO: Will also have to figure out how to do email OR username...
                 />
+                {errorMessage && <Text style={{color: 'red', paddingBottom: 20}}>{errorMessage}</Text>}
+
                 <TextInput style={styles.createUserInput}
                     secureTextEntry={true}
                     placeholder="Password" 
                     value={password}
                     onChangeText={value => setPassword(value)}
                 />
+                {errorMessage && <Text style={{color: 'red', paddingBottom: 20}}>{errorMessage}</Text>}
             </View>
 
             <View style={{flexDirection: 'row', color:'red'}}>
@@ -68,10 +67,7 @@ const LoginScreen = ({navigation}) => {
             </View>
                 
 
-            <TouchableOpacity style={styles.loginBtn} onPress={() => {
-                handleSubmit(); 
-                navigation.navigate("HomeScreen")
-                }}>
+            <TouchableOpacity style={styles.loginBtn} onPress={userLogin}>
                 <Text style={styles.loginText}>LOGIN</Text> 
             </TouchableOpacity>
 

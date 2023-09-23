@@ -1,26 +1,27 @@
-import {Text,View,TextInput,SafeAreaView,TouchableOpacity} from "react-native";
+import { Text, View ,TextInput ,SafeAreaView, TouchableOpacity } from "react-native";
 import React from "react";
 import styles from '../styleSheets/StyleSheet.js';
-import { getAuth, createUserWithEmailAndPassword, signOut } from "firebase/auth";
+import { getAuth, signOut } from "firebase/auth";
 
 const HomeScreen = ({ navigation }) => {
 
     const auth = getAuth();
 
-    const handleLogout = async () => {
+    const userLogout = async () => {
         await signOut(auth);
+        navigation.navigate("LoginScreen");
     }
 
     return (
-        <SafeAreaView style={styles.background}>
-            <View>
-                <Text style={styles.registerHeader}> Home </Text>
-                <TouchableOpacity onPress={handleLogout}>
-                    <Text>Logout</Text>
-                </TouchableOpacity>
+        <SafeAreaView style={{flex: 1}}>
+            <View style={{position:'absolute', right: 20, bottom:20}}>
+                <Text>Home Screen</Text>
             </View>
-        </SafeAreaView>
+            <TouchableOpacity style={styles.loginBtn} onPress={userLogout}>
+                <Text style={styles.loginText}>Logout</Text> 
+            </TouchableOpacity>
+        </SafeAreaView> 
     );
-};
+}
 
 export default HomeScreen;

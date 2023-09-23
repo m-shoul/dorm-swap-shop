@@ -1,4 +1,4 @@
-import {Text,View,TextInput,SafeAreaView,TouchableOpacity} from "react-native";
+import { Text, View, TextInput, SafeAreaView, TouchableOpacity } from "react-native";
 import React from "react";
 import styles from '../styleSheets/StyleSheet.js';
 import { useState } from "react";
@@ -10,7 +10,7 @@ const CreateUserScreen = ({ navigation }) => {
     const [lname, setLName] = useState('')
     const [username, setUsername] = useState('')
 
-    // email and password needed for auth
+    // Email and password needed for auth
     const [email, setEmail] = useState(''); 
     const [password, setPassword] = useState('');
 
@@ -18,15 +18,14 @@ const CreateUserScreen = ({ navigation }) => {
 
     const auth = getAuth();
 
-    const onRegisterPress = () => {
-        if (password !== confirmPassword) {
-            alert("Passwords don't match.")
-            return
-        }
-    }
-
     // Creates a new user account
-    const handleSubmit = async () => {
+    const userRegistration = async () => {
+        // Checks to make sure passwords match when creating an account
+        if (password !== confirmPassword) {
+            alert("Passwords don't match.");
+            return;
+        }
+
         if (email && password) {
             try {
                 // Creates user into Firebase
@@ -38,10 +37,10 @@ const CreateUserScreen = ({ navigation }) => {
     }
 
     // Called when 'registration' button is pressed to create the user into
-    // Firebase auth, write the data to Realtime db, and navigate
+    // Firebase auth, write the data to Realtime db, and direct user to login
     const handlePress = () => {
-        handleSubmit();
-        writeUserData(123456, fname, lname, username, email, password);
+        userRegistration();
+        writeUserData(fname, lname, username, email, password);
         navigation.navigate("LoginScreen");
     }
 
@@ -94,11 +93,10 @@ const CreateUserScreen = ({ navigation }) => {
 
             <TouchableOpacity onPress={() => navigation.navigate("LoginScreen")} style={styles.accountButtons}>
                 <Text>Already have an account?</Text>
-                <Text>Login</Text> 
+                <Text>Login</Text>
             </TouchableOpacity>
-            
-        </SafeAreaView>
-    );
+    </SafeAreaView>
+  );
 };
 
 export default CreateUserScreen;
