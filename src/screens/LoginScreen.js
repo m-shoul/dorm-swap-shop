@@ -13,18 +13,26 @@ const LoginScreen = ({ navigation }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
-    const [style, setStyle] = useState(styles.createUserInput);
+    const [errorMessage2, setErrorMessage2] = useState('');
+    const [emailStyle, setEmailStyle] = useState(styles.createUserInput);
+    const [passwordStyle, setPasswordStyle] = useState(styles.createUserInput);
     const handleLogin = () => {
 
         if (!email && !password) {
             setErrorMessage('Form Empty');
-            setStyle(styles.createUserInputError)
+            setErrorMessage2('Form Empty');
+            setEmailStyle(styles.createUserInputError)
+            setPasswordStyle(styles.createUserInputError)
         } else if (!email) {
             setErrorMessage('Email Empty');
-            setStyle(styles.createUserInputError)
+            setErrorMessage2('');
+            setEmailStyle(styles.createUserInputError)
+            setPasswordStyle(styles.createUserInput)
         } else if (!password) {
-            setErrorMessage('Password Empty');
-            setStyle(styles.createUserInputError)
+            setErrorMessage2('Password Empty');
+            setErrorMessage('');
+            setPasswordStyle(styles.createUserInputError)
+            setEmailStyle(styles.createUserInput)
         } else {
             { navigation.navigate('HomeScreen') }
         }
@@ -47,19 +55,19 @@ const LoginScreen = ({ navigation }) => {
 
             <View style={styles.forms}>
                 <TextInput
-                    style={style}
+                    style={emailStyle}
                     value={email}
                     onChangeText={text => setEmail(text)}
                     placeholder="Email or Username"
                 />
                 {errorMessage && <Text style={{ color: 'red', paddingBottom: 20 }}>{errorMessage}</Text>}
                 <TextInput
-                    style={style}
+                    style={passwordStyle}
                     value={password}
                     onChangeText={text => setPassword(text)}
                     placeholder="Password"
                 />
-                {errorMessage && <Text style={{ color: 'red', paddingBottom: 20 }}>{errorMessage}</Text>}
+                {errorMessage2 && <Text style={{ color: 'red', paddingBottom: 20 }}>{errorMessage2}</Text>}
             </View>
 
             <View style={{ flexDirection: 'row', color: 'red' }}>
