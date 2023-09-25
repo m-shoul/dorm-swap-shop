@@ -5,6 +5,7 @@ import LoginScreen from "./src/screens/LoginScreen";
 import CreateUserScreen from "./src/screens/CreateUserScreen";
 import ResetPasswordScreen from "./src/screens/ResetPasswordScreen";
 import HomeScreen from "./src/screens/HomeScreen";
+import useAuth from "./backend/dbFunctions";
 
 const Stack = createNativeStackNavigator();
 

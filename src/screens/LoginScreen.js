@@ -1,6 +1,10 @@
 import { Text, SafeAreaView, TextInput, View, TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
 import styles from '../styleSheets/StyleSheet.js';
+import { useState } from "react";
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { getAuth } from "firebase/auth";
+
 import { auth } from '../../backend/config/firebaseConfig';
 // import { readData } from '../../backend/dbFunctions';
 
@@ -46,6 +50,28 @@ const LoginScreen = ({ navigation }) => {
     }
 
 
+    // const LoginScreen = ({navigation}) => {
+    //     const [username, setUsername] = useState('')
+    //     const [email, setEmail] = useState('');
+    //     const [password, setPassword] = useState('');
+    //     const [errorMessage, setErrorMessage] = useState('');
+
+    //     const auth = getAuth();
+
+    //     // Logs the user in
+    //     const userLogin = async () => {
+    //         if (email && password) {
+    //             try {
+    //                 // Signs user into Firebase
+    //                 await signInWithEmailAndPassword(auth, email, password);
+    //                 navigation.navigate("HomeScreen");
+    //             } catch(error) {
+    //                 console.log('Got error: ', error.message);
+    //             }
+    //         } else {
+    //             alert("Please enter TEXT");
+    //         }
+    //     }
 
     return (
         <SafeAreaView style={styles.background}>
@@ -58,14 +84,14 @@ const LoginScreen = ({ navigation }) => {
                 <TextInput
                     style={emailStyle}
                     value={email}
-                    onChangeText={text => setEmail(text)}
+                    onChangeText={value => setEmail(value)}
                     placeholder="Email or Username"
                 />
                 {errorMessage && <Text style={{ color: 'red', paddingBottom: 20 }}>{errorMessage}</Text>}
                 <TextInput
                     style={passwordStyle}
                     value={password}
-                    onChangeText={text => setPassword(text)}
+                    onChangeText={value => setPassword(value)}
                     placeholder="Password"
                 />
                 {errorMessage2 && <Text style={{ color: 'red', paddingBottom: 20 }}>{errorMessage2}</Text>}
