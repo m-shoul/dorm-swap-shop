@@ -11,9 +11,9 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <StatusBar hidden={true} />,
-
     <NavigationContainer>
+      {/* changes color based off of current color scheme */}
+      <StatusBar style="auto" />
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="LoginScreen" component={LoginScreen} />
         <Stack.Screen name="CreateUserScreen" component={CreateUserScreen} />
