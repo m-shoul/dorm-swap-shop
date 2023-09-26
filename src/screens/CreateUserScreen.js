@@ -1,7 +1,7 @@
 import { Text, View, TextInput, SafeAreaView, TouchableOpacity } from "react-native";
 import React from "react";
 import styles from '../styleSheets/StyleSheet.js';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { writeUserData } from '../../backend/dbFunctions.js';
 
@@ -146,6 +146,8 @@ const CreateUserScreen = ({ navigation }) => {
         }
 
         if (errorCount === 0) {
+            userRegistration();
+            writeUserData(firstName, lastName, username, email, password);
             navigation.navigate("LoginScreen");
         }
         // Set the errors and update form validity
@@ -174,12 +176,7 @@ const CreateUserScreen = ({ navigation }) => {
 
     // Called when 'registration' button is pressed to create the user into
     // Firebase auth, write the data to Realtime db, and direct user to login
-    const handlePress = () => {
-        handleValidation();
-        userRegistration();
-        writeUserData(fname, lname, username, email, password);
-        navigation.navigate("LoginScreen");
-    }
+
     return (
         <SafeAreaView style={styles.background}>
             <View>
@@ -270,7 +267,7 @@ const CreateUserScreen = ({ navigation }) => {
                 )}
             </View>
 
-            <TouchableOpacity style={styles.loginBtn} onPress={handlePress}>
+            <TouchableOpacity style={styles.loginBtn} onPress={handleValidation}>
                 <Text style={styles.loginText}>Create an Account</Text> 
             </TouchableOpacity>
 
