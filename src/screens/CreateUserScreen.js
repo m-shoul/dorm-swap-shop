@@ -4,94 +4,153 @@ import {
   TextInput,
   SafeAreaView,
   TouchableOpacity,
-  Alert,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import styles from "../styleSheets/StyleSheet.js";
 
 const CreateUserScreen = ({ navigation }) => {
-  useEffect(() => {
-    // Trigger form validation when name,
-    // email, or password changes
-    validateForm();
-  }, [firstName, email, password]);
-
-  const createTwoButtonAlert = () =>
-    Alert.alert("Alert Title", index, [
-      {
-        text: "Cancel",
-        onPress: () => console.log("Cancel Pressed"),
-        style: "cancel",
-      },
-      { text: "OK", onPress: () => console.log("OK Pressed") },
-    ]);
-
-  const handleSubmit = () => {
-    if (isFormValid) {
-      // Form is valid, perform the submission logic
-      console.log("Form submitted successfully!");
-    } else {
-      // Form is invalid, display error messages
-      console.log("Form has errors. Please correct them.");
-    }
-  };
+  //All of the states that are used to store the actual values of the text inputs
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState({});
-  const [isFormValid, setIsFormValid] = useState(false);
   const [passwordCheck, setPasswordCheck] = useState("");
-  const [style, setStyle] = useState(styles.createUserInput);
 
+  //All of the states that are used to store the styles
+  const [firstNameStyle, setFirstNameStyle] = useState(styles.createUserInput);
+  const [lastNameStyle, setLastNameStyle] = useState(styles.createUserInput);
+  const [usernameStyle, setUsernameStyle] = useState(styles.createUserInput);
+  const [emailStyle, setEmailStyle] = useState(styles.createUserInput);
+  const [passwordStyle, setPasswordStyle] = useState(styles.createUserInput);
+  const [passwordCheckStyle, setPasswordCheckStyle] = useState(
+    styles.createUserInput
+  );
+
+  //All of the states that are used to store the error messages
+  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessageFirst, setErrorMessageFirst] = useState("");
+  const [errorMessageLast, setErrorMessageLast] = useState("");
+  const [errorMessageUsername, setErrorMessageUsername] = useState("");
+  const [errorMessageEmail, setErrorMessageEmail] = useState("");
+  const [errorMessagePassword, setErrorMessagePassword] = useState("");
+  const [errorMessageConfirm, setErrorMessageConfirm] = useState("");
+
+  const [isFormValid, setIsFormValid] = useState(false);
+  let validate = 0;
   useEffect(() => {
-    // Trigger form validation when name,
-    // email, or password changes
+    console.log("Reached useEffect");
+    // Trigger form validation when name, email, or password changes
+    if (validate == 1) {
+      validateForm();
+    }
+  }, [firstName, lastName, username, email, password, passwordCheck]);
+
+  const handleSubmit = () => {
+    console.log("Reached handleSubmit");
     validateForm();
-  }, [firstName, email, password]);
+    validate = 1;
+  };
 
   const validateForm = () => {
-    let errors = {};
-
-    // Validate name field
+    let errorCount = 0;
+    let emptyFields = 0;
+    console.log("Reached validateForm");
+    console.log(validate);
+    // Validate first name field
     if (!firstName) {
-      errors.firstName = "First name is required.";
-      setStyle(styles.createUserInputError);
-      console.log(errors.firstName);
+      setErrorMessageFirst("First name is required.");
+      setFirstNameStyle(styles.createUserInputError);
+      emptyFields++;
+
+      errorCount++;
     } else {
-      setStyle(styles.createUserInput);
+      setErrorMessageFirst("");
+      setFirstNameStyle(styles.createUserInput);
     }
+    //validate last name field
     if (!lastName) {
-      errors.lastName = "Last name is required.";
+      setErrorMessageLast("Last name is required.");
+      setLastNameStyle(styles.createUserInputError);
+      emptyFields++;
+      errorCount++;
+    } else {
+      setErrorMessageLast("");
+      setLastNameStyle(styles.createUserInput);
     }
+    //validate username field
     if (!username) {
-      errors.username = "Username is required.";
+      setErrorMessageUsername("Username is required.");
+      setUsernameStyle(styles.createUserInputError);
+      emptyFields++;
+      errorCount++;
+    } else {
+      setErrorMessageUsername("");
+      setUsernameStyle(styles.createUserInput);
     }
 
     // Validate email field
     if (!email) {
-      errors.email = "Email is required.";
+      setErrorMessageEmail("Email is required.");
+      setEmailStyle(styles.createUserInputError);
+      emptyFields++;
+      errorCount++;
     } else if (!/\S+@\S+\.\S+/.test(email)) {
-      errors.email = "Email is invalid.";
+      setErrorMessageEmail("Email is invalid.");
+      setEmailStyle(styles.createUserInputError);
+      errorCount++;
+    } else {
+      setErrorMessageEmail("");
+      setEmailStyle(styles.createUserInput);
     }
 
     // Validate password field
     if (!password) {
-      errors.password = "Password is required.";
+      setErrorMessagePassword("Password is required.");
+      setPasswordStyle(styles.createUserInputError);
+      emptyFields++;
+      errorCount++;
     } else if (password.length < 6) {
-      errors.password = "Password must be at least 6 characters.";
+      setErrorMessagePassword("Password must be at least 6 characters.");
+      setPasswordStyle(styles.createUserInputError);
+      emptyFields++;
+      errorCount++;
+    } else {
+      setErrorMessagePassword("");
+      setPasswordStyle(styles.createUserInput);
     }
 
     if (!passwordCheck) {
-      errors.passwordCheck = "Confirm password";
+      setErrorMessageConfirm("Password confirmation is required.");
+      setPasswordCheckStyle(styles.createUserInputError);
+      emptyFields++;
+      errorCount++;
     } else if (password !== passwordCheck) {
-      errors.passwordCheck = "Passwords do not match";
+      setErrorMessageConfirm("Passwords must match.");
+      setPasswordCheckStyle(styles.createUserInputError);
+      errorCount++;
+    } else {
+      setErrorMessageConfirm("");
+      setPasswordCheckStyle(styles.createUserInput);
     }
 
+    if (emptyFields > 2) {
+      setErrorMessage("Please fill out all fields.");
+      setErrorMessageConfirm("");
+      setErrorMessageEmail("");
+      setErrorMessageFirst("");
+      setErrorMessageLast("");
+      setErrorMessagePassword("");
+      setErrorMessageUsername("");
+    } else {
+      setErrorMessage("");
+    }
+
+    if (errorCount === 0) {
+      navigation.navigate("LoginScreen");
+    }
     // Set the errors and update form validity
-    setErrors(errors);
-    setIsFormValid(Object.keys(errors).length === 0);
+    // setErrors(errors);
   };
   return (
     <SafeAreaView style={styles.background}>
@@ -107,69 +166,86 @@ const CreateUserScreen = ({ navigation }) => {
           marginTop: 15,
         }}
       />
+      {errorMessage && (
+        <Text style={{ color: "red", paddingBottom: 10, marginTop: -15 }}>
+          {errorMessage}
+        </Text>
+      )}
       <View style={styles.forms}>
         <TextInput
-          style={style}
-          placeholder="First name"
+          style={firstNameStyle}
+          placeholder="First Name"
           value={firstName}
-          onChangeText={setFirstName}
+          onChangeText={(text) => setFirstName(text)}
         />
+        {errorMessageFirst && (
+          <Text style={{ color: "red", paddingBottom: 10, marginTop: -15 }}>
+            {errorMessageFirst}
+          </Text>
+        )}
         <TextInput
-          style={styles.createUserInput}
+          style={lastNameStyle}
           placeholder="Last Name"
           value={lastName}
-          onChangeText={setLastName}
+          onChangeText={(text) => setLastName(text)}
         />
+        {errorMessageLast && (
+          <Text style={{ color: "red", paddingBottom: 10 }}>
+            {errorMessageLast}
+          </Text>
+        )}
         <TextInput
-          style={styles.createUserInput}
+          style={usernameStyle}
           placeholder="Username"
           value={username}
-          onChangeText={setUsername}
+          onChangeText={(text) => setUsername(text)}
         />
+        {errorMessageUsername && (
+          <Text style={{ color: "red", paddingBottom: 10 }}>
+            {errorMessageUsername}
+          </Text>
+        )}
         <TextInput
-          style={styles.createUserInput}
+          style={emailStyle}
           placeholder="Email"
           value={email}
-          onChangeText={setEmail}
+          onChangeText={(text) => setEmail(text)}
         />
+        {errorMessageEmail && (
+          <Text style={{ color: "red", paddingBottom: 10 }}>
+            {errorMessageEmail}
+          </Text>
+        )}
         <TextInput
-          style={styles.createUserInput}
+          style={passwordStyle}
           secureTextEntry={true}
           placeholder="Password"
           value={password}
-          onChangeText={setPassword}
+          onChangeText={(text) => setPassword(text)}
         />
+        {errorMessagePassword && (
+          <Text style={{ color: "red", paddingBottom: 10 }}>
+            {errorMessagePassword}
+          </Text>
+        )}
         <TextInput
-          style={styles.createUserInput}
+          style={passwordCheckStyle}
           secureTextEntry={true}
-          placeholder={errors.passwordCheck}
+          placeholder={"Confirm Password"}
           value={passwordCheck}
-          onChangeText={setPasswordCheck}
+          onChangeText={(text) => setPasswordCheck(text)}
         />
+        {errorMessageConfirm && (
+          <Text style={{ color: "red", paddingBottom: 10 }}>
+            {errorMessageConfirm}
+          </Text>
+        )}
       </View>
 
-      <TouchableOpacity style={styles.loginBtn}>
+      <TouchableOpacity style={styles.loginBtn} onPress={handleSubmit}>
         <Text style={styles.loginText}>Create an Account</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity
-        style={[
-          styles.button,
-          {
-            opacity: isFormValid ? 1 : 0.5,
-            backgroundColor: "green",
-            borderRadius: 8,
-            paddingVertical: 10,
-            alignItems: "center",
-            marginTop: 16,
-            marginBottom: 12,
-          },
-        ]}
-        disabled={!isFormValid}
-        onPress={handleSubmit}
-      >
-        <Text style={styles.buttonText}>Submit</Text>
-      </TouchableOpacity>
       <TouchableOpacity
         onPress={() => navigation.navigate("LoginScreen")}
         style={styles.accountButtons}
@@ -177,11 +253,6 @@ const CreateUserScreen = ({ navigation }) => {
         <Text>Already have an account?</Text>
         <Text>Login</Text>
       </TouchableOpacity>
-      {Object.values(errors).map((error, index) => (
-        <Text key={index} style={styles.error}>
-          {error}
-        </Text>
-      ))}
     </SafeAreaView>
   );
 };
