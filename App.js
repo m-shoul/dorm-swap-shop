@@ -10,17 +10,16 @@ import useAuth from "./backend/dbFunctions";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-    return (
-        <>
-            <StatusBar hidden={true} />
-            <NavigationContainer>
-                <Stack.Navigator>
-                    <Stack.Screen name="LoginScreen" component={LoginScreen} options={{headerShown: false}} />
-                    <Stack.Screen name="CreateUserScreen" component={CreateUserScreen} options={{headerShown: false}} />
-                    <Stack.Screen name="ResetPasswordScreen" component={ResetPasswordScreen} options={{headerShown: false}} />
-                    <Stack.Screen name="HomeScreen" component={HomeScreen} options={{headerShown: false}} />
-                </Stack.Navigator>
-            </NavigationContainer>
-        </>
-    );
+  return (
+    <NavigationContainer>
+      {/* changes color based off of current color scheme */}
+      <StatusBar style="auto" />
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="LoginScreen" component={LoginScreen} />
+        <Stack.Screen name="CreateUserScreen" component={CreateUserScreen} />
+        <Stack.Screen name="ResetPasswordScreen" component={ResetPasswordScreen} />
+        <Stack.Screen name="HomeScreen" component={HomeScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  )
 }
