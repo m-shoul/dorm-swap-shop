@@ -64,13 +64,14 @@ const LoginScreen = ({ navigation }) => {
                     style={emailStyle}
                     value={email}
                     onChangeText={value => setEmail(value)}
-                    placeholder="Email or Username"
+                    placeholder="Email"
                 />
 
                 {errorMessage && <Text style={{ color: 'red', paddingBottom: 20 }}>{errorMessage}</Text>}
 
                 <TextInput
                     style={passwordStyle}
+                    secureTextEntry={true}
                     value={password}
                     onChangeText={value => setPassword(value)}
                     placeholder="Password"
