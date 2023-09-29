@@ -96,16 +96,16 @@ const HomeScreen = ({ navigation }) => {
           <HomeComponent width="40" height='100' stroke="black" />
         </TouchableOpacity>
         <TouchableOpacity onPress={null} style={{ marginLeft: '8%' }}>
-          <ChatComponent width="40" height='100' stroke="black" />
+          <ChatComponent width="40" height='100' stroke="black" strokeWidth="0.25" />
         </TouchableOpacity>
         <TouchableOpacity onPress={null} style={{ marginLeft: '8%' }}>
-          <PostComponent width="40" height='100' stroke="black" />
+          <PostComponent width="40" height='100' stroke="black" strokeWidth='0.05' />
         </TouchableOpacity>
         <TouchableOpacity onPress={null} style={{ marginLeft: '8%' }}>
-          <ProfileComponent width="40" height='100' stroke="black" />
+          <ProfileComponent width="40" height='100' stroke="black" strokeWidth='0.05' />
         </TouchableOpacity>
         <TouchableOpacity onPress={null} style={{ marginLeft: '8%' }}>
-          <SettingsComponent width="40" height='100' stroke="black" />
+          <SettingsComponent width="40" height='100' stroke="black" strokeWidth='0.05' />
         </TouchableOpacity>
       </View>
     </View >
