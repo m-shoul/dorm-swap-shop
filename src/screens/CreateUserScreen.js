@@ -196,7 +196,7 @@ const CreateUserScreen = ({ navigation }) => {
                     backgroundColor: "#B3B3B3",
                     height: 1,
                     width: "90%",
-                    marginBottom: 35,
+                    marginBottom: 25,
                     marginTop: 15,
                 }}
             />
@@ -212,15 +212,25 @@ const CreateUserScreen = ({ navigation }) => {
                 </Text>
             )}
             <KeyboardAvoidingView
-                style={{ flex: 1, width: "100%", marginBottom: 0 }}
+                style={{
+                    flex: 0.8,
+                    width: "100%",
+                    // marginBottom: 0,
+                    //paddingBottom: 0,
+                    justifyContent: "center",
+                    width: "100%",
+                    alignItems: "center",
+                }}
                 behavior={Platform.OS === "ios" ? "padding" : "height"}
             >
                 <ScrollView
                     style={{
                         KeyboardAvoidingView: "position",
                         flex: 1,
+
                         width: "100%",
-                        marginBottom: 0,
+                        // marginBottom: 0,
+                        //paddingBottom: 0,
                     }}
                     contentContainerStyle={{
                         flexGrow: 1,
@@ -300,15 +310,24 @@ const CreateUserScreen = ({ navigation }) => {
                             onChangeText={(value) => setPasswordCheck(value)}
                         />
                         {errorMessageConfirm && (
-                            <Text style={{ color: "red", paddingBottom: 10 }}>
+                            <Text style={{ color: "red", paddingBottom: 0 }}>
                                 {errorMessageConfirm}
                             </Text>
                         )}
                     </View>
                 </ScrollView>
             </KeyboardAvoidingView>
+
             <TouchableOpacity
-                style={styles.loginBtn}
+                style={{
+                    width: "80%",
+                    borderRadius: 25,
+                    height: 50,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    marginTop: 40,
+                    backgroundColor: "#3F72AF",
+                }}
                 onPress={handleValidation}
             >
                 <Text style={styles.loginText}>Create an Account</Text>
@@ -316,7 +335,7 @@ const CreateUserScreen = ({ navigation }) => {
 
             <TouchableOpacity
                 onPress={() => navigation.navigate("LoginScreen")}
-                style={styles.accountButtons}
+                style={[styles.accountButtons, {}]}
             >
                 <Text>Already have an account?</Text>
                 <Text>Login</Text>
