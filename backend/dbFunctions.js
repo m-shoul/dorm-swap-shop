@@ -39,7 +39,7 @@ export async function readData(path) {
 // }
 
 // Write user data to the database.
-export function writeUserData(fname, lname, uname, email, password) {
+export function writeUserData(fname, lname, uname, email) {
 
     // Reference users in database
     const userReference = ref(database, 'dorm_swap_shop/users/');
@@ -55,11 +55,6 @@ export function writeUserData(fname, lname, uname, email, password) {
         lname: lname,
         username: uname,
         email: email,
-        // password: password   //--> Revisit this tomorrow. Should we even keep this
-                                // if firebase auth handles and hashes the passwords anyway??
-                                // I think it would be stupid to waste time trying to implement
-                                // changing the password in the realtime if auth already takes
-                                // care of it on that end...
         // profile_picture : imageUrl
     };
 

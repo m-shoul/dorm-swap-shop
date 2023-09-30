@@ -1,19 +1,7 @@
-import {
-    StyleSheet,
-    Text,
-    View,
-    TextInput,
-    Button,
-    TouchableOpacity,
-    SafeAreaView,
-} from "react-native";
+import { Text, View, TextInput, TouchableOpacity, SafeAreaView } from "react-native";
 import React from "react";
 import { useState } from "react";
-import {
-    getAuth,
-    sendPasswordResetEmail,
-    fetchSignInMethodsForEmail,
-} from "firebase/auth";
+import { getAuth, sendPasswordResetEmail, fetchSignInMethodsForEmail } from "firebase/auth";
 import styles from "../styleSheets/StyleSheet.js";
 
 const ResetPasswordScreen = ({ navigation }) => {
@@ -36,24 +24,13 @@ const ResetPasswordScreen = ({ navigation }) => {
             setErrorMessageEmail("");
         }
 
-        fetchSignInMethodsForEmail(auth, email)
-            .then((signInMethods) => {
-                if (signInMethods.length === 0) {
-                    setErrorMessageEmail("Email address is not registered.");
-                    setEmailStyle(styles.createUserInputError);
-                } else {
-                    sendPasswordResetEmail(auth, email)
-                        .then(() => {
-                            alert("Password reset email sent.");
-                        })
-                        .catch((error) => {
-                            console.log("Failed to send password reset email.");
-                        });
-                }
-            })
-            .catch((error) => {
-                console.log("Error checking email existence.");
-            });
+        sendPasswordResetEmail(auth, email)
+        .then(() => {
+            alert("Password reset email sent.");
+        })
+        .catch((error) => {
+            console.log("Failed to send password reset email: ", error);
+        });
     };
 
     return (
@@ -79,6 +56,7 @@ const ResetPasswordScreen = ({ navigation }) => {
                 <TextInput
                     style={emailStyle}
                     placeholder="Email Address"
+                    value={email}
                     onChangeText={(value) => setEmail(value)}
                 />
                 {errorMessageEmail && (

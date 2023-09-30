@@ -1,12 +1,5 @@
-import {
-    Text,
-    View,
-    TextInput,
-    SafeAreaView,
-    TouchableOpacity,
-    ScrollView,
-    KeyboardAvoidingView,
-} from "react-native";
+import { Text, View, TextInput, SafeAreaView, 
+    TouchableOpacity, ScrollView, KeyboardAvoidingView } from "react-native";
 import React from "react";
 import styles from "../styleSheets/StyleSheet.js";
 import { useState, useEffect } from "react";
@@ -156,7 +149,7 @@ const CreateUserScreen = ({ navigation }) => {
 
         if (errorCount === 0) {
             userRegistration();
-            writeUserData(firstName, lastName, username, email, password);
+            writeUserData(firstName, lastName, username, email);
             navigation.navigate("LoginScreen");
         }
         // Set the errors and update form validity
