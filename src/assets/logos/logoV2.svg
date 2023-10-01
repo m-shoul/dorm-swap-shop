@@ -23,15 +23,16 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
-     inkscape:zoom="1.4142136"
-     inkscape:cx="238.29498"
-     inkscape:cy="190.56527"
+     inkscape:zoom="0.7071068"
+     inkscape:cx="381.13054"
+     inkscape:cy="564.9783"
      inkscape:window-width="1920"
      inkscape:window-height="1001"
      inkscape:window-x="-9"
      inkscape:window-y="-9"
      inkscape:window-maximized="1"
-     inkscape:current-layer="g16" />
+     inkscape:current-layer="g16"
+     showgrid="false" />
   <defs
      id="defs1">
     <rect
@@ -95,41 +96,41 @@
        inkscape:label="Shop"
        x="380.49982"
        y="0"
-       transform="matrix(0.26458333,0,0,0.26458333,-0.65598854,21.805708)"><tspan
+       transform="matrix(0.26458333,0,0,0.26458333,18.902758,60.322228)"><tspan
          x="154.40039"
          y="403.07874"
-         id="tspan4">$hop&#10;</tspan></text>
+         id="tspan1">$hop&#10;</tspan></text>
     <text
        xml:space="preserve"
        id="text14"
        style="font-size:85.3333px;text-align:start;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect17);shape-padding:0.356582;display:inline;fill:#112d4e;fill-opacity:1;stroke:none;stroke-opacity:1"
        inkscape:label="Swap"
-       transform="matrix(0.26458333,0,0,0.26458333,-0.11723766,-0.15631666)"
+       transform="matrix(0.26458333,0,0,0.26458333,19.441509,38.360205)"
        x="380.49982"
        y="0"><tspan
          x="154.40039"
          y="406.26426"
-         id="tspan6"><tspan
+         id="tspan3"><tspan
            style="font-style:italic;font-weight:bold;font-family:Calibri;-inkscape-font-specification:'Calibri Bold Italic';baseline-shift:baseline"
-           id="tspan5">Swap</tspan></tspan></text>
+           id="tspan2">Swap</tspan></tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.8638px;font-family:Forte;-inkscape-font-specification:'Forte, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:tb-rl;text-anchor:start;fill:#112d4e;fill-opacity:1;stroke:none;stroke-width:0.314648;stroke-opacity:1"
-       x="-113.70747"
-       y="60.424656"
+       x="-152.22401"
+       y="79.983345"
        id="text22"
        transform="rotate(-90)"
        inkscape:label="N"><tspan
          sodipodi:role="line"
          id="tspan22"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.8638px;font-family:Forte;-inkscape-font-specification:'Forte, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#3f72af;fill-opacity:1;stroke-width:0.314648"
-         x="-113.70747"
-         y="60.424656">N</tspan></text>
+         x="-152.22401"
+         y="79.983345">N</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.8638px;font-family:'Goudy Stout';-inkscape-font-specification:'Goudy Stout, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:tb-rl;text-anchor:start;fill:#3f72af;fill-opacity:1;stroke:none;stroke-width:0.314648;stroke-opacity:1"
-       x="-51.97831"
-       y="118.58898"
+       x="-72.417458"
+       y="156.64566"
        id="text15"
        transform="rotate(-55.160444)"
        inkscape:label="Apostrophe"
@@ -137,9 +138,9 @@
        inkscape:transform-center-x="0.020088532"><tspan
          sodipodi:role="line"
          id="tspan15"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.86380889px;font-family:'Goudy Stout';-inkscape-font-specification:'Goudy Stout, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.314648;fill:#3f72af;fill-opacity:1"
-         x="-51.97831"
-         y="118.58898">'</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.8638px;font-family:'Goudy Stout';-inkscape-font-specification:'Goudy Stout, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#3f72af;fill-opacity:1;stroke-width:0.314648"
+         x="-72.417458"
+         y="156.64566">'</tspan></text>
     <path
        sodipodi:type="star"
        style="fill:#112d4e;fill-opacity:1;stroke:none;stroke-width:0.264583;stroke-opacity:1"
@@ -157,7 +158,7 @@
        d="m 118.98484,102.59648 c -0.24846,-0.29588 1.08631,-3.96735 1.46678,-4.034582 0.38047,-0.06723 2.89267,2.924442 2.76066,3.287552 -0.13201,0.36312 -3.97898,1.04291 -4.22744,0.74703 z"
        inkscape:transform-center-x="-0.20615117"
        inkscape:transform-center-y="-0.35253232"
-       transform="translate(-69.87231,-6.1699218)"
+       transform="translate(-50.313563,32.346599)"
        inkscape:label="arrow_top" />
     <path
        sodipodi:type="star"
@@ -176,18 +177,18 @@
        d="m 118.98484,102.59648 c -0.24846,-0.29588 1.08631,-3.96735 1.46678,-4.034582 0.38047,-0.06723 2.89267,2.924442 2.76066,3.287552 -0.13201,0.36312 -3.97898,1.04291 -4.22744,0.74703 z"
        inkscape:transform-center-x="0.20614991"
        inkscape:transform-center-y="0.35253568"
-       transform="rotate(180,81.041381,103.21593)"
+       transform="rotate(180,90.820765,122.47418)"
        inkscape:label="arrow_bottom" />
     <text
        xml:space="preserve"
        id="text5"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:41.0601px;font-family:Forte;-inkscape-font-specification:'Forte, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:start;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect5);shape-padding:0.356582;display:inline;fill:#3f72af;fill-opacity:1;stroke:none;stroke-opacity:1"
        inkscape:label="Swap"
-       transform="matrix(0.26458333,0,0,0.26458333,13.765947,-2.4554252)"
+       transform="matrix(0.26458333,0,0,0.26458333,33.324694,36.061096)"
        x="380.49982"
        y="0"><tspan
          x="154.40039"
          y="364.70146"
-         id="tspan7">Dorm</tspan></text>
+         id="tspan4">Dorm</tspan></text>
   </g>
 </svg>

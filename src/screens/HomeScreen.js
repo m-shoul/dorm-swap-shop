@@ -1,13 +1,9 @@
-import { Text, View, TouchableOpacity, FlatList, SafeAreaView, StyleSheet } from "react-native";
+import { Text, View, TouchableOpacity, FlatList, SafeAreaView, StyleSheet, Modal } from "react-native";
 import React from "react";
 //import styles from '../styleSheets/StyleSheet.js';
 import { getAuth, signOut } from "firebase/auth";
-//import Svg, { Path } from "react-native-svg";
-import HomeComponent from "../assets/svg/home_icon.js";
-import ChatComponent from "../assets/svg/chat_icon.js";
-import PostComponent from "../assets/svg/post_icon.js";
-import ProfileComponent from "../assets/svg/profile_icon.js";
-import SettingsComponent from "../assets/svg/settings_icon.js";
+import NavComponent from "../components/Component.js";
+
 const HomeScreen = ({ navigation }) => {
 
   const auth = getAuth();
@@ -88,27 +84,9 @@ const HomeScreen = ({ navigation }) => {
         keyExtractor={(item) => item.id}
       </FlatList>
 
-      <View style={{ backgroundColor: "#B3B3B3", height: 1, marginLeft: 20, marginRight: 20 }} />
-      {/* Footer */}
-      <View style={{ flexDirection: 'row', width: '100%', height: 100, backgroundColor: '#F9F7F7' }}>
-        {/*Nav Icons */}
-        <TouchableOpacity onPress={null} style={{ marginLeft: '8%' }}>
-          <HomeComponent width="40" height='100' stroke="black" />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={null} style={{ marginLeft: '8%' }}>
-          <ChatComponent width="40" height='100' stroke="black" strokeWidth="0.25" />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={null} style={{ marginLeft: '8%' }}>
-          <PostComponent width="40" height='100' stroke="black" strokeWidth='0.05' />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={null} style={{ marginLeft: '8%' }}>
-          <ProfileComponent width="40" height='100' stroke="black" strokeWidth='0.05' />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={null} style={{ marginLeft: '8%' }}>
-          <SettingsComponent width="40" height='100' stroke="black" strokeWidth='0.05' />
-        </TouchableOpacity>
-      </View>
-    </View >
+
+      <NavComponent navigation={navigation} />
+    </View>
   );
 }
 
