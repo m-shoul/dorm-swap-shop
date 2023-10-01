@@ -38,7 +38,9 @@ workflows:
       - eas_build:
           filters:
             branches:
-              only: main
+              only:
+                - main
+                - develop
 
       # -eas_deploy:
       #   requires:
