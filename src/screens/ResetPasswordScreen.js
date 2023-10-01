@@ -27,6 +27,7 @@ const ResetPasswordScreen = ({ navigation }) => {
         sendPasswordResetEmail(auth, email)
         .then(() => {
             alert("Password reset email sent.");
+            navigation.navigate("LoginScreen");
         })
         .catch((error) => {
             console.log("Failed to send password reset email: ", error);
