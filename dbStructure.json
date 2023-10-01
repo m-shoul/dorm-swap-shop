@@ -6,7 +6,6 @@
                 "lname": "Last Name",
                 "username": "Username",
                 "email": "email@email.com",
-                "password": "Password123", 
                 "listings": {
                     "listing_id_1": true
                 },

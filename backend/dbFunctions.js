@@ -39,7 +39,7 @@ export async function readData(path) {
 // }
 
 // Write user data to the database.
-export function writeUserData(fname, lname, uname, email, password) {
+export function writeUserData(fname, lname, uname, email) {
 
     // Reference users in database
     const userReference = ref(database, 'dorm_swap_shop/users/');
@@ -55,7 +55,6 @@ export function writeUserData(fname, lname, uname, email, password) {
         lname: lname,
         username: uname,
         email: email,
-        password: password
         // profile_picture : imageUrl
     };
 

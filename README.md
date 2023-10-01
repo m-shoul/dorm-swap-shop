@@ -3,7 +3,9 @@
 ## Releases
 | Version    | Date | Description
 | -------- | ------- | -------
-| 1.0.0  | 2023-08-31 | Initial deployment.
+| 1.0.00  | 2023-08-31 | Initial deployment.
+| 1.0.01  | 2023-09-08 | Set up tech stack.
+| 1.0.02  | 2023-09-29 | User registration and login.
 
 ## Table of Contents
 * [Releases](https://github.com/m-shoul/dorm-swap-shop#releases)
