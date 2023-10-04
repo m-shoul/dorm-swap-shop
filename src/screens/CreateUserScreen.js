@@ -1,5 +1,12 @@
-import { Text, View, TextInput, SafeAreaView, 
-    TouchableOpacity, ScrollView, KeyboardAvoidingView } from "react-native";
+import {
+    Text,
+    View,
+    TextInput,
+    SafeAreaView,
+    TouchableOpacity,
+    ScrollView,
+    KeyboardAvoidingView,
+} from "react-native";
 import React from "react";
 import styles from "../styleSheets/StyleSheet.js";
 import { useState, useEffect } from "react";
@@ -184,15 +191,7 @@ const CreateUserScreen = ({ navigation }) => {
             <View>
                 <Text style={styles.registerHeader}> Register </Text>
             </View>
-            <View
-                style={{
-                    backgroundColor: "#B3B3B3",
-                    height: 1,
-                    width: "90%",
-                    marginBottom: 25,
-                    marginTop: 15,
-                }}
-            />
+            <View style={styles.dividerLine} />
             {errorMessage && (
                 <Text
                     style={{
@@ -323,7 +322,7 @@ const CreateUserScreen = ({ navigation }) => {
                 }}
                 onPress={handleValidation}
             >
-                <Text style={styles.loginText}>Create an Account</Text>
+                <Text style={styles.buttonText}>Create an Account</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
