@@ -80,7 +80,8 @@ export function writeListingData(title, description, price, userId) {
         title: title,
         description: description,
         price: price,
-        userId: userId
+        userId: userId,
+        timeUpload: firebase.database.ServerValue.TIMESTAMP
     };
 
     set(newListingReference, listingData);
