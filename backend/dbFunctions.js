@@ -3,6 +3,7 @@ import { get, child, ref, set, push } from 'firebase/database';
 import firebase from "firebase/app";
 import { onAuthStateChanged } from "firebase/auth";
 import { useState, useEffect } from 'react';
+import storage from '@react-native-firebase/storage';
 
 // Read data from database
 export async function readData(path) {
@@ -63,27 +64,56 @@ export function writeUserData(fname, lname, uname, email) {
     return userId;
 }
 
+// Write post data to the database.
+export function writeListingData(title, description, price, userId) {
 
-// export function writePostData(fname, lname, uname, email) {
+    // Reference listings in database
+    const listingReference = ref(database, 'dorm_swap_shop/listings/');
 
-//     // Reference users in database
-//     const userReference = ref(database, 'dorm_swap_shop/users/');
+    // Generates a unique ID
+    const newListingReference = push(listingReference);
 
-//     // Generates a unique ID
-//     const newUserReference = push(userReference);
+    // Gets the unique ID
+    const listingId = newListingReference.key;
 
-//     // Gets the unique ID
-//     const userId = newUserReference.key;
+    const listingData = {
+        title: title,
+        description: description,
+        price: price,
+        userId: userId
+    };
 
-//     const userData = {
-//         fname: fname,
-//         lname: lname,
-//         username: uname,
-//         email: email,
-//         // profile_picture : imageUrl
-//     };
+    set(newListingReference, listingData);
 
-//     set(newUserReference, userData);
+    return listingId;
+}
 
-//     return userId;
+
+uploadImageToStorage(path, imageName) {
+    let reference = storage().ref(imageName);
+    let task = reference.putFile(path);
+
+    task.then(() => {
+        console.log('Image uploaded to the bucket!');
+    }).catch((e) => console.log('uploading image error => ', e));
+}
+
+// import database from '@react-native-firebase/database';
+
+// function saveReferenceToRealtimeDB(url) {
+//     // Define a reference to the database location where you want to store the URL
+//     const ref = database().ref('dorm-swap-shop/'); // Adjust this path as needed
+
+//     // Push the new URL to that location
+//     ref.push({
+//         imageUrl: url,
+//         // ... any other fields you want to save
+//     })
+//     .then(() => {
+//         console.log("Image URL reference saved to Realtime Database!");
+//     })
+//     .catch((error) => {
+//         console.log("Error saving image URL reference to Realtime Database: ", error);
+//     });
 // }
+
