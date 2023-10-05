@@ -33,7 +33,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 20,
     fontSize: 20,
-    padding: 7,
+    paddingTop: "2%",
+    paddingBottom: "2%",
+    paddingLeft: "5%",
     backgroundColor: "white",
     borderColor: "#B3B3B3",
   },
@@ -58,8 +60,8 @@ const styles = StyleSheet.create({
   },
 
   loginHeader: {
-    paddingTop: 125,
-    margin: 20,
+    paddingTop: '45%',
+    marginBottom: '2%',
     fontWeight: "bold",
     fontSize: 30,
     alignContent: "center",
@@ -88,6 +90,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     paddingTop: 20,
+  },
+  searchContainer: {
+    backgroundColor: "#F9F7F7",
+    borderBottomColor: "transparent",
+    borderTopColor: "transparent",
+    padding: "5%",
+
   },
 });
 export default styles;

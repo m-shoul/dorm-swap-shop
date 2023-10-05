@@ -1,8 +1,10 @@
 import { Text, View, TouchableOpacity, FlatList, SafeAreaView, StyleSheet, Modal } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 //import styles from '../styleSheets/StyleSheet.js';
 import { getAuth, signOut } from "firebase/auth";
 import NavComponent from "../components/Component.js";
+import { SearchBar } from '@rneui/themed';
+import styles from '../styleSheets/StyleSheet.js';
 
 const HomeScreen = ({ navigation }) => {
 
@@ -76,26 +78,43 @@ const HomeScreen = ({ navigation }) => {
   },];
 
   return (
-    <View style={{ flex: 1, backgroundColor: "#F9F7F7" }}>
-      {/* Scrollable view displaying all the listings */}
-      <FlatList>
-        data={persons}
-        renderItem={({ item }) => <Text>{item.name}</Text>}
-        keyExtractor={(item) => item.id}
-      </FlatList>
-
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#F9F7F7" }}>
+      <View style={{ flex: 1, backgroundColor: "#F9F7F7" }}>
+        <SearchBar
+          round
+          searchIcon={{ size: 24, color: 'black' }}
+          containerStyle={styles.searchContainer}
+          inputStyle={{ backgroundColor: 'white', }}
+          inputContainerStyle={{ backgroundColor: 'white', borderRadius: 20, borderWidth: 1, borderBottomWidth: 1, borderColor: 'black' }}
+          //onChangeText={(text) => searchFilterFunction(text)}
+          //onClear={(text) => searchFilterFunction('')}
+          placeholder="Search"
+        // value={search}
+        />
+        {/* Scrollable view displaying all the listings */}
+        <FlatList
+          data={persons}
+          renderItem={({ item }) => (
+            <TouchableOpacity style={{ width: '50%', paddingBottom: 2, }}>
+              <Text>{item.name}</Text>
+            </TouchableOpacity>
+          )}
+          numColumns={2}
+          keyExtractor={(item) => item.id}
+        />
+      </View>
 
       <NavComponent navigation={navigation} />
-    </View>
+    </SafeAreaView >
   );
 }
 
-const styles = StyleSheet.create({
-  item: {
-    padding: 20,
-    fontSize: 15,
-    marginTop: 5,
-  }
-});
+// const styles = StyleSheet.create({
+//   item: {
+//     padding: 20,
+//     fontSize: 15,
+//     marginTop: 5,
+//   }
+// });
 
 export default HomeScreen;

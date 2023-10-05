@@ -9,28 +9,28 @@ import SettingsComponent from "../assets/svg/settings_icon.js";
 
 const NavComponent = ({ navigation }) => {
     return (
-    <View>
-        <View style={{ backgroundColor: "#B3B3B3", height: 1, marginLeft: 20, marginRight: 20 }} />
+        <View>
+            <View style={{ backgroundColor: "#B3B3B3", height: 1, marginLeft: 20, marginRight: 20 }} />
             {/* Footer */}
-        <View style={{ flexDirection: 'row', width: '100%', height: 120, backgroundColor: '#F9F7F7' }}>
+            <View style={{ flexDirection: 'row', width: '100%', height: '10%', backgroundColor: '#F9F7F7' }}>
                 {/*Nav Icons */}
-            <TouchableOpacity onPress={() => navigation.navigate('HomeScreen') } style={{ marginLeft: '8%' }}>
-            <HomeComponent width="40" height='100' stroke="black" strokeWidth="0.25"/>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate('ChatScreen')} style={{ marginLeft: '8%' }}>
-            <ChatComponent width="40" height='100' stroke="black" strokeWidth="0.25" />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate('CreatePostScreen')} style={{ marginLeft: '8%' }}>
-            <PostComponent width="40" height='100' stroke="black" strokeWidth='0.05' />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate('ProfileScreen')} style={{ marginLeft: '8%' }}>
-            <ProfileComponent width="40" height='100' stroke="black" strokeWidth='0.05' />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate('SettingsScreen')} style={{ marginLeft: '8%' }}>
-            <SettingsComponent width="40" height='100' stroke="black" strokeWidth='0.05' />
-            </TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')} style={{ marginLeft: '8%' }}>
+                    <HomeComponent width="40" height='100' stroke="black" strokeWidth="0.25" />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate('ChatScreen')} style={{ marginLeft: '8%' }}>
+                    <ChatComponent width="40" height='100' stroke="black" strokeWidth="0.25" />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate('CreatePostScreen')} style={{ marginLeft: '8%' }}>
+                    <PostComponent width="40" height='100' stroke="black" strokeWidth='0.05' />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate('ProfileScreen')} style={{ marginLeft: '8%' }}>
+                    <ProfileComponent width="40" height='100' stroke="black" strokeWidth='0.05' />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate('SettingsScreen')} style={{ marginLeft: '8%' }}>
+                    <SettingsComponent width="40" height='100' stroke="black" strokeWidth='0.05' />
+                </TouchableOpacity>
+            </View>
         </View>
-    </View>
     );
 }
 
