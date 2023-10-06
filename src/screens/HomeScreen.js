@@ -77,6 +77,8 @@ const HomeScreen = ({ navigation }) => {
     name: "Lorena Rice",
   },];
 
+  const [search, setSearch] = useState('');
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#F9F7F7" }}>
       <View style={{ flex: 1, backgroundColor: "#F9F7F7" }}>
@@ -86,10 +88,10 @@ const HomeScreen = ({ navigation }) => {
           containerStyle={styles.searchContainer}
           inputStyle={{ backgroundColor: 'white', }}
           inputContainerStyle={{ backgroundColor: 'white', borderRadius: 20, borderWidth: 1, borderBottomWidth: 1, borderColor: 'black' }}
-          //onChangeText={(text) => searchFilterFunction(text)}
+          onChangeText={setSearch}
           //onClear={(text) => searchFilterFunction('')}
           placeholder="Search"
-        // value={search}
+          value={search}
         />
         {/* Scrollable view displaying all the listings */}
         <FlatList
@@ -108,13 +110,5 @@ const HomeScreen = ({ navigation }) => {
     </SafeAreaView >
   );
 }
-
-// const styles = StyleSheet.create({
-//   item: {
-//     padding: 20,
-//     fontSize: 15,
-//     marginTop: 5,
-//   }
-// });
 
 export default HomeScreen;
