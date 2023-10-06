@@ -3,7 +3,6 @@ import { get, child, ref, set, push } from 'firebase/database';
 import firebase from "firebase/app";
 import { onAuthStateChanged } from "firebase/auth";
 import { useState, useEffect } from 'react';
-// import storage from '@react-native-firebase/storage';
 
 // Read data from database
 export async function readData(path) {
