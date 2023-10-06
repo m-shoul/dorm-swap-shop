@@ -40,8 +40,15 @@ const CreatePostScreen = ({ navigation }) => {
         // title
         // userId
         userId = getUserID();
-        writeListingData(title, description, price, userId);
+        try{
+            writeListingData(title, description, price, userId);
+            console.log("Post created successfully");
+        }
+        catch(error){
+            console.log(error);
+        }
 
+        navigation.navigate("HomeScreen");
     };
 
     return (
