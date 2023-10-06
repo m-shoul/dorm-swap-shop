@@ -6,6 +6,7 @@ import PostComponent from "../assets/svg/post_icon.js";
 import ProfileComponent from "../assets/svg/profile_icon.js";
 import SettingsComponent from "../assets/svg/settings_icon.js";
 
+export const categories = ["Books", "Furniture", "Appliances", "Decorations", "Other"];
 
 const NavComponent = ({ navigation }) => {
     return (

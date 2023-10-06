@@ -2,6 +2,7 @@ import { Text, TextInput, View, TouchableOpacity, FlatList, SafeAreaView, StyleS
 import {useState, useEffect} from "react";
 import styles from "../styleSheets/StyleSheet.js";
 import { writeListingData } from "../../backend/dbFunctions.js";
+import categories from "../components/Component.js";
 
 const CreatePostScreen = ({ navigation }) => {
     
