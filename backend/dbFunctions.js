@@ -90,32 +90,3 @@ export function writeListingData(title, description, price, userId) {
     return listingId;
 }
 
-
-// uploadImageToStorage(path, imageName) {
-//     let reference = storage().ref(imageName);
-//     let task = reference.putFile(path);
-
-//     task.then(() => {
-//         console.log('Image uploaded to the bucket!');
-//     }).catch((e) => console.log('uploading image error => ', e));
-// }
-
-// import database from '@react-native-firebase/database';
-
-// function saveReferenceToRealtimeDB(url) {
-//     // Define a reference to the database location where you want to store the URL
-//     const ref = database().ref('dorm-swap-shop/'); // Adjust this path as needed
-
-//     // Push the new URL to that location
-//     ref.push({
-//         imageUrl: url,
-//         // ... any other fields you want to save
-//     })
-//     .then(() => {
-//         console.log("Image URL reference saved to Realtime Database!");
-//     })
-//     .catch((error) => {
-//         console.log("Error saving image URL reference to Realtime Database: ", error);
-//     });
-// }
-
