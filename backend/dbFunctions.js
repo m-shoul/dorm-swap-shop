@@ -3,6 +3,7 @@ import { get, child, ref, set, push } from 'firebase/database';
 import firebase from "firebase/app";
 import { onAuthStateChanged } from "firebase/auth";
 import { useState, useEffect } from 'react';
+// import storage from '@react-native-firebase/storage';
 
 // Read data from database
 export async function readData(path) {
@@ -63,27 +64,29 @@ export function writeUserData(fname, lname, uname, email) {
     return userId;
 }
 
+// Write post data to the database.
+export function writeListingData(title, description, price, userId) {
 
-// export function writePostData(fname, lname, uname, email) {
+    // Reference listings in database
+    const listingReference = ref(database, 'dorm_swap_shop/listings/');
 
-//     // Reference users in database
-//     const userReference = ref(database, 'dorm_swap_shop/users/');
+    // Generates a unique ID
+    const newListingReference = push(listingReference);
 
-//     // Generates a unique ID
-//     const newUserReference = push(userReference);
+    // Gets the unique ID
+    const listingId = newListingReference.key;
 
-//     // Gets the unique ID
-//     const userId = newUserReference.key;
+    const listingData = {
+        title: title,
+        description: description,
+        price: price,
+        userId: userId,
+        // timeUpload: firebase.database.ServerValue.TIMESTAMP
+        timeUpload: Date.now()
+    };
 
-//     const userData = {
-//         fname: fname,
-//         lname: lname,
-//         username: uname,
-//         email: email,
-//         // profile_picture : imageUrl
-//     };
+    set(newListingReference, listingData);
 
-//     set(newUserReference, userData);
+    return listingId;
+}
 
-//     return userId;
-// }
