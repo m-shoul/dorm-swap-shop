@@ -1,4 +1,4 @@
-import { Text, View, TouchableOpacity, FlatList, SafeAreaView, StyleSheet } from "react-native";
+import { Text, TextInput, View, TouchableOpacity, FlatList, SafeAreaView, StyleSheet } from "react-native";
 import {useState, useEffect} from "react";
 import styles from "../styleSheets/StyleSheet.js";
 import { writeListingData } from "../../backend/dbFunctions.js";
@@ -27,7 +27,7 @@ const CreatePostScreen = ({ navigation }) => {
         // },[])
         // return { user }
 
-        return "placholder"
+        return "placeholder"
     
     }
 
@@ -83,11 +83,11 @@ const CreatePostScreen = ({ navigation }) => {
                 </TouchableOpacity>
             </View>
 
-
+{/* 
             <TouchableOpacity
                 onPress={() => navigation.navigate("HomeScreen")}>
                 <Text>Home</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
         </SafeAreaView>
     );
 };

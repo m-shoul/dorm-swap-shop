@@ -3,7 +3,7 @@ import { get, child, ref, set, push } from 'firebase/database';
 import firebase from "firebase/app";
 import { onAuthStateChanged } from "firebase/auth";
 import { useState, useEffect } from 'react';
-import storage from '@react-native-firebase/storage';
+// import storage from '@react-native-firebase/storage';
 
 // Read data from database
 export async function readData(path) {
@@ -81,7 +81,8 @@ export function writeListingData(title, description, price, userId) {
         description: description,
         price: price,
         userId: userId,
-        timeUpload: firebase.database.ServerValue.TIMESTAMP
+        // timeUpload: firebase.database.ServerValue.TIMESTAMP
+        timeUpload: Date.now()
     };
 
     set(newListingReference, listingData);
@@ -90,14 +91,14 @@ export function writeListingData(title, description, price, userId) {
 }
 
 
-uploadImageToStorage(path, imageName) {
-    let reference = storage().ref(imageName);
-    let task = reference.putFile(path);
+// uploadImageToStorage(path, imageName) {
+//     let reference = storage().ref(imageName);
+//     let task = reference.putFile(path);
 
-    task.then(() => {
-        console.log('Image uploaded to the bucket!');
-    }).catch((e) => console.log('uploading image error => ', e));
-}
+//     task.then(() => {
+//         console.log('Image uploaded to the bucket!');
+//     }).catch((e) => console.log('uploading image error => ', e));
+// }
 
 // import database from '@react-native-firebase/database';
 
