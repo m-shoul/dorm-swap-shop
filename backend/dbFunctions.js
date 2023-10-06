@@ -62,3 +62,28 @@ export function writeUserData(fname, lname, uname, email) {
 
     return userId;
 }
+
+
+// export function writePostData(fname, lname, uname, email) {
+
+//     // Reference users in database
+//     const userReference = ref(database, 'dorm_swap_shop/users/');
+
+//     // Generates a unique ID
+//     const newUserReference = push(userReference);
+
+//     // Gets the unique ID
+//     const userId = newUserReference.key;
+
+//     const userData = {
+//         fname: fname,
+//         lname: lname,
+//         username: uname,
+//         email: email,
+//         // profile_picture : imageUrl
+//     };
+
+//     set(newUserReference, userData);
+
+//     return userId;
+// }
