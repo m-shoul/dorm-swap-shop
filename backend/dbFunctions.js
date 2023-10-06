@@ -1,8 +1,8 @@
 import { database, auth } from '../backend/config/firebaseConfig';
-import { get, child, ref, set, push } from 'firebase/database';
+import { get, child, ref, set, push, getDatabase } from 'firebase/database';
 import firebase from "firebase/app";
 import { onAuthStateChanged } from "firebase/auth";
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 // Read data from database
 export async function readData(path) {
@@ -21,7 +21,7 @@ export async function readData(path) {
 
 // Use Firebase Authentication
 // probably dont need this eventually....
-// export default function useAuth() {
+// export default function useAuth() {yy
 //     const [user, setUser] = useState(null);
 
 //     useEffect(() => {
@@ -37,6 +37,28 @@ export async function readData(path) {
 //     },[])
 //     return { user }
 // }
+
+export const getUserID = () => {
+    //This may belong in dbFunctions.js
+    //This was given by copilot, it is untested
+
+    // const [user, setUser] = useState(null);
+    // useEffect(() => {
+    //     const unsub = onAuthStateChanged(auth, user => {
+    //         console.log('Got user: ', user);
+    //         if (user) {
+    //             setUser(user);
+    //         } else {
+    //             setUser(null);
+    //         }
+    //     })
+    //     return unsub;
+    // },[])
+    // return { user }
+
+    return "placeholder"
+
+}
 
 // Write user data to the database.
 export function writeUserData(fname, lname, uname, email) {
@@ -88,4 +110,8 @@ export function writeListingData(title, description, price, userId) {
 
     return listingId;
 }
+
+    
+
+    
 
