@@ -20,7 +20,7 @@ const CreatePostScreen = ({ navigation }) => {
 
     // Function to pick images to upload to Firebase storage
     const pickImage = async () => {
-        console.log("here");
+        console.log("Picking Image");
         // No permissions request is necessary for launching the image library
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -47,9 +47,8 @@ const CreatePostScreen = ({ navigation }) => {
     // Get a reference to the storage database
     const storage = getStorage();
 
-    // Reference to the realtime database
     
-
+    // Function to upload image to Firebase storage
     const uploadImage = async (uri, dbRef) => {
         const response = await fetch(uri);
         const blob = await response.blob();
@@ -133,6 +132,7 @@ const CreatePostScreen = ({ navigation }) => {
 
         if (image) {
             uploadImage(image, dbRef);
+
         } else {
             console.log("No image set");
         }
