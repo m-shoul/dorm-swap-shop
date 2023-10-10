@@ -11,7 +11,8 @@ import React from "react";
 import styles from "../styleSheets/StyleSheet.js";
 import { useState, useEffect } from "react";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { writeUserData } from "../../backend/dbFunctions.js";
+// import { writeUserData } from "../../backend/dbFunctions.js";
+import { createUser } from "../../backend/api/user.js";
 
 const CreateUserScreen = ({ navigation }) => {
     //All of the states that are used to store the actual values of the text inputs
@@ -156,7 +157,7 @@ const CreateUserScreen = ({ navigation }) => {
 
         if (errorCount === 0) {
             userRegistration();
-            writeUserData(firstName, lastName, username, email);
+            createUser(firstName, lastName, username, email);
             navigation.navigate("LoginScreen");
         }
         // Set the errors and update form validity
