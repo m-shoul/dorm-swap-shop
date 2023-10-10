@@ -6,6 +6,7 @@
                 "lname": "Last Name",
                 "username": "Username",
                 "email": "email@email.com",
+                "rating": 1,
                 "listings": {
                     "listingId_1": true,
                     "listingId_2": true
@@ -15,18 +16,6 @@
                     "chatId_2": true
                 },
                 "profileImage": "your-firebase-storage-url.com/path/to/your/image.jpg"
-            },
-            "userId_2": {
-                "fname": "First Name",
-                "lname": "Last Name",
-                "username": "Username",
-                "email": "email2@email.com",
-                "listings": {
-                    "listingId_3": true
-                },
-                "chats": {
-                    "chatId_3": true
-                }
             } 
         },
         "listings": {
@@ -37,22 +26,11 @@
                 "condition": "Condition 1",
                 "status": "Sold", 
                 "timeUpload": "2023-09-13T12:00:00Z", 
-                "price": 12.50, 
+                "price": 12.50,
+                "reported": false, 
                 "images": {
                     "imageId_1": "your-firebase-storage-url.com/path/to/your/image.jpg",
                     "imageId_2": "your-firebase-storage-url.com/path/to/your/image.jpg"
-                }
-            },
-            "listingId_2": {
-                "title": "Item Name 2", 
-                "description": "Description 2",
-                "category": "Category 2",
-                "condition": "Condition 2",
-                "status": "For Sale", 
-                "timeUpload": "2023-09-13T12:00:00Z", 
-                "price": 20.00, 
-                "images": {
-                    "imageId_3": "your-firebase-storage-url.com/path/to/your/image.jpg"
                 }
             }
         },
@@ -66,20 +44,6 @@
                     "messageId_1": {
                         "text": "Hello, is the 19 dollar fortnite card still available?",
                         "sender": "userId_2",
-                        "receiver": "userId_1",
-                        "timestamp": "2023-09-13T12:00:00Z"
-                    }
-                }
-            },
-            "chatId_2": {
-                "participants": {
-                    "userId_1": true,
-                    "userId_3": true
-                },
-                "messages": {
-                    "messageId_2": {
-                        "text": "Is the item in good condition?",
-                        "sender": "userId_3",
                         "receiver": "userId_1",
                         "timestamp": "2023-09-13T12:00:00Z"
                     }
