@@ -12,6 +12,7 @@ normalText = width / NormalFontSize;
 hintText = width / HintFontSize;
 
 const styles = StyleSheet.create({
+    boldtext: { fontSize: normalText, fontWeight: "bold" },
     background: {
         flex: 1,
         alignItems: "center",
