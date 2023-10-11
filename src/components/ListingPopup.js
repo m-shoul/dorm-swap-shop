@@ -10,7 +10,7 @@ import {
     Alert,
 } from "react-native";
 import styles from "../styleSheets/StyleSheet.js";
-import CustomModal from "./modelTest.js";
+
 import NavComponent from "./Component.js";
 import Swiper from "react-native-swiper";
 import Xmark from "../assets/svg/xmark.js";
