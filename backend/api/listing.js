@@ -1,6 +1,7 @@
 import { database } from '../config/firebaseConfig';
 import { get, child, ref, set, push, getDatabase } from 'firebase/database';
 import { getStorage, ref as sRef, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { readData } from '../dbFunctions';
 
 // ^^ Import whatever we need for this...
 // NOTE************ add additional parameters when needed!!! This is just a baseline.
@@ -50,6 +51,7 @@ export function readListing(listingId) {
     // Implement the functionality to read a listing.
     // I think this will be used for displaying the listings in the
     // home page and then displaying the listings in the user profile.
+    readData("dorm-swap-shop/listings/"+listingId);
 }
 
 // Function to update a user
