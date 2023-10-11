@@ -15,6 +15,9 @@
                     "chatId_1": true,
                     "chatId_2": true
                 },
+                "savedListings": {
+                    "listingId_3": true
+                },
                 "profileImage": "your-firebase-storage-url.com/path/to/your/image.jpg"
             } 
         },
