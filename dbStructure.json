@@ -28,7 +28,7 @@
                 "category": "Category 1",
                 "condition": "Condition 1",
                 "status": "Sold", 
-                "timeUpload": "2023-09-13T12:00:00Z", 
+                "timeStamp": "2023-09-13T12:00:00Z", 
                 "price": 12.50,
                 "reported": false, 
                 "images": {

@@ -1,21 +1,110 @@
-import { Text, View, TouchableOpacity, SafeAreaView } from "react-native";
+import { Text, View, TouchableOpacity, Image, TextInput, SafeAreaView, Button, Modal, Pressable } from "react-native";
 import styles from "../styleSheets/StyleSheet.js";
+
+// Imports for pulling the image from firebase...
+import { pickImages, getUserID } from "../../backend/dbFunctions.js";
+import categories from "../components/Component.js";
+import { getStorage, ref as sRef, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { getDatabase, ref, push, set } from "firebase/database";
+import * as ImagePicker from 'expo-image-picker';
+import { database } from '../../backend/config/firebaseConfig';
+import React, {useState, useEffect} from "react";
+
+
+// Imports for the email service. EmailJS...
+import emailjs from 'emailjs-com';
 
 
 const ReportScreen = ({ navigation }) => {
+
+    // This isnt even working so probably delete it.
+    // const [url, setUrl] = useState("");
+    
+    // const getImage = async () => {
+    //     const storage = getStorage();
+    //     const storageRef = ref(storage, "/test");
+
+    //     const url = await getDownloadURL(storageRef);
+    //     setUrl(url);
+    // };
+
+    // useEffect(() => {
+    //     getImage();
+    // })
+
+
+    // Sending the email to the admin.
+    const [emailSent, setEmailSent] = useState(false);
+    const [description, setDescription] = useState("");
+
+
+    const sendEmail = () => {
+        const templateParams = {
+            to_email: 'dormswapnshop@gmail.com', // Recipient's email address
+            message: description,                // For now its the shared Gmail we have...
+        };
+
+        emailjs.send(
+            'service_8mkc6jy', // Email.js service ID
+            'template_mnikow5', // Email.js template ID
+            templateParams,
+            'WhLg-6S2OWzKM5XFp' // Public key
+        )
+            .then(() => {
+                setEmailSent(true);
+                alert("Post reported. Thank you");
+            })
+            .catch((error) => {
+                console.error('Email send error:', error);
+            });
+    };
+
+    // For the modal that pops up.
+    const [reportModalVisible, setReportModalVisible] = useState(false);
+
     return (
         <SafeAreaView style={styles.background}>
+        {/* Need to add in the back arrow and the 
+            functionality of going back on click. */}
+
+            {/* Title of page */}
             <View>
                 <Text style={styles.resetHeader}>Report</Text>
             </View>
-            <TouchableOpacity
-                onPress={() => navigation.navigate("HomeScreen")}>
-                <Text>Home</Text>
-            </TouchableOpacity>
+
+            {/* Display the first image of the reported listing
+                The image is associated with whomever had posted the listing.
+                So we need to somehow get that image from the listingID, from that
+                specific user who is associated with the listingID.*/}
+
+            {/* Description text field to enter what is wrong with the post */}
+            <TextInput
+                style={styles.createUserInput}
+                value={description}
+                onChangeText={(value) => setDescription(value)}
+                placeholder="Description"
+            />
+
+
+            {/* Report button that
+            1.) Sends an email from to each of the developers to notify of the reported listing. (DONE)
+            2.) Flags the listing as reported... (not yet implemented)
+            3.) Directs to another page that tells user post was reported and has 2 buttons that can
+            allow the user to return to the listing or return to the chat. (DONE) */}
+            
+            <Button title="Send Email" onPress={() => { 
+                sendEmail(); 
+                navigation.navigate("PostReportedScreen") 
+            }} />
+            {emailSent && <Text>Email sent successfully!</Text>}
 
             <TouchableOpacity
-                onPress={() => pickImage()}>
-                <Text>Upload Image</Text>
+                onPress={() => navigation.navigate("PostReportedScreen")}>
+                <Text>Post reported (second screen). Please click on this
+                to get to the second screen because the only other way
+                is through sending the email, but we have  LIMITED number
+                of emails!! So click this instead and delete it before we
+                present.</Text>
             </TouchableOpacity>
         </SafeAreaView>
     );

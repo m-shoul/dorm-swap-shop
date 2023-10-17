@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import styles from "../styleSheets/StyleSheet.js";
 //import { getAuth, signOut } from "firebase/auth";
 import NavComponent from "../components/Component.js";
+import ListingPopup from "../components/ListingPopup.js";
 import { SearchBar, Header } from "@rneui/themed";
 //import styles from "../styleSheets/StyleSheet.js";
 //import { HeaderComponent } from "../components/headerComponent.js";
@@ -149,7 +150,11 @@ const HomeScreen = ({ navigation }) => {
         }}
         bounces={false}
       />
-      <NavComponent navigation={navigation} />
+
+        {/* Eventually going to have to make a specific one of these
+            per each post... */}
+        <ListingPopup navigation={navigation}/>
+        <NavComponent navigation={navigation} />
     </SafeAreaView>
   );
 }

@@ -41,7 +41,7 @@ const NavComponent = ({ navigation }) => {
             setPostColor("#3F72AF");
             setProfileColor("black");
             setSettingColor("black");
-            navigation.navigate('PostScreen')
+            navigation.navigate('CreatePostScreen')
         }
         if (icon == "profile") {
             setHomeColor("black");

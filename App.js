@@ -10,6 +10,7 @@ import ChatScreen from "./src/screens/ChatScreen";
 import ProfileScreen from "./src/screens/ProfileScreen";
 import SettingsScreen from "./src/screens/SettingsScreen";
 import ReportScreen from "./src/screens/ReportScreen";
+import PostReportedScreen from "./src/screens/PostReportedScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -32,7 +33,8 @@ return (
         <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
         <Stack.Screen name="SettingsScreen" component={SettingsScreen} />
         <Stack.Screen name="ReportScreen" component={ReportScreen} />
-        
+        <Stack.Screen name="PostReportedScreen" component={PostReportedScreen} />
+
     </Stack.Navigator>
     </NavigationContainer>
 )
