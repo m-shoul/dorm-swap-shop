@@ -12,51 +12,51 @@ normalText = width / NormalFontSize;
 hintText = width / HintFontSize;
 
 const styles = StyleSheet.create({
-  background: {
-    flex: 1,
-    alignItems: "center",
-    //justifyContent: 'center',
-    backgroundColor: "#F9F7F7",
-  },
-  forms: {
-    width: "80%",
-  },
-  loginBtn: {
-    width: "80%",
-    borderRadius: 25, //was 25
-    height: "7%", //was 50
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: "12%", //was 40
-    backgroundColor: "#3F72AF",
-  },
-  buttonText: {
-    color: "white",
-    fontSize: buttonText,
-    fontWeight: "bold",
-  },
-  container: {
-    marginTop: 50,
-  },
-  createUserInput: {
-    marginBottom: "6%", //was 20
-    borderWidth: 1, //was 1
-    borderRadius: 20,
-    fontSize: normalText,
-    padding: "3%", //was 7
-    backgroundColor: "white",
-    borderColor: "#B3B3B3",
-  },
-  createUserInputError: {
-    marginBottom: "6%", //was 20
-    borderWidth: 1, //was 1
-    borderRadius: 20, //was 20
-    fontSize: normalText,
-    padding: "2%", //was 7
-    backgroundColor: "white",
-    borderColor: "#ff0000",
-  },
-
+    boldtext: { fontSize: normalText, fontWeight: "bold" },
+    background: {
+        flex: 1,
+        alignItems: "center",
+        //justifyContent: 'center',
+        backgroundColor: "#F9F7F7",
+    },  
+    forms: {
+        width: "80%",
+    },  
+    loginBtn: {
+        width: "80%",
+        borderRadius: "25%", //was 25
+        height: "7%", //was 50
+        alignItems: "center",
+        justifyContent: "center",
+        marginTop: "12%", //was 40
+        backgroundColor: "#3F72AF",
+    },  
+    buttonText: {
+        color: "white",
+        fontSize: buttonText,
+        fontWeight: "bold",
+    }, 
+    container: {
+        marginTop: 50,
+    },  
+    createUserInput: {
+        marginBottom: "6%", //was 20
+        borderWidth: "1%", //was 1
+        borderRadius: "20",
+        fontSize: normalText,
+        padding: "2%", //was 7
+        backgroundColor: "white",
+        borderColor: "#B3B3B3",
+    },  
+    createUserInputError: {
+        marginBottom: "6%", //was 20
+        borderWidth: "1%", //was 1
+        borderRadius: "20%", //was 20
+        fontSize: normalText,
+        padding: "2%", //was 7
+        backgroundColor: "white",
+        borderColor: "#ff0000",
+    },
   createUserInputError: {
     marginBottom: "6%", //was 20
     borderWidth: 1, //was 1
@@ -66,7 +66,6 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderColor: "red",
   },
-
   loginHeader: {
     paddingTop: "45%",
     margin: "5%",
