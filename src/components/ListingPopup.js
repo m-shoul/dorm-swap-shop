@@ -17,9 +17,9 @@ import Xmark from "../assets/svg/xmark.js";
 import ReportComponent from "../assets/svg/report_icon.js";
 import FavouriteIcon from "../assets/svg/favourite_icon.js";
 
-const TestScreem = ({ navigation }) => {
+const ListingPopup = ({ navigation }) => {
     const { width, height } = Dimensions.get("window");
-    const [modalVisible, setModalVisible] = useState(false);
+    const [listingModalVisible, setListingModalVisible] = useState(false);
     const simpleAlert = () => {
         Alert.alert("Favorited");
     };
@@ -30,15 +30,12 @@ const TestScreem = ({ navigation }) => {
     ];
     const [currentIndex, setCurrentIndex] = useState(0);
     return (
-        <SafeAreaView style={styles.background}>
-            <View>
-                <Text style={styles.resetHeader}>Chat</Text>
-            </View>
-            <TouchableOpacity onPress={() => setModalVisible(true)}>
-                <Text>Show Modal</Text>
+        <SafeAreaView>
+            <TouchableOpacity onPress={() => setListingModalVisible(true)}>
+                <Text style={{backgroundColor: "red"}}>Show Modal</Text>
             </TouchableOpacity>
 
-            <Modal visible={modalVisible}>
+            <Modal visible={listingModalVisible}>
                 <SafeAreaView style={styles.background}>
                     <View
                         style={{
@@ -50,7 +47,7 @@ const TestScreem = ({ navigation }) => {
                         }}>
                         <TouchableOpacity
                             style={{ flex: 1 }}
-                            onPress={() => setModalVisible(false)}>
+                            onPress={() => setListingModalVisible(false)}>
                             <Xmark
                                 source={require("../assets/svg/xmark.js")}
                                 style={{
@@ -65,7 +62,7 @@ const TestScreem = ({ navigation }) => {
                         <TouchableOpacity
                             style={{ flex: 0 }}
                             onPress={() => {
-                                setModalVisible(false);
+                                setListingModalVisible(false);
                                 navigation.navigate("ReportScreen");
                             }}>
                             <ReportComponent
@@ -162,7 +159,7 @@ const TestScreem = ({ navigation }) => {
                         }}>
                         <TouchableOpacity
                             onPress={() => {
-                                setModalVisible(false);
+                                setListingModalVisible(false);
                                 navigation.navigate("ChatScreen");
                             }}
                             style={[
@@ -183,4 +180,4 @@ const TestScreem = ({ navigation }) => {
     );
 };
 
-export default TestScreem;
+export default ListingPopup;

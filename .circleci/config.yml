@@ -20,7 +20,7 @@ jobs:
       - run:
           name: Trigger build
           # command: npx eas-cli build --platform android --non-interactive # production build
-          command: eas build --profile development --platform android # 
+          command: eas build --profile development --platform android # emulator build
 
   # eas_deploy:
   #   executor: default
@@ -42,6 +42,7 @@ workflows:
               only:
                 - main
                 - develop
+                - production
 
       # -eas_deploy:
       #   requires:
