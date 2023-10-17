@@ -13,7 +13,6 @@ const ChatScreen = ({ navigation }) => {
                 onPress={() => navigation.navigate("HomeScreen")}>
                 <Text>Home</Text>
             </TouchableOpacity>
-            <NavComponent navigation={navigation} />
         </SafeAreaView>
     );
 };

@@ -11,10 +11,10 @@ import { SearchBar, Header } from "@rneui/themed";
 const HomeScreen = ({ navigation }) => {
 
   const scrollY = new Animated.Value(0);
-  const diffClamp = Animated.diffClamp(scrollY, 0, 40);
+  const diffClamp = Animated.diffClamp(scrollY, 0, 100);
   const translateYAxis = diffClamp.interpolate({
-    inputRange: [0, 40],
-    outputRange: [0, -40],
+    inputRange: [0, 100],
+    outputRange: [0, -100],
   })
 
   const persons = [{
@@ -82,7 +82,7 @@ const HomeScreen = ({ navigation }) => {
   const [search, setSearch] = useState("");
 
   return (
-    <View style={{ flex: 1, backgroundColor: "#fff" }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#F9F7F7" }}>
       {/* <Animated.View style={{
         transform: [{ translateY: translateYAxis }],
         elevation: 4,
@@ -112,26 +112,22 @@ const HomeScreen = ({ navigation }) => {
         elevation: 4,
         zIndex: 100,
       }}>
-        <SafeAreaView style={{}}>
-          <SearchBar
-            round
-            searchIcon={{ size: 24, color: "black" }}
-            containerStyle={styles.searchContainer}
-            inputStyle={{ backgroundColor: "#fff" }}
-            inputContainerStyle={{
-              backgroundColor: "#fff", borderRadius: 40, height: 40,
-              borderWidth: 1, borderBottomWidth: 1, borderColor: "#B3B3B3"
-            }}
-            onChangeText={setSearch}
-            //onClear={(text) => searchFilterFunction("")}
-            placeholder="Search"
-            value={search}
-          />
-        </SafeAreaView>
-
+        <SearchBar
+          round
+          searchIcon={{ size: 24, color: "black" }}
+          containerStyle={styles.searchContainer}
+          inputStyle={{ backgroundColor: "#fff" }}
+          inputContainerStyle={{
+            backgroundColor: "#fff", borderRadius: 40,
+            borderWidth: 1, borderBottomWidth: 1, borderColor: "#B3B3B3"
+          }}
+          onChangeText={setSearch}
+          //onClear={(text) => searchFilterFunction("")}
+          placeholder="Search"
+          value={search}
+        />
       </Animated.View>
-
-
+      {/* </View> */}
 
       {/* Scrollable view displaying all the listings */}
       <FlatList
@@ -151,9 +147,10 @@ const HomeScreen = ({ navigation }) => {
         onScroll={(e) => {
           scrollY.setValue(e.nativeEvent.contentOffset.y);
         }}
+        bounces={false}
       />
       <NavComponent navigation={navigation} />
-    </View >
+    </SafeAreaView>
   );
 }
 

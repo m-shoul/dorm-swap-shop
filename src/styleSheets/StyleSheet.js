@@ -110,10 +110,13 @@ const styles = StyleSheet.create({
     marginTop: 0,
   },
   searchContainer: {
+    position: "absolute",
     backgroundColor: "#F9F7F7",
     borderBottomColor: "#F9F7F7",
     borderTopColor: "#F9F7F7",
-    width: "100%"
+    width: "100%",
+    height: 40,
+    justifyContent: "center",
   },
 });
 export default styles;
