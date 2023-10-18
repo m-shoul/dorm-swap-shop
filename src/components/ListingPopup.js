@@ -17,7 +17,7 @@ import Xmark from "../assets/svg/xmark.js";
 import ReportComponent from "../assets/svg/report_icon.js";
 import FavouriteIcon from "../assets/svg/favourite_icon.js";
 
-const ListingPopup = ({ navigation }) => {
+const ListingPopup = ({ navigation, listing }) => {
     const { width, height } = Dimensions.get("window");
     const [listingModalVisible, setListingModalVisible] = useState(false);
     const simpleAlert = () => {
@@ -29,9 +29,14 @@ const ListingPopup = ({ navigation }) => {
         require("../assets/testImages/batt.jpg"),
     ];
     const [currentIndex, setCurrentIndex] = useState(0);
+
+    const openModal = () => {
+        setListingModalVisible(true);
+    };
+
     return (
         <SafeAreaView>
-            <TouchableOpacity onPress={() => setListingModalVisible(true)}>
+            <TouchableOpacity onPress={openModal}>
                 <Text style={{backgroundColor: "red"}}>Show Modal</Text>
             </TouchableOpacity>
 
@@ -96,8 +101,10 @@ const ListingPopup = ({ navigation }) => {
                                 margin: "3%",
                                 marginBottom: "0%",
                             }}>
+                            {/* TITLE */}
                             <Text style={[styles.boldtext, { flex: 1 }]}>
-                                The dog is very swole
+                                {listing.title}
+                                {/* The dog is very swole */}
                             </Text>
                             <TouchableOpacity
                                 style={{ flex: 0 }}
@@ -119,8 +126,10 @@ const ListingPopup = ({ navigation }) => {
                                 marginLeft: "3%",
                                 marginTop: "2%",
                             }}>
+                            {/* PRICE */}
                             <Text style={[styles.boldtext, { flex: 1 }]}>
-                                $1,000,000
+                                {"$" + listing.price}
+                                {/* $1,000,000 */}
                             </Text>
                         </View>
                         <View
@@ -129,8 +138,10 @@ const ListingPopup = ({ navigation }) => {
                                 alignItems: "center",
                                 margin: "3%",
                             }}>
+                            {/* CONDITION */}
                             <Text style={[styles.normaltext, { flex: 1 }]}>
-                                Condition: Brand new
+                                {listing.condition}
+                                {/* Condition: Brand new */}
                             </Text>
                         </View>
                         <View
@@ -139,12 +150,14 @@ const ListingPopup = ({ navigation }) => {
                                 alignItems: "center",
                                 marginLeft: "3%",
                             }}>
+                            {/* DESCRIPTION */}
                             <Text style={[styles.normalText, { flex: 1 }]}>
-                                I own a musket for home defense, since that's
+                                {listing.description}
+                                {/* I own a musket for home defense, since that's
                                 what the founding fathers intended. Four
                                 ruffians break into my house. "What the devil?"
                                 As I grab my powdered wig and Kentucky rifle.
-                                Blow a golf b
+                                Blow a golf b */}
                             </Text>
                         </View>
                     </View>
