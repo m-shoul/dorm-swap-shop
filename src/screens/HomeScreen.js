@@ -10,7 +10,7 @@ import { get, child, ref, set, push, getDatabase } from 'firebase/database';
 //import { HeaderComponent } from "../components/headerComponent.js";
 
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
 
   const scrollY = new Animated.Value(0);
   const diffClamp = Animated.diffClamp(scrollY, 0, 100);
