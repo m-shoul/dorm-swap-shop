@@ -2,13 +2,14 @@ import { Text, View, TouchableOpacity, FlatList, SafeAreaView, Image, Modal, Ani
 import React, { useState } from "react";
 import styles from "../styleSheets/StyleSheet.js";
 //import { getAuth, signOut } from "firebase/auth";
-import NavComponent from "../components/Component.js";
-import { SearchBar, Header } from "@rneui/themed";
+// import BottomTabNavigator from "../components/Component.js";
+// import { NavigationContainer } from "@react-navigation/native";
+import { SearchBar } from "@rneui/themed";
 //import styles from "../styleSheets/StyleSheet.js";
 //import { HeaderComponent } from "../components/headerComponent.js";
 
 
-const HomeScreen = ({ navigation }) => {
+const HomeScreen = () => {
 
   const scrollY = new Animated.Value(0);
   const diffClamp = Animated.diffClamp(scrollY, 0, 100);
@@ -83,30 +84,6 @@ const HomeScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#F9F7F7" }}>
-      {/* <Animated.View style={{
-        transform: [{ translateY: translateYAxis }],
-        elevation: 4,
-        zIndex: 100,
-      }}>
-        <View style={{ height: 45, marginTop: "10%", position: "absolute", top: 0, left: 0, right: 0 }}>
-          <SearchBar
-            round
-            searchIcon={{ size: 24, color: "black" }}
-            containerStyle={styles.searchContainer}
-            inputStyle={{ backgroundColor: "white", }}
-            inputContainerStyle={{
-              backgroundColor: "white", borderRadius: 20,
-              borderWidth: 1, borderBottomWidth: 1, borderColor: "#B3B3B3"
-            }}
-            onChangeText={setSearch}
-            //onClear={(text) => searchFilterFunction("")}
-            placeholder="Search"
-            value={search}
-          />
-        </View>
-      </Animated.View> */}
-
-      {/* {HeaderComponent(translateYAxis)} */}
       <Animated.View style={{
         transform: [{ translateY: translateYAxis }],
         elevation: 4,
@@ -149,7 +126,10 @@ const HomeScreen = ({ navigation }) => {
         }}
         bounces={false}
       />
-      <NavComponent navigation={navigation} />
+      {/* <NavigationContainer>
+        <BottomTabNavigator />
+      </NavigationContainer> */}
+      {/* <NavComponent navigation={navigation} /> */}
     </SafeAreaView>
   );
 }
