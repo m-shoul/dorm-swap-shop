@@ -10,8 +10,10 @@ import ResetPasswordScreen from "./src/screens/ResetPasswordScreen";
 // import ProfileScreen from "./src/screens/ProfileScreen";
 // import SettingsScreen from "./src/screens/SettingsScreen";
 // import ReportScreen from "./src/screens/ReportScreen";
+//import PostReportedScreen from "./src/screens/PostReportedScreen";
 //import BottomTabNavigator from "./src/components/Components.js";
 import BottomTabNavigator from "./src/components/Component";
+
 
 const Stack = createStackNavigator();
 
