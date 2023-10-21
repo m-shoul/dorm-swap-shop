@@ -188,8 +188,6 @@ const HomeScreen = ({ navigation }) => {
         }}
         bounces={false}
       />
-
-      {/* <NavComponent navigation={navigation} /> */}
     </SafeAreaView>
   );
 }

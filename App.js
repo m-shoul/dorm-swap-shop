@@ -6,7 +6,7 @@ import CreateUserScreen from "./src/screens/CreateUserScreen";
 import ResetPasswordScreen from "./src/screens/ResetPasswordScreen";
 // import HomeScreen from "./src/screens/HomeScreen";
 // import CreatePostScreen from "./src/screens/CreatePostScreen";
-// import ChatScreen from "./src/screens/ChatScreen";
+//import ChatScreen from "./src/screens/ChatScreen";
 // import ProfileScreen from "./src/screens/ProfileScreen";
 // import SettingsScreen from "./src/screens/SettingsScreen";
 // import ReportScreen from "./src/screens/ReportScreen";
@@ -28,6 +28,9 @@ export default function App() {
                 <Stack.Screen name="CreateUserScreen" component={CreateUserScreen} />
                 <Stack.Screen name="ResetPasswordScreen" component={ResetPasswordScreen} />
                 <Stack.Screen name="HomeScreen" component={BottomTabNavigator} />
+
+                {/* Sprint 3 */}
+                {/* <Stack.Screen name="ChatScreen" component={ChatScreen} /> */}
 
                 {/* Sprint 3 */}
                 {/* <Stack.Screen name="CreatePostScreen" component={CreatePostScreen} />

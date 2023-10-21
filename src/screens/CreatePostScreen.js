@@ -1,14 +1,14 @@
 import { Text, TextInput, View, TouchableOpacity, FlatList, SafeAreaView, StyleSheet } from "react-native";
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../styleSheets/StyleSheet.js";
 import { getUserID } from "../../backend/dbFunctions.js";
-import categories from "../components/Component.js";
+//import categories from "../components/Component.js";
 import * as ImagePicker from 'expo-image-picker';
 import { createListing } from "../../backend/api/listing.js";
 
 
 const CreatePostScreen = ({ navigation }) => {
-    
+
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState("");
@@ -38,11 +38,11 @@ const CreatePostScreen = ({ navigation }) => {
     // Function to create a listing
     const CreatePost = () => {
         let userId = getUserID();
-        try{
+        try {
             createListing(title, description, price, userId, image);
             console.log("Post created successfully");
         }
-        catch(error){
+        catch (error) {
             console.log(error);
         }
 
@@ -102,7 +102,7 @@ const CreatePostScreen = ({ navigation }) => {
                 </TouchableOpacity>
             </View>
 
-{/* 
+            {/* 
             <TouchableOpacity
                 onPress={() => navigation.navigate("HomeScreen")}>
                 <Text>Home</Text>
