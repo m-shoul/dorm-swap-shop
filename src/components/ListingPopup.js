@@ -16,12 +16,24 @@ import Swiper from "react-native-swiper";
 import Xmark from "../assets/svg/xmark.js";
 import ReportComponent from "../assets/svg/report_icon.js";
 import FavouriteIcon from "../assets/svg/favourite_icon.js";
+import SavedListingIcon from "../assets/svg/savedListing_icon.js";
 
 const ListingPopup = ({ navigation, listing }) => {
     const { width, height } = Dimensions.get("window");
     const [listingModalVisible, setListingModalVisible] = useState(false);
+    const [isFavorited, setIsFavorited] = useState(false);
+
     const simpleAlert = () => {
-        Alert.alert("Favorited");
+        setIsFavorited(!isFavorited);
+
+        if (isFavorited) {
+            Alert.alert("Unsaved");
+            // Implement the backend functionality for saving the listing.
+
+        } else {
+            Alert.alert("Favorited");
+            // Implement the backend functionality for unsaving the listing.
+        }
     };
     const images = [
         require("../assets/testImages/swoledoge.jpg"),
@@ -69,6 +81,11 @@ const ListingPopup = ({ navigation, listing }) => {
                             onPress={() => {
                                 setListingModalVisible(false);
                                 navigation.navigate("ReportScreen");
+
+                                // Pass the image into the report screen and display
+                                // it at the top so the user knows what listing they are
+                                // reporting.
+                                
                             }}>
                             <ReportComponent
                                 style={{
@@ -80,6 +97,7 @@ const ListingPopup = ({ navigation, listing }) => {
                             />
                         </TouchableOpacity>
                     </View>
+                    {/* IMAGE    */}
                     <View style={{ height: "33%" }}>
                         <Swiper
                             loop={false}
@@ -109,14 +127,23 @@ const ListingPopup = ({ navigation, listing }) => {
                             <TouchableOpacity
                                 style={{ flex: 0 }}
                                 onPress={simpleAlert}>
-                                <FavouriteIcon
-                                    style={{
-                                        width: 15,
-                                        height: 15,
-                                        stroke: "black",
-                                        strokeWidth: 0.25,
-                                    }}
-                                />
+                                {!isFavorited ? (
+                                    <FavouriteIcon
+                                        style={{
+                                            width: 15,
+                                            height: 15,
+                                            fill: "black",
+                                        }}
+                                    />
+                                ) : (
+                                    <SavedListingIcon
+                                        style={{
+                                            width: 15,
+                                            height: 15,
+                                            fill: "yellow",
+                                        }}
+                                    />
+                                )}
                             </TouchableOpacity>
                         </View>
                         <View
