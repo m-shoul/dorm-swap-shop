@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import styles from "../styleSheets/StyleSheet.js";
-import { pickImages, getUserID } from "../../backend/dbFunctions.js";
+import { getUserID } from "../../backend/dbFunctions.js";
 import categories from "../components/Component.js";
 import {
     getStorage,
@@ -25,6 +25,8 @@ import ListImagesComponent from "../assets/svg/list_images.js";
 import RNPickerSelect from "react-native-picker-select";
 import NavComponent from "../components/Component.js";
 
+import { createListing } from "../../backend/api/listing.js";
+
 const CreatePostScreen = ({ navigation }) => {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
@@ -37,7 +39,7 @@ const CreatePostScreen = ({ navigation }) => {
 
     // Function to pick images to upload to Firebase storage
     const pickImage = async () => {
-        console.log("here");
+        console.log("Picking Image");
         // No permissions request is necessary for launching the image library
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -46,118 +48,26 @@ const CreatePostScreen = ({ navigation }) => {
             quality: 1,
         });
 
-        console.log(result);
+        // console.log(result);
 
         if (!result.canceled) {
-            console.log("here");
+            console.log("Image picked successfully");
             setImage(result.assets[0].uri);
-
-            // try {
-            //     // await uploadImage(result.assets[0].uri);
-            //     // return result.assets[0].uri;
-            // } catch (error) {
-            //     console.log("Error uploading image: ", error.message);
-            // }
         }
-    };
-
-    // Get a reference to the storage database
-    const storage = getStorage();
-
-    // Reference to the realtime database
-
-    const uploadImage = async (uri, dbRef) => {
-        const response = await fetch(uri);
-        const blob = await response.blob();
-
-        const storageRef = sRef(storage, "test/" + new Date().getTime());
-        const uploadTask = uploadBytesResumable(storageRef, blob);
-
-        // listen for events
-        uploadTask.on(
-            "state_changed",
-            (snapshot) => {
-                const progress =
-                    (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                console.log("Upload is " + progress + "% done");
-                setProgress(progress.toFixed());
-            },
-            (error) => {
-                // handle error
-            },
-            () => {
-                getDownloadURL(uploadTask.snapshot.ref).then(
-                    async (downloadURL) => {
-                        console.log("File available at", downloadURL);
-                        // save record
-                        const newRecordRef = push(dbRef);
-                        await set(newRecordRef, {
-                            image: downloadURL,
-                            timestamp: new Date().toISOString(),
-                        });
-                        setImage("");
-                    }
-                );
-            }
-        );
-        // Testing purposes
-        alert("Image uploaded");
     };
 
     // Function to create a listing
     const CreatePost = () => {
-        // description
-        // images
-        // price
-        // timeUpload "2023-09-13T12:00:00Z"
-        // title
-        // userId
         let userId = getUserID();
         try {
-            writeListingData(title, description, price, userId, image);
+            createListing(title, description, price, userId, image);
             console.log("Post created successfully");
         } catch (error) {
             console.log(error);
         }
 
-        navigation.navigate("HomeScreen");
+        navigation.navigate("Home");
     };
-
-    function writeListingData(title, description, price, userId, image) {
-        // Reference listings in database
-        const listingReference = ref(database, "dorm_swap_shop/listings/");
-
-        // Generates a unique ID
-        const newListingReference = push(listingReference);
-
-        // Gets the unique ID
-        const listingId = newListingReference.key;
-
-        // Gets image reference
-        const dbRef = ref(
-            getDatabase(),
-            "/dorm_swap_shop/listings/" + listingId + "/images"
-        );
-
-        const listingData = {
-            title: title,
-            description: description,
-            price: price,
-            userId: userId,
-            // timeUpload: firebase.database.ServerValue.TIMESTAMP
-            timeUpload: Date.now(),
-        };
-
-        set(newListingReference, listingData);
-
-        if (image) {
-            uploadImage(image, dbRef);
-        } else {
-            console.log("No image set");
-        }
-
-        return listingId;
-    }
 
     const [titleStyle, setTitleStyle] = useState(styles.createUserInput);
     const [priceStyle, setPriceStyle] = useState(styles.createUserInput);

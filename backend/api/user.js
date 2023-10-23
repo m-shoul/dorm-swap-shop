@@ -5,10 +5,28 @@ import { get, child, ref, set, push, getDatabase } from 'firebase/database';
 // NOTE************ add additional parameters when needed!!! This is just a baseline.
 
 // Function to create a new user
-export function createUser(userData) {
-    // Implement the functionality to create a user to the db.
-    // I think we already have this somewhere it just needs to be
-    // put in here for better organization
+export function createUser(fname, lname, uname, email) {
+
+    // Reference users in database
+    const userReference = ref(database, 'dorm_swap_shop/users/');
+
+    // Generates a unique ID
+    const newUserReference = push(userReference);
+
+    // Gets the unique ID
+    const userId = newUserReference.key;
+
+    const userData = {
+        fname: fname,
+        lname: lname,
+        username: uname,
+        email: email,
+        // profile_picture : imageUrl
+    };
+
+    set(newUserReference, userData);
+
+    return userId;
 }
 
 // Function to read user data

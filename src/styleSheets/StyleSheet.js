@@ -50,15 +50,6 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
         borderColor: "#B3B3B3",
     },
-    createUserInputError: {
-        marginBottom: "6%", //was 20
-        borderWidth: "1%", //was 1
-        borderRadius: "20%", //was 20
-        fontSize: normalText,
-        padding: "2%", //was 7
-        backgroundColor: "white",
-        borderColor: "#ff0000",
-    },
 
     createUserInputError: {
         marginBottom: "6%", //was 20
@@ -159,6 +150,16 @@ const styles = StyleSheet.create({
         width: "90%",
         marginBottom: 25,
         marginTop: 0,
+    },
+
+    searchContainer: {
+        position: "absolute",
+        backgroundColor: "#F9F7F7",
+        borderBottomColor: "#F9F7F7",
+        borderTopColor: "#F9F7F7",
+        width: "100%",
+        height: 40,
+        justifyContent: "center",
     },
 });
 export default styles;

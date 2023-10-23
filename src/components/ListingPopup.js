@@ -16,12 +16,24 @@ import Swiper from "react-native-swiper";
 import Xmark from "../assets/svg/xmark.js";
 import ReportComponent from "../assets/svg/report_icon.js";
 import FavouriteIcon from "../assets/svg/favourite_icon.js";
+import SavedListingIcon from "../assets/svg/savedListing_icon.js";
 
-const TestScreem = ({ navigation }) => {
+const ListingPopup = ({ navigation, listing }) => {
     const { width, height } = Dimensions.get("window");
-    const [modalVisible, setModalVisible] = useState(false);
+    const [listingModalVisible, setListingModalVisible] = useState(false);
+    const [isFavorited, setIsFavorited] = useState(false);
+
     const simpleAlert = () => {
-        Alert.alert("Favorited");
+        setIsFavorited(!isFavorited);
+
+        if (isFavorited) {
+            Alert.alert("Unsaved");
+            // Implement the backend functionality for saving the listing.
+
+        } else {
+            Alert.alert("Favorited");
+            // Implement the backend functionality for unsaving the listing.
+        }
     };
     const images = [
         require("../assets/testImages/swoledoge.jpg"),
@@ -29,16 +41,18 @@ const TestScreem = ({ navigation }) => {
         require("../assets/testImages/batt.jpg"),
     ];
     const [currentIndex, setCurrentIndex] = useState(0);
+
+    const openModal = () => {
+        setListingModalVisible(true);
+    };
+
     return (
-        <SafeAreaView style={styles.background}>
-            <View>
-                <Text style={styles.resetHeader}>Chat</Text>
-            </View>
-            <TouchableOpacity onPress={() => setModalVisible(true)}>
-                <Text>Show Modal</Text>
+        <SafeAreaView>
+            <TouchableOpacity onPress={openModal}>
+                <Text style={{backgroundColor: "red"}}>Show Modal</Text>
             </TouchableOpacity>
 
-            <Modal visible={modalVisible}>
+            <Modal visible={listingModalVisible}>
                 <SafeAreaView style={styles.background}>
                     <View
                         style={{
@@ -50,7 +64,7 @@ const TestScreem = ({ navigation }) => {
                         }}>
                         <TouchableOpacity
                             style={{ flex: 1 }}
-                            onPress={() => setModalVisible(false)}>
+                            onPress={() => setListingModalVisible(false)}>
                             <Xmark
                                 source={require("../assets/svg/xmark.js")}
                                 style={{
@@ -65,8 +79,13 @@ const TestScreem = ({ navigation }) => {
                         <TouchableOpacity
                             style={{ flex: 0 }}
                             onPress={() => {
-                                setModalVisible(false);
+                                setListingModalVisible(false);
                                 navigation.navigate("ReportScreen");
+
+                                // Pass the image into the report screen and display
+                                // it at the top so the user knows what listing they are
+                                // reporting.
+                                
                             }}>
                             <ReportComponent
                                 style={{
@@ -78,6 +97,7 @@ const TestScreem = ({ navigation }) => {
                             />
                         </TouchableOpacity>
                     </View>
+                    {/* IMAGE    */}
                     <View style={{ height: "33%" }}>
                         <Swiper
                             loop={false}
@@ -99,20 +119,31 @@ const TestScreem = ({ navigation }) => {
                                 margin: "3%",
                                 marginBottom: "0%",
                             }}>
+                            {/* TITLE */}
                             <Text style={[styles.boldtext, { flex: 1 }]}>
-                                The dog is very swole
+                                {listing.title}
+                                {/* The dog is very swole */}
                             </Text>
                             <TouchableOpacity
                                 style={{ flex: 0 }}
                                 onPress={simpleAlert}>
-                                <FavouriteIcon
-                                    style={{
-                                        width: 15,
-                                        height: 15,
-                                        stroke: "black",
-                                        strokeWidth: 0.25,
-                                    }}
-                                />
+                                {!isFavorited ? (
+                                    <FavouriteIcon
+                                        style={{
+                                            width: 15,
+                                            height: 15,
+                                            fill: "black",
+                                        }}
+                                    />
+                                ) : (
+                                    <SavedListingIcon
+                                        style={{
+                                            width: 15,
+                                            height: 15,
+                                            fill: "yellow",
+                                        }}
+                                    />
+                                )}
                             </TouchableOpacity>
                         </View>
                         <View
@@ -122,8 +153,10 @@ const TestScreem = ({ navigation }) => {
                                 marginLeft: "3%",
                                 marginTop: "2%",
                             }}>
+                            {/* PRICE */}
                             <Text style={[styles.boldtext, { flex: 1 }]}>
-                                $1,000,000
+                                {"$" + listing.price}
+                                {/* $1,000,000 */}
                             </Text>
                         </View>
                         <View
@@ -132,8 +165,10 @@ const TestScreem = ({ navigation }) => {
                                 alignItems: "center",
                                 margin: "3%",
                             }}>
+                            {/* CONDITION */}
                             <Text style={[styles.normaltext, { flex: 1 }]}>
-                                Condition: Brand new
+                                {listing.condition}
+                                {/* Condition: Brand new */}
                             </Text>
                         </View>
                         <View
@@ -142,12 +177,14 @@ const TestScreem = ({ navigation }) => {
                                 alignItems: "center",
                                 marginLeft: "3%",
                             }}>
+                            {/* DESCRIPTION */}
                             <Text style={[styles.normalText, { flex: 1 }]}>
-                                I own a musket for home defense, since that's
+                                {listing.description}
+                                {/* I own a musket for home defense, since that's
                                 what the founding fathers intended. Four
                                 ruffians break into my house. "What the devil?"
                                 As I grab my powdered wig and Kentucky rifle.
-                                Blow a golf b
+                                Blow a golf b */}
                             </Text>
                         </View>
                     </View>
@@ -162,7 +199,7 @@ const TestScreem = ({ navigation }) => {
                         }}>
                         <TouchableOpacity
                             onPress={() => {
-                                setModalVisible(false);
+                                setListingModalVisible(false);
                                 navigation.navigate("ChatScreen");
                             }}
                             style={[
@@ -183,4 +220,4 @@ const TestScreem = ({ navigation }) => {
     );
 };
 
-export default TestScreem;
+export default ListingPopup;

@@ -28,13 +28,10 @@
                 "category": "Category 1",
                 "condition": "Condition 1",
                 "status": "Sold", 
-                "timeUpload": "2023-09-13T12:00:00Z", 
+                "timeStamp": "2023-09-13T12:00:00Z", 
                 "price": 12.50,
                 "reported": false, 
-                "images": {
-                    "imageId_1": "your-firebase-storage-url.com/path/to/your/image.jpg",
-                    "imageId_2": "your-firebase-storage-url.com/path/to/your/image.jpg"
-                }
+                "image": "your-firebase-storage-url.com/path/to/your/image.jpg"
             }
         },
         "chats": {
