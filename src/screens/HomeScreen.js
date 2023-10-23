@@ -18,6 +18,12 @@ const HomeScreen = ({ navigation }) => {
         inputRange: [0, 100],
         outputRange: [0, -100],
     })
+    const scrollY = new Animated.Value(0);
+    const diffClamp = Animated.diffClamp(scrollY, 0, 100);
+    const translateYAxis = diffClamp.interpolate({
+        inputRange: [0, 100],
+        outputRange: [0, -100],
+    })
 
     // Delete this once the listings are 100% working.
     // This was used for testing.
@@ -91,8 +97,7 @@ const HomeScreen = ({ navigation }) => {
     const db = getDatabase();
     const listingsReference = ref(db, 'dorm_swap_shop/listings/');
 
-    useEffect(() => {
-        // Fetch listings data from Firebase when the component mounts
+    const fetchListings = () => {
         get(listingsReference)
             .then((snapshot) => {
                 if (snapshot.exists()) {
@@ -106,6 +111,11 @@ const HomeScreen = ({ navigation }) => {
             .catch((error) => {
                 console.error("Error fetching listings:", error);
             });
+    };
+
+    useEffect(() => {
+        // Fetch listings data from Firebase when the component mounts
+        fetchListings();
     }, []);
 
     const handleItemPress = (listing) => {
@@ -159,6 +169,11 @@ const HomeScreen = ({ navigation }) => {
                 />
             </Animated.View>
             {/* </View> */}
+
+            {/* Refresh button */}
+            <TouchableOpacity onPress={fetchListings} style={{ marginTop : "10%" }}>
+                <Text>Refresh</Text>
+            </TouchableOpacity>
 
             {/* Scrollable view displaying all the listings */}
             <FlatList
