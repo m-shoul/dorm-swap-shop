@@ -57,7 +57,7 @@ const LoginScreen = ({ navigation }) => {
 
     return (
         <SafeAreaView style={styles.background}>
-            <View>
+            <View style={{ paddingTop: "45%", }}>
                 <Text style={styles.loginHeader}> Login </Text>
             </View>
 

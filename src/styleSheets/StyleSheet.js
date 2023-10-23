@@ -44,7 +44,9 @@ const styles = StyleSheet.create({
     borderWidth: 1, //was 1
     borderRadius: 20,
     fontSize: normalText,
-    padding: "2%", //was 7
+    paddingLeft: "5%", //was 7
+    paddingTop: "2%",
+    paddingBottom: "2%",
     backgroundColor: "white",
     borderColor: "#B3B3B3",
   },
@@ -67,7 +69,7 @@ const styles = StyleSheet.create({
     borderColor: "red",
   },
   loginHeader: {
-    paddingTop: "45%",
+    //paddingTop: "45%",
     margin: "5%",
     fontWeight: "bold",
     fontSize: headerText,

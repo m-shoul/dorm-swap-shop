@@ -9,9 +9,8 @@ import ResetPasswordScreen from "./src/screens/ResetPasswordScreen";
 //import ChatScreen from "./src/screens/ChatScreen";
 // import ProfileScreen from "./src/screens/ProfileScreen";
 // import SettingsScreen from "./src/screens/SettingsScreen";
-// import ReportScreen from "./src/screens/ReportScreen";
-//import PostReportedScreen from "./src/screens/PostReportedScreen";
-//import BottomTabNavigator from "./src/components/Components.js";
+import ReportScreen from "./src/screens/ReportScreen";
+import PostReportedScreen from "./src/screens/PostReportedScreen";
 import BottomTabNavigator from "./src/components/Component";
 
 
@@ -28,6 +27,8 @@ export default function App() {
                 <Stack.Screen name="CreateUserScreen" component={CreateUserScreen} />
                 <Stack.Screen name="ResetPasswordScreen" component={ResetPasswordScreen} />
                 <Stack.Screen name="HomeScreen" component={BottomTabNavigator} />
+                <Stack.Screen name="ReportScreen" component={ReportScreen} />
+                <Stack.Screen name="PostReportedScreen" component={PostReportedScreen} />
 
                 {/* Sprint 3 */}
                 {/* <Stack.Screen name="ChatScreen" component={ChatScreen} /> */}
