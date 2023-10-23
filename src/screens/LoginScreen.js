@@ -4,6 +4,8 @@ import {
     TextInput,
     View,
     TouchableOpacity,
+    TouchableWithoutFeedback,
+    Keyboard
 } from "react-native";
 import React, { useState } from "react";
 import styles from "../styleSheets/StyleSheet.js";
@@ -56,64 +58,66 @@ const LoginScreen = ({ navigation }) => {
     };
 
     return (
-        <SafeAreaView style={styles.background}>
-            <View style={{ paddingTop: "45%", }}>
-                <Text style={styles.loginHeader}> Login </Text>
-            </View>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false} >
+            <SafeAreaView style={styles.background}>
+                <View style={{ paddingTop: "45%", }}>
+                    <Text style={styles.loginHeader}> Login </Text>
+                </View>
 
-            <View style={styles.dividerLine} />
+                <View style={styles.dividerLine} />
 
-            <View style={styles.forms}>
-                <TextInput
-                    style={emailStyle}
-                    value={email}
-                    onChangeText={(value) => setEmail(value)}
-                    placeholder="Email"
-                />
+                <View style={styles.forms}>
+                    <TextInput
+                        style={emailStyle}
+                        value={email}
+                        onChangeText={(value) => setEmail(value)}
+                        placeholder="Email"
+                    />
 
-                {errorMessage && (
-                    <Text style={{ color: "red", paddingBottom: 20 }}>
-                        {errorMessage}
+                    {errorMessage && (
+                        <Text style={{ color: "red", paddingBottom: 20 }}>
+                            {errorMessage}
+                        </Text>
+                    )}
+
+                    <TextInput
+                        style={passwordStyle}
+                        secureTextEntry={true}
+                        value={password}
+                        onChangeText={(value) => setPassword(value)}
+                        placeholder="Password"
+                    />
+
+                    {errorMessage2 && (
+                        <Text style={{ color: "red", paddingBottom: 20 }}>
+                            {errorMessage2}
+                        </Text>
+                    )}
+                </View>
+
+                <View style={{ flexDirection: "row", color: "red" }}>
+                    <Text style={{ color: "#585858" }}>Remember Me</Text>
+                    <Text
+                        style={{ paddingLeft: 100, color: "#585858" }}
+                        onPress={() => navigation.navigate("ResetPasswordScreen")}
+                    >
+                        Forgot Password
                     </Text>
-                )}
+                </View>
 
-                <TextInput
-                    style={passwordStyle}
-                    secureTextEntry={true}
-                    value={password}
-                    onChangeText={(value) => setPassword(value)}
-                    placeholder="Password"
-                />
+                <TouchableOpacity style={styles.loginBtn} onPress={handleLogin}>
+                    <Text style={styles.buttonText}>Login</Text>
+                </TouchableOpacity>
 
-                {errorMessage2 && (
-                    <Text style={{ color: "red", paddingBottom: 20 }}>
-                        {errorMessage2}
-                    </Text>
-                )}
-            </View>
-
-            <View style={{ flexDirection: "row", color: "red" }}>
-                <Text style={{ color: "#585858" }}>Remember Me</Text>
-                <Text
-                    style={{ paddingLeft: 100, color: "#585858" }}
-                    onPress={() => navigation.navigate("ResetPasswordScreen")}
+                <TouchableOpacity
+                    onPress={() => navigation.navigate("CreateUserScreen")}
+                    style={styles.notUserButton}
                 >
-                    Forgot Password
-                </Text>
-            </View>
-
-            <TouchableOpacity style={styles.loginBtn} onPress={handleLogin}>
-                <Text style={styles.buttonText}>Login</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-                onPress={() => navigation.navigate("CreateUserScreen")}
-                style={styles.notUserButton}
-            >
-                <Text style={styles.notUserButtonText}>Not a User? </Text>
-                <Text style={styles.notUserButtonText}>Create an Account</Text>
-            </TouchableOpacity>
-        </SafeAreaView>
+                    <Text style={styles.notUserButtonText}>Not a User? </Text>
+                    <Text style={styles.notUserButtonText}>Create an Account</Text>
+                </TouchableOpacity>
+            </SafeAreaView>
+        </TouchableWithoutFeedback>
     );
 };
 

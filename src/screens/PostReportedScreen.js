@@ -17,7 +17,7 @@ const PostReportedScreen = ({ navigation }) => {
 
             <TouchableOpacity style={styles.loginBtn}
                 onPress={() => navigation.navigate("Home")}>
-                <Text style={styles.buttonText}>Return to Listings</Text>
+                <Text style={styles.buttonText}>Return to Home</Text>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.loginBtn}

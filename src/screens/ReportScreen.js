@@ -1,4 +1,4 @@
-import { Text, View, TouchableOpacity, Image, TextInput, SafeAreaView, Button, Modal, Pressable } from "react-native";
+import { Text, View, TouchableOpacity, Image, TextInput, SafeAreaView, TouchableWithoutFeedback, Keyboard } from "react-native";
 import styles from "../styleSheets/StyleSheet.js";
 
 // Imports for pulling the image from firebase...
@@ -64,62 +64,67 @@ const ReportScreen = ({ navigation }) => {
     const [reportModalVisible, setReportModalVisible] = useState(false);
 
     return (
-        <SafeAreaView style={styles.background}>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-                {/* Need to add in the back arrow and the 
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false} >
+            <SafeAreaView style={styles.background}>
+
+
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                    {/* Need to add in the back arrow and the 
             functionality of going back on click. */}
-                <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <BackButtonComponent />
-                </TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigation.goBack()}>
+                        <BackButtonComponent />
+                    </TouchableOpacity>
 
-                {/* Title of page */}
+                    {/* Title of page */}
 
-                <Text style={styles.loginHeader}>Report Listing</Text>
-            </View>
+                    <Text style={styles.loginHeader}>Report Listing</Text>
+                </View>
 
-            {/* Display the first image of the reported listing
+                {/* Display the first image of the reported listing
                 The image is associated with whomever had posted the listing.
                 So we need to somehow get that image from the listingID, from that
                 specific user who is associated with the listingID.*/}
-            <Image source={{ uri: 'https://reactjs.org/logo-og.png' }} style={{ width: "30%", height: "15%", marginBottom: "10%" }} />
+                <Image source={{ uri: 'https://reactjs.org/logo-og.png' }} style={{ width: "30%", height: "15%", marginBottom: "10%" }} />
 
-            {/* Description text field to enter what is wrong with the post */}
-            <TextInput
-                style={{
-                    width: "80%", height: "40%", borderRadius: 20,
-                    borderWidth: 1, borderColor: "#B3B3B3", backgroundColor: "white",
-                    padding: "5%"
-                }}
-                multiline={true}
-                value={description}
-                onChangeText={(value) => setDescription(value)}
-                placeholder="Description"
-            />
+                {/* Description text field to enter what is wrong with the post */}
+                <TextInput
+                    style={{
+                        width: "80%", height: "40%", borderRadius: 20,
+                        borderWidth: 1, borderColor: "#B3B3B3", backgroundColor: "white",
+                        padding: "5%"
+                    }}
+                    multiline={true}
+                    value={description}
+                    onChangeText={(value) => setDescription(value)}
+                    placeholder="Description"
+                />
 
 
-            {/* Report button that
+                {/* Report button that
             1.) Sends an email from to each of the developers to notify of the reported listing. (DONE)
             2.) Flags the listing as reported... (not yet implemented)
             3.) Directs to another page that tells user post was reported and has 2 buttons that can
             allow the user to return to the listing or return to the chat. (DONE) */}
 
-            <TouchableOpacity style={styles.loginBtn} onPress={() => {
-                sendEmail();
-                navigation.navigate("PostReportedScreen")
-            }}>
-                <Text style={styles.buttonText}>Send Email</Text>
-            </TouchableOpacity>
-            {emailSent && <Text>Email sent successfully!</Text>}
+                <TouchableOpacity style={styles.loginBtn} onPress={() => {
+                    sendEmail();
+                    navigation.navigate("PostReportedScreen")
+                }}>
+                    <Text style={styles.buttonText}>Send Email</Text>
+                </TouchableOpacity>
+                {emailSent && <Text>Email sent successfully!</Text>}
 
-            <TouchableOpacity
-                onPress={() => navigation.navigate("PostReportedScreen")}>
-                <Text>Post reported (second screen). Please click on this
-                    to get to the second screen because the only other way
-                    is through sending the email, but we have  LIMITED number
-                    of emails!! So click this instead and delete it before we
-                    present.</Text>
-            </TouchableOpacity>
-        </SafeAreaView>
+                <TouchableOpacity
+                    onPress={() => navigation.navigate("PostReportedScreen")}>
+                    <Text>Post reported (second screen). Please click on this
+                        to get to the second screen because the only other way
+                        is through sending the email, but we have  LIMITED number
+                        of emails!! So click this instead and delete it before we
+                        present.</Text>
+                </TouchableOpacity>
+
+            </SafeAreaView>
+        </TouchableWithoutFeedback>
     );
 };
 
