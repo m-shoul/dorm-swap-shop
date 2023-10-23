@@ -24,6 +24,10 @@ const ProfileScreen = ({ navigation }) => {
             });
     };
 
+    const handleItemPress = (listing) => {
+        // setSelectedListing(listing);
+    }
+
     useEffect(() => {
         // Fetch listings data from Firebase when the component mounts
         fetchListings();
@@ -44,7 +48,7 @@ const ProfileScreen = ({ navigation }) => {
                 data={Object.values(listingsData)}
                 renderItem={({ item }) => (
                     <TouchableOpacity style={{ width: "50%", height: 200, padding: "1%" }}
-                        // onPress={() => handleItemPress(item)}
+                        onPress={() => handleItemPress(item)}
                         key={item.id}
                     >
                         <View style={{ backgroundColor: "white", flex: 1 }}>
