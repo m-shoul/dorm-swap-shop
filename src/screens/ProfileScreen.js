@@ -1,12 +1,17 @@
-import { Text, View, TouchableOpacity, FlatList, SafeAreaView, StyleSheet } from "react-native";
+import { Text, View, TouchableOpacity, FlatList, SafeAreaView, StyleSheet, Image } from "react-native";
 import styles from "../styleSheets/StyleSheet.js";
-import { getDatabase } from "@firebase/database";
+import { get, ref, getDatabase } from "@firebase/database";
 import { getUserID } from "../../backend/dbFunctions.js";
+import React, { useState, useEffect } from "react";
+import ListingPopup from "../components/ListingPopup.js";
+
 
 const ProfileScreen = ({ navigation }) => {
+    const [listingsData, setListingsData] = useState([]);
 
     const db = getDatabase();
-    const listingsReference = ref(db, 'dorm_swap_shop/users/' + getUserID() + 'listings/');
+    // const listingsReference = ref(db, 'dorm_swap_shop/users/' + getUserID() + 'listings/');
+    const listingsReference = ref(db, 'dorm_swap_shop/listings/');
 
     const fetchListings = () => {
         get(listingsReference)
@@ -67,7 +72,7 @@ const ProfileScreen = ({ navigation }) => {
                 keyExtractor={(item) => item.id}
                 style={{ flex: 1, backgroundColor: "#F9F7F7", paddingTop: "5%" }}
                 onScroll={(e) => {
-                    scrollY.setValue(e.nativeEvent.contentOffset.y);
+                    // scrollY.setValue(e.nativeEvent.contentOffset.y);
                 }}
                 bounces={false}
             />

@@ -17,13 +17,7 @@ const HomeScreen = ({ navigation }) => {
     const translateYAxis = diffClamp.interpolate({
         inputRange: [0, 100],
         outputRange: [0, -100],
-    })
-    const scrollY = new Animated.Value(0);
-    const diffClamp = Animated.diffClamp(scrollY, 0, 100);
-    const translateYAxis = diffClamp.interpolate({
-        inputRange: [0, 100],
-        outputRange: [0, -100],
-    })
+    });
 
     // Delete this once the listings are 100% working.
     // This was used for testing.
