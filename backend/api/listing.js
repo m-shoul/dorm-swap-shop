@@ -2,6 +2,8 @@ import { database } from '../config/firebaseConfig';
 import { get, child, ref, set, push, getDatabase } from 'firebase/database';
 import { getStorage, ref as sRef, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { readData } from '../dbFunctions';
+import React, { useState, useEffect } from "react";
+
 
 // ^^ Import whatever we need for this...
 // NOTE************ add additional parameters when needed!!! This is just a baseline.
@@ -24,7 +26,7 @@ export function createListing(title, description, price, userId, image) {
     const listingId = newListingReference.key;
 
     // Gets image reference
-    const dbRef = ref(getDatabase(), "/dorm_swap_shop/listings/" + listingId + "/images");
+    const dbRef = ref(getDatabase(), "/dorm_swap_shop/listings/" + listingId);
 
     const listingData = {
         title: title,
@@ -78,6 +80,8 @@ export function deleteListing(listingId) {
 
 // Function to upload image to the database.
 const uploadImage = async (uri, dbRef) => {
+    const [progress, setProgress] = useState("");
+
     const response = await fetch(uri);
     const blob = await response.blob();
 

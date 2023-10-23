@@ -12,6 +12,7 @@ import ResetPasswordScreen from "./src/screens/ResetPasswordScreen";
 import ReportScreen from "./src/screens/ReportScreen";
 import PostReportedScreen from "./src/screens/PostReportedScreen";
 import BottomTabNavigator from "./src/components/Component";
+import ListingPopup from "./src/components/ListingPopup";
 
 
 const Stack = createStackNavigator();
@@ -34,11 +35,14 @@ export default function App() {
                 {/* <Stack.Screen name="ChatScreen" component={ChatScreen} /> */}
 
                 {/* Sprint 3 */}
-                {/* <Stack.Screen name="CreatePostScreen" component={CreatePostScreen} />
+                <Stack.Screen name="CreatePostScreen" component={CreatePostScreen} />
+                <Stack.Screen name="ListingPopup" component={ListingPopup} />
                 <Stack.Screen name="ChatScreen" component={ChatScreen} />
                 <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
                 <Stack.Screen name="SettingsScreen" component={SettingsScreen} />
-                <Stack.Screen name="ReportScreen" component={ReportScreen} /> */}
+                <Stack.Screen name="ReportScreen" component={ReportScreen} />
+                <Stack.Screen name="PostReportedScreen" component={PostReportedScreen} />
+
 
             </Stack.Navigator>
         </NavigationContainer>
