@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import styles from "../styleSheets/StyleSheet.js";
 
-import NavComponent from "./Component.js";
+
 import Swiper from "react-native-swiper";
 import Xmark from "../assets/svg/xmark.js";
 import ReportComponent from "../assets/svg/report_icon.js";
@@ -49,7 +49,7 @@ const ListingPopup = ({ navigation, listing }) => {
     return (
         <SafeAreaView>
             <TouchableOpacity onPress={openModal}>
-                <Text style={{backgroundColor: "red"}}>Show Modal</Text>
+                <Text style={{ backgroundColor: "red" }}>Show Modal</Text>
             </TouchableOpacity>
 
             <Modal visible={listingModalVisible}>
@@ -200,7 +200,7 @@ const ListingPopup = ({ navigation, listing }) => {
                         <TouchableOpacity
                             onPress={() => {
                                 setListingModalVisible(false);
-                                navigation.navigate("ChatScreen");
+                                navigation.navigate("Chat");
                             }}
                             style={[
                                 styles.loginBtn,
@@ -210,9 +210,6 @@ const ListingPopup = ({ navigation, listing }) => {
                             ]}>
                             <Text style={styles.buttonText}>Reply</Text>
                         </TouchableOpacity>
-                    </View>
-                    <View style={{ height: "10%" }}>
-                        <NavComponent navigation={navigation} />
                     </View>
                 </SafeAreaView>
             </Modal>

@@ -165,9 +165,9 @@ const HomeScreen = ({ navigation }) => {
             {/* </View> */}
 
             {/* Refresh button */}
-            <TouchableOpacity onPress={fetchListings} style={{ marginTop : "10%" }}>
+            {/* <TouchableOpacity onPress={fetchListings} style={{ marginTop: "10%" }}>
                 <Text>Refresh</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
 
             {/* Scrollable view displaying all the listings */}
             <FlatList
@@ -197,8 +197,6 @@ const HomeScreen = ({ navigation }) => {
                 }}
                 bounces={false}
             />
-
-            {/* <NavComponent navigation={navigation} /> */}
         </SafeAreaView>
     );
 }

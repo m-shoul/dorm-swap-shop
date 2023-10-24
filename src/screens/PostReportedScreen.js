@@ -1,24 +1,28 @@
 import { Text, View, TouchableOpacity, FlatList, SafeAreaView, StyleSheet } from "react-native";
 import styles from "../styleSheets/StyleSheet.js";
+import BackButtonComponent from "../assets/svg/back_button.js";
 
 const PostReportedScreen = ({ navigation }) => {
-   
+
     return (
         <SafeAreaView style={styles.background}>
-            <View>
-                <Text style={styles.resetHeader}>Report Listing</Text>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <BackButtonComponent />
+                </TouchableOpacity>
+                <Text style={styles.loginHeader}>Report Listing</Text>
             </View>
 
-            <Text>Post reported. Thank you for your feedback.</Text>
+            <Text style={{ fontWeight: "bold", marginTop: "40%", marginBottom: "40%" }}>Post reported. Thank you for your feedback.</Text>
 
-            <TouchableOpacity
-                onPress={() => navigation.navigate("HomeScreen")}>
-                <Text>Return to Listings</Text>
+            <TouchableOpacity style={styles.loginBtn}
+                onPress={() => navigation.navigate("Home")}>
+                <Text style={styles.buttonText}>Return to Home</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity
-                onPress={() => navigation.navigate("ChatScreen")}>
-                <Text>Return to Chat</Text>
+            <TouchableOpacity style={styles.loginBtn}
+                onPress={() => navigation.navigate("Chat")}>
+                <Text style={styles.buttonText}>Return to Chat</Text>
             </TouchableOpacity>
 
         </SafeAreaView>
