@@ -19,7 +19,7 @@ export const categories = [
     { label: "Books", value: "books" },
     { label: "Furniture", value: "furniture" },
     { label: "Appliances", value: "appliances"},
-    {label: "Decorations", value: "decorations"},
+    { label: "Decorations", value: "decorations"},
     { label: "Other", value: "other" }
 ];
 

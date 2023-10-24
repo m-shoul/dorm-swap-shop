@@ -3,7 +3,6 @@ import {
     TextInput,
     View,
     TouchableOpacity,
-    FlatList,
     SafeAreaView,
     ScrollView,
     KeyboardAvoidingView,
@@ -11,20 +10,10 @@ import {
 import React, { useState, useEffect } from "react";
 import styles from "../styleSheets/StyleSheet.js";
 import { getUserID } from "../../backend/dbFunctions.js";
-import categories from "../components/Component.js";
-import {
-    getStorage,
-    ref as sRef,
-    uploadBytesResumable,
-    getDownloadURL,
-} from "firebase/storage";
-import { getDatabase, ref, push, set } from "firebase/database";
+import { categories } from "../components/Component.js";
 import * as ImagePicker from "expo-image-picker";
-import { database } from "../../backend/config/firebaseConfig";
 import ListImagesComponent from "../assets/svg/list_images.js";
 import RNPickerSelect from "react-native-picker-select";
-import NavComponent from "../components/Component.js";
-
 import { createListing } from "../../backend/api/listing.js";
 
 const CreatePostScreen = ({ navigation }) => {
