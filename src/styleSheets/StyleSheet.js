@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   postListingDescription: {
-    height: "15%",
+    height: "20%",
     //was 20
     borderWidth: "1%", //was 1
     borderRadius: "20",
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     marginBottom: "-3%",
   },
   postListingDescriptionError: {
-    height: "15%",
+    height: "20%",
     //was 20
     borderWidth: "1%", //was 1
     borderRadius: "20",
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     borderColor: "red",
     marginBottom: "-3%",
   },
-  dropdownlistserror: {
+  dropdownListSerror: {
     backgroundColor: "white",
     borderRadius: 20,
     borderWidth: 1,
