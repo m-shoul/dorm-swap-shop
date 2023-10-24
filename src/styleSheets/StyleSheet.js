@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   loginHeader: {
-    paddingTop: "45%",
+    //paddingTop: "45%",
     margin: "5%",
     fontWeight: "bold",
     fontSize: headerText,
