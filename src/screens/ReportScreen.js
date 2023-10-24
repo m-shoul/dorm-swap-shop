@@ -116,11 +116,7 @@ const ReportScreen = ({ navigation }) => {
 
                 <TouchableOpacity
                     onPress={() => navigation.navigate("PostReportedScreen")}>
-                    <Text>Post reported (second screen). Please click on this
-                        to get to the second screen because the only other way
-                        is through sending the email, but we have  LIMITED number
-                        of emails!! So click this instead and delete it before we
-                        present.</Text>
+                    <Text>Post reported (second screen)</Text>
                 </TouchableOpacity>
 
             </SafeAreaView>

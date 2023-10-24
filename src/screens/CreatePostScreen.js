@@ -370,7 +370,7 @@ const CreatePostScreen = ({ navigation }) => {
                                     justifyContent: "center",
                                 }}
                                 onPress={() =>
-                                    navigation.navigate("HomeScreen")
+                                    navigation.navigate("Home")
                                 }>
                                 <Text style={styles.buttonText}>Cancel</Text>
                             </TouchableOpacity>

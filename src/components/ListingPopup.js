@@ -49,7 +49,7 @@ const ListingPopup = ({ navigation, listing }) => {
     return (
         <SafeAreaView>
             <TouchableOpacity onPress={openModal}>
-                <Text style={{ backgroundColor: "red" }}>Show Modal</Text>
+                <Text style={{ backgroundColor: "red" }}>Show Listing</Text>
             </TouchableOpacity>
 
             <Modal visible={listingModalVisible}>
