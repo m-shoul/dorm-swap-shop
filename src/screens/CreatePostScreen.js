@@ -405,14 +405,6 @@ const CreatePostScreen = ({ navigation }) => {
                     </View>
                 </ScrollView>
             </KeyboardAvoidingView>
-            <View style={{ height: "10%" }}>
-                <NavComponent navigation={navigation} />
-            </View>
-            {/* 
-            <TouchableOpacity
-                onPress={() => navigation.navigate("HomeScreen")}>
-                <Text>Home</Text>
-            </TouchableOpacity> */}
         </SafeAreaView>
     );
 };
