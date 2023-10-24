@@ -6,10 +6,12 @@ const ButtonFontSize = 16;
 const HeaderFontSize = 8;
 const NormalFontSize = 20;
 const HintFontSize = 24;
+const SmallerHeaderFontSize = 12;
 buttonText = width / ButtonFontSize;
 headerText = width / HeaderFontSize;
 normalText = width / NormalFontSize;
 hintText = width / HintFontSize;
+SmallHeadText = width / SmallerHeaderFontSize;
 
 const styles = StyleSheet.create({
   boldtext: { fontSize: normalText, fontWeight: "bold" },
@@ -24,7 +26,7 @@ const styles = StyleSheet.create({
   },
   loginBtn: {
     width: "80%",
-    borderRadius: 25, //was 25
+    borderRadius: "25%", //was 25
     height: "7%", //was 50
     alignItems: "center",
     justifyContent: "center",
@@ -41,35 +43,74 @@ const styles = StyleSheet.create({
   },
   createUserInput: {
     marginBottom: "6%", //was 20
-    borderWidth: 1, //was 1
-    borderRadius: 20,
-    fontSize: normalText,
-    paddingLeft: "5%", //was 7
-    paddingTop: "2%",
-    paddingBottom: "2%",
-    backgroundColor: "white",
-    borderColor: "#B3B3B3",
-  },
-  createUserInputError: {
-    marginBottom: "6%", //was 20
-    borderWidth: 1, //was 1
-    borderRadius: 20, //was 20
+    borderWidth: "1%", //was 1
+    borderRadius: "20",
     fontSize: normalText,
     padding: "2%", //was 7
     backgroundColor: "white",
-    borderColor: "#ff0000",
+    borderColor: "#B3B3B3",
   },
+
   createUserInputError: {
     marginBottom: "6%", //was 20
-    borderWidth: 1, //was 1
-    borderRadius: 20,
+    borderWidth: "1%", //was 1
+    borderRadius: "20",
     fontSize: normalText,
-    paddingLeft: "3%", //was 7
+    padding: "2%", //was 7
     backgroundColor: "white",
     borderColor: "red",
   },
+  postListingHeader: {
+    paddingTop: "0%",
+    //was 20
+    fontWeight: "bold",
+
+    alignContent: "center",
+    textAlign: "center",
+    fontSize: SmallHeadText,
+  },
+  dropdownlists: {
+    backgroundColor: "white",
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: "gray",
+    padding: 10,
+    marginBottom: 20,
+    fontSize: 16,
+  },
+  postListingDescription: {
+    height: "15%",
+    //was 20
+    borderWidth: "1%", //was 1
+    borderRadius: "20",
+    fontSize: normalText,
+    padding: "2%", //was 7
+    backgroundColor: "white",
+    borderColor: "#B3B3B3",
+    marginBottom: "-3%",
+  },
+  postListingDescriptionError: {
+    height: "15%",
+    //was 20
+    borderWidth: "1%", //was 1
+    borderRadius: "20",
+    fontSize: normalText,
+    padding: "2%", //was 7
+    backgroundColor: "white",
+    borderColor: "red",
+    marginBottom: "-3%",
+  },
+  dropdownlistserror: {
+    backgroundColor: "white",
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: "red",
+    padding: 10,
+    marginBottom: 20,
+    fontSize: 16,
+  },
   loginHeader: {
-    //paddingTop: "45%",
+    paddingTop: "45%",
     margin: "5%",
     fontWeight: "bold",
     fontSize: headerText,
@@ -110,6 +151,7 @@ const styles = StyleSheet.create({
     marginBottom: 25,
     marginTop: 0,
   },
+
   searchContainer: {
     position: "absolute",
     backgroundColor: "#F9F7F7",
