@@ -46,7 +46,7 @@ const CreatePostScreen = ({ navigation }) => {
             console.log(error);
         }
 
-        navigation.navigate("HomeScreen");
+        navigation.navigate("Home");
     };
 
     return (
@@ -91,7 +91,7 @@ const CreatePostScreen = ({ navigation }) => {
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={styles.button}
-                    onPress={() => navigation.navigate("HomeScreen")}>
+                    onPress={() => navigation.navigate("Home")}>
                     <Text style={styles.buttonText}>Cancel</Text>
                 </TouchableOpacity>
 
