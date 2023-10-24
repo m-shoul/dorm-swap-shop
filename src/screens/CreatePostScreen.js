@@ -292,19 +292,20 @@ const CreatePostScreen = ({ navigation }) => {
                                     label: "Select a Category",
                                     value: null,
                                 }}
-                                items={[
-                                    { label: "Books", value: "books" },
-                                    { label: "Furniture", value: "furniture" },
-                                    {
-                                        label: "Appliances",
-                                        value: "appliances",
-                                    },
-                                    {
-                                        label: "Decorations",
-                                        value: "decorations",
-                                    },
-                                    { label: "Other", value: "other" },
-                                ]}
+                                items={categories}
+                                // items={[
+                                //     { label: "Books", value: "books" },
+                                //     { label: "Furniture", value: "furniture" },
+                                //     {
+                                //         label: "Appliances",
+                                //         value: "appliances",
+                                //     },
+                                //     {
+                                //         label: "Decorations",
+                                //         value: "decorations",
+                                //     },
+                                //     { label: "Other", value: "other" },
+                                // ]}
                             />
                         </View>
                         {errorMessageCategory && (

@@ -15,6 +15,13 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 
 //export const categories = ["Books", "Furniture", "Appliances", "Decorations", "Other"];
+export const categories = [
+    { label: "Books", value: "books" },
+    { label: "Furniture", value: "furniture" },
+    { label: "Appliances", value: "appliances"},
+    {label: "Decorations", value: "decorations"},
+    { label: "Other", value: "other" }
+];
 
 const Tab = createBottomTabNavigator();
 function BottomTabNavigator() {
