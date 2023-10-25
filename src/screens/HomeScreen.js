@@ -1,9 +1,9 @@
-import { Text, View, TouchableOpacity, FlatList, SafeAreaView, Image, Modal, Animated } from "react-native";
+import { Text, View, TouchableOpacity, FlatList, SafeAreaView, Image, Animated, RefreshControl } from "react-native";
 import React, { useState, useEffect } from "react";
 import styles from "../styleSheets/StyleSheet.js";
 //import { getAuth, signOut } from "firebase/auth";
 import ListingPopup from "../components/ListingPopup.js";
-import { SearchBar, Header } from "@rneui/themed";
+import { SearchBar } from "@rneui/themed";
 import { get, child, ref, set, push, getDatabase } from 'firebase/database';
 
 //import styles from "../styleSheets/StyleSheet.js";
@@ -13,10 +13,10 @@ import { get, child, ref, set, push, getDatabase } from 'firebase/database';
 const HomeScreen = ({ navigation }) => {
 
     const scrollY = new Animated.Value(0);
-    const diffClamp = Animated.diffClamp(scrollY, 0, 100);
+    const diffClamp = Animated.diffClamp(scrollY, 0, 40);
     const translateYAxis = diffClamp.interpolate({
-        inputRange: [0, 100],
-        outputRange: [0, -100],
+        inputRange: [0, 1],
+        outputRange: [0, -1],
     });
 
     // Delete this once the listings are 100% working.
@@ -87,17 +87,21 @@ const HomeScreen = ({ navigation }) => {
     const [listingsData, setListingsData] = useState([]); // State to store listings data
     const [selectedListing, setSelectedListing] = useState(null); // State to store the selected listing
 
+    const [refreshing, setRefreshing] = React.useState(false);
+
 
     const db = getDatabase();
     const listingsReference = ref(db, 'dorm_swap_shop/listings/');
 
     const fetchListings = () => {
+        setRefreshing(true);
         get(listingsReference)
             .then((snapshot) => {
                 if (snapshot.exists()) {
                     const listingsData = snapshot.val();
                     // Set the retrieved data to the state
                     setListingsData(listingsData);
+                    setRefreshing(false);
                 } else {
                     console.log("No data available");
                 }
@@ -195,7 +199,10 @@ const HomeScreen = ({ navigation }) => {
                 onScroll={(e) => {
                     scrollY.setValue(e.nativeEvent.contentOffset.y);
                 }}
-                bounces={false}
+
+                refreshControl={
+                    <RefreshControl refreshing={refreshing} onRefresh={fetchListings} />
+                }
             />
         </SafeAreaView>
     );

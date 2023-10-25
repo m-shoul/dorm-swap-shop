@@ -153,6 +153,7 @@ const styles = StyleSheet.create({
   },
 
   searchContainer: {
+    top: 0,
     position: "absolute",
     backgroundColor: "#F9F7F7",
     borderBottomColor: "#F9F7F7",
