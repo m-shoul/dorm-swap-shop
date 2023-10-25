@@ -10,7 +10,7 @@ import {
 import React, { useState, useEffect } from "react";
 import styles from "../styleSheets/StyleSheet.js";
 import { getUserID } from "../../backend/dbFunctions.js";
-import { categories } from "../components/Component.js";
+import { categories, conditions } from "../components/Component.js";
 import * as ImagePicker from "expo-image-picker";
 import ListImagesComponent from "../assets/svg/list_images.js";
 import RNPickerSelect from "react-native-picker-select";
@@ -314,12 +314,7 @@ const CreatePostScreen = ({ navigation }) => {
                                     value: null,
                                 }}
                                 onValueChange={(value) => setCondition(value)}
-                                items={[
-                                    { label: "New", value: "new" },
-                                    { label: "Like New", value: "like new" },
-                                    { label: "Used", value: "used" },
-                                    { label: "Damaged", value: "damaged" },
-                                ]}
+                                items={conditions}
                             />
                         </View>
 
