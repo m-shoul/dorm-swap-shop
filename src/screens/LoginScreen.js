@@ -5,9 +5,9 @@ import {
     View,
     TouchableOpacity,
     TouchableWithoutFeedback,
-    Keyboard
+    Keyboard,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import styles from "../styleSheets/StyleSheet.js";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { getAuth } from "firebase/auth";
@@ -19,7 +19,7 @@ const LoginScreen = ({ navigation }) => {
     const [errorMessage2, setErrorMessage2] = useState("");
     const [emailStyle, setEmailStyle] = useState(styles.createUserInput);
     const [passwordStyle, setPasswordStyle] = useState(styles.createUserInput);
-
+    const passwordInputRef = useRef(null);
     const auth = getAuth();
 
     const handleLogin = async () => {
@@ -58,9 +58,9 @@ const LoginScreen = ({ navigation }) => {
     };
 
     return (
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false} >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
             <SafeAreaView style={styles.background}>
-                <View style={{ paddingTop: "45%", }}>
+                <View style={{ paddingTop: "45%" }}>
                     <Text style={styles.loginHeader}> Login </Text>
                 </View>
 
@@ -72,6 +72,11 @@ const LoginScreen = ({ navigation }) => {
                         value={email}
                         onChangeText={(value) => setEmail(value)}
                         placeholder="Email"
+                        onSubmitEditing={() => {
+                            // Focus on the password input when the user submits the email input
+                            passwordInputRef.current.focus();
+                        }}
+                        blurOnSubmit={false}
                     />
 
                     {errorMessage && (
@@ -86,6 +91,8 @@ const LoginScreen = ({ navigation }) => {
                         value={password}
                         onChangeText={(value) => setPassword(value)}
                         placeholder="Password"
+                        ref={passwordInputRef}
+                        blurOnSubmit={false}
                     />
 
                     {errorMessage2 && (
@@ -99,8 +106,9 @@ const LoginScreen = ({ navigation }) => {
                     <Text style={{ color: "#585858" }}>Remember Me</Text>
                     <Text
                         style={{ paddingLeft: 100, color: "#585858" }}
-                        onPress={() => navigation.navigate("ResetPasswordScreen")}
-                    >
+                        onPress={() =>
+                            navigation.navigate("ResetPasswordScreen")
+                        }>
                         Forgot Password
                     </Text>
                 </View>
@@ -111,10 +119,11 @@ const LoginScreen = ({ navigation }) => {
 
                 <TouchableOpacity
                     onPress={() => navigation.navigate("CreateUserScreen")}
-                    style={styles.notUserButton}
-                >
+                    style={styles.notUserButton}>
                     <Text style={styles.notUserButtonText}>Not a User? </Text>
-                    <Text style={styles.notUserButtonText}>Create an Account</Text>
+                    <Text style={styles.notUserButtonText}>
+                        Create an Account
+                    </Text>
                 </TouchableOpacity>
             </SafeAreaView>
         </TouchableWithoutFeedback>
