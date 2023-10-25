@@ -11,7 +11,6 @@ import {
 } from "react-native";
 import styles from "../styleSheets/StyleSheet.js";
 
-
 import Swiper from "react-native-swiper";
 import Xmark from "../assets/svg/xmark.js";
 import ReportComponent from "../assets/svg/report_icon.js";
@@ -29,7 +28,6 @@ const ListingPopup = ({ navigation, listing }) => {
         if (isFavorited) {
             Alert.alert("Unsaved");
             // Implement the backend functionality for saving the listing.
-
         } else {
             Alert.alert("Favorited");
             // Implement the backend functionality for unsaving the listing.
@@ -85,7 +83,6 @@ const ListingPopup = ({ navigation, listing }) => {
                                 // Pass the image into the report screen and display
                                 // it at the top so the user knows what listing they are
                                 // reporting.
-                                
                             }}>
                             <ReportComponent
                                 style={{
@@ -205,7 +202,7 @@ const ListingPopup = ({ navigation, listing }) => {
                             style={[
                                 styles.loginBtn,
                                 {
-                                    height: "25%",
+                                    height: "20%",
                                 },
                             ]}>
                             <Text style={styles.buttonText}>Reply</Text>
