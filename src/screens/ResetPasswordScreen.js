@@ -1,7 +1,17 @@
-import { Text, View, TextInput, TouchableOpacity, SafeAreaView } from "react-native";
+import {
+    Text,
+    View,
+    TextInput,
+    TouchableOpacity,
+    SafeAreaView,
+} from "react-native";
 import React from "react";
 import { useState } from "react";
-import { getAuth, sendPasswordResetEmail, fetchSignInMethodsForEmail } from "firebase/auth";
+import {
+    getAuth,
+    sendPasswordResetEmail,
+    fetchSignInMethodsForEmail,
+} from "firebase/auth";
 import styles from "../styleSheets/StyleSheet.js";
 
 const ResetPasswordScreen = ({ navigation }) => {
@@ -25,12 +35,13 @@ const ResetPasswordScreen = ({ navigation }) => {
         }
 
         sendPasswordResetEmail(auth, email)
-        .then(() => {
-            alert("Password reset email sent.");
-        })
-        .catch((error) => {
-            console.log("Failed to send password reset email: ", error);
-        });
+            .then(() => {
+                alert("Password reset email sent.");
+                navigation.navigate("LoginScreen");
+            })
+            .catch((error) => {
+                console.log("Failed to send password reset email: ", error);
+            });
     };
 
     return (
@@ -38,15 +49,7 @@ const ResetPasswordScreen = ({ navigation }) => {
             <View>
                 <Text style={styles.resetHeader}>Reset Password</Text>
             </View>
-            <View
-                style={{
-                    backgroundColor: "#B3B3B3",
-                    height: 1,
-                    width: "90%",
-                    marginBottom: 25,
-                    marginTop: 40,
-                }}
-            />
+            <View style={styles.dividerLine} />
 
             <View style={styles.forms}>
                 <Text style={{ textAlign: "center", marginBottom: 25 }}>
@@ -72,7 +75,7 @@ const ResetPasswordScreen = ({ navigation }) => {
             </View>
 
             <TouchableOpacity style={styles.loginBtn} onPress={handleReset}>
-                <Text style={styles.loginText}>Reset Password</Text>
+                <Text style={styles.buttonText}>Reset Password</Text>
             </TouchableOpacity>
 
             <View>

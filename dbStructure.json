@@ -6,24 +6,31 @@
                 "lname": "Last Name",
                 "username": "Username",
                 "email": "email@email.com",
+                "rating": 1,
                 "listings": {
                     "listing_id_1": true
                 },
-                "messages": {
-                    "messageId_1": true
-                }
+                "chats": {
+                    "chatId_1": true,
+                    "chatId_2": true
+                },
+                "savedListings": {
+                    "listingId_3": true
+                },
+                "profileImage": "your-firebase-storage-url.com/path/to/your/image.jpg"
             } 
         },
         "listings": {
-            "listingId": {
-                "title": "Item Name", 
-                "description": "Description", 
-                "timeUpload": "2023-09-13T12:00:00Z", 
-                "price": 12.50, 
-                "images": {
-                    "imageId_1": "your-firebase-storage-url.com/path/to/your/image.jpg",
-                    "imageId_2": "your-firebase-storage-url.com/path/to/your/image.jpg"
-                }
+            "listingId_1": {
+                "title": "Item Name 1", 
+                "description": "Description 1",
+                "category": "Category 1",
+                "condition": "Condition 1",
+                "status": "Sold", 
+                "timeStamp": "2023-09-13T12:00:00Z", 
+                "price": 12.50,
+                "reported": false, 
+                "image": "your-firebase-storage-url.com/path/to/your/image.jpg"
             }
         },
         "chats": {
@@ -36,6 +43,7 @@
                     "messageId_1": {
                         "text": "Hello, is the 19 dollar fortnite card still available?",
                         "sender": "userId_2",
+                        "receiver": "userId_1",
                         "timestamp": "2023-09-13T12:00:00Z"
                     }
                 }
