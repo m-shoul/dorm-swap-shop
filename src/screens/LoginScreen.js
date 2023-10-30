@@ -93,6 +93,9 @@ const LoginScreen = ({ navigation }) => {
                         placeholder="Password"
                         ref={passwordInputRef}
                         blurOnSubmit={false}
+                        onSubmitEditing={() => {
+                            Keyboard.dismiss();
+                        }}
                     />
 
                     {errorMessage2 && (

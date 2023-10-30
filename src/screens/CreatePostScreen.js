@@ -80,7 +80,7 @@ const CreatePostScreen = ({ navigation }) => {
     const descriptionInputRef = useRef(null);
     const categoryInputRef = useRef(null);
     const conditionInputRef = useRef(null);
-    var test = false;
+
     let validate = 0;
     useEffect(() => {
         console.log("Reached useEffect");
