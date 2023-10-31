@@ -153,14 +153,15 @@ const styles = StyleSheet.create({
   },
 
   searchContainer: {
-    top: 0,
-    position: "absolute",
+    //top: 0,
+    //position: "absolute",
     backgroundColor: "#F9F7F7",
     borderBottomColor: "#F9F7F7",
     borderTopColor: "#F9F7F7",
     width: "100%",
     height: 40,
     justifyContent: "center",
+    marginBottom: "2%",
   },
 });
 export default styles;

@@ -5,6 +5,7 @@ import styles from "../styleSheets/StyleSheet.js";
 import ListingPopup from "../components/ListingPopup.js";
 import { SearchBar } from "@rneui/themed";
 import { get, child, ref, set, push, getDatabase } from 'firebase/database';
+import { ScrollView } from "react-native-web";
 
 //import styles from "../styleSheets/StyleSheet.js";
 //import { HeaderComponent } from "../components/headerComponent.js";
@@ -122,33 +123,11 @@ const HomeScreen = ({ navigation }) => {
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "#F9F7F7" }}>
-            {/* <Animated.View style={{
-        transform: [{ translateY: translateYAxis }],
-        elevation: 4,
-        zIndex: 100,
-      }}>
-        <View style={{ height: 45, marginTop: "10%", position: "absolute", top: 0, left: 0, right: 0 }}>
-          <SearchBar
-            round
-            searchIcon={{ size: 24, color: "black" }}
-            containerStyle={styles.searchContainer}
-            inputStyle={{ backgroundColor: "white", }}
-            inputContainerStyle={{
-              backgroundColor: "white", borderRadius: 20,
-              borderWidth: 1, borderBottomWidth: 1, borderColor: "#B3B3B3"
-            }}
-            onChangeText={setSearch}
-            //onClear={(text) => searchFilterFunction("")}
-            placeholder="Search"
-            value={search}
-          />
-        </View>
-      </Animated.View> */}
 
             {/* {HeaderComponent(translateYAxis)} */}
             <Animated.View style={{
                 transform: [{ translateY: translateYAxis }],
-                elevation: 4,
+                //elevation: 4,
                 zIndex: 100,
             }}>
                 <SearchBar
@@ -174,6 +153,7 @@ const HomeScreen = ({ navigation }) => {
             </TouchableOpacity> */}
 
             {/* Scrollable view displaying all the listings */}
+
             <FlatList
                 data={Object.values(listingsData)}
                 renderItem={({ item }) => (
@@ -199,7 +179,7 @@ const HomeScreen = ({ navigation }) => {
                 onScroll={(e) => {
                     scrollY.setValue(e.nativeEvent.contentOffset.y);
                 }}
-
+                bounces={false}
                 refreshControl={
                     <RefreshControl refreshing={refreshing} onRefresh={fetchListings} />
                 }
