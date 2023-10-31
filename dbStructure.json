@@ -2,51 +2,86 @@
     "dorm_swap_shop": {
         "users": {
             "userId_1": {
-                "fname": "First Name",
-                "lname": "Last Name",
-                "username": "Username",
-                "email": "email@email.com",
-                "rating": 1,
-                "listings": {
-                    "listingId_1": true,
-                    "listingId_2": true
-                },
-                "chats": {
-                    "chatId_1": true,
-                    "chatId_2": true
-                },
-                "savedListings": {
-                    "listingId_3": true
-                },
-                "profileImage": "your-firebase-storage-url.com/path/to/your/image.jpg"
-            } 
-        },
-        "listings": {
-            "listingId_1": {
-                "title": "Item Name 1", 
-                "description": "Description 1",
-                "category": "Category 1",
-                "condition": "Condition 1",
-                "status": "Sold", 
-                "timeStamp": "2023-09-13T12:00:00Z", 
-                "price": 12.50,
-                "reported": false, 
-                "image": "your-firebase-storage-url.com/path/to/your/image.jpg"
-            }
-        },
-        "chats": {
-            "chatId_1": {
-                "participants": {
-                    "userId_1": true,
-                    "userId_2": true
-                },
-                "messages": {
-                    "messageId_1": {
-                        "text": "Hello, is the 19 dollar fortnite card still available?",
-                        "sender": "userId_2",
-                        "receiver": "userId_1",
-                        "timestamp": "2023-09-13T12:00:00Z"
+                "public": {
+                    "fname": "First Name",
+                    "lname": "Last Name",
+                    "username": "Username",
+                    "rating": 1,
+                    "profileImage": "your-firebase-storage-url.com/path/to/your/image.jpg",
+                    "bio": "This is my bio",
+                    "listings": {
+                        "listingId_1": true,
+                        "listingId_2": true
                     }
+                },
+                "private": {
+                    "email": "email@email.com",
+                    "timestamp": 1234567890,
+                    "chats": {
+                        "chatId_1": true,
+                        "chatId_2": true
+                    },
+                    "savedListings": {
+                        "listingId_3": true
+                    },
+                    "blockedUsers": {
+                        "userId_2": true
+                    }
+                } 
+            },
+            "listings": {
+                "listingId_1": {
+                    "user": "userId_1",
+                    "title": "Item Name 1",
+                    "description": "Description 1",
+                    "price": 10.00,
+                    "category": "Category type",
+                    "condition": "Condition type",
+                    "status": "Sold",
+                    "timestamp": 1234567891,
+                    "location": "123.456, 789.012",
+                    "reported": {
+                        "reportId": true
+                    },
+                    "images": {
+                        "imageId_1": "your-firebase-storage-url.com/path/to/your/image.jpg",
+                        "imageId_2": "your-firebase-storage-url.com/path/to/your/image.jpg"
+                    }
+                }
+            },
+            "chats": {
+                "chatId_1": {
+                    "participants": {
+                        "userId_1": {
+                            "messages": [
+                                {
+                                    "message": "Heyyy",
+                                    "timestamp": 1234567892
+                                }
+                            ]   
+                        },
+                        "userId_2": {
+                            "messages": [
+                                {
+                                    "message": "Hi.",
+                                    "timestamp": 1234567892
+                                }
+                            ]   
+                        }
+                    },
+                    "reported": {
+                        "reportId": true
+                    }
+                }
+            },
+            "reports": {
+                "reportId_1": {
+                    "userId_1": "Reported",
+                    "userId_2": "Reporter",
+                    "listing": "listingId_1",
+                    "chat": "chatId_1",
+                    "description": "Reason for report",
+                    "timestamp": 1234567893
                 }
             }
         }
