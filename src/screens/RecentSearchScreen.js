@@ -8,18 +8,17 @@ import {
 } from "react-native";
 import styles from "../styleSheets/StyleSheet.js";
 
-const SettingsScreen = ({ navigation }) => {
+const RecentSearches = ({ navigation }) => {
     return (
         <SafeAreaView style={styles.background}>
             <View>
-                <Text style={styles.resetHeader}>Settings</Text>
+                <Text style={styles.resetHeader}>RecentSearches</Text>
             </View>
-            <TouchableOpacity
-                onPress={() => navigation.navigate("DeleteAccount")}>
-                <Text>Delete Account</Text>
+            <TouchableOpacity onPress={() => navigation.navigate("HomeScreen")}>
+                <Text>Home</Text>
             </TouchableOpacity>
         </SafeAreaView>
     );
 };
 
-export default SettingsScreen;
+export default RecentSearches;

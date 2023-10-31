@@ -8,18 +8,18 @@ import {
 } from "react-native";
 import styles from "../styleSheets/StyleSheet.js";
 
-const SettingsScreen = ({ navigation }) => {
+const DeleteAccount = ({ navigation }) => {
     return (
         <SafeAreaView style={styles.background}>
             <View>
-                <Text style={styles.resetHeader}>Settings</Text>
+                <Text style={styles.resetHeader}>Delete Account</Text>
             </View>
             <TouchableOpacity
-                onPress={() => navigation.navigate("DeleteAccount")}>
+                onPress={() => navigation.navigate("LoginScreen")}>
                 <Text>Delete Account</Text>
             </TouchableOpacity>
         </SafeAreaView>
     );
 };
 
-export default SettingsScreen;
+export default DeleteAccount;

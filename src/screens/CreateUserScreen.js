@@ -199,8 +199,7 @@ const CreateUserScreen = ({ navigation }) => {
                         color: "red",
                         paddingBottom: 10,
                         marginTop: -15,
-                    }}
-                >
+                    }}>
                     {errorMessage}
                 </Text>
             )}
@@ -214,8 +213,7 @@ const CreateUserScreen = ({ navigation }) => {
                     width: "100%",
                     alignItems: "center",
                 }}
-                behavior={Platform.OS === "ios" ? "padding" : "height"}
-            >
+                behavior={Platform.OS === "ios" ? "padding" : "height"}>
                 <ScrollView
                     style={{
                         KeyboardAvoidingView: "position",
@@ -225,13 +223,13 @@ const CreateUserScreen = ({ navigation }) => {
                         // marginBottom: 0,
                         //paddingBottom: 0,
                     }}
+                    keyboardShouldPersistTaps="handled"
                     contentContainerStyle={{
                         flexGrow: 1,
                         justifyContent: "center",
                         width: "100%",
                         alignItems: "center",
-                    }}
-                >
+                    }}>
                     <View style={styles.forms}>
                         <TextInput
                             style={firstNameStyle}
@@ -245,8 +243,7 @@ const CreateUserScreen = ({ navigation }) => {
                                     color: "red",
                                     paddingBottom: 10,
                                     marginTop: -15,
-                                }}
-                            >
+                                }}>
                                 {errorMessageFirst}
                             </Text>
                         )}
@@ -321,15 +318,13 @@ const CreateUserScreen = ({ navigation }) => {
                     marginTop: 40,
                     backgroundColor: "#3F72AF",
                 }}
-                onPress={handleValidation}
-            >
+                onPress={handleValidation}>
                 <Text style={styles.buttonText}>Create an Account</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
                 onPress={() => navigation.navigate("LoginScreen")}
-                style={[styles.accountButtons, {}]}
-            >
+                style={[styles.accountButtons, {}]}>
                 <Text>Already have an account?</Text>
                 <Text>Login</Text>
             </TouchableOpacity>

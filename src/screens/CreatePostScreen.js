@@ -7,10 +7,10 @@ import {
     ScrollView,
     KeyboardAvoidingView,
 } from "react-native";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styles from "../styleSheets/StyleSheet.js";
 import { getUserID } from "../../backend/dbFunctions.js";
-import { categories } from "../components/Component.js";
+import { categories, conditions } from "../components/Component.js";
 import * as ImagePicker from "expo-image-picker";
 import ListImagesComponent from "../assets/svg/list_images.js";
 import RNPickerSelect from "react-native-picker-select";
@@ -73,6 +73,12 @@ const CreatePostScreen = ({ navigation }) => {
     const [errorMessageCategory, setErrorMessageCategory] = useState("");
     const [errorMessageCondition, setErrorMessageCondition] = useState("");
     const [errorMessageDescription, setErrorMessageDescription] = useState("");
+
+    const titleInputRef = useRef(null);
+    const priceInputRef = useRef(null);
+    const descriptionInputRef = useRef(null);
+    const categoryInputRef = useRef(null);
+    const conditionInputRef = useRef(null);
 
     let validate = 0;
     useEffect(() => {
@@ -243,9 +249,14 @@ const CreatePostScreen = ({ navigation }) => {
                     <View style={[styles.forms, { height: "50%" }]}>
                         <TextInput
                             style={titleStyle}
+                            blurOnSubmit={false}
                             onChangeText={(value) => setTitle(value)}
                             value={title}
                             placeholder="Title"
+                            onSubmitEditing={() => {
+                                priceInputRef.current.focus();
+                            }}
+                            ref={titleInputRef}
                         />
                         {errorMessageTitle && (
                             <Text
@@ -259,10 +270,13 @@ const CreatePostScreen = ({ navigation }) => {
                         )}
                         <TextInput
                             style={priceStyle}
+                            blurOnSubmit={false}
                             onChangeText={(value) => setPrice(value)}
                             value={price}
+                            returnKeyType="done"
                             placeholder="Price"
                             inputMode="decimal"
+                            ref={priceInputRef}
                         />
                         {errorMessagePrice && (
                             <Text
@@ -314,12 +328,7 @@ const CreatePostScreen = ({ navigation }) => {
                                     value: null,
                                 }}
                                 onValueChange={(value) => setCondition(value)}
-                                items={[
-                                    { label: "New", value: "new" },
-                                    { label: "Like New", value: "like new" },
-                                    { label: "Used", value: "used" },
-                                    { label: "Damaged", value: "damaged" },
-                                ]}
+                                items={conditions}
                             />
                         </View>
 
@@ -369,9 +378,7 @@ const CreatePostScreen = ({ navigation }) => {
                                     alignItems: "center",
                                     justifyContent: "center",
                                 }}
-                                onPress={() =>
-                                    navigation.navigate("Home")
-                                }>
+                                onPress={() => navigation.navigate("Home")}>
                                 <Text style={styles.buttonText}>Cancel</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
