@@ -1,4 +1,4 @@
-import { Text, View, TouchableHighlight, TouchableOpacity, FlatList, SafeAreaView, Image, Modal, Animated } from "react-native";
+import { Text, View, TouchableOpacity, SafeAreaView, Image, Animated } from "react-native";
 import React, { useState, useEffect } from "react";
 import styles from "../styleSheets/StyleSheet.js";
 //import { getAuth, signOut } from "firebase/auth";
@@ -6,6 +6,8 @@ import ListingPopup from "../components/ListingPopup.js";
 import { SearchBar, Header } from "@rneui/themed";
 import { get, child, ref, set, push, getDatabase } from 'firebase/database';
 import { SwipeListView } from 'react-native-swipe-list-view';
+import TrashButtonComponent from "../assets/svg/trash_button.js";
+import ReportComponent from "../assets/svg/report_icon.js";
 
 //import styles from "../styleSheets/StyleSheet.js";
 //import { HeaderComponent } from "../components/headerComponent.js";
@@ -107,8 +109,10 @@ const ChatScreen = ({ navigation }) => {
                             onPress={() => {
                                 // Handle the "Report" action
                             }}
+
                         >
-                            <Text style={{ color: "white" }}>Report</Text>
+                            {/* <ReportComponent /> */}
+                            {/* <Text style={{ color: "white" }}>Report</Text> */}
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={{ width: 75, backgroundColor: "blue", alignItems: "center", justifyContent: "center" }}
@@ -116,7 +120,8 @@ const ChatScreen = ({ navigation }) => {
                                 // Handle the "Delete" action
                             }}
                         >
-                            <Text style={{ color: "white" }}>Delete</Text>
+                            {/* <TrashButtonComponent /> */}
+                            {/* <Text style={{ color: "white" }}>Delete</Text> */}
                         </TouchableOpacity>
                     </View>
                 )}

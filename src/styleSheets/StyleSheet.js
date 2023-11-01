@@ -3,7 +3,7 @@ import * as Font from "expo-font";
 
 const { width } = Dimensions.get("window");
 const ButtonFontSize = 16;
-const HeaderFontSize = 8;
+const HeaderFontSize = 10;
 const NormalFontSize = 20;
 const HintFontSize = 24;
 const SmallerHeaderFontSize = 12;
@@ -32,6 +32,15 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         marginTop: "12%", //was 40
         backgroundColor: "#3F72AF",
+    },
+    deleteBtn: {
+        width: "80%",
+        borderRadius: "25%", //was 25
+        height: "7%", //was 50
+        alignItems: "center",
+        justifyContent: "center",
+        marginTop: "12%", //was 40
+        backgroundColor: "#F30000",
     },
     buttonText: {
         color: "white",
