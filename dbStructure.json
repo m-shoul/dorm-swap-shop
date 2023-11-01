@@ -1,7 +1,8 @@
 {
     "dorm_swap_shop": {
-        "users": {
-            "userId_1": {
+        "users": [
+            {
+                "userId": "userId_1",
                 "public": {
                     "fname": "First Name",
                     "lname": "Last Name",
@@ -9,81 +10,87 @@
                     "rating": 1,
                     "profileImage": "your-firebase-storage-url.com/path/to/your/image.jpg",
                     "bio": "This is my bio",
-                    "listings": {
-                        "listingId_1": true,
-                        "listingId_2": true
-                    }
+                    "listings": [
+                        "listingId_1",
+                        "listingId_2"
+                    ]
                 },
                 "private": {
                     "email": "email@email.com",
                     "timestamp": 1234567890,
-                    "chats": {
-                        "chatId_1": true,
-                        "chatId_2": true
-                    },
-                    "savedListings": {
-                        "listingId_3": true
-                    },
-                    "blockedUsers": {
-                        "userId_2": true
-                    }
+                    "chats": [
+                        "chatId_1",
+                        "chatId_2"
+                    ],
+                    "savedListings": [
+                        "savedListingId_3",
+                        "savedListingId_4"
+                    ],
+                    "blockedUsers": [
+                        "userId_2",
+                        "userId_3"
+                    ]
                 } 
-            },
-            "listings": {
-                "listingId_1": {
-                    "user": "userId_1",
-                    "title": "Item Name 1",
-                    "description": "Description 1",
-                    "price": 10.00,
-                    "category": "Category type",
-                    "condition": "Condition type",
-                    "status": "Sold",
-                    "timestamp": 1234567891,
-                    "location": "123.456, 789.012",
-                    "reported": {
-                        "reportId": true
+            }
+        ],
+        "listings": [
+            {
+                "listingId": "listingId_1",
+                "user": "userId_1",
+                "title": "Item Name 1",
+                "description": "Description 1",
+                "price": 10.00,
+                "category": "Category type",
+                "condition": "Condition type",
+                "status": "Sold",
+                "timestamp": 1234567891,
+                "location": "123.456, 789.012",
+                "reports": [
+                    "reportId_1",
+                    "reportId_2"
+                ],
+                "images": [
+                    "your-firebase-storage-url.com/path/to/your/image.jpg",
+                    "your-firebase-storage-url.com/path/to/your/image2.jpg"
+                ]
+            }
+        ],
+        "chats": [
+            {
+                "chatId": "chatId_1",
+                "participants": {
+                    "userId_1": {
+                        "messages": [
+                            {
+                                "message": "Heyyy",
+                                "timestamp": 1234567892
+                            }
+                        ]   
                     },
-                    "images": {
-                        "imageId_1": "your-firebase-storage-url.com/path/to/your/image.jpg",
-                        "imageId_2": "your-firebase-storage-url.com/path/to/your/image.jpg"
+                    "userId_2": {
+                        "messages": [
+                            {
+                                "message": "Hi.",
+                                "timestamp": 1234567892
+                            }
+                        ]   
                     }
-                }
-            },
-            "chats": {
-                "chatId_1": {
-                    "participants": {
-                        "userId_1": {
-                            "messages": [
-                                {
-                                    "message": "Heyyy",
-                                    "timestamp": 1234567892
-                                }
-                            ]   
-                        },
-                        "userId_2": {
-                            "messages": [
-                                {
-                                    "message": "Hi.",
-                                    "timestamp": 1234567892
-                                }
-                            ]   
-                        }
-                    },
-                    "reported": {
-                        "reportId": true
-                    }
-                }
-            },
-            "reports": {
-                "reportId_1": {
-                    "userId_1": "Reported",
-                    "userId_2": "Reporter",
-                    "listing": "listingId_1",
-                    "chat": "chatId_1",
-                    "description": "Reason for report",
-                    "timestamp": 1234567893
+                },
+                "reported": {
+                    "reportId": true
                 }
             }
-        }
+        ],
+        "reports": [
+            {
+                "reportId": "reportId_1",
+                "userId_1": "Reported",
+                "userId_2": "Reporter",
+                "listing": "listingId_1",
+                "chat": "chatId_1",
+                "description": "Reason for report",
+                "timestamp": 1234567893
+            }
+        ]
     }
 }
