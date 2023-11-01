@@ -11,7 +11,7 @@ import {
 import React, { useState, useEffect, useRef } from "react";
 import styles from "../styleSheets/StyleSheet.js";
 import { getUserID } from "../../backend/dbFunctions.js";
-import { categories } from "../components/Component.js";
+import { categories, conditions } from "../components/Component.js";
 import * as ImagePicker from "expo-image-picker";
 import ListImagesComponent from "../assets/svg/list_images.js";
 import RNPickerSelect from "react-native-picker-select";
@@ -347,18 +347,14 @@ const CreatePostScreen = ({ navigation }) => {
                                 }}
                                 onValueChange={(value) => {
                                     Keyboard.dismiss();
-                                    setCategory(value);
+                                    setCondition(value);
                                 }}
                                 onSubmitEditing={() => {
                                     Keyboard.dismiss();
                                 }}
-                                items={[
-                                    { label: "New", value: "new" },
-                                    { label: "Like New", value: "like new" },
-                                    { label: "Used", value: "used" },
-                                    { label: "Damaged", value: "damaged" },
-                                ]}
+
                                 ref={conditionInputRef}
+                                items={conditions}
                             />
                         </View>
 

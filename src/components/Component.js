@@ -23,6 +23,14 @@ export const categories = [
     { label: "Other", value: "other" }
 ];
 
+export const conditions = [
+    { label: "New", value: "new" },
+    { label: "Like New", value: "like new" },
+    { label: "Used", value: "used" },
+    { label: "Damaged", value: "damaged" }
+];
+    
+
 const Tab = createBottomTabNavigator();
 function BottomTabNavigator() {
     return (
