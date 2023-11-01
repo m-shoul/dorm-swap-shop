@@ -1,4 +1,5 @@
 import {
+    Keyboard,
     Text,
     TextInput,
     View,
@@ -277,6 +278,13 @@ const CreatePostScreen = ({ navigation }) => {
                             placeholder="Price"
                             inputMode="decimal"
                             ref={priceInputRef}
+                            onBlur={() => {
+                                Keyboard.dismiss();
+                                categoryInputRef.current.togglePicker();
+                            }}
+                            onSubmitEditing={() => {
+                                Keyboard.dismiss();
+                            }}
                         />
                         {errorMessagePrice && (
                             <Text
@@ -290,25 +298,24 @@ const CreatePostScreen = ({ navigation }) => {
                         )}
                         <View style={categoryStyle}>
                             <RNPickerSelect
-                                onValueChange={(value) => setCategory(value)}
+                                returnKeyType="done"
+                                blurOnSubmit={false}
+                                onValueChange={(value) => {
+                                    Keyboard.dismiss();
+                                    setCategory(value);
+                                }}
+                                onDonePress={() => {
+                                    conditionInputRef.current.togglePicker();
+                                }}
                                 placeholder={{
                                     label: "Select a Category",
                                     value: null,
                                 }}
+                                onSubmitEditing={() => {
+                                    Keyboard.dismiss();
+                                }}
                                 items={categories}
-                                // items={[
-                                //     { label: "Books", value: "books" },
-                                //     { label: "Furniture", value: "furniture" },
-                                //     {
-                                //         label: "Appliances",
-                                //         value: "appliances",
-                                //     },
-                                //     {
-                                //         label: "Decorations",
-                                //         value: "decorations",
-                                //     },
-                                //     { label: "Other", value: "other" },
-                                // ]}
+                                ref={categoryInputRef}
                             />
                         </View>
                         {errorMessageCategory && (
@@ -323,11 +330,30 @@ const CreatePostScreen = ({ navigation }) => {
                         )}
                         <View style={conditionStyle}>
                             <RNPickerSelect
+                                returnKeyType="done"
+                                blurOnSubmit={false}
                                 placeholder={{
                                     label: "Select a Condition",
                                     value: null,
                                 }}
-                                onValueChange={(value) => setCondition(value)}
+                                onBlur={() => {
+                                    Keyboard.dismiss();
+                                }}
+                                onDonePress={() => {
+                                    Keyboard.dismiss();
+                                    setTimeout(() => {
+                                        descriptionInputRef.current.focus();
+                                    }, 100);
+                                }}
+                                onValueChange={(value) => {
+                                    Keyboard.dismiss();
+                                    setCondition(value);
+                                }}
+                                onSubmitEditing={() => {
+                                    Keyboard.dismiss();
+                                }}
+
+                                ref={conditionInputRef}
                                 items={conditions}
                             />
                         </View>
@@ -344,10 +370,13 @@ const CreatePostScreen = ({ navigation }) => {
                         )}
 
                         <TextInput
+                            blurOnSubmit={false}
                             onChangeText={(value) => setDescription(value)}
                             multiline={true}
+                            value={description}
                             placeholder="Description"
                             style={descriptionStyle}
+                            ref={descriptionInputRef}
                         />
 
                         {errorMessageDescription && (
