@@ -21,7 +21,7 @@ export default function App() {
             {/* changes color based off of current color scheme */}
             <StatusBar style="auto" />
             <Stack.Navigator screenOptions={{ headerShown: false }}>
-                {/* Sprint 2 */}
+                {/* Sprint 2*/}
                 <Stack.Screen name="LoginScreen" component={LoginScreen} />
                 <Stack.Screen
                     name="CreateUserScreen"
