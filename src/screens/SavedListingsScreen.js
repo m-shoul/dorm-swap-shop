@@ -147,12 +147,9 @@ const SavedListingsScreen = ({ navigation }) => {
                     }}
                 />
             </TouchableOpacity>
-            <Animated.View
+            <View
                 style={{
-                    transform: [{ translateY: translateYAxis }],
-                    elevation: 4,
-                    zIndex: 100,
-                    marginBottom: 10,
+                    height: "5%",
                 }}>
                 <SearchBar
                     round
@@ -171,7 +168,7 @@ const SavedListingsScreen = ({ navigation }) => {
                     placeholder="Search"
                     value={search}
                 />
-            </Animated.View>
+            </View>
             <FlatList
                 data={Object.values(listingsData)}
                 renderItem={({ item }) => (
@@ -232,7 +229,7 @@ const SavedListingsScreen = ({ navigation }) => {
                 style={{
                     flex: 1,
                     backgroundColor: "#F9F7F7",
-                    paddingTop: "5%",
+                    marginTop: 10,
                 }}
                 onScroll={(e) => {
                     scrollY.setValue(e.nativeEvent.contentOffset.y);
