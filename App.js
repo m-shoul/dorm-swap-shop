@@ -20,10 +20,8 @@ export default function App() {
         <NavigationContainer>
             {/* changes color based off of current color scheme */}
             <StatusBar style="auto" />
-
             <Stack.Navigator screenOptions={{ headerShown: false }}>
                 {/* Sprint 2 */}
-                <Stack.Screen name="SavedListings" component={SavedListings} />
                 <Stack.Screen name="LoginScreen" component={LoginScreen} />
                 <Stack.Screen
                     name="CreateUserScreen"
@@ -42,6 +40,7 @@ export default function App() {
                     name="PostReportedScreen"
                     component={PostReportedScreen}
                 />
+                <Stack.Screen name="SavedListings" component={SavedListings} />
                 <Stack.Screen name="Conversations" component={Conversations} />
 
                 <Stack.Screen name="ListingPopup" component={ListingPopup} />
