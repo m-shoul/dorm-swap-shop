@@ -47,7 +47,13 @@ const ListingPopup = ({ navigation, listing }) => {
     return (
         <SafeAreaView>
             <TouchableOpacity onPress={openModal}>
-                <Text style={{ backgroundColor: "red" }}>Show Listing</Text>
+                <View style={{ backgroundColor: "white" }}>
+                    {/* Source might be something like source={{uri: item.images}} */}
+                    <Image source={require("../assets/expo/splash_screen_dark.png")} style={{ width: "100%", height: "87%" }} />
+                    <View style={{ backgroundColor: "#B3B3B3", height: 1, width: "100%", marginBottom: "2%" }} />
+                    <Text>{"$" + listing.price + " - " + listing.title}</Text>
+                </View>
+                {/* <Text style={{ backgroundColor: "red" }}>Show Listing</Text> */}
             </TouchableOpacity>
 
             <Modal visible={listingModalVisible}>
