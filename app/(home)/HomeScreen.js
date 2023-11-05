@@ -1,8 +1,8 @@
 import { Text, View, TouchableOpacity, FlatList, SafeAreaView, Image, Animated, RefreshControl } from "react-native";
 import React, { useState, useEffect } from "react";
-import styles from "../styleSheets/StyleSheet.js";
+import styles from "../(aux)/StyleSheet";
 //import { getAuth, signOut } from "firebase/auth";
-import ListingPopup from "../components/ListingPopup.js";
+import ListingPopup from "../../components/ListingPopup";
 import { SearchBar } from "@rneui/themed";
 import { get, child, ref, set, push, getDatabase } from 'firebase/database';
 import { ScrollView } from "react-native-web";

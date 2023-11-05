@@ -7,7 +7,7 @@ import {
     StyleSheet,
 } from "react-native";
 import { SearchBar } from "@rneui/themed";
-import styles from "../styleSheets/StyleSheet.js";
+import styles from "../(aux)/StyleSheet";
 
 const RecentSearches = ({ navigation }) => {
     return (

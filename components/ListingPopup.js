@@ -9,7 +9,7 @@ import {
     Dimensions,
     Alert,
 } from "react-native";
-import styles from "../styleSheets/StyleSheet.js";
+import styles from "../app/(aux)/StyleSheet.js";
 
 import Swiper from "react-native-swiper";
 import Xmark from "../assets/svg/xmark.js";

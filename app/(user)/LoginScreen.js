@@ -8,11 +8,12 @@ import {
     Keyboard,
 } from "react-native";
 import React, { useState, useRef } from "react";
-import styles from "../styleSheets/StyleSheet.js";
+import styles from "../(aux)/StyleSheet";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { getAuth } from "firebase/auth";
+import { router } from 'expo-router';
 
-const LoginScreen = ({ navigation }) => {
+export default function LoginScreen() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
@@ -43,7 +44,7 @@ const LoginScreen = ({ navigation }) => {
             try {
                 // Signs user into Firebase
                 await signInWithEmailAndPassword(auth, email, password);
-                navigation.navigate("HomeScreen");
+                router.push("(home)/HomeScreen");
                 setErrorMessage("");
                 setErrorMessage2("");
                 setEmailStyle(styles.createUserInput);
@@ -107,7 +108,7 @@ const LoginScreen = ({ navigation }) => {
                     <Text
                         style={{ paddingLeft: 100, color: "#585858" }}
                         onPress={() =>
-                            navigation.navigate("ResetPasswordScreen")
+                            router.push("ResetPasswordScreen")
                         }>
                         Forgot Password
                     </Text>
@@ -118,7 +119,7 @@ const LoginScreen = ({ navigation }) => {
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                    onPress={() => navigation.navigate("CreateUserScreen")}
+                    onPress={() => router.push("CreateUserScreen")}
                     style={styles.notUserButton}>
                     <Text style={styles.notUserButtonText}>Not a User? </Text>
                     <Text style={styles.notUserButtonText}>
@@ -129,5 +130,3 @@ const LoginScreen = ({ navigation }) => {
         </TouchableWithoutFeedback>
     );
 };
-
-export default LoginScreen;

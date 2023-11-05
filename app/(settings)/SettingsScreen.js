@@ -6,7 +6,7 @@ import {
     SafeAreaView,
     StyleSheet,
 } from "react-native";
-import styles from "../styleSheets/StyleSheet.js";
+import styles from "../(aux)/StyleSheet";
 
 const SettingsScreen = ({ navigation }) => {
     return (

@@ -4,8 +4,8 @@ import {
     TouchableOpacity,
     SafeAreaView,
 } from "react-native";
-import styles from "../styleSheets/StyleSheet.js";
-import BackButtonComponent from "../assets/svg/back_button.js";
+import styles from "../(aux)/StyleSheet.js";
+import BackButtonComponent from "../../assets/svg/back_button.js";
 
 const DeleteAccount = ({ navigation }) => {
     return (

@@ -1,6 +1,6 @@
 import { Text, View, TouchableOpacity, FlatList, SafeAreaView, StyleSheet } from "react-native";
-import styles from "../styleSheets/StyleSheet.js";
-import BackButtonComponent from "../assets/svg/back_button.js";
+import styles from "../(aux)/StyleSheet";
+import BackButtonComponent from "../../assets/svg/back_button.js";
 
 const PostReportedScreen = ({ navigation }) => {
 

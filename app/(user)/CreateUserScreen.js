@@ -8,13 +8,14 @@ import {
     KeyboardAvoidingView,
 } from "react-native";
 import React from "react";
-import styles from "../styleSheets/StyleSheet.js";
+import styles from "../(aux)/StyleSheet.js";
 import { useState, useEffect } from "react";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 // import { writeUserData } from "../../backend/dbFunctions.js";
 import { createUser } from "../../backend/api/user.js";
+import { router } from "expo-router";
 
-const CreateUserScreen = ({ navigation }) => {
+export default function CreateUserScreen() {
     //All of the states that are used to store the actual values of the text inputs
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
@@ -158,7 +159,7 @@ const CreateUserScreen = ({ navigation }) => {
         if (errorCount === 0) {
             userRegistration();
             createUser(firstName, lastName, username, email);
-            navigation.navigate("LoginScreen");
+            router.push("LoginScreen");
         }
         // Set the errors and update form validity
         // setErrors(errors);
@@ -323,7 +324,7 @@ const CreateUserScreen = ({ navigation }) => {
             </TouchableOpacity>
 
             <TouchableOpacity
-                onPress={() => navigation.navigate("LoginScreen")}
+                onPress={() => router.back()}
                 style={[styles.accountButtons, {}]}>
                 <Text>Already have an account?</Text>
                 <Text>Login</Text>
@@ -331,5 +332,3 @@ const CreateUserScreen = ({ navigation }) => {
         </SafeAreaView>
     );
 };
-
-export default CreateUserScreen;

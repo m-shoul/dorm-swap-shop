@@ -12,9 +12,10 @@ import {
     sendPasswordResetEmail,
     fetchSignInMethodsForEmail,
 } from "firebase/auth";
-import styles from "../styleSheets/StyleSheet.js";
+import styles from "../(aux)/StyleSheet";
+import { router } from 'expo-router';
 
-const ResetPasswordScreen = ({ navigation }) => {
+export default function ResetPasswordScreen() {
     const [email, setEmail] = useState("");
     const [emailStyle, setEmailStyle] = useState(styles.createUserInput);
     const [errorMessageEmail, setErrorMessageEmail] = useState("");
@@ -37,7 +38,7 @@ const ResetPasswordScreen = ({ navigation }) => {
         sendPasswordResetEmail(auth, email)
             .then(() => {
                 alert("Password reset email sent.");
-                navigation.navigate("LoginScreen");
+                router.push("LoginScreen");
             })
             .catch((error) => {
                 console.log("Failed to send password reset email: ", error);
@@ -80,7 +81,7 @@ const ResetPasswordScreen = ({ navigation }) => {
 
             <View>
                 <TouchableOpacity
-                    onPress={() => navigation.navigate("LoginScreen")}
+                    onPress={() => router.push("LoginScreen")}
                     style={styles.accountButtons}
                 >
                     <Text>Already Have an Account?</Text>
@@ -90,5 +91,3 @@ const ResetPasswordScreen = ({ navigation }) => {
         </SafeAreaView>
     );
 };
-
-export default ResetPasswordScreen;

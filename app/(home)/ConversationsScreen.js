@@ -6,13 +6,13 @@ import {
     SafeAreaView,
     StyleSheet,
 } from "react-native";
-import styles from "../styleSheets/StyleSheet.js";
+import styles from "../(aux)/StyleSheet";
 
-const SavedListingsScreen = ({ navigation }) => {
+const Conversations = ({ navigation }) => {
     return (
         <SafeAreaView style={styles.background}>
             <View>
-                <Text style={styles.resetHeader}>SavedListings</Text>
+                <Text style={styles.resetHeader}>Conversations</Text>
             </View>
             <TouchableOpacity onPress={() => navigation.navigate("HomeScreen")}>
                 <Text>Home</Text>
@@ -21,4 +21,4 @@ const SavedListingsScreen = ({ navigation }) => {
     );
 };
 
-export default SavedListingsScreen;
+export default Conversations;

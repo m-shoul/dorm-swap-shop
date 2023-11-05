@@ -1,6 +1,7 @@
 {
   "expo": {
     "name": "dorm-swap-shop",
+    "scheme": "dormswapshop",
     "slug": "dorm-swap-shop",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -32,6 +33,9 @@
         "projectId": "1b3085b2-8bcb-41b9-83ba-ecd122e0f2ea"
       }
     },
-    "owner": "m-shoul"
+    "owner": "m-shoul",
+    "plugins": [
+      "expo-router"
+    ]
   }
 }

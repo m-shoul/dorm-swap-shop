@@ -8,11 +8,11 @@ import {
     KeyboardAvoidingView,
 } from "react-native";
 import React, { useState, useEffect, useRef } from "react";
-import styles from "../styleSheets/StyleSheet.js";
+import styles from "../(aux)/StyleSheet";
 import { getUserID } from "../../backend/dbFunctions.js";
-import { categories, conditions } from "../components/Component.js";
+import { categories, conditions } from "../../components/Component";
 import * as ImagePicker from "expo-image-picker";
-import ListImagesComponent from "../assets/svg/list_images.js";
+import ListImagesComponent from "../../assets/svg/list_images.js";
 import RNPickerSelect from "react-native-picker-select";
 import { createListing } from "../../backend/api/listing.js";
 
@@ -234,7 +234,7 @@ const CreatePostScreen = ({ navigation }) => {
                     <View>
                         <TouchableOpacity onPress={() => pickImage()}>
                             <ListImagesComponent
-                                source={require("../assets/svg/list_images.js")}
+                                source={require("../../assets/svg/list_images.js")}
                                 style={{
                                     width: 200,
                                     height: 28,
@@ -296,19 +296,19 @@ const CreatePostScreen = ({ navigation }) => {
                                     value: null,
                                 }}
                                 items={categories}
-                                // items={[
-                                //     { label: "Books", value: "books" },
-                                //     { label: "Furniture", value: "furniture" },
-                                //     {
-                                //         label: "Appliances",
-                                //         value: "appliances",
-                                //     },
-                                //     {
-                                //         label: "Decorations",
-                                //         value: "decorations",
-                                //     },
-                                //     { label: "Other", value: "other" },
-                                // ]}
+                            // items={[
+                            //     { label: "Books", value: "books" },
+                            //     { label: "Furniture", value: "furniture" },
+                            //     {
+                            //         label: "Appliances",
+                            //         value: "appliances",
+                            //     },
+                            //     {
+                            //         label: "Decorations",
+                            //         value: "decorations",
+                            //     },
+                            //     { label: "Other", value: "other" },
+                            // ]}
                             />
                         </View>
                         {errorMessageCategory && (

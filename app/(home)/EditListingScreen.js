@@ -6,13 +6,13 @@ import {
     SafeAreaView,
     StyleSheet,
 } from "react-native";
-import styles from "../styleSheets/StyleSheet.js";
+import styles from "../(aux)/StyleSheet";
 
-const Conversations = ({ navigation }) => {
+const EditListings = ({ navigation }) => {
     return (
         <SafeAreaView style={styles.background}>
             <View>
-                <Text style={styles.resetHeader}>Conversations</Text>
+                <Text style={styles.resetHeader}>EditListings</Text>
             </View>
             <TouchableOpacity onPress={() => navigation.navigate("HomeScreen")}>
                 <Text>Home</Text>
@@ -21,4 +21,4 @@ const Conversations = ({ navigation }) => {
     );
 };
 
-export default Conversations;
+export default EditListings;

@@ -5,12 +5,12 @@ import ChatComponent from "../assets/svg/chat_icon.js";
 import PostComponent from "../assets/svg/post_icon.js";
 import ProfileComponent from "../assets/svg/profile_icon.js";
 import SettingsComponent from "../assets/svg/settings_icon.js";
-import HomeScreen from "../screens/HomeScreen.js";
-import CreatePostScreen from "../screens/CreatePostScreen";
-import ChatScreen from "../screens/ChatScreen";
-import ProfileScreen from "../screens/ProfileScreen";
-import SettingsScreen from "../screens/SettingsScreen";
-//import ReportScreen from "./src/screens/ReportScreen";
+import HomeScreen from "../app/(home)/HomeScreen.js";
+import CreatePostScreen from "../app/(home)/CreatePostScreen";
+import ChatScreen from "../app/(chat)/ChatScreen";
+import ProfileScreen from "../app/(home)/ProfileScreen";
+import SettingsScreen from "../app/(settings)/SettingsScreen";
+import ReportScreen from "../app/(home)/ReportScreen.js";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 
@@ -18,8 +18,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 export const categories = [
     { label: "Books", value: "books" },
     { label: "Furniture", value: "furniture" },
-    { label: "Appliances", value: "appliances"},
-    { label: "Decorations", value: "decorations"},
+    { label: "Appliances", value: "appliances" },
+    { label: "Decorations", value: "decorations" },
     { label: "Other", value: "other" }
 ];
 
@@ -29,7 +29,7 @@ export const conditions = [
     { label: "Used", value: "used" },
     { label: "Damaged", value: "damaged" }
 ];
-    
+
 
 const Tab = createBottomTabNavigator();
 function BottomTabNavigator() {

@@ -1,9 +1,9 @@
 import { Text, View, TouchableOpacity, FlatList, SafeAreaView, StyleSheet, Image } from "react-native";
-import styles from "../styleSheets/StyleSheet.js";
+import styles from "../(aux)/StyleSheet";
 import { get, ref, getDatabase } from "@firebase/database";
 import { getUserID } from "../../backend/dbFunctions.js";
 import React, { useState, useEffect } from "react";
-import ListingPopup from "../components/ListingPopup.js";
+import ListingPopup from "../../components/ListingPopup.js";
 
 
 const ProfileScreen = ({ navigation }) => {
@@ -58,7 +58,7 @@ const ProfileScreen = ({ navigation }) => {
                     >
                         <View style={{ backgroundColor: "white", flex: 1 }}>
                             {/* Source might be something like source={{uri: item.images}} */}
-                            <Image source={require("../assets/expo/splash_screen_dark.png")} style={{ width: "100%", height: "80%" }} />
+                            <Image source={require("../../assets/expo/splash_screen_dark.png")} style={{ width: "100%", height: "80%" }} />
                             <View style={{ backgroundColor: "#B3B3B3", height: 1, width: "100%", marginBottom: "5%" }} />
                             <Text>{"$" + item.price + " - " + item.title}</Text>
                         </View>
