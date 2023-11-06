@@ -26,24 +26,26 @@ export function createListing(title, description, price, userId, image) {
     const listingId = newListingReference.key;
 
     // Gets image reference
-    const dbRef = ref(getDatabase(), "/dorm_swap_shop/listings/" + listingId);
+    const imagesRef = ref(getDatabase(), `/dorm_swap_shop/listings/${listingId}/images`);
+
+    if (image) {    
+        // uploadImage(image, dbRef);
+        uploadImageAsync(image, imagesRef);
+    } else {
+        console.log("No image set");
+    }
 
     const listingData = {
         title: title,
         description: description,
         price: price,
         userId: userId,
+        images: [],
         // timeUpload: firebase.database.ServerValue.TIMESTAMP
         timeUpload: new Date().toISOString()
     };
 
     set(newListingReference, listingData);
-
-    if (image) {
-        uploadImage(image, dbRef);
-    } else {
-        console.log("No image set");
-    }
 
     return listingId;
 }
@@ -78,41 +80,33 @@ export function deleteListing(listingId) {
 // Can add additional functions in here that deal with the listings
 // and curtail them to our needs.
 
-// Function to upload image to the database.
-const uploadImage = async (uri, dbRef) => {
-    const [progress, setProgress] = useState("");
-
-    const response = await fetch(uri);
-    const blob = await response.blob();
+async function uploadImageAsync(uri, imagesRef) {
+    const blob = await new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.onload = function () {
+            resolve(xhr.response);
+        };
+        xhr.onerror = function (e) {
+            reject(new TypeError("Network request failed"));
+        };
+        xhr.responseType = "blob";
+        xhr.open("GET", uri, true);
+        xhr.send(null);
+    });
 
     const storageRef = sRef(storage, "test/" + new Date().getTime());
-    const uploadTask = uploadBytesResumable(storageRef, blob);
+    await uploadBytesResumable(storageRef, blob);
 
-    // listen for events
-    uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-            const progress =
-                (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            console.log("Upload is " + progress + "% done");
-            setProgress(progress.toFixed());
-        },
-        (error) => {
-            // handle error
-        },
-        () => {
-            getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
-                console.log("File available at", downloadURL);
-                // save record
-                const newRecordRef = push(dbRef);
-                await set(newRecordRef, {
-                    image: downloadURL,
-                    timestamp: new Date().toISOString(),
-                });
-                // setImage("");
-            });
-        }
-    );
-    // Testing purposes
-    alert("Image uploaded");        
-};
+    // We're done with the blob, close and release it
+    blob.close();
+
+    const downloadURL = await getDownloadURL(storageRef);
+    console.log(downloadURL);
+
+    // const imagesRef = ref(images, "images/");
+    console.log(imagesRef);
+    // const newImageRef = push(imagesRef);
+    await set(imagesRef, downloadURL);
+
+    return downloadURL;
+}
