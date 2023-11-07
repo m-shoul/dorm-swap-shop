@@ -10,29 +10,18 @@ import * as ImagePicker from 'expo-image-picker';
 import { database } from '../../backend/config/firebaseConfig';
 import BackButtonComponent from "../assets/svg/back_button.js";
 import React, { useState, useEffect } from "react";
-
+import { useRoute } from '@react-navigation/native';
 
 // Imports for the email service. EmailJS...
 //import emailjs from 'emailjs-com';
 
 
 const ReportScreen = ({ navigation }) => {
+    
+    const route = useRoute();
+    const { listing } = route.params;
 
-    // This isnt even working so probably delete it.
-    // const [url, setUrl] = useState("");
-
-    // const getImage = async () => {
-    //     const storage = getStorage();
-    //     const storageRef = ref(storage, "/test");
-
-    //     const url = await getDownloadURL(storageRef);
-    //     setUrl(url);
-    // };
-
-    // useEffect(() => {
-    //     getImage();
-    // })
-
+    console.log(listing);
 
     // Sending the email to the admin.
     const [emailSent, setEmailSent] = useState(false);
@@ -84,7 +73,7 @@ const ReportScreen = ({ navigation }) => {
                 The image is associated with whomever had posted the listing.
                 So we need to somehow get that image from the listingID, from that
                 specific user who is associated with the listingID.*/}
-                <Image source={{ uri: 'https://reactjs.org/logo-og.png' }} style={{ width: "30%", height: "15%", marginBottom: "10%" }} />
+                <Image source={{ uri: listing.images }} style={{ width: "30%", height: "15%", marginBottom: "10%" }} />
 
                 {/* Description text field to enter what is wrong with the post */}
                 <TextInput

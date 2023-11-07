@@ -7,6 +7,7 @@ import {
     SafeAreaView,
     ScrollView,
     KeyboardAvoidingView,
+    Image
 } from "react-native";
 import React, { useState, useEffect, useRef } from "react";
 import styles from "../styleSheets/StyleSheet.js";
@@ -38,11 +39,11 @@ const CreatePostScreen = ({ navigation }) => {
             quality: 1,
         });
 
-        // console.log(result);
+        console.log(result);
 
         if (!result.canceled) {
             console.log("Image picked successfully");
-            setImage(result.assets[0].uri);
+            setImage(result.uri);
         }
     };
 
@@ -234,16 +235,20 @@ const CreatePostScreen = ({ navigation }) => {
                     keyboardShouldPersistTaps="handled">
                     <View>
                         <TouchableOpacity onPress={() => pickImage()}>
-                            <ListImagesComponent
-                                source={require("../assets/svg/list_images.js")}
-                                style={{
-                                    width: 200,
-                                    height: 28,
-                                    stroke: "black",
-                                    strokeWidth: 0.25,
-                                    marginBottom: "5%",
-                                }}
-                            />
+                            {image ? (
+                                <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
+                            ) : (
+                                <ListImagesComponent
+                                    source={require("../assets/svg/list_images.js")}
+                                    style={{
+                                        width: 200,
+                                        height: 28,
+                                        stroke: "black",
+                                        strokeWidth: 0.25,
+                                        marginBottom: "5%",
+                                    }}
+                                />
+                            )}
                         </TouchableOpacity>
                     </View>
 
