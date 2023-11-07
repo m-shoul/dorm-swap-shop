@@ -6,12 +6,12 @@ import ListingPopup from "../../components/ListingPopup";
 import { SearchBar } from "@rneui/themed";
 import { get, child, ref, set, push, getDatabase } from 'firebase/database';
 import { ScrollView } from "react-native-web";
-
 //import styles from "../styleSheets/StyleSheet.js";
 //import { HeaderComponent } from "../components/headerComponent.js";
+import { router } from "expo-router";
 
 
-const HomeScreen = ({ navigation }) => {
+export default function HomeScreen() {
 
     const scrollY = new Animated.Value(0);
     const diffClamp = Animated.diffClamp(scrollY, 0, 40);
@@ -122,12 +122,12 @@ const HomeScreen = ({ navigation }) => {
     };
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: "#F9F7F7" }}>
+        <View style={{ flex: 1, backgroundColor: "#F9F7F7" }}>
 
             {/* {HeaderComponent(translateYAxis)} */}
             <Animated.View style={{
                 transform: [{ translateY: translateYAxis }],
-                //elevation: 4,
+                elevation: 4,
                 zIndex: 100,
             }}>
                 <SearchBar
@@ -171,7 +171,7 @@ const HomeScreen = ({ navigation }) => {
                         {/* </TouchableOpacity> */}
                         <ListingPopup
                             listing={item}
-                            navigation={navigation}
+                            navigation={router}
                         />
 
                     </View>
@@ -188,8 +188,6 @@ const HomeScreen = ({ navigation }) => {
                     <RefreshControl refreshing={refreshing} onRefresh={fetchListings} />
                 }
             />
-        </SafeAreaView>
+        </View>
     );
 }
-
-export default HomeScreen;

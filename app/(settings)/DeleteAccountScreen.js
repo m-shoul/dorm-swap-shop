@@ -6,6 +6,7 @@ import {
 } from "react-native";
 import styles from "../(aux)/StyleSheet.js";
 import BackButtonComponent from "../../assets/svg/back_button.js";
+import { router } from "expo-router";
 
 const DeleteAccount = ({ navigation }) => {
     return (
@@ -27,7 +28,7 @@ const DeleteAccount = ({ navigation }) => {
             </View>
 
             <TouchableOpacity
-                onPress={() => navigation.navigate("Profile")} style={styles.deleteBtn}>
+                onPress={() => router.push("Profile")} style={styles.deleteBtn}>
                 <Text style={styles.buttonText}>Delete Account</Text>
             </TouchableOpacity>
         </SafeAreaView >

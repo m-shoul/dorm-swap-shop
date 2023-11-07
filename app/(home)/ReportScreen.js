@@ -10,6 +10,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { database } from '../../backend/config/firebaseConfig';
 import BackButtonComponent from "../../assets/svg/back_button.js";
 import React, { useState, useEffect } from "react";
+import { router } from "expo-router";
 
 
 // Imports for the email service. EmailJS...
@@ -108,14 +109,14 @@ const ReportScreen = ({ navigation }) => {
 
                 <TouchableOpacity style={styles.loginBtn} onPress={() => {
                     sendEmail();
-                    navigation.navigate("PostReportedScreen")
+                    router.push("PostReportedScreen")
                 }}>
                     <Text style={styles.buttonText}>Send Email</Text>
                 </TouchableOpacity>
                 {emailSent && <Text>Email sent successfully!</Text>}
 
                 <TouchableOpacity
-                    onPress={() => navigation.navigate("PostReportedScreen")}>
+                    onPress={() => router.push("PostReportedScreen")}>
                     <Text>Post reported (second screen)</Text>
                 </TouchableOpacity>
 

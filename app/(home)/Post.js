@@ -8,13 +8,14 @@ import {
     KeyboardAvoidingView,
 } from "react-native";
 import React, { useState, useEffect, useRef } from "react";
-import styles from "../(aux)/StyleSheet";
+import styles from "../(aux)/StyleSheet.js";
 import { getUserID } from "../../backend/dbFunctions.js";
-import { categories, conditions } from "../../components/Component";
+import { categories, conditions } from "../../components/Component.js";
 import * as ImagePicker from "expo-image-picker";
 import ListImagesComponent from "../../assets/svg/list_images.js";
 import RNPickerSelect from "react-native-picker-select";
 import { createListing } from "../../backend/api/listing.js";
+import { router } from "expo-router";
 
 const CreatePostScreen = ({ navigation }) => {
     const [title, setTitle] = useState("");
@@ -55,7 +56,7 @@ const CreatePostScreen = ({ navigation }) => {
             console.log(error);
         }
 
-        navigation.navigate("Home");
+        router.push("Home");
     };
 
     const [titleStyle, setTitleStyle] = useState(styles.createUserInput);
@@ -378,7 +379,7 @@ const CreatePostScreen = ({ navigation }) => {
                                     alignItems: "center",
                                     justifyContent: "center",
                                 }}
-                                onPress={() => navigation.navigate("Home")}>
+                                onPress={() => router.push("Home")}>
                                 <Text style={styles.buttonText}>Cancel</Text>
                             </TouchableOpacity>
                             <TouchableOpacity

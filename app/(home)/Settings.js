@@ -7,6 +7,7 @@ import {
     StyleSheet,
 } from "react-native";
 import styles from "../(aux)/StyleSheet";
+import { router } from "expo-router";
 
 const SettingsScreen = ({ navigation }) => {
     return (
@@ -15,7 +16,7 @@ const SettingsScreen = ({ navigation }) => {
                 <Text style={styles.resetHeader}>Settings</Text>
             </View>
             <TouchableOpacity
-                onPress={() => navigation.navigate("DeleteAccount")}>
+                onPress={() => router.push("DeleteAccount")}>
                 <Text>Delete Account</Text>
             </TouchableOpacity>
         </SafeAreaView>

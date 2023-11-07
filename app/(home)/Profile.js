@@ -1,9 +1,10 @@
 import { Text, View, TouchableOpacity, FlatList, SafeAreaView, StyleSheet, Image } from "react-native";
-import styles from "../(aux)/StyleSheet";
+import styles from "../(aux)/StyleSheet.js";
 import { get, ref, getDatabase } from "@firebase/database";
 import { getUserID } from "../../backend/dbFunctions.js";
 import React, { useState, useEffect } from "react";
 import ListingPopup from "../../components/ListingPopup.js";
+import { router } from "expo-router";
 
 
 const ProfileScreen = ({ navigation }) => {
@@ -44,7 +45,7 @@ const ProfileScreen = ({ navigation }) => {
                 <Text style={styles.resetHeader}>Profile</Text>
             </View>
             <TouchableOpacity
-                onPress={() => navigation.navigate("HomeScreen")}>
+                onPress={() => router.push("HomeScreen")}>
                 <Text>Home</Text>
             </TouchableOpacity>
 

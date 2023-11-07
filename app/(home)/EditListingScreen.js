@@ -7,6 +7,7 @@ import {
     StyleSheet,
 } from "react-native";
 import styles from "../(aux)/StyleSheet";
+import { router } from "expo-router";
 
 const EditListings = ({ navigation }) => {
     return (
@@ -14,7 +15,7 @@ const EditListings = ({ navigation }) => {
             <View>
                 <Text style={styles.resetHeader}>EditListings</Text>
             </View>
-            <TouchableOpacity onPress={() => navigation.navigate("HomeScreen")}>
+            <TouchableOpacity onPress={() => router.push("HomeScreen")}>
                 <Text>Home</Text>
             </TouchableOpacity>
         </SafeAreaView>

@@ -13,6 +13,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { getAuth } from "firebase/auth";
 import { router } from 'expo-router';
 
+
 export default function LoginScreen() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -44,7 +45,7 @@ export default function LoginScreen() {
             try {
                 // Signs user into Firebase
                 await signInWithEmailAndPassword(auth, email, password);
-                router.push("(home)/HomeScreen");
+                router.push("(home)/Home");
                 setErrorMessage("");
                 setErrorMessage2("");
                 setEmailStyle(styles.createUserInput);
@@ -60,7 +61,7 @@ export default function LoginScreen() {
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-            <SafeAreaView style={styles.background}>
+            <View style={styles.background}>
                 <View style={{ paddingTop: "45%" }}>
                     <Text style={styles.loginHeader}> Login </Text>
                 </View>
@@ -126,7 +127,7 @@ export default function LoginScreen() {
                         Create an Account
                     </Text>
                 </TouchableOpacity>
-            </SafeAreaView>
+            </View>
         </TouchableWithoutFeedback>
     );
 };

@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { SearchBar } from "@rneui/themed";
 import styles from "../(aux)/StyleSheet";
+import { router } from "expo-router";
 
 const RecentSearches = ({ navigation }) => {
     return (
@@ -29,7 +30,7 @@ const RecentSearches = ({ navigation }) => {
             <View>
                 <Text style={styles.resetHeader}>RecentSearches</Text>
             </View>
-            <TouchableOpacity onPress={() => navigation.navigate("HomeScreen")}>
+            <TouchableOpacity onPress={() => router.push("HomeScreen")}>
                 <Text>Home</Text>
             </TouchableOpacity>
         </SafeAreaView>
