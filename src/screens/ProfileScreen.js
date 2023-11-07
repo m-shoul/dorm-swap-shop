@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import styles from "../styleSheets/StyleSheet.js";
 import { get, ref, getDatabase } from "@firebase/database";
-import { getUserID } from "../../backend/dbFunctions.js";
+// import { getUserID } from "../../backend/dbFunctions.js";
 import React, { useState, useEffect } from "react";
 import ListingPopup from "../components/ListingPopup.js";
 import ListImagesComponent from "../assets/svg/list_images.js";
