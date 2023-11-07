@@ -13,24 +13,6 @@ import SettingsScreen from "../screens/SettingsScreen";
 //import ReportScreen from "./src/screens/ReportScreen";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-
-//export const categories = ["Books", "Furniture", "Appliances", "Decorations", "Other"];
-export const categories = [
-    { label: "Books", value: "books" },
-    { label: "Furniture", value: "furniture" },
-    { label: "Appliances", value: "appliances"},
-    { label: "Decorations", value: "decorations"},
-    { label: "Other", value: "other" }
-];
-
-export const conditions = [
-    { label: "New", value: "new" },
-    { label: "Like New", value: "like new" },
-    { label: "Used", value: "used" },
-    { label: "Damaged", value: "damaged" }
-];
-    
-
 const Tab = createBottomTabNavigator();
 function BottomTabNavigator() {
     return (

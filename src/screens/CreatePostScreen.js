@@ -10,7 +10,7 @@ import {
 import React, { useState, useEffect, useRef } from "react";
 import styles from "../styleSheets/StyleSheet.js";
 import { getUserID } from "../../backend/dbFunctions.js";
-import { categories, conditions } from "../components/Component.js";
+import { categories, conditions } from "../components/Enums.js";
 import * as ImagePicker from "expo-image-picker";
 import ListImagesComponent from "../assets/svg/list_images.js";
 import RNPickerSelect from "react-native-picker-select";

@@ -1,7 +1,7 @@
 import { Text, View, TouchableOpacity, FlatList, SafeAreaView, StyleSheet, Image } from "react-native";
 import styles from "../styleSheets/StyleSheet.js";
 import { get, ref, getDatabase } from "@firebase/database";
-import { getUserID } from "../../backend/dbFunctions.js";
+// import { getUserID } from "../../backend/dbFunctions.js";
 import React, { useState, useEffect } from "react";
 import ListingPopup from "../components/ListingPopup.js";
 
