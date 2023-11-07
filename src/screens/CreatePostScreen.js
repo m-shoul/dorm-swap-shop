@@ -22,6 +22,7 @@ const CreatePostScreen = ({ navigation }) => {
     const [price, setPrice] = useState("");
     const [category, setCategory] = useState(null);
     const [condition, setCondition] = useState(null);
+    const [location, setLocation] = useState("");
 
     // For uploading images
     const [image, setImage] = useState(null);
@@ -49,7 +50,7 @@ const CreatePostScreen = ({ navigation }) => {
     const CreatePost = () => {
         let userId = getUserID();
         try {
-            createListing(title, description, price, userId, image);
+            createListing(userId, title, description, price, category, condition, "location - replace with param in future", image);
             console.log("Post created successfully");
         } catch (error) {
             console.log(error);

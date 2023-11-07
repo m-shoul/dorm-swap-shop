@@ -3,7 +3,7 @@ import { get, child, ref, set, push, getDatabase } from 'firebase/database';
 import { getStorage, ref as sRef, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { readData } from '../dbFunctions';
 import React, { useState, useEffect } from "react";
-
+import { categories, statuses, conditions } from '../../src/components/Enums.js';
 
 // ^^ Import whatever we need for this...
 // NOTE************ add additional parameters when needed!!! This is just a baseline.
@@ -14,39 +14,84 @@ const storage = getStorage();
 // Function to create a new listing
 // https://firebase.google.com/docs/database/web/read-and-write
 // Post and simultaneously update it to the recent activity feed and the posting user's activity feed.
-export function createListing(title, description, price, userId, image) {
 
-    // Reference listings in database
-    const listingReference = ref(database, 'dorm_swap_shop/listings/');
+// Old version - delete if new one works
+// export function createListing(title, description, price, userId, image) {
 
-    // Generates a unique ID
+//     // Reference listings in database
+//     const listingReference = ref(database, 'dorm_swap_shop/listings/');
+
+//     // Generates a unique ID
+//     const newListingReference = push(listingReference);
+
+//     // Gets the unique ID
+//     const listingId = newListingReference.key;
+
+//     // Gets image reference
+//     const imagesRef = ref(getDatabase(), `/dorm_swap_shop/listings/${listingId}/images`);
+
+//     if (image) {    
+//         // uploadImage(image, dbRef);
+//         uploadImageAsync(image, imagesRef);
+//     } else {
+//         console.log("No image set");
+//     }
+
+//     const listingData = {
+//         title: title,
+//         description: description,
+//         price: price,
+//         userId: userId,
+//         images: [],
+//         // timeUpload: firebase.database.ServerValue.TIMESTAMP
+//         timeUpload: new Date().toISOString()
+//     };
+
+//     set(newListingReference, listingData);
+
+//     return listingId;
+// }
+
+
+export async function createListing(userId, title, description, price, category, condition, location, image) {
+    // Reference listings in the database
+    const listingReference = ref(database, 'dorm_swap_shop/listings');
+
+    // Generates a unique ID for the listing
     const newListingReference = push(listingReference);
 
-    // Gets the unique ID
+    // Gets the unique listing ID
     const listingId = newListingReference.key;
 
-    // Gets image reference
-    const dbRef = ref(getDatabase(), "/dorm_swap_shop/listings/" + listingId);
-
+    // Prepare the listing data
     const listingData = {
+        listingId: listingId,
+        user: userId,
         title: title,
         description: description,
         price: price,
-        userId: userId,
-        // timeUpload: firebase.database.ServerValue.TIMESTAMP
-        timeUpload: new Date().toISOString()
+        category: category, 
+        condition: condition, 
+        status: "Available", // By default, the status is set to "Available"
+        timestamp: new Date().getTime(), // Current timestamp
+        location: location,
+        reports: [], // Initialize with an empty array of reports
+        images: [], // Initialize with an empty array for images
     };
 
-    set(newListingReference, listingData);
+    // Set the listing data
+    await set(newListingReference, listingData);
 
+    // If an image is provided, upload it and update the listing
     if (image) {
-        uploadImage(image, dbRef);
-    } else {
-        console.log("No image set");
+        const imagesRef = ref(database, `dorm_swap_shop/listings/${listingId}/images`);
+        await uploadImageAsync(image, imagesRef);
     }
 
     return listingId;
 }
+
+
 
 // Function to read user data
 export function readListing(listingId) {
