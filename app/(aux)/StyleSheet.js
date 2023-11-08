@@ -1,5 +1,6 @@
 import { StyleSheet, Dimensions } from "react-native";
 import * as Font from "expo-font";
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const { width } = Dimensions.get("window");
 const ButtonFontSize = 16;
@@ -12,6 +13,7 @@ headerText = width / HeaderFontSize;
 normalText = width / NormalFontSize;
 hintText = width / HintFontSize;
 SmallHeadText = width / SmallerHeaderFontSize;
+//let insets = useSafeAreaInsets();
 
 const styles = StyleSheet.create({
     boldtext: { fontSize: normalText, fontWeight: "bold" },
@@ -20,6 +22,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         //justifyContent: 'center',
         backgroundColor: "#F9F7F7",
+        //paddingTop: insets.top,
     },
     forms: {
         width: "80%",

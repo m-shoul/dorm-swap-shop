@@ -4,9 +4,9 @@ import ChatComponent from "../../assets/svg/chat_icon.js";
 import PostComponent from "../../assets/svg/post_icon.js";
 import ProfileComponent from "../../assets/svg/profile_icon.js";
 import SettingsComponent from "../../assets/svg/settings_icon.js";
-export default function AppLayout() {
-    return (
 
+export default function Layout() {
+    return (
         <Tabs
             screenOptions={{
                 headerShown: false, tabBarStyle: { paddingTop: '5%', backgroundColor: "red" }, tabBarActiveTintColor: "#3F72AF",

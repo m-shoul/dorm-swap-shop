@@ -8,12 +8,13 @@ import { get, child, ref, set, push, getDatabase } from 'firebase/database';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import TrashButtonComponent from "../../assets/svg/trash_button";
 import ReportComponent from "../../assets/svg/report_icon";
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 //import styles from "../styleSheets/StyleSheet.js";
 //import { HeaderComponent } from "../components/headerComponent.js";
 
 
-const ChatScreen = ({ navigation }) => {
+export default function ChatScreen() {
 
     const scrollY = new Animated.Value(0);
     const diffClamp = Animated.diffClamp(scrollY, 0, 100);
@@ -56,7 +57,7 @@ const ChatScreen = ({ navigation }) => {
     };
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: "#F9F7F7" }}>
+        <SafeAreaProvider style={{ flex: 1, backgroundColor: "#F9F7F7" }}>
             {/* <Animated.View style={{
                 transform: [{ translateY: translateYAxis }],
                 elevation: 4,
@@ -134,8 +135,6 @@ const ChatScreen = ({ navigation }) => {
                 }}
             //bounces={true}
             />
-        </SafeAreaView>
+        </SafeAreaProvider>
     );
 }
-
-export default ChatScreen;

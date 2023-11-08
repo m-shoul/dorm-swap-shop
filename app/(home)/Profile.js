@@ -5,9 +5,10 @@ import { getUserID } from "../../backend/dbFunctions.js";
 import React, { useState, useEffect } from "react";
 import ListingPopup from "../../components/ListingPopup.js";
 import { router } from "expo-router";
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 
-const ProfileScreen = ({ navigation }) => {
+export default function ProfileScreen() {
     const [listingsData, setListingsData] = useState([]);
 
     const db = getDatabase();
@@ -40,7 +41,7 @@ const ProfileScreen = ({ navigation }) => {
     }, []);
 
     return (
-        <SafeAreaView style={styles.background}>
+        <SafeAreaProvider style={styles.background}>
             <View>
                 <Text style={styles.resetHeader}>Profile</Text>
             </View>
@@ -65,7 +66,7 @@ const ProfileScreen = ({ navigation }) => {
                         </View>
                         <ListingPopup
                             listing={item}
-                            navigation={navigation}
+                            navigation={router}
                         />
                     </TouchableOpacity>
                 )}
@@ -78,8 +79,6 @@ const ProfileScreen = ({ navigation }) => {
                 bounces={false}
             />
 
-        </SafeAreaView>
+        </SafeAreaProvider>
     );
 };
-
-export default ProfileScreen;

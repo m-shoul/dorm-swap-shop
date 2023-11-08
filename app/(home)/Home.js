@@ -11,6 +11,7 @@ import { ScrollView } from "react-native-web";
 import { router } from "expo-router";
 
 
+
 export default function HomeScreen() {
 
     const scrollY = new Animated.Value(0);
@@ -122,7 +123,7 @@ export default function HomeScreen() {
     };
 
     return (
-        <View style={{ flex: 1, backgroundColor: "#F9F7F7" }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: "#F9F7F7" }}>
 
             {/* {HeaderComponent(translateYAxis)} */}
             <Animated.View style={{
@@ -188,6 +189,6 @@ export default function HomeScreen() {
                     <RefreshControl refreshing={refreshing} onRefresh={fetchListings} />
                 }
             />
-        </View>
+        </SafeAreaView>
     );
 }

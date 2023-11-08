@@ -11,13 +11,14 @@ import { database } from '../../backend/config/firebaseConfig';
 import BackButtonComponent from "../../assets/svg/back_button.js";
 import React, { useState, useEffect } from "react";
 import { router } from "expo-router";
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 
 // Imports for the email service. EmailJS...
 //import emailjs from 'emailjs-com';
 
 
-const ReportScreen = ({ navigation }) => {
+export default function ReportScreen() {
 
     // This isnt even working so probably delete it.
     // const [url, setUrl] = useState("");
@@ -66,7 +67,7 @@ const ReportScreen = ({ navigation }) => {
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false} >
-            <SafeAreaView style={styles.background}>
+            <SafeAreaProvider style={styles.background}>
 
 
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -120,9 +121,8 @@ const ReportScreen = ({ navigation }) => {
                     <Text>Post reported (second screen)</Text>
                 </TouchableOpacity>
 
-            </SafeAreaView>
+            </SafeAreaProvider>
         </TouchableWithoutFeedback>
     );
 };
 
-export default ReportScreen;

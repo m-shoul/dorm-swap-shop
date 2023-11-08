@@ -1,6 +1,5 @@
 import {
     Text,
-    SafeAreaView,
     TextInput,
     View,
     TouchableOpacity,
@@ -12,6 +11,7 @@ import styles from "../(aux)/StyleSheet";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { getAuth } from "firebase/auth";
 import { router } from 'expo-router';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 
 export default function LoginScreen() {
@@ -23,6 +23,7 @@ export default function LoginScreen() {
     const [passwordStyle, setPasswordStyle] = useState(styles.createUserInput);
     const passwordInputRef = useRef(null);
     const auth = getAuth();
+
 
     const handleLogin = async () => {
         //Check that user fills out form
@@ -61,7 +62,7 @@ export default function LoginScreen() {
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-            <View style={styles.background}>
+            <SafeAreaProvider style={styles.background} >
                 <View style={{ paddingTop: "45%" }}>
                     <Text style={styles.loginHeader}> Login </Text>
                 </View>
@@ -127,7 +128,7 @@ export default function LoginScreen() {
                         Create an Account
                     </Text>
                 </TouchableOpacity>
-            </View>
+            </SafeAreaProvider>
         </TouchableWithoutFeedback>
     );
 };

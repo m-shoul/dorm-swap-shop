@@ -7,10 +7,11 @@ import {
 import styles from "../(aux)/StyleSheet.js";
 import BackButtonComponent from "../../assets/svg/back_button.js";
 import { router } from "expo-router";
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-const DeleteAccount = ({ navigation }) => {
+export default function DeleteAccount() {
     return (
-        <SafeAreaView style={styles.background}>
+        <SafeAreaProvider style={styles.background}>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <TouchableOpacity onPress={() => navigation.goBack()}>
                     <BackButtonComponent></BackButtonComponent>
@@ -31,8 +32,6 @@ const DeleteAccount = ({ navigation }) => {
                 onPress={() => router.push("Profile")} style={styles.deleteBtn}>
                 <Text style={styles.buttonText}>Delete Account</Text>
             </TouchableOpacity>
-        </SafeAreaView >
+        </SafeAreaProvider >
     );
 };
-
-export default DeleteAccount;

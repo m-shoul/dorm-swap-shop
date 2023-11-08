@@ -14,6 +14,7 @@ import {
 } from "firebase/auth";
 import styles from "../(aux)/StyleSheet";
 import { router } from 'expo-router';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 export default function ResetPasswordScreen() {
     const [email, setEmail] = useState("");
@@ -46,7 +47,7 @@ export default function ResetPasswordScreen() {
     };
 
     return (
-        <SafeAreaView style={styles.background}>
+        <SafeAreaProvider style={styles.background}>
             <View>
                 <Text style={styles.resetHeader}>Reset Password</Text>
             </View>
@@ -88,6 +89,6 @@ export default function ResetPasswordScreen() {
                     <Text>Login</Text>
                 </TouchableOpacity>
             </View>
-        </SafeAreaView>
+        </SafeAreaProvider>
     );
 };

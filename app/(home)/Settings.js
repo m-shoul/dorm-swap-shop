@@ -8,10 +8,11 @@ import {
 } from "react-native";
 import styles from "../(aux)/StyleSheet";
 import { router } from "expo-router";
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-const SettingsScreen = ({ navigation }) => {
+export default function SettingsScreen() {
     return (
-        <SafeAreaView style={styles.background}>
+        <SafeAreaProvider style={styles.background}>
             <View>
                 <Text style={styles.resetHeader}>Settings</Text>
             </View>
@@ -19,8 +20,6 @@ const SettingsScreen = ({ navigation }) => {
                 onPress={() => router.push("DeleteAccount")}>
                 <Text>Delete Account</Text>
             </TouchableOpacity>
-        </SafeAreaView>
+        </SafeAreaProvider>
     );
 };
-
-export default SettingsScreen;

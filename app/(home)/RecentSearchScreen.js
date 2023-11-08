@@ -9,10 +9,11 @@ import {
 import { SearchBar } from "@rneui/themed";
 import styles from "../(aux)/StyleSheet";
 import { router } from "expo-router";
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-const RecentSearches = ({ navigation }) => {
+export default function RecentSearches() {
     return (
-        <SafeAreaView style={styles.background}>
+        <SafeAreaProvider style={styles.background}>
             <SearchBar
                 round
                 searchIcon={{ size: 24, color: "black" }}
@@ -33,8 +34,6 @@ const RecentSearches = ({ navigation }) => {
             <TouchableOpacity onPress={() => router.push("HomeScreen")}>
                 <Text>Home</Text>
             </TouchableOpacity>
-        </SafeAreaView>
+        </SafeAreaProvider>
     );
 };
-
-export default RecentSearches;

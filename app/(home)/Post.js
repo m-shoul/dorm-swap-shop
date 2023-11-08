@@ -16,8 +16,9 @@ import ListImagesComponent from "../../assets/svg/list_images.js";
 import RNPickerSelect from "react-native-picker-select";
 import { createListing } from "../../backend/api/listing.js";
 import { router } from "expo-router";
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-const CreatePostScreen = ({ navigation }) => {
+export default function CreatePostScreen() {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState("");
@@ -184,7 +185,7 @@ const CreatePostScreen = ({ navigation }) => {
     };
 
     return (
-        <SafeAreaView style={styles.background}>
+        <SafeAreaProvider style={styles.background}>
             <View
                 style={{
                     height: "15%",
@@ -402,8 +403,6 @@ const CreatePostScreen = ({ navigation }) => {
                     </View>
                 </ScrollView>
             </KeyboardAvoidingView>
-        </SafeAreaView>
+        </SafeAreaProvider>
     );
 };
-
-export default CreatePostScreen;
