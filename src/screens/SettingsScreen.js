@@ -9,6 +9,11 @@ import {
 import React, { useState, useEffect } from "react";
 import styles from "../styleSheets/StyleSheet.js";
 import { SearchBar } from "@rneui/themed";
+import NotificationComponent from "../assets/svg/notification_icon.js";
+import SupportComponent from "../assets/svg/support_icon.js";
+import AboutComponent from "../assets/svg/about_icon.js";
+import LogoutComponent from "../assets/svg/logout_icon.js";
+import DeleteComponent from "../assets/svg/delete_icon.js";
 
 const SettingsScreen = ({ navigation }) => {
     const [search, setSearch] = useState("");
@@ -42,39 +47,154 @@ const SettingsScreen = ({ navigation }) => {
                     value={search}
                 />
             </View>
+            <View style={{ width: "100%" }}>
+                <View style={{ flexDirection: "row", marginLeft: "5%" }}>
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate("DeleteAccount")}
+                        style={{
+                            marginBottom: "5%",
+                            marginTop: "3%",
+                            flexDirection: "row",
+                        }}>
+                        <NotificationComponent
+                            style={{
+                                stroke: "black",
+                                strokeWidth: 0.25,
+                            }}
+                        />
 
-            <TouchableOpacity
-                onPress={() => navigation.navigate("DeleteAccount")}
-                style={{ marginBottom: "5%" }}>
-                <Text style={[styles.normaltext, { textAlign: "left" }]}>
-                    Notifications
-                </Text>
-            </TouchableOpacity>
-            <View style={styles.dividerLine} />
-            <TouchableOpacity
-                style={{ marginBottom: "5%" }}
-                onPress={() => navigation.navigate("DeleteAccount")}>
-                <Text style={styles.normaltext}>Help and Support</Text>
-            </TouchableOpacity>
-            <View style={styles.dividerLine} />
-            <TouchableOpacity
-                style={{ marginBottom: "5%" }}
-                onPress={() => navigation.navigate("DeleteAccount")}>
-                <Text style={styles.normaltext}>About</Text>
-            </TouchableOpacity>
-            <View style={styles.dividerLine} />
-            <TouchableOpacity
-                style={{ marginBottom: "5%" }}
-                onPress={() => navigation.navigate("DeleteAccount")}>
-                <Text style={styles.normaltext}>Logout</Text>
-            </TouchableOpacity>
-            <View style={styles.dividerLine} />
+                        <Text
+                            style={[
+                                styles.normaltext,
+                                { marginTop: 7, paddingLeft: "2%" },
+                            ]}>
+                            Notifications
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+                <View
+                    style={[
+                        styles.dividerLine,
+                        { width: "83%", marginLeft: "7%" },
+                    ]}
+                />
+                <View style={{ flexDirection: "row", marginLeft: "5%" }}>
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate("DeleteAccount")}
+                        style={{
+                            marginBottom: "5%",
+                            marginTop: "-3%",
+                            flexDirection: "row",
+                        }}>
+                        <SupportComponent
+                            style={{
+                                stroke: "black",
+                                strokeWidth: 0.25,
+                            }}
+                        />
 
-            <TouchableOpacity
-                style={{ marginBottom: "5%" }}
-                onPress={() => navigation.navigate("DeleteAccount")}>
-                <Text style={styles.normaltext}>Delete Account</Text>
-            </TouchableOpacity>
+                        <Text
+                            style={[
+                                styles.normaltext,
+                                { marginTop: 7, paddingLeft: "2%" },
+                            ]}>
+                            Help and Support
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+                <View
+                    style={[
+                        styles.dividerLine,
+                        { width: "83%", marginLeft: "7%" },
+                    ]}
+                />
+                <View style={{ flexDirection: "row", marginLeft: "5%" }}>
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate("DeleteAccount")}
+                        style={{
+                            marginBottom: "5%",
+                            marginTop: "-3%",
+                            flexDirection: "row",
+                        }}>
+                        <AboutComponent
+                            style={{
+                                stroke: "black",
+                                strokeWidth: 0.25,
+                            }}
+                        />
+
+                        <Text
+                            style={[
+                                styles.normaltext,
+                                { marginTop: 7, paddingLeft: "2%" },
+                            ]}>
+                            About
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+                <View
+                    style={[
+                        styles.dividerLine,
+                        { width: "83%", marginLeft: "7%" },
+                    ]}
+                />
+                <View style={{ flexDirection: "row", marginLeft: "5%" }}>
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate("DeleteAccount")}
+                        style={{
+                            marginBottom: "5%",
+                            marginTop: "-3%",
+                            flexDirection: "row",
+                        }}>
+                        <LogoutComponent
+                            style={{
+                                stroke: "black",
+                                strokeWidth: 0.25,
+                                paddingRight: 10,
+                            }}
+                        />
+
+                        <Text
+                            style={[
+                                styles.normaltext,
+                                { marginTop: 7, paddingLeft: "2%" },
+                            ]}>
+                            Logout
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+                <View
+                    style={[
+                        styles.dividerLine,
+                        { width: "83%", marginLeft: "7%" },
+                    ]}
+                />
+
+                <View style={{ flexDirection: "row", marginLeft: "5%" }}>
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate("DeleteAccount")}
+                        style={{
+                            marginBottom: "5%",
+                            marginTop: "-3%",
+                            flexDirection: "row",
+                        }}>
+                        <DeleteComponent
+                            style={{
+                                stroke: "black",
+                                strokeWidth: 0.25,
+                            }}
+                        />
+
+                        <Text
+                            style={[
+                                styles.normaltext,
+                                { marginTop: 7, paddingLeft: "2%" },
+                            ]}>
+                            Delete Account
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
         </SafeAreaView>
     );
 };
