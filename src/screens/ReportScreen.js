@@ -13,7 +13,7 @@ import React, { useState, useEffect } from "react";
 import { useRoute } from '@react-navigation/native';
 
 // Imports for the email service. EmailJS...
-//import emailjs from 'emailjs-com';
+import emailjs from 'emailjs-com';
 
 
 const ReportScreen = ({ navigation }) => {
