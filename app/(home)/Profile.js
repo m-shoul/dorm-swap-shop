@@ -6,8 +6,8 @@ import React, { useState, useEffect } from "react";
 import { router } from "expo-router";
 
 import ListingPopup from "../../components/ListingPopup.js";
-import ListImagesComponent from "../assets/svg/list_images.js";
-import RatingComponent from "../assets/svg/rating_stars.js";
+import ListImagesComponent from "../../assets/svg/list_images.js";
+import RatingComponent from "../../assets/svg/rating_stars.js";
 
 export default function ProfileScreen() {
     const [listingsData, setListingsData] = useState([]);
@@ -65,7 +65,7 @@ export default function ProfileScreen() {
                     borderColor: "#B3B3B3",
                 }}>
                 <ListImagesComponent
-                    source={require("../assets/svg/list_images.js")}
+                    source={require("../../assets/svg/list_images.js")}
                     style={{
                         width: "100%",
                         height: "100%",

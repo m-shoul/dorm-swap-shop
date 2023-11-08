@@ -10,11 +10,11 @@ import React, { useState, useEffect } from "react";
 import styles from "../(aux)/StyleSheet.js";
 import { SearchBar } from "@rneui/themed";
 import { router } from "expo-router";
-import NotificationComponent from "../assets/svg/notification_icon.js";
-import SupportComponent from "../assets/svg/support_icon.js";
-import AboutComponent from "../assets/svg/about_icon.js";
-import LogoutComponent from "../assets/svg/logout_icon.js";
-import DeleteComponent from "../assets/svg/delete_icon.js";
+import NotificationComponent from "../../assets/svg/notification_icon.js";
+import SupportComponent from "../../assets/svg/support_icon.js";
+import AboutComponent from "../../assets/svg/about_icon.js";
+import LogoutComponent from "../../assets/svg/logout_icon.js";
+import DeleteComponent from "../../assets/svg/delete_icon.js";
 
 const SettingsScreen = ({ navigation }) => {
     const [search, setSearch] = useState("");

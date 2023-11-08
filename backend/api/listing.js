@@ -3,7 +3,7 @@ import { get, child, ref, set, push, getDatabase } from 'firebase/database';
 import { getStorage, ref as sRef, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { readData } from '../dbFunctions';
 import React, { useState, useEffect } from "react";
-import { categories, statuses, conditions } from '../../src/components/Enums.js';
+import { categories, statuses, conditions } from '../../components/Enums.js';
 
 // ^^ Import whatever we need for this...
 // NOTE************ add additional parameters when needed!!! This is just a baseline.
@@ -69,8 +69,8 @@ export async function createListing(userId, title, description, price, category,
         title: title,
         description: description,
         price: price,
-        category: category, 
-        condition: condition, 
+        category: category,
+        condition: condition,
         status: "Available", // By default, the status is set to "Available"
         timestamp: new Date().getTime(), // Current timestamp
         location: location,
@@ -97,7 +97,7 @@ export function readListing(listingId) {
     // Implement the functionality to read a listing.
     // I think this will be used for displaying the listings in the
     // home page and then displaying the listings in the user profile.
-    readData("dorm-swap-shop/listings/"+listingId);
+    readData("dorm-swap-shop/listings/" + listingId);
 }
 
 // Function to update a user
