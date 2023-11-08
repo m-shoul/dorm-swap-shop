@@ -1,10 +1,11 @@
-import { Text, View, TouchableOpacity, FlatList, SafeAreaView, Image, Modal, Animated } from "react-native";
+import { Text, View, TouchableOpacity, FlatList, SafeAreaView, Image, Animated, RefreshControl } from "react-native";
 import React, { useState, useEffect } from "react";
 import styles from "../styleSheets/StyleSheet.js";
 //import { getAuth, signOut } from "firebase/auth";
 import ListingPopup from "../components/ListingPopup.js";
-import { SearchBar, Header } from "@rneui/themed";
+import { SearchBar } from "@rneui/themed";
 import { get, child, ref, set, push, getDatabase } from 'firebase/database';
+import { ScrollView } from "react-native-web";
 
 //import styles from "../styleSheets/StyleSheet.js";
 //import { HeaderComponent } from "../components/headerComponent.js";
@@ -13,10 +14,10 @@ import { get, child, ref, set, push, getDatabase } from 'firebase/database';
 const HomeScreen = ({ navigation }) => {
 
     const scrollY = new Animated.Value(0);
-    const diffClamp = Animated.diffClamp(scrollY, 0, 100);
+    const diffClamp = Animated.diffClamp(scrollY, 0, 40);
     const translateYAxis = diffClamp.interpolate({
-        inputRange: [0, 100],
-        outputRange: [0, -100],
+        inputRange: [0, 1],
+        outputRange: [0, -1],
     });
 
     // Delete this once the listings are 100% working.
@@ -87,17 +88,21 @@ const HomeScreen = ({ navigation }) => {
     const [listingsData, setListingsData] = useState([]); // State to store listings data
     const [selectedListing, setSelectedListing] = useState(null); // State to store the selected listing
 
+    const [refreshing, setRefreshing] = React.useState(false);
+
 
     const db = getDatabase();
     const listingsReference = ref(db, 'dorm_swap_shop/listings/');
 
     const fetchListings = () => {
+        setRefreshing(true);
         get(listingsReference)
             .then((snapshot) => {
                 if (snapshot.exists()) {
                     const listingsData = snapshot.val();
                     // Set the retrieved data to the state
                     setListingsData(listingsData);
+                    setRefreshing(false);
                 } else {
                     console.log("No data available");
                 }
@@ -118,33 +123,11 @@ const HomeScreen = ({ navigation }) => {
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "#F9F7F7" }}>
-            {/* <Animated.View style={{
-        transform: [{ translateY: translateYAxis }],
-        elevation: 4,
-        zIndex: 100,
-      }}>
-        <View style={{ height: 45, marginTop: "10%", position: "absolute", top: 0, left: 0, right: 0 }}>
-          <SearchBar
-            round
-            searchIcon={{ size: 24, color: "black" }}
-            containerStyle={styles.searchContainer}
-            inputStyle={{ backgroundColor: "white", }}
-            inputContainerStyle={{
-              backgroundColor: "white", borderRadius: 20,
-              borderWidth: 1, borderBottomWidth: 1, borderColor: "#B3B3B3"
-            }}
-            onChangeText={setSearch}
-            //onClear={(text) => searchFilterFunction("")}
-            placeholder="Search"
-            value={search}
-          />
-        </View>
-      </Animated.View> */}
 
             {/* {HeaderComponent(translateYAxis)} */}
             <Animated.View style={{
                 transform: [{ translateY: translateYAxis }],
-                elevation: 4,
+                //elevation: 4,
                 zIndex: 100,
             }}>
                 <SearchBar
@@ -170,24 +153,29 @@ const HomeScreen = ({ navigation }) => {
             </TouchableOpacity> */}
 
             {/* Scrollable view displaying all the listings */}
+
             <FlatList
                 data={Object.values(listingsData)}
                 renderItem={({ item }) => (
-                    <TouchableOpacity style={{ width: "50%", height: 200, padding: "1%" }}
-                        onPress={() => handleItemPress(item)}
-                        key={item.id}
-                    >
-                        <View style={{ backgroundColor: "white", flex: 1 }}>
-                            {/* Source might be something like source={{uri: item.images}} */}
-                            <Image source={require("../assets/expo/splash_screen_dark.png")} style={{ width: "100%", height: "80%" }} />
-                            <View style={{ backgroundColor: "#B3B3B3", height: 1, width: "100%", marginBottom: "5%" }} />
-                            <Text>{"$" + item.price + " - " + item.title}</Text>
-                        </View>
+                    <View style={{ width: "50%", height: 300, padding: "1%" }}>
+                        {/* <TouchableOpacity style={{ width: "50%", height: 200, padding: "1%" }}
+                            onPress={() => handleItemPress(listing = { item })}
+                            key={item.id}
+                        > */}
+                        {/* <View style={{ backgroundColor: "white", flex: 1 }}> */}
+                        {/* Source might be something like source={{uri: item.images}} */}
+                        {/* <Image source={require("../assets/expo/splash_screen_dark.png")} style={{ width: "100%", height: "80%" }} />
+                                <View style={{ backgroundColor: "#B3B3B3", height: 1, width: "100%", marginBottom: "5%" }} />
+                                <Text>{"$" + item.price + " - " + item.title}</Text>
+                            </View> */}
+                        {/* </TouchableOpacity> */}
                         <ListingPopup
                             listing={item}
                             navigation={navigation}
                         />
-                    </TouchableOpacity>
+
+                    </View>
+
                 )}
                 numColumns={2}
                 keyExtractor={(item) => item.id}
@@ -196,6 +184,9 @@ const HomeScreen = ({ navigation }) => {
                     scrollY.setValue(e.nativeEvent.contentOffset.y);
                 }}
                 bounces={false}
+                refreshControl={
+                    <RefreshControl refreshing={refreshing} onRefresh={fetchListings} />
+                }
             />
         </SafeAreaView>
     );
