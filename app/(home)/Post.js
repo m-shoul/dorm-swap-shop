@@ -1,4 +1,5 @@
 import {
+    Keyboard,
     Text,
     TextInput,
     View,
@@ -6,11 +7,12 @@ import {
     SafeAreaView,
     ScrollView,
     KeyboardAvoidingView,
+    Image
 } from "react-native";
 import React, { useState, useEffect, useRef } from "react";
 import styles from "../(aux)/StyleSheet.js";
 import { getUserID } from "../../backend/dbFunctions.js";
-import { categories, conditions } from "../../components/Component.js";
+import { categories, conditions } from "../../components/Enums.js";
 import * as ImagePicker from "expo-image-picker";
 import ListImagesComponent from "../../assets/svg/list_images.js";
 import RNPickerSelect from "react-native-picker-select";
@@ -24,6 +26,7 @@ export default function CreatePostScreen() {
     const [price, setPrice] = useState("");
     const [category, setCategory] = useState(null);
     const [condition, setCondition] = useState(null);
+    const [location, setLocation] = useState("");
 
     // For uploading images
     const [image, setImage] = useState(null);
@@ -39,11 +42,11 @@ export default function CreatePostScreen() {
             quality: 1,
         });
 
-        // console.log(result);
+        console.log(result);
 
         if (!result.canceled) {
             console.log("Image picked successfully");
-            setImage(result.assets[0].uri);
+            setImage(result.uri);
         }
     };
 
@@ -51,7 +54,7 @@ export default function CreatePostScreen() {
     const CreatePost = () => {
         let userId = getUserID();
         try {
-            createListing(title, description, price, userId, image);
+            createListing(userId, title, description, price, category, condition, "location - replace with param in future", image);
             console.log("Post created successfully");
         } catch (error) {
             console.log(error);
@@ -235,16 +238,20 @@ export default function CreatePostScreen() {
                     keyboardShouldPersistTaps="handled">
                     <View>
                         <TouchableOpacity onPress={() => pickImage()}>
-                            <ListImagesComponent
-                                source={require("../../assets/svg/list_images.js")}
-                                style={{
-                                    width: 200,
-                                    height: 28,
-                                    stroke: "black",
-                                    strokeWidth: 0.25,
-                                    marginBottom: "5%",
-                                }}
-                            />
+                            {image ? (
+                                <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
+                            ) : (
+                                <ListImagesComponent
+                                    source={require("../../assets/svg/list_images.js")}
+                                    style={{
+                                        width: 200,
+                                        height: 28,
+                                        stroke: "black",
+                                        strokeWidth: 0.25,
+                                        marginBottom: "5%",
+                                    }}
+                                />
+                            )}
                         </TouchableOpacity>
                     </View>
 
@@ -279,6 +286,13 @@ export default function CreatePostScreen() {
                             placeholder="Price"
                             inputMode="decimal"
                             ref={priceInputRef}
+                            onBlur={() => {
+                                Keyboard.dismiss();
+                                categoryInputRef.current.togglePicker();
+                            }}
+                            onSubmitEditing={() => {
+                                Keyboard.dismiss();
+                            }}
                         />
                         {errorMessagePrice && (
                             <Text
@@ -292,25 +306,24 @@ export default function CreatePostScreen() {
                         )}
                         <View style={categoryStyle}>
                             <RNPickerSelect
-                                onValueChange={(value) => setCategory(value)}
+                                returnKeyType="done"
+                                blurOnSubmit={false}
+                                onValueChange={(value) => {
+                                    Keyboard.dismiss();
+                                    setCategory(value);
+                                }}
+                                onDonePress={() => {
+                                    conditionInputRef.current.togglePicker();
+                                }}
                                 placeholder={{
                                     label: "Select a Category",
                                     value: null,
                                 }}
+                                onSubmitEditing={() => {
+                                    Keyboard.dismiss();
+                                }}
                                 items={categories}
-                            // items={[
-                            //     { label: "Books", value: "books" },
-                            //     { label: "Furniture", value: "furniture" },
-                            //     {
-                            //         label: "Appliances",
-                            //         value: "appliances",
-                            //     },
-                            //     {
-                            //         label: "Decorations",
-                            //         value: "decorations",
-                            //     },
-                            //     { label: "Other", value: "other" },
-                            // ]}
+                                ref={categoryInputRef}
                             />
                         </View>
                         {errorMessageCategory && (
@@ -325,11 +338,30 @@ export default function CreatePostScreen() {
                         )}
                         <View style={conditionStyle}>
                             <RNPickerSelect
+                                returnKeyType="done"
+                                blurOnSubmit={false}
                                 placeholder={{
                                     label: "Select a Condition",
                                     value: null,
                                 }}
-                                onValueChange={(value) => setCondition(value)}
+                                onBlur={() => {
+                                    Keyboard.dismiss();
+                                }}
+                                onDonePress={() => {
+                                    Keyboard.dismiss();
+                                    setTimeout(() => {
+                                        descriptionInputRef.current.focus();
+                                    }, 100);
+                                }}
+                                onValueChange={(value) => {
+                                    Keyboard.dismiss();
+                                    setCondition(value);
+                                }}
+                                onSubmitEditing={() => {
+                                    Keyboard.dismiss();
+                                }}
+
+                                ref={conditionInputRef}
                                 items={conditions}
                             />
                         </View>
@@ -346,10 +378,13 @@ export default function CreatePostScreen() {
                         )}
 
                         <TextInput
+                            blurOnSubmit={false}
                             onChangeText={(value) => setDescription(value)}
                             multiline={true}
+                            value={description}
                             placeholder="Description"
                             style={descriptionStyle}
+                            ref={descriptionInputRef}
                         />
 
                         {errorMessageDescription && (

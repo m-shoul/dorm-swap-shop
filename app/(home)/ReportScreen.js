@@ -13,28 +13,18 @@ import React, { useState, useEffect } from "react";
 import { router } from "expo-router";
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
+import { useRoute } from '@react-navigation/native';
 
 // Imports for the email service. EmailJS...
-//import emailjs from 'emailjs-com';
+import emailjs from 'emailjs-com';
 
 
 export default function ReportScreen() {
 
-    // This isnt even working so probably delete it.
-    // const [url, setUrl] = useState("");
+    const route = useRoute();
+    const { listing } = route.params;
 
-    // const getImage = async () => {
-    //     const storage = getStorage();
-    //     const storageRef = ref(storage, "/test");
-
-    //     const url = await getDownloadURL(storageRef);
-    //     setUrl(url);
-    // };
-
-    // useEffect(() => {
-    //     getImage();
-    // })
-
+    console.log(listing);
 
     // Sending the email to the admin.
     const [emailSent, setEmailSent] = useState(false);
@@ -86,7 +76,7 @@ export default function ReportScreen() {
                 The image is associated with whomever had posted the listing.
                 So we need to somehow get that image from the listingID, from that
                 specific user who is associated with the listingID.*/}
-                <Image source={{ uri: 'https://reactjs.org/logo-og.png' }} style={{ width: "30%", height: "15%", marginBottom: "10%" }} />
+                <Image source={{ uri: listing.images }} style={{ width: "30%", height: "15%", marginBottom: "10%" }} />
 
                 {/* Description text field to enter what is wrong with the post */}
                 <TextInput

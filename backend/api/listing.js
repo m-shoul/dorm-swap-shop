@@ -3,7 +3,7 @@ import { get, child, ref, set, push, getDatabase } from 'firebase/database';
 import { getStorage, ref as sRef, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { readData } from '../dbFunctions';
 import React, { useState, useEffect } from "react";
-
+import { categories, statuses, conditions } from '../../src/components/Enums.js';
 
 // ^^ Import whatever we need for this...
 // NOTE************ add additional parameters when needed!!! This is just a baseline.
@@ -14,39 +14,83 @@ const storage = getStorage();
 // Function to create a new listing
 // https://firebase.google.com/docs/database/web/read-and-write
 // Post and simultaneously update it to the recent activity feed and the posting user's activity feed.
-export function createListing(title, description, price, userId, image) {
 
-    // Reference listings in database
-    const listingReference = ref(database, 'dorm_swap_shop/listings/');
+// Old version - delete if new one works
+// export function createListing(title, description, price, userId, image) {
 
-    // Generates a unique ID
+//     // Reference listings in database
+//     const listingReference = ref(database, 'dorm_swap_shop/listings/');
+
+//     // Generates a unique ID
+//     const newListingReference = push(listingReference);
+
+//     // Gets the unique ID
+//     const listingId = newListingReference.key;
+
+//     // Gets image reference
+//     const imagesRef = ref(getDatabase(), `/dorm_swap_shop/listings/${listingId}/images`);
+
+//     if (image) {    
+//         // uploadImage(image, dbRef);
+//         uploadImageAsync(image, imagesRef);
+//     } else {
+//         console.log("No image set");
+//     }
+
+//     const listingData = {
+//         title: title,
+//         description: description,
+//         price: price,
+//         userId: userId,
+//         images: [],
+//         // timeUpload: firebase.database.ServerValue.TIMESTAMP
+//         timeUpload: new Date().toISOString()
+//     };
+
+//     set(newListingReference, listingData);
+
+//     return listingId;
+// }
+
+
+export async function createListing(userId, title, description, price, category, condition, location, image) {
+    // Reference listings in the database
+    const listingReference = ref(database, 'dorm_swap_shop/listings');
+
+    // Generates a unique ID for the listing
     const newListingReference = push(listingReference);
 
-    // Gets the unique ID
+    // Gets the unique listing ID
     const listingId = newListingReference.key;
 
-    // Gets image reference
-    const dbRef = ref(getDatabase(), "/dorm_swap_shop/listings/" + listingId);
-
     const listingData = {
+        listingId: listingId,
+        user: userId,
         title: title,
         description: description,
         price: price,
-        userId: userId,
-        // timeUpload: firebase.database.ServerValue.TIMESTAMP
-        timeUpload: new Date().toISOString()
+        category: category, 
+        condition: condition, 
+        status: "Available", // By default, the status is set to "Available"
+        timestamp: new Date().getTime(), // Current timestamp
+        location: location,
+        reports: [], // Initialize with an empty array of reports
+        images: [], // Initialize with an empty array for images
     };
 
-    set(newListingReference, listingData);
+    // Set the listing data
+    await set(newListingReference, listingData);
 
+    // If an image is provided, upload it and update the listing
     if (image) {
-        uploadImage(image, dbRef);
-    } else {
-        console.log("No image set");
+        const imagesRef = ref(database, `dorm_swap_shop/listings/${listingId}/images`);
+        await uploadImageAsync(image, imagesRef);
     }
 
     return listingId;
 }
+
+
 
 // Function to read user data
 export function readListing(listingId) {
@@ -78,41 +122,33 @@ export function deleteListing(listingId) {
 // Can add additional functions in here that deal with the listings
 // and curtail them to our needs.
 
-// Function to upload image to the database.
-const uploadImage = async (uri, dbRef) => {
-    const [progress, setProgress] = useState("");
-
-    const response = await fetch(uri);
-    const blob = await response.blob();
+async function uploadImageAsync(uri, imagesRef) {
+    const blob = await new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.onload = function () {
+            resolve(xhr.response);
+        };
+        xhr.onerror = function (e) {
+            reject(new TypeError("Network request failed"));
+        };
+        xhr.responseType = "blob";
+        xhr.open("GET", uri, true);
+        xhr.send(null);
+    });
 
     const storageRef = sRef(storage, "test/" + new Date().getTime());
-    const uploadTask = uploadBytesResumable(storageRef, blob);
+    await uploadBytesResumable(storageRef, blob);
 
-    // listen for events
-    uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-            const progress =
-                (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            console.log("Upload is " + progress + "% done");
-            setProgress(progress.toFixed());
-        },
-        (error) => {
-            // handle error
-        },
-        () => {
-            getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
-                console.log("File available at", downloadURL);
-                // save record
-                const newRecordRef = push(dbRef);
-                await set(newRecordRef, {
-                    image: downloadURL,
-                    timestamp: new Date().toISOString(),
-                });
-                // setImage("");
-            });
-        }
-    );
-    // Testing purposes
-    alert("Image uploaded");        
-};
+    // We're done with the blob, close and release it
+    blob.close();
+
+    const downloadURL = await getDownloadURL(storageRef);
+    console.log(downloadURL);
+
+    // const imagesRef = ref(images, "images/");
+    console.log(imagesRef);
+    // const newImageRef = push(imagesRef);
+    await set(imagesRef, downloadURL);
+
+    return downloadURL;
+}

@@ -5,7 +5,7 @@ import { get, child, ref, set, push, getDatabase } from 'firebase/database';
 // NOTE************ add additional parameters when needed!!! This is just a baseline.
 
 // Function to create a new user
-export function createUser(fname, lname, uname, email) {
+export function createUser(fname, lname, username, email) {
 
     // Reference users in database
     const userReference = ref(database, 'dorm_swap_shop/users/');
@@ -16,12 +16,27 @@ export function createUser(fname, lname, uname, email) {
     // Gets the unique ID
     const userId = newUserReference.key;
 
-    const userData = {
+    const publicUserData = {
         fname: fname,
         lname: lname,
-        username: uname,
+        username: username,
+        rating: 0,
+        profileImage: "",
+        bio: "",
+        listings: []
+    };
+
+    const privateUserData = {
         email: email,
-        // profile_picture : imageUrl
+        timestamp: new Date().toISOString(),
+        chats: [],
+        savedListings: [],
+        blockedUsers: []
+    };
+
+    const userData = {
+        public: publicUserData,
+        private: privateUserData
     };
 
     set(newUserReference, userData);

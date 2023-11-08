@@ -96,6 +96,9 @@ export default function LoginScreen() {
                         placeholder="Password"
                         ref={passwordInputRef}
                         blurOnSubmit={false}
+                        onSubmitEditing={() => {
+                            Keyboard.dismiss();
+                        }}
                     />
 
                     {errorMessage2 && (

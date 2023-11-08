@@ -128,7 +128,7 @@ export default function HomeScreen() {
             {/* {HeaderComponent(translateYAxis)} */}
             <Animated.View style={{
                 transform: [{ translateY: translateYAxis }],
-                elevation: 4,
+                //elevation: 4,
                 zIndex: 100,
             }}>
                 <SearchBar

@@ -51,7 +51,7 @@ const ListingPopup = ({ navigation, listing }) => {
             <TouchableOpacity onPress={openModal}>
                 <View style={{ backgroundColor: "white" }}>
                     {/* Source might be something like source={{uri: item.images}} */}
-                    <Image source={require("../assets/expo/splash_screen_dark.png")} style={{ width: "100%", height: "87%" }} />
+                    <Image source={{ uri: listing.images }} style={{ width: "100%", height: "87%" }} />
                     <View style={{ backgroundColor: "#B3B3B3", height: 1, width: "100%", marginBottom: "2%" }} />
                     <Text>{"$" + listing.price + " - " + listing.title}</Text>
                 </View>
@@ -86,7 +86,7 @@ const ListingPopup = ({ navigation, listing }) => {
                             style={{ flex: 0 }}
                             onPress={() => {
                                 setListingModalVisible(false);
-                                router.push("ReportScreen");
+                                router.push("ReportScreen", { listing: listing });
 
                                 // Pass the image into the report screen and display
                                 // it at the top so the user knows what listing they are
@@ -102,19 +102,23 @@ const ListingPopup = ({ navigation, listing }) => {
                             />
                         </TouchableOpacity>
                     </View>
-                    {/* IMAGE    */}
+                    {/* IMAGE */}
                     <View style={{ height: "33%" }}>
-                        <Swiper
+                        <Image
+                            source={{ uri: listing.images }}
+                            style={{ width: width, height: 250 }}
+                        />
+                        {/* <Swiper
                             loop={false}
                             onIndexChanged={(index) => setCurrentIndex(index)}>
                             {images.map((image, currentIndex) => (
                                 <Image
                                     key={currentIndex}
-                                    source={image}
+                                    source={listing.images}
                                     style={{ width: width, height: 250 }}
                                 />
                             ))}
-                        </Swiper>
+                        </Swiper> */}
                     </View>
                     <View style={{ width: "100%", height: "25%" }}>
                         <View

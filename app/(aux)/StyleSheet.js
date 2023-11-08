@@ -17,6 +17,7 @@ SmallHeadText = width / SmallerHeaderFontSize;
 
 const styles = StyleSheet.create({
     boldtext: { fontSize: normalText, fontWeight: "bold" },
+    normaltext: { fontSize: normalText },
     background: {
         flex: 1,
         alignItems: "center",

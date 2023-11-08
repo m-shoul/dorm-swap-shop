@@ -6,10 +6,11 @@ import {
     TouchableOpacity,
     ScrollView,
     KeyboardAvoidingView,
+    Keyboard,
 } from "react-native";
 import React from "react";
 import styles from "../(aux)/StyleSheet.js";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 // import { writeUserData } from "../../backend/dbFunctions.js";
 import { createUser } from "../../backend/api/user.js";
@@ -47,6 +48,13 @@ export default function CreateUserScreen() {
     const [errorMessageEmail, setErrorMessageEmail] = useState("");
     const [errorMessagePassword, setErrorMessagePassword] = useState("");
     const [errorMessageConfirm, setErrorMessageConfirm] = useState("");
+
+    const firstNameInputRef = useRef(null);
+    const lastNameInputRef = useRef(null);
+    const userNameInputRef = useRef(null);
+    const emailInputRef = useRef(null);
+    const passwordInputRef = useRef(null);
+    const confirmPasswordInputRef = useRef(null);
 
     let validate = 0;
     useEffect(() => {
@@ -234,6 +242,11 @@ export default function CreateUserScreen() {
                     }}>
                     <View style={styles.forms}>
                         <TextInput
+                            onSubmitEditing={() => {
+                                lastNameInputRef.current.focus();
+                            }}
+                            ref={firstNameInputRef}
+                            blurOnSubmit={false}
                             style={firstNameStyle}
                             placeholder="First Name"
                             value={firstName}
@@ -250,6 +263,11 @@ export default function CreateUserScreen() {
                             </Text>
                         )}
                         <TextInput
+                            onSubmitEditing={() => {
+                                userNameInputRef.current.focus();
+                            }}
+                            ref={lastNameInputRef}
+                            blurOnSubmit={false}
                             style={lastNameStyle}
                             placeholder="Last Name"
                             value={lastName}
@@ -261,6 +279,11 @@ export default function CreateUserScreen() {
                             </Text>
                         )}
                         <TextInput
+                            onSubmitEditing={() => {
+                                emailInputRef.current.focus();
+                            }}
+                            ref={userNameInputRef}
+                            blurOnSubmit={false}
                             style={usernameStyle}
                             placeholder="Username"
                             value={username}
@@ -272,6 +295,11 @@ export default function CreateUserScreen() {
                             </Text>
                         )}
                         <TextInput
+                            onSubmitEditing={() => {
+                                passwordInputRef.current.focus();
+                            }}
+                            ref={emailInputRef}
+                            blurOnSubmit={false}
                             style={emailStyle}
                             placeholder="Email"
                             value={email}
@@ -283,6 +311,11 @@ export default function CreateUserScreen() {
                             </Text>
                         )}
                         <TextInput
+                            onSubmitEditing={() => {
+                                confirmPasswordInputRef.current.focus();
+                            }}
+                            ref={passwordInputRef}
+                            blurOnSubmit={false}
                             style={passwordStyle}
                             secureTextEntry={true}
                             placeholder="Password"
@@ -295,6 +328,11 @@ export default function CreateUserScreen() {
                             </Text>
                         )}
                         <TextInput
+                            onSubmitEditing={() => {
+                                Keyboard.dismiss();
+                            }}
+                            ref={confirmPasswordInputRef}
+                            blurOnSubmit={false}
                             style={passwordCheckStyle}
                             secureTextEntry={true}
                             placeholder={"Confirm Password"}
