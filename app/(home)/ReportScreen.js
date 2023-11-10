@@ -10,10 +10,9 @@ import * as ImagePicker from 'expo-image-picker';
 import { database } from '../../backend/config/firebaseConfig';
 import BackButtonComponent from "../../assets/svg/back_button.js";
 import React, { useState, useEffect } from "react";
-import { router } from "expo-router";
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { useLocalSearchParams } from 'expo-router';
 
-import { useRoute } from '@react-navigation/native';
+//import { useRoute } from '@react-navigation/native';
 
 // Imports for the email service. EmailJS...
 import emailjs from 'emailjs-com';
@@ -21,8 +20,8 @@ import emailjs from 'emailjs-com';
 
 export default function ReportScreen() {
 
-    const route = useRoute();
-    const { listing } = route.params;
+    const params = useLocalSearchParams();
+    let { listing } = params.listing;
 
     console.log(listing);
 
@@ -57,13 +56,13 @@ export default function ReportScreen() {
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false} >
-            <SafeAreaProvider style={styles.background}>
+            <SafeAreaView style={styles.background}>
 
 
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
                     {/* Need to add in the back arrow and the 
             functionality of going back on click. */}
-                    <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <TouchableOpacity onPress={() => router.back()}>
                         <BackButtonComponent />
                     </TouchableOpacity>
 
@@ -111,7 +110,7 @@ export default function ReportScreen() {
                     <Text>Post reported (second screen)</Text>
                 </TouchableOpacity>
 
-            </SafeAreaProvider>
+            </SafeAreaView>
         </TouchableWithoutFeedback>
     );
 };

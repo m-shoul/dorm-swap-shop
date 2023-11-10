@@ -51,7 +51,7 @@ export default function SettingsScreen() {
             <View style={{ width: "100%" }}>
                 <View style={{ flexDirection: "row", marginLeft: "5%" }}>
                     <TouchableOpacity
-                        onPress={() => router.push("DeleteAccount")}
+                        onPress={() => router.push("(settings)/DeleteAccountScreen")}
                         style={{
                             marginBottom: "5%",
                             marginTop: "3%",
@@ -81,7 +81,7 @@ export default function SettingsScreen() {
                 />
                 <View style={{ flexDirection: "row", marginLeft: "5%" }}>
                     <TouchableOpacity
-                        onPress={() => router.push("DeleteAccount")}
+                        onPress={() => router.push("(settings)/DeleteAccountScreen")}
                         style={{
                             marginBottom: "5%",
                             marginTop: "-3%",
@@ -111,7 +111,7 @@ export default function SettingsScreen() {
                 />
                 <View style={{ flexDirection: "row", marginLeft: "5%" }}>
                     <TouchableOpacity
-                        onPress={() => router.push("DeleteAccount")}
+                        onPress={() => router.push("(settings)/DeleteAccountScreen")}
                         style={{
                             marginBottom: "5%",
                             marginTop: "-3%",
@@ -141,7 +141,7 @@ export default function SettingsScreen() {
                 />
                 <View style={{ flexDirection: "row", marginLeft: "5%" }}>
                     <TouchableOpacity
-                        onPress={() => router.push("DeleteAccount")}
+                        onPress={() => router.push("(settings)/DeleteAccountScreen")}
                         style={{
                             marginBottom: "5%",
                             marginTop: "-3%",
@@ -173,7 +173,7 @@ export default function SettingsScreen() {
 
                 <View style={{ flexDirection: "row", marginLeft: "5%" }}>
                     <TouchableOpacity
-                        onPress={() => router.push("DeleteAccount")}
+                        onPress={() => router.push("(settings)/DeleteAccountScreen")}
                         style={{
                             marginBottom: "5%",
                             marginTop: "-3%",

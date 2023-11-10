@@ -86,7 +86,7 @@ const ListingPopup = ({ navigation, listing }) => {
                             style={{ flex: 0 }}
                             onPress={() => {
                                 setListingModalVisible(false);
-                                router.push("ReportScreen", { listing: listing });
+                                router.push({ pathname: "ReportScreen", params: { listing: listing } });
 
                                 // Pass the image into the report screen and display
                                 // it at the top so the user knows what listing they are
