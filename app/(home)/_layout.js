@@ -51,12 +51,11 @@ export default function Layout() {
                 }}
             />
             <Tabs.Screen
-                // Name of the route to hide.
-                name="Settings"
+                name='Settings'
                 options={{
                     tabBarIcon: ({ focused }) => (
                         <SettingsComponent width="40" height="100" fill={focused ? "#3F72AF" : "black"} strokeWidth="0.25" />
-                    ),
+                    )
                 }}
             />
             <Tabs.Screen

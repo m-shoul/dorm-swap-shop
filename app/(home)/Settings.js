@@ -16,7 +16,7 @@ import AboutComponent from "../../assets/svg/about_icon.js";
 import LogoutComponent from "../../assets/svg/logout_icon.js";
 import DeleteComponent from "../../assets/svg/delete_icon.js";
 
-const SettingsScreen = ({ navigation }) => {
+export default function SettingsScreen() {
     const [search, setSearch] = useState("");
     return (
         <SafeAreaView style={styles.background}>
