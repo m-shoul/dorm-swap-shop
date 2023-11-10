@@ -4,6 +4,7 @@ import { get, ref, getDatabase } from "@firebase/database";
 // import { getUserID } from "../../backend/dbFunctions.js";
 import React, { useState, useEffect } from "react";
 import { router } from "expo-router";
+import { getUserID } from "../../backend/dbFunctions.js";
 
 import ListingPopup from "../../components/ListingPopup.js";
 import ListImagesComponent from "../../assets/svg/list_images.js";
@@ -31,6 +32,30 @@ export default function ProfileScreen() {
                 console.error("Error fetching listings:", error);
             });
     };
+
+    // work in progress - need to filter listings by user ID
+    // const fetchListings = () => {
+    //     userId = getUserID();
+    //     console.log("userId: " + userId);
+    //     get(listingsReference)
+    //         .then((snapshot) => {
+    //             if (snapshot.exists()) {
+    //                 const listingsData = snapshot.val();
+    //                 console.log("listingsData: " + listingsData);
+
+    //                 // Filter listings by the logged-in user's ID
+    //                 const userListings = Object.values(listingsData).filter((listing) => listing.userId === userId);
+    //                 console.log(userListings);
+    //                 // Set the filtered data to the state
+    //                 setListingsData(userListings);
+    //             } else {
+    //                 console.log("No data available");
+    //             }
+    //         })
+    //         .catch((error) => {
+    //             console.error("Error fetching listings:", error);
+    //         });
+    // };
 
     const handleItemPress = (listing) => {
         // setSelectedListing(listing);

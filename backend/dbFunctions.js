@@ -1,5 +1,5 @@
 import { database, auth } from '../backend/config/firebaseConfig';
-import { get, child, ref, set, push, getDatabase } from 'firebase/database';
+import { get, child, ref, set, push, getDatabase, firebaseAuth } from 'firebase/database';
 import firebase from "firebase/app";
 import { onAuthStateChanged } from "firebase/auth";
 import React, { useState, useEffect } from 'react';
@@ -41,24 +41,13 @@ export async function readData(path) {
 // }
 
 export const getUserID = () => {
-    //This was given by copilot, it is untested
+    var uid = "User ID not found";
+    var user = auth.currentUser;
+    if (user != null) {
+        uid = user.uid;
+    }
 
-    // const [user, setUser] = useState(null);
-    // useEffect(() => {
-    //     const unsub = onAuthStateChanged(auth, user => {
-    //         console.log('Got user: ', user);
-    //         if (user) {
-    //             setUser(user);
-    //         } else {
-    //             setUser(null);
-    //         }
-    //     })
-    //     return unsub;
-    // },[])
-    // return { user }
-
-    return "placeholder"
-
+    return uid;
 }
 
 // // Write user data to the database.
