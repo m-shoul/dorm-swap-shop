@@ -11,48 +11,6 @@ import { categories, statuses, conditions } from '../../src/components/Enums.js'
 // Get a reference to the storage database
 const storage = getStorage();
 
-// Function to create a new listing
-// https://firebase.google.com/docs/database/web/read-and-write
-// Post and simultaneously update it to the recent activity feed and the posting user's activity feed.
-
-// Old version - delete if new one works
-// export function createListing(title, description, price, userId, image) {
-
-//     // Reference listings in database
-//     const listingReference = ref(database, 'dorm_swap_shop/listings/');
-
-//     // Generates a unique ID
-//     const newListingReference = push(listingReference);
-
-//     // Gets the unique ID
-//     const listingId = newListingReference.key;
-
-//     // Gets image reference
-//     const imagesRef = ref(getDatabase(), `/dorm_swap_shop/listings/${listingId}/images`);
-
-//     if (image) {    
-//         // uploadImage(image, dbRef);
-//         uploadImageAsync(image, imagesRef);
-//     } else {
-//         console.log("No image set");
-//     }
-
-//     const listingData = {
-//         title: title,
-//         description: description,
-//         price: price,
-//         userId: userId,
-//         images: [],
-//         // timeUpload: firebase.database.ServerValue.TIMESTAMP
-//         timeUpload: new Date().toISOString()
-//     };
-
-//     set(newListingReference, listingData);
-
-//     return listingId;
-// }
-
-
 export async function createListing(userId, title, description, price, category, condition, location, image) {
     // Reference listings in the database
     const listingReference = ref(database, 'dorm_swap_shop/listings');
