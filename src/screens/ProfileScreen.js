@@ -25,16 +25,16 @@ const ProfileScreen = ({ navigation }) => {
 
     const fetchListings = () => {
         userId = getUserID();
-        console.log("userId: ", userId);
+        // console.log("userId: ", userId);
         get(listingsReference)
             .then((snapshot) => {
                 if (snapshot.exists()) {
                     const listingsData = snapshot.val();
-                    console.log("listingsData: ", listingsData);
+                    // console.log("listingsData: ", listingsData);
                     
                     // Filter listings by the logged-in user's ID
                     const userListings = Object.values(listingsData).filter((listing) => listing.user === userId);
-                    console.log(userListings);
+                    // console.log(userListings);
                     // Set the filtered data to the state
                     setListingsData(userListings);
                 } else {
