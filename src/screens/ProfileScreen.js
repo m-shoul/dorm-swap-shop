@@ -24,12 +24,19 @@ const ProfileScreen = ({ navigation }) => {
     const listingsReference = ref(db, "dorm_swap_shop/listings/");
 
     const fetchListings = () => {
+        userId = getUserID();
+        console.log("userId: ", userId);
         get(listingsReference)
             .then((snapshot) => {
                 if (snapshot.exists()) {
                     const listingsData = snapshot.val();
-                    // Set the retrieved data to the state
-                    setListingsData(listingsData);
+                    console.log("listingsData: ", listingsData);
+                    
+                    // Filter listings by the logged-in user's ID
+                    const userListings = Object.values(listingsData).filter((listing) => listing.user === userId);
+                    console.log(userListings);
+                    // Set the filtered data to the state
+                    setListingsData(userListings);
                 } else {
                     console.log("No data available");
                 }
@@ -38,30 +45,6 @@ const ProfileScreen = ({ navigation }) => {
                 console.error("Error fetching listings:", error);
             });
     };
-
-    // work in progress - need to filter listings by user ID
-    // const fetchListings = () => {
-    //     userId = getUserID();
-    //     console.log("userId: " + userId);
-    //     get(listingsReference)
-    //         .then((snapshot) => {
-    //             if (snapshot.exists()) {
-    //                 const listingsData = snapshot.val();
-    //                 console.log("listingsData: " + listingsData);
-                    
-    //                 // Filter listings by the logged-in user's ID
-    //                 const userListings = Object.values(listingsData).filter((listing) => listing.userId === userId);
-    //                 console.log(userListings);
-    //                 // Set the filtered data to the state
-    //                 setListingsData(userListings);
-    //             } else {
-    //                 console.log("No data available");
-    //             }
-    //         })
-    //         .catch((error) => {
-    //             console.error("Error fetching listings:", error);
-    //         });
-    // };
 
     const handleItemPress = (listing) => {
         // setSelectedListing(listing);
