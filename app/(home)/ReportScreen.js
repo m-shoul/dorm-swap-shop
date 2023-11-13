@@ -10,7 +10,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { database } from '../../backend/config/firebaseConfig';
 import BackButtonComponent from "../../assets/svg/back_button.js";
 import React, { useState, useEffect } from "react";
-import { useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, router } from 'expo-router';
 
 //import { useRoute } from '@react-navigation/native';
 
@@ -21,9 +21,9 @@ import emailjs from 'emailjs-com';
 export default function ReportScreen() {
 
     const params = useLocalSearchParams();
-    let { listing } = params.listing;
+    let listing = params.listing;
 
-    console.log(listing);
+    console.log(listing.images);
 
     // Sending the email to the admin.
     const [emailSent, setEmailSent] = useState(false);

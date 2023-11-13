@@ -1,4 +1,4 @@
-import { database } from '../config/firebaseConfig';
+import { database } from './config/firebaseConfig';
 import { get, child, ref, set, push, getDatabase } from 'firebase/database';
 
 // ^^ Import whatever we need for this...

@@ -3,7 +3,7 @@ import { get, child, ref, set, push, getDatabase } from 'firebase/database';
 import { getStorage, ref as sRef, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { readData } from '../dbFunctions';
 import React, { useState, useEffect } from "react";
-import { categories, statuses, conditions } from '../../components/Enums.js';
+import { categories, statuses, conditions } from '../../components/Enums';
 
 // ^^ Import whatever we need for this...
 // NOTE************ add additional parameters when needed!!! This is just a baseline.

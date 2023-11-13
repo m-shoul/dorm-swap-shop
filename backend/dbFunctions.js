@@ -1,4 +1,4 @@
-import { database, auth } from '../backend/config/firebaseConfig';
+import { database, auth } from './config/firebaseConfig';
 import { get, child, ref, set, push, getDatabase, firebaseAuth } from 'firebase/database';
 import firebase from "firebase/app";
 import { onAuthStateChanged } from "firebase/auth";
@@ -101,7 +101,7 @@ export const getUserID = () => {
 //     return listingId;
 // }
 
-    
 
-    
+
+
 
