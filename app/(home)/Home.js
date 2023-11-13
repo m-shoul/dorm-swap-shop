@@ -8,7 +8,6 @@ import { get, child, ref, set, push, getDatabase } from 'firebase/database';
 import { ScrollView } from "react-native-web";
 //import styles from "../styleSheets/StyleSheet.js";
 //import { HeaderComponent } from "../components/headerComponent.js";
-import { router } from "expo-router";
 
 
 
@@ -172,7 +171,7 @@ export default function HomeScreen() {
                         {/* </TouchableOpacity> */}
                         <ListingPopup
                             listing={item}
-                            navigation={router}
+                        //navigation={router}
                         />
 
                     </View>

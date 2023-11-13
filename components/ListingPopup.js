@@ -16,13 +16,15 @@ import Xmark from "../assets/svg/xmark.js";
 import ReportComponent from "../assets/svg/report_icon.js";
 import FavouriteIcon from "../assets/svg/favourite_icon.js";
 import SavedListingIcon from "../assets/svg/savedListing_icon.js";
-import { router } from "expo-router";
+import { useRouter, useLocalSearchParams } from "expo-router";
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-const ListingPopup = ({ navigation, listing }) => {
+export default function ListingPopup({ listing }) {
     const { width, height } = Dimensions.get("window");
     const [listingModalVisible, setListingModalVisible] = useState(false);
     const [isFavorited, setIsFavorited] = useState(false);
+
+    const router = useRouter();
 
     const simpleAlert = () => {
         setIsFavorited(!isFavorited);
@@ -86,7 +88,7 @@ const ListingPopup = ({ navigation, listing }) => {
                             style={{ flex: 0 }}
                             onPress={() => {
                                 setListingModalVisible(false);
-                                router.push({ pathname: "ReportScreen", params: { listing: listing } });
+                                router.push({ pathname: "ReportScreen", params: listing });
 
                                 // Pass the image into the report screen and display
                                 // it at the top so the user knows what listing they are
@@ -225,5 +227,3 @@ const ListingPopup = ({ navigation, listing }) => {
         </SafeAreaProvider>
     );
 };
-
-export default ListingPopup;
