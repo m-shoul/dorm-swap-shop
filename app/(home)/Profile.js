@@ -133,7 +133,7 @@ export default function ProfileScreen() {
                         backgroundColor: "#3F72AF",
                         marginRight: "5%",
                     }}
-                    onPress={() => router.push("SavedListings")}>
+                    onPress={() => router.push("SavedListingsScreen")}>
                     <Text style={[styles.boldtext, { color: "white" }]}>
                         Saved Listings
                     </Text>

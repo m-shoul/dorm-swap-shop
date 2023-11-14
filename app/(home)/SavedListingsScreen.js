@@ -16,7 +16,7 @@ export default function SavedListingsScreen() {
             <View>
                 <Text style={styles.resetHeader}>SavedListings</Text>
             </View>
-            <TouchableOpacity onPress={() => router.push("HomeScreen")}>
+            <TouchableOpacity onPress={() => router.push("Home")}>
                 <Text>Home</Text>
             </TouchableOpacity>
         </SafeAreaProvider>
