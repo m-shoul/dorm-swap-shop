@@ -6,6 +6,9 @@
 | 1.0.00  | 2023-08-31 | Initial deployment.
 | 1.0.01  | 2023-09-08 | Set up tech stack.
 | 1.0.02  | 2023-09-29 | User registration and login.
+| 1.0.03  | 2023-10-23 | Listing an item.
+| 1.0.04  | 2023-11-10 | App Navigation and view listings.
+
 
 ## Table of Contents
 * [Releases](https://github.com/m-shoul/dorm-swap-shop#releases)
@@ -35,7 +38,6 @@ Expo and React Native are the primary front-end technologies used to develop thi
 
 ### Backend:
 * [Node.js](https://nodejs.org/en)
-* [Express.js](https://expressjs.com/)
 * [Firebase](https://firebase.google.com/)
 
 The backend is powered by Node.js with Express.js for server side logic and Google Firebase for data storage and real-time database functionality.  
