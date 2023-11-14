@@ -1,4 +1,5 @@
 import {
+    Keyboard,
     Text,
     TextInput,
     View,
@@ -6,11 +7,12 @@ import {
     SafeAreaView,
     ScrollView,
     KeyboardAvoidingView,
+    Image
 } from "react-native";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styles from "../styleSheets/StyleSheet.js";
 import { getUserID } from "../../backend/dbFunctions.js";
-import { categories, conditions } from "../components/Component.js";
+import { categories, conditions } from "../components/Enums.js";
 import * as ImagePicker from "expo-image-picker";
 import ListImagesComponent from "../assets/svg/list_images.js";
 import RNPickerSelect from "react-native-picker-select";
@@ -22,6 +24,7 @@ const CreatePostScreen = ({ navigation }) => {
     const [price, setPrice] = useState("");
     const [category, setCategory] = useState(null);
     const [condition, setCondition] = useState(null);
+    const [location, setLocation] = useState("");
 
     // For uploading images
     const [image, setImage] = useState(null);
@@ -37,11 +40,11 @@ const CreatePostScreen = ({ navigation }) => {
             quality: 1,
         });
 
-        // console.log(result);
+        console.log(result);
 
         if (!result.canceled) {
             console.log("Image picked successfully");
-            setImage(result.assets[0].uri);
+            setImage(result.uri);
         }
     };
 
@@ -49,7 +52,7 @@ const CreatePostScreen = ({ navigation }) => {
     const CreatePost = () => {
         let userId = getUserID();
         try {
-            createListing(title, description, price, userId, image);
+            createListing(userId, title, description, price, category, condition, "location - replace with param in future", image);
             console.log("Post created successfully");
         } catch (error) {
             console.log(error);
@@ -73,6 +76,12 @@ const CreatePostScreen = ({ navigation }) => {
     const [errorMessageCategory, setErrorMessageCategory] = useState("");
     const [errorMessageCondition, setErrorMessageCondition] = useState("");
     const [errorMessageDescription, setErrorMessageDescription] = useState("");
+
+    const titleInputRef = useRef(null);
+    const priceInputRef = useRef(null);
+    const descriptionInputRef = useRef(null);
+    const categoryInputRef = useRef(null);
+    const conditionInputRef = useRef(null);
 
     let validate = 0;
     useEffect(() => {
@@ -227,25 +236,34 @@ const CreatePostScreen = ({ navigation }) => {
                     keyboardShouldPersistTaps="handled">
                     <View>
                         <TouchableOpacity onPress={() => pickImage()}>
-                            <ListImagesComponent
-                                source={require("../assets/svg/list_images.js")}
-                                style={{
-                                    width: 200,
-                                    height: 28,
-                                    stroke: "black",
-                                    strokeWidth: 0.25,
-                                    marginBottom: "5%",
-                                }}
-                            />
+                            {image ? (
+                                <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
+                            ) : (
+                                <ListImagesComponent
+                                    source={require("../assets/svg/list_images.js")}
+                                    style={{
+                                        width: 200,
+                                        height: 28,
+                                        stroke: "black",
+                                        strokeWidth: 0.25,
+                                        marginBottom: "5%",
+                                    }}
+                                />
+                            )}
                         </TouchableOpacity>
                     </View>
 
                     <View style={[styles.forms, { height: "50%" }]}>
                         <TextInput
                             style={titleStyle}
+                            blurOnSubmit={false}
                             onChangeText={(value) => setTitle(value)}
                             value={title}
                             placeholder="Title"
+                            onSubmitEditing={() => {
+                                priceInputRef.current.focus();
+                            }}
+                            ref={titleInputRef}
                         />
                         {errorMessageTitle && (
                             <Text
@@ -259,10 +277,20 @@ const CreatePostScreen = ({ navigation }) => {
                         )}
                         <TextInput
                             style={priceStyle}
+                            blurOnSubmit={false}
                             onChangeText={(value) => setPrice(value)}
                             value={price}
+                            returnKeyType="done"
                             placeholder="Price"
                             inputMode="decimal"
+                            ref={priceInputRef}
+                            onBlur={() => {
+                                Keyboard.dismiss();
+                                categoryInputRef.current.togglePicker();
+                            }}
+                            onSubmitEditing={() => {
+                                Keyboard.dismiss();
+                            }}
                         />
                         {errorMessagePrice && (
                             <Text
@@ -276,25 +304,24 @@ const CreatePostScreen = ({ navigation }) => {
                         )}
                         <View style={categoryStyle}>
                             <RNPickerSelect
-                                onValueChange={(value) => setCategory(value)}
+                                returnKeyType="done"
+                                blurOnSubmit={false}
+                                onValueChange={(value) => {
+                                    Keyboard.dismiss();
+                                    setCategory(value);
+                                }}
+                                onDonePress={() => {
+                                    conditionInputRef.current.togglePicker();
+                                }}
                                 placeholder={{
                                     label: "Select a Category",
                                     value: null,
                                 }}
+                                onSubmitEditing={() => {
+                                    Keyboard.dismiss();
+                                }}
                                 items={categories}
-                                // items={[
-                                //     { label: "Books", value: "books" },
-                                //     { label: "Furniture", value: "furniture" },
-                                //     {
-                                //         label: "Appliances",
-                                //         value: "appliances",
-                                //     },
-                                //     {
-                                //         label: "Decorations",
-                                //         value: "decorations",
-                                //     },
-                                //     { label: "Other", value: "other" },
-                                // ]}
+                                ref={categoryInputRef}
                             />
                         </View>
                         {errorMessageCategory && (
@@ -309,11 +336,30 @@ const CreatePostScreen = ({ navigation }) => {
                         )}
                         <View style={conditionStyle}>
                             <RNPickerSelect
+                                returnKeyType="done"
+                                blurOnSubmit={false}
                                 placeholder={{
                                     label: "Select a Condition",
                                     value: null,
                                 }}
-                                onValueChange={(value) => setCondition(value)}
+                                onBlur={() => {
+                                    Keyboard.dismiss();
+                                }}
+                                onDonePress={() => {
+                                    Keyboard.dismiss();
+                                    setTimeout(() => {
+                                        descriptionInputRef.current.focus();
+                                    }, 100);
+                                }}
+                                onValueChange={(value) => {
+                                    Keyboard.dismiss();
+                                    setCondition(value);
+                                }}
+                                onSubmitEditing={() => {
+                                    Keyboard.dismiss();
+                                }}
+
+                                ref={conditionInputRef}
                                 items={conditions}
                             />
                         </View>
@@ -330,10 +376,13 @@ const CreatePostScreen = ({ navigation }) => {
                         )}
 
                         <TextInput
+                            blurOnSubmit={false}
                             onChangeText={(value) => setDescription(value)}
                             multiline={true}
+                            value={description}
                             placeholder="Description"
                             style={descriptionStyle}
+                            ref={descriptionInputRef}
                         />
 
                         {errorMessageDescription && (
@@ -364,9 +413,7 @@ const CreatePostScreen = ({ navigation }) => {
                                     alignItems: "center",
                                     justifyContent: "center",
                                 }}
-                                onPress={() =>
-                                    navigation.navigate("Home")
-                                }>
+                                onPress={() => navigation.navigate("Home")}>
                                 <Text style={styles.buttonText}>Cancel</Text>
                             </TouchableOpacity>
                             <TouchableOpacity

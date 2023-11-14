@@ -11,7 +11,6 @@ import {
 } from "react-native";
 import styles from "../styleSheets/StyleSheet.js";
 
-
 import Swiper from "react-native-swiper";
 import Xmark from "../assets/svg/xmark.js";
 import ReportComponent from "../assets/svg/report_icon.js";
@@ -29,7 +28,6 @@ const ListingPopup = ({ navigation, listing }) => {
         if (isFavorited) {
             Alert.alert("Unsaved");
             // Implement the backend functionality for saving the listing.
-
         } else {
             Alert.alert("Favorited");
             // Implement the backend functionality for unsaving the listing.
@@ -49,7 +47,13 @@ const ListingPopup = ({ navigation, listing }) => {
     return (
         <SafeAreaView>
             <TouchableOpacity onPress={openModal}>
-                <Text style={{ backgroundColor: "red" }}>Show Listing</Text>
+                <View style={{ backgroundColor: "white" }}>
+                    {/* Source might be something like source={{uri: item.images}} */}
+                    <Image source={{uri: listing.images}} style={{ width: "100%", height: "87%" }} />
+                    <View style={{ backgroundColor: "#B3B3B3", height: 1, width: "100%", marginBottom: "2%" }} />
+                    <Text>{"$" + listing.price + " - " + listing.title}</Text>
+                </View>
+                {/* <Text style={{ backgroundColor: "red" }}>Show Listing</Text> */}
             </TouchableOpacity>
 
             <Modal visible={listingModalVisible}>
@@ -80,12 +84,11 @@ const ListingPopup = ({ navigation, listing }) => {
                             style={{ flex: 0 }}
                             onPress={() => {
                                 setListingModalVisible(false);
-                                navigation.navigate("ReportScreen");
+                                navigation.navigate("ReportScreen", {listing: listing});
 
                                 // Pass the image into the report screen and display
                                 // it at the top so the user knows what listing they are
                                 // reporting.
-                                
                             }}>
                             <ReportComponent
                                 style={{
@@ -97,19 +100,23 @@ const ListingPopup = ({ navigation, listing }) => {
                             />
                         </TouchableOpacity>
                     </View>
-                    {/* IMAGE    */}
+                    {/* IMAGE */}
                     <View style={{ height: "33%" }}>
-                        <Swiper
+                        <Image
+                            source={{uri: listing.images}}
+                            style={{ width: width, height: 250 }}
+                        />
+                        {/* <Swiper
                             loop={false}
                             onIndexChanged={(index) => setCurrentIndex(index)}>
                             {images.map((image, currentIndex) => (
                                 <Image
                                     key={currentIndex}
-                                    source={image}
+                                    source={listing.images}
                                     style={{ width: width, height: 250 }}
                                 />
                             ))}
-                        </Swiper>
+                        </Swiper> */}
                     </View>
                     <View style={{ width: "100%", height: "25%" }}>
                         <View
@@ -205,7 +212,7 @@ const ListingPopup = ({ navigation, listing }) => {
                             style={[
                                 styles.loginBtn,
                                 {
-                                    height: "25%",
+                                    height: "20%",
                                 },
                             ]}>
                             <Text style={styles.buttonText}>Reply</Text>
