@@ -133,7 +133,7 @@ export default function ProfileScreen() {
                         backgroundColor: "#3F72AF",
                         marginRight: "5%",
                     }}
-                    onPress={() => navigation.navigate("SavedListings")}>
+                    onPress={() => router.push("SavedListings")}>
                     <Text style={[styles.boldtext, { color: "white" }]}>
                         Saved Listings
                     </Text>
@@ -149,7 +149,7 @@ export default function ProfileScreen() {
 
                         backgroundColor: "#3F72AF",
                     }}
-                    onPress={() => navigation.navigate("Chat")}>
+                    onPress={() => router.push("Chat")}>
                     {/* Should be a button to go to Chat */}
                     <Text style={[styles.boldtext, { color: "white" }]}>
                         Inbox
