@@ -173,22 +173,6 @@ export default function ProfileScreen() {
                         style={{ width: "50%", height: 200, padding: "1%" }}
                         onPress={() => handleItemPress(item)}
                         key={item.id}>
-                        <View style={{ backgroundColor: "white", flex: 1 }}>
-                            {/* Source might be something like source={{uri: item.images}} */}
-                            <Image
-                                source={require("../../assets/expo/splash_screen_dark.png")}
-                                style={{ width: "100%", height: "80%" }}
-                            />
-                            <View
-                                style={{
-                                    backgroundColor: "#B3B3B3",
-                                    height: 1,
-                                    width: "100%",
-                                    marginBottom: "5%",
-                                }}
-                            />
-                            <Text>{"$" + item.price + " - " + item.title}</Text>
-                        </View>
                         <ListingPopup listing={item} navigation={router} />
                     </TouchableOpacity>
                 )}
