@@ -29,7 +29,7 @@ export default function DeleteAccount() {
             </View>
 
             <TouchableOpacity
-                onPress={() => router.push("Profile")} style={styles.deleteBtn}>
+                onPress={() => router.push("/")} style={styles.deleteBtn}>
                 <Text style={styles.buttonText}>Delete Account</Text>
             </TouchableOpacity>
         </SafeAreaView >

@@ -2,14 +2,14 @@ import { Text, View, TouchableOpacity, FlatList, SafeAreaView, StyleSheet } from
 import styles from "../(aux)/StyleSheet";
 import BackButtonComponent from "../../assets/svg/back_button.js";
 import { router } from "expo-router";
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+
 
 export default function PostReportedScreen() {
 
     return (
-        <SafeAreaProvider style={styles.background}>
+        <SafeAreaView style={styles.background}>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <TouchableOpacity onPress={() => navigation.goBack()}>
+                <TouchableOpacity onPress={() => router.back()}>
                     <BackButtonComponent />
                 </TouchableOpacity>
                 <Text style={styles.loginHeader}>Report Listing</Text>
@@ -27,6 +27,6 @@ export default function PostReportedScreen() {
                 <Text style={styles.buttonText}>Return to Chat</Text>
             </TouchableOpacity>
 
-        </SafeAreaProvider>
+        </SafeAreaView>
     );
 };
