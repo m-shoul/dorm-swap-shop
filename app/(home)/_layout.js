@@ -10,7 +10,7 @@ export default function Layout() {
         <Tabs
             screenOptions={{
                 headerShown: false, tabBarStyle: { height: '10%' }, tabBarActiveTintColor: "#3F72AF",
-                tabBarInactiveTintColor: "black", tabBarLabelStyle: { fontSize: 13 },
+                tabBarInactiveTintColor: "black", tabBarLabelStyle: { fontSize: 13 }, gestureEnabled: false
             }}
         >
             <Tabs.Screen
