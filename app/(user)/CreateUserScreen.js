@@ -168,7 +168,7 @@ export default function CreateUserScreen() {
         if (errorCount === 0) {
             userRegistration();
             createUser(firstName, lastName, username, email);
-            router.push("LoginScreen");
+            router.push('/');
         }
         // Set the errors and update form validity
         // setErrors(errors);
@@ -363,7 +363,7 @@ export default function CreateUserScreen() {
             </TouchableOpacity>
 
             <TouchableOpacity
-                onPress={() => router.back()}
+                onPress={() => router.push('/')}
                 style={[styles.accountButtons, {}]}>
                 <Text>Already have an account?</Text>
                 <Text>Login</Text>
