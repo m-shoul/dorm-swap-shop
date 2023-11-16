@@ -17,7 +17,7 @@ import ReportComponent from "../assets/svg/report_icon.js";
 import FavouriteIcon from "../assets/svg/favourite_icon.js";
 import SavedListingIcon from "../assets/svg/savedListing_icon.js";
 import { useRouter, useLocalSearchParams } from "expo-router";
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 export default function ListingPopup({ listing }) {
     const { width, height } = Dimensions.get("window");
@@ -53,8 +53,18 @@ export default function ListingPopup({ listing }) {
             <TouchableOpacity onPress={openModal}>
                 <View style={{ backgroundColor: "white" }}>
                     {/* Source might be something like source={{uri: item.images}} */}
-                    <Image source={{ uri: listing.images }} style={{ width: "100%", height: "87%" }} />
-                    <View style={{ backgroundColor: "#B3B3B3", height: 1, width: "100%", marginBottom: "2%" }} />
+                    <Image
+                        source={{ uri: listing.images }}
+                        style={{ width: "100%", height: 200 }}
+                    />
+                    <View
+                        style={{
+                            backgroundColor: "#B3B3B3",
+                            height: 1,
+                            width: "100%",
+                            marginBottom: "2%",
+                        }}
+                    />
                     <Text>{"$" + listing.price + " - " + listing.title}</Text>
                 </View>
                 {/* <Text style={{ backgroundColor: "red" }}>Show Listing</Text> */}
@@ -88,7 +98,10 @@ export default function ListingPopup({ listing }) {
                             style={{ flex: 0 }}
                             onPress={() => {
                                 setListingModalVisible(false);
-                                router.push({ pathname: "ReportScreen", params: listing });
+                                router.push({
+                                    pathname: "ReportScreen",
+                                    params: listing,
+                                });
 
                                 // Pass the image into the report screen and display
                                 // it at the top so the user knows what listing they are
@@ -226,4 +239,4 @@ export default function ListingPopup({ listing }) {
             </Modal>
         </SafeAreaProvider>
     );
-};
+}
