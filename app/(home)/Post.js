@@ -7,7 +7,7 @@ import {
     SafeAreaView,
     ScrollView,
     KeyboardAvoidingView,
-    Image
+    Image,
 } from "react-native";
 import React, { useState, useEffect, useRef } from "react";
 import styles from "../(aux)/StyleSheet.js";
@@ -18,7 +18,7 @@ import ListImagesComponent from "../../assets/svg/list_images.js";
 import RNPickerSelect from "react-native-picker-select";
 import { createListing } from "../../backend/api/listing.js";
 import { router } from "expo-router";
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 export default function CreatePostScreen() {
     const [title, setTitle] = useState("");
@@ -54,7 +54,16 @@ export default function CreatePostScreen() {
     const CreatePost = () => {
         let userId = getUserID();
         try {
-            createListing(userId, title, description, price, category, condition, "location - replace with param in future", image);
+            createListing(
+                userId,
+                title,
+                description,
+                price,
+                category,
+                condition,
+                "location - replace with param in future",
+                image
+            );
             console.log("Post created successfully");
         } catch (error) {
             console.log(error);
@@ -239,7 +248,10 @@ export default function CreatePostScreen() {
                     <View>
                         <TouchableOpacity onPress={() => pickImage()}>
                             {image ? (
-                                <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
+                                <Image
+                                    source={{ uri: image }}
+                                    style={{ width: 200, height: 200 }}
+                                />
                             ) : (
                                 <ListImagesComponent
                                     source={require("../../assets/svg/list_images.js")}
@@ -257,6 +269,7 @@ export default function CreatePostScreen() {
 
                     <View style={[styles.forms, { height: "50%" }]}>
                         <TextInput
+                            maxLength={25}
                             style={titleStyle}
                             blurOnSubmit={false}
                             onChangeText={(value) => setTitle(value)}
@@ -279,6 +292,7 @@ export default function CreatePostScreen() {
                         )}
                         <TextInput
                             style={priceStyle}
+                            maxLength={5}
                             blurOnSubmit={false}
                             onChangeText={(value) => setPrice(value)}
                             value={price}
@@ -360,7 +374,6 @@ export default function CreatePostScreen() {
                                 onSubmitEditing={() => {
                                     Keyboard.dismiss();
                                 }}
-
                                 ref={conditionInputRef}
                                 items={conditions}
                             />
@@ -382,6 +395,7 @@ export default function CreatePostScreen() {
                             onChangeText={(value) => setDescription(value)}
                             multiline={true}
                             value={description}
+                            maxLength={250}
                             placeholder="Description"
                             style={descriptionStyle}
                             ref={descriptionInputRef}
@@ -440,4 +454,4 @@ export default function CreatePostScreen() {
             </KeyboardAvoidingView>
         </SafeAreaProvider>
     );
-};
+}
