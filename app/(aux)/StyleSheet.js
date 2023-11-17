@@ -1,6 +1,6 @@
 import { StyleSheet, Dimensions } from "react-native";
 import * as Font from "expo-font";
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const { width } = Dimensions.get("window");
 const ButtonFontSize = 16;
@@ -102,7 +102,10 @@ const styles = StyleSheet.create({
         borderWidth: "1%", //was 1
         borderRadius: "20",
         fontSize: normalText,
-        padding: "2%", //was 7
+        paddingTop: "2%", //was 7
+        paddingBottom: "2%", //was 7
+        paddingLeft: "6%",
+        paddingRight: "6%",
         backgroundColor: "white",
         borderColor: "#B3B3B3",
         marginBottom: "-3%",
