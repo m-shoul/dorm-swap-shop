@@ -2,6 +2,7 @@ import {
     Text,
     TextInput,
     View,
+    SafeAreaView,
     TouchableOpacity,
     TouchableWithoutFeedback,
     Keyboard,
@@ -11,7 +12,6 @@ import styles from "./(aux)/StyleSheet";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { getAuth } from "firebase/auth";
 import { router } from 'expo-router';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 
 export default function LoginScreen() {
@@ -62,7 +62,7 @@ export default function LoginScreen() {
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-            <SafeAreaProvider style={styles.background} >
+            <SafeAreaView style={styles.background} >
                 <View style={{ paddingTop: "45%" }}>
                     <Text style={styles.loginHeader}> Login </Text>
                 </View>
@@ -131,7 +131,7 @@ export default function LoginScreen() {
                         Create an Account
                     </Text>
                 </TouchableOpacity>
-            </SafeAreaProvider>
+            </SafeAreaView>
         </TouchableWithoutFeedback>
     );
 };

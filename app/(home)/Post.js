@@ -18,7 +18,6 @@ import ListImagesComponent from "../../assets/svg/list_images.js";
 import RNPickerSelect from "react-native-picker-select";
 import { createListing } from "../../backend/api/listing.js";
 import { router } from "expo-router";
-import { SafeAreaProvider } from "react-native-safe-area-context";
 
 export default function CreatePostScreen() {
     const [title, setTitle] = useState("");
@@ -197,7 +196,7 @@ export default function CreatePostScreen() {
     };
 
     return (
-        <SafeAreaProvider style={styles.background}>
+        <SafeAreaView style={styles.background}>
             <View
                 style={{
                     height: "15%",
@@ -452,6 +451,6 @@ export default function CreatePostScreen() {
                     </View>
                 </ScrollView>
             </KeyboardAvoidingView>
-        </SafeAreaProvider>
+        </SafeAreaView>
     );
 }

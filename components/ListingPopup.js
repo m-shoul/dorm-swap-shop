@@ -17,7 +17,6 @@ import ReportComponent from "../assets/svg/report_icon.js";
 import FavouriteIcon from "../assets/svg/favourite_icon.js";
 import SavedListingIcon from "../assets/svg/savedListing_icon.js";
 import { useRouter, useLocalSearchParams } from "expo-router";
-import { SafeAreaProvider } from "react-native-safe-area-context";
 
 export default function ListingPopup({ listing }) {
     const { width, height } = Dimensions.get("window");
@@ -49,7 +48,7 @@ export default function ListingPopup({ listing }) {
     };
 
     return (
-        <SafeAreaProvider>
+        <SafeAreaView>
             <TouchableOpacity onPress={openModal}>
                 <View style={{ backgroundColor: "white" }}>
                     {/* Source might be something like source={{uri: item.images}} */}
@@ -237,6 +236,6 @@ export default function ListingPopup({ listing }) {
                     </View>
                 </SafeAreaView>
             </Modal>
-        </SafeAreaProvider>
+        </SafeAreaView>
     );
 }
