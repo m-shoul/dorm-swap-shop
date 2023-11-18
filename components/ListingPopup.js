@@ -52,7 +52,7 @@ export default function ListingPopup({ listing }) {
     console.log("Listing images " + listing.title + " " + listing.images);
 
     return (
-        <SafeAreaProvider>
+        <SafeAreaView>
         {/* This touchable opacity needs to be moved out of here. All we want this popup to do is
         show a swipeable image carousel and some text. We don't want it to show the listing as
         it is supposed to look on the home screen. This should be able to be used anywhere. */}
@@ -243,6 +243,6 @@ export default function ListingPopup({ listing }) {
                     </View>
                 </SafeAreaView>
             </Modal>
-        </SafeAreaProvider>
+        </SafeAreaView>
     );
 }
