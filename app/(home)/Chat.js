@@ -8,7 +8,6 @@ import { get, child, ref, set, push, getDatabase } from 'firebase/database';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import TrashButtonComponent from "../../assets/svg/trash_button";
 import ReportComponent from "../../assets/svg/report_icon";
-import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 //import styles from "../styleSheets/StyleSheet.js";
 //import { HeaderComponent } from "../components/headerComponent.js";
@@ -43,7 +42,7 @@ export default function ChatScreen() {
     }
 
     return (
-        <SafeAreaProvider style={{ flex: 1, backgroundColor: "#F9F7F7" }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: "#F9F7F7" }}>
             {/* <Animated.View style={{
                 transform: [{ translateY: translateYAxis }],
                 elevation: 4,
@@ -122,6 +121,6 @@ export default function ChatScreen() {
                 }}
             //bounces={true}
             />
-        </SafeAreaProvider>
+        </SafeAreaView>
     );
 }

@@ -15,7 +15,6 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 // import { writeUserData } from "../../backend/dbFunctions.js";
 import { createUser } from "../../backend/api/user.js";
 import { router } from "expo-router";
-import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 export default function CreateUserScreen() {
     //All of the states that are used to store the actual values of the text inputs
@@ -168,7 +167,7 @@ export default function CreateUserScreen() {
         if (errorCount === 0) {
             userRegistration();
             createUser(firstName, lastName, username, email);
-            router.push("LoginScreen");
+            router.push('/');
         }
         // Set the errors and update form validity
         // setErrors(errors);
@@ -198,7 +197,7 @@ export default function CreateUserScreen() {
     // Firebase auth, write the data to Realtime db, and direct user to login
 
     return (
-        <SafeAreaProvider style={styles.background}>
+        <SafeAreaView style={styles.background}>
             <View>
                 <Text style={styles.registerHeader}> Register </Text>
             </View>
@@ -363,11 +362,11 @@ export default function CreateUserScreen() {
             </TouchableOpacity>
 
             <TouchableOpacity
-                onPress={() => router.back()}
+                onPress={() => router.push('/')}
                 style={[styles.accountButtons, {}]}>
                 <Text>Already have an account?</Text>
                 <Text>Login</Text>
             </TouchableOpacity>
-        </SafeAreaProvider>
+        </SafeAreaView>
     );
 };

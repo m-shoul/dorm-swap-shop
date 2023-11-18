@@ -9,6 +9,8 @@ import {
     Modal,
     Animated,
 } from "react-native";
+
+import { router } from "expo-router";
 import { get, child, ref, set, push, getDatabase } from "firebase/database";
 import ListingPopup from "../../components/ListingPopup.js";
 import React, { useState, useEffect } from "react";
