@@ -20,6 +20,7 @@ jobs:
       - run:
           name: Trigger build
           command: npx eas-cli build --platform android --non-interactive # production build
+          no_output_timeout: 20m
 
   # eas_deploy:
   #   executor: default

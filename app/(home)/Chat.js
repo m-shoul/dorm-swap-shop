@@ -22,38 +22,24 @@ export default function ChatScreen() {
         outputRange: [0, -100],
     });
 
+    // Used for test purposes.
+    const testData = [{
+        id: "1",
+        name: "Joe Schmoe",
+        message: "Hello world"
+    },
+    {
+        id: "2",
+        name: "Schmoe Joe",
+        message: "World hello"
+    }];
+
+    const [selectedChat, setSelectedChat] = useState("");
     const [search, setSearch] = useState("");
-    const [listingsData, setListingsData] = useState([]); // State to store listings data
-    const [selectedListing, setSelectedListing] = useState(null); // State to store the selected listing
 
-
-    const db = getDatabase();
-    const listingsReference = ref(db, 'dorm_swap_shop/listings/');
-
-    const fetchListings = () => {
-        get(listingsReference)
-            .then((snapshot) => {
-                if (snapshot.exists()) {
-                    const listingsData = snapshot.val();
-                    // Set the retrieved data to the state
-                    setListingsData(listingsData);
-                } else {
-                    console.log("No data available");
-                }
-            })
-            .catch((error) => {
-                console.error("Error fetching listings:", error);
-            });
-    };
-
-    useEffect(() => {
-        // Fetch listings data from Firebase when the component mounts
-        fetchListings();
-    }, []);
-
-    const handleItemPress = (listing) => {
-        setSelectedListing(listing);
-    };
+    function handleItemPress(chat) {
+        setSelectedChat(chat);
+    }
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "#F9F7F7" }}>
@@ -80,7 +66,7 @@ export default function ChatScreen() {
 
             {/* Scrollable view displaying all the chat messages */}
             <SwipeListView
-                data={Object.values(listingsData)}
+                data={Object.values(testData)}
                 renderItem={({ item }) => (
                     <TouchableOpacity style={{ width: "100%", height: 150, padding: "1%" }}
                         onPress={() => handleItemPress(item)}
@@ -90,8 +76,9 @@ export default function ChatScreen() {
                             {/* Source might be something like source={{uri: item.images}} */}
                             <Image source={require("../../assets/expo/splash_screen_dark.png")} style={{ width: "30%", height: "90%" }} />
                             <View style={{ justifyContent: "center", paddingLeft: "5%" }}>
-                                <Text style={{ fontWeight: "bold" }}>{"$" + item.price + " - " + item.title}</Text>
-                                <Text>Sneak peak at text</Text>
+                                {/* <Text style={{ fontWeight: "bold" }}>{"$" + item.price + " - " + item.title}</Text> */}
+                                <Text style={{ fontWeight: "bold" }}>{item.name}</Text>
+                                <Text>{item.message}</Text>
                             </View>
 
                         </View>
