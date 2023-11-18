@@ -50,6 +50,8 @@ export default function ListingPopup({ listing }) {
 
     const listingTitle = listing.title.length > 10 ? listing.title + "..." : listing.title;
 
+    console.log("Listing images " + listing.title + " " + listing.images);
+
     return (
         <SafeAreaProvider>
         {/* This touchable opacity needs to be moved out of here. All we want this popup to do is
