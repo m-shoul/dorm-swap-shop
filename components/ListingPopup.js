@@ -243,6 +243,6 @@ export default function ListingPopup({ listing }) {
                     </View>
                 </SafeAreaView>
             </Modal>
-        </SafeAreaView>
+        </SafeAreaProvider>
     );
 }
