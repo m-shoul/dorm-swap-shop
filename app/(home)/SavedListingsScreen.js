@@ -27,31 +27,30 @@ const SavedListingsScreen = ({ navigation }) => {
     });
 
     const [search, setSearch] = useState("");
-    const [listingsData, setListingsData] = useState([]); // State to store listings data
     const [selectedListing, setSelectedListing] = useState(null); // State to store the selected listing
     const [showProfile, setShowProfile] = useState(false);
-    const db = getDatabase();
-    const listingsReference = ref(db, "dorm_swap_shop/listings/");
-
-    const fetchListings = () => {
-        get(listingsReference)
-            .then((snapshot) => {
-                if (snapshot.exists()) {
-                    const listingsData = snapshot.val();
-                    // Set the retrieved data to the state
-                    setListingsData(listingsData);
-                } else {
-                    console.log("No data available");
-                }
-            })
-            .catch((error) => {
-                console.error("Error fetching listings:", error);
-            });
-    };
+    
+    // Used for test purposes.
+    const testSavedListings = [{
+        id: "1",
+        title: "Item Name 1",
+        description: "Description 1",
+        price: 10.00,
+        category: "Category type",
+        condition: "Condition type",
+    },
+    {
+        id: "2",
+        title: "Saved Item 2",
+        description: "Saved item",
+        price: 10.00,
+        category: "Books",
+        condition: "Used",
+    }];
 
     useEffect(() => {
         // Fetch listings data from Firebase when the component mounts
-        fetchListings();
+        // fetchListings();
     }, []);
 
     const handleItemPress = (listing) => {
@@ -106,7 +105,7 @@ const SavedListingsScreen = ({ navigation }) => {
                 />
             </View>
             <FlatList
-                data={Object.values(listingsData)}
+                data={Object.values(testSavedListings)}
                 renderItem={({ item }) => (
                     <TouchableOpacity
                         style={{
@@ -130,10 +129,11 @@ const SavedListingsScreen = ({ navigation }) => {
                             }}>
                             {/* Source might be something like source={{uri: item.images}} */}
                             <Image
-                                //source={require("../assets/expo/splash_screen_dark.png")}
+                                // source={require("../assets/expo/splash_screen_dark.png")}
                                 style={{
                                     width: 100,
                                     height: 100,
+                                    backgroundColor: "red",
                                 }}
                             />
 
@@ -147,12 +147,12 @@ const SavedListingsScreen = ({ navigation }) => {
                             </View>
                         </View>
 
-                        <ListingPopup listing={item} navigation={navigation} />
+                        {/* For now this is commented out since the listing popup is broken */}
+                        {/* <ListingPopup listing={item} navigation={navigation} /> */}
                         <View
                             style={{
                                 backgroundColor: "#B3B3B3",
                                 height: 1,
-
                                 marginLeft: 10,
                                 marginRight: 20,
                                 marginBottom: -20,

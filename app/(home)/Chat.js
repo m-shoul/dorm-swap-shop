@@ -23,7 +23,7 @@ export default function ChatScreen() {
         outputRange: [0, -100],
     });
 
-     // Used for test purposes.
+    // Used for test purposes.
     const testData = [{
         id: "1",
         name: "Joe Schmoe",
