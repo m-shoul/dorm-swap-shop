@@ -129,11 +129,10 @@ const SavedListingsScreen = ({ navigation }) => {
                             }}>
                             {/* Source might be something like source={{uri: item.images}} */}
                             <Image
-                                // source={require("../assets/expo/splash_screen_dark.png")}
+                                source={require("../../assets/expo/splash_screen_dark.png")}
                                 style={{
                                     width: 100,
                                     height: 100,
-                                    backgroundColor: "red",
                                 }}
                             />
 
