@@ -1,5 +1,5 @@
 import { Text, View, TouchableOpacity, SafeAreaView, Image, Animated } from "react-native";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styles from "../(aux)/StyleSheet";
 //import { getAuth, signOut } from "firebase/auth";
 //import ListingPopup from "../../components/ListingPopup.js";
@@ -8,19 +8,14 @@ import { get, child, ref, set, push, getDatabase } from 'firebase/database';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import TrashButtonComponent from "../../assets/svg/trash_button";
 import ReportComponent from "../../assets/svg/report_icon";
+import SearchBarHeader from "../../components/SearchBar";
 
 //import styles from "../styleSheets/StyleSheet.js";
 //import { HeaderComponent } from "../components/headerComponent.js";
 
 
 export default function ChatScreen() {
-
-    const scrollY = new Animated.Value(0);
-    const diffClamp = Animated.diffClamp(scrollY, 0, 100);
-    const translateYAxis = diffClamp.interpolate({
-        inputRange: [0, 100],
-        outputRange: [0, -100],
-    });
+    let scrollOffsetY = useRef(new Animated.Value(0)).current;
 
     // Used for test purposes.
     const testData = [{
@@ -43,12 +38,9 @@ export default function ChatScreen() {
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "#F9F7F7" }}>
-            {/* <Animated.View style={{
-                transform: [{ translateY: translateYAxis }],
-                elevation: 4,
-                zIndex: 100,
-            }}> */}
-            <SearchBar
+            <SearchBarHeader animHeaderValue={scrollOffsetY} />
+
+            {/* <SearchBar
                 round
                 searchIcon={{ size: 24, color: "black" }}
                 containerStyle={styles.searchContainer}
@@ -61,7 +53,7 @@ export default function ChatScreen() {
                 //onClear={(text) => searchFilterFunction("")}
                 placeholder="Search"
                 value={search}
-            />
+            /> */}
             {/* </Animated.View> */}
 
             {/* Scrollable view displaying all the chat messages */}
@@ -116,9 +108,10 @@ export default function ChatScreen() {
                 rightOpenValue={-145}
                 keyExtractor={(item) => item.id}
                 style={{ flex: 1, backgroundColor: "#F9F7F7", paddingTop: "5%" }}
-                onScroll={(e) => {
-                    scrollY.setValue(e.nativeEvent.contentOffset.y);
-                }}
+                onScroll={Animated.event(
+                    [{ nativeEvent: { contentOffset: { y: scrollOffsetY } } }],
+                    { useNativeDriver: false }
+                )}
             //bounces={true}
             />
         </SafeAreaView>
