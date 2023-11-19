@@ -8,7 +8,7 @@ import {
     Animated,
     RefreshControl,
 } from "react-native";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { getAllListings } from "../../backend/api/listing";
 import styles from "../(aux)/StyleSheet";
 //import { getAuth, signOut } from "firebase/auth";
@@ -19,15 +19,20 @@ import { ScrollView } from "react-native-web";
 //import styles from "../styleSheets/StyleSheet.js";
 //import { HeaderComponent } from "../components/headerComponent.js";
 
-export default function HomeScreen() {
-    const scrollY = new Animated.Value(0);
-    const diffClamp = Animated.diffClamp(scrollY, 0, 40);
-    const translateYAxis = diffClamp.interpolate({
-        inputRange: [0, 1],
-        outputRange: [0, -1],
-    });
+import { get, child, ref, set, push, getDatabase } from "firebase/database";
+import SearchBarHeader from "../../components/SearchBar";
 
-    const [search, setSearch] = useState("");
+export default function HomeScreen() {
+    //let scrollOffsetY = useRef(new Animated.Value(0)).current;
+    const scrollOffsetY = new Animated.Value(0);
+    // const scrollY = new Animated.Value(0);
+    // const diffClamp = Animated.diffClamp(scrollY, 0, 40);
+    // const translateYAxis = diffClamp.interpolate({
+    //     inputRange: [0, 1],
+    //     outputRange: [0, -1],
+    // });
+
+    // const [search, setSearch] = useState("");
     const [listingsData, setListingsData] = useState([]); // State to store listings data
     const [selectedListing, setSelectedListing] = useState(null); // State to store the selected listing
     const [refreshing, setRefreshing] = useState(false);
@@ -55,32 +60,7 @@ export default function HomeScreen() {
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "#F9F7F7" }}>
-            {/* {HeaderComponent(translateYAxis)} */}
-            <Animated.View
-                style={{
-                    transform: [{ translateY: translateYAxis }],
-                    //elevation: 4,
-                    zIndex: 100,
-                }}>
-                <SearchBar
-                    round
-                    searchIcon={{ size: 24, color: "black" }}
-                    containerStyle={styles.searchContainer}
-                    inputStyle={{ backgroundColor: "#fff" }}
-                    inputContainerStyle={{
-                        backgroundColor: "#fff",
-                        borderRadius: 40,
-                        borderWidth: 1,
-                        borderBottomWidth: 1,
-                        borderColor: "#B3B3B3",
-                    }}
-                    onChangeText={setSearch}
-                    //onClear={(text) => searchFilterFunction("")}
-                    placeholder="Search"
-                    value={search}
-                />
-            </Animated.View>
-            {/* </View> */}
+            <SearchBarHeader animHeaderValue={scrollOffsetY} />
 
             {/* Refresh button */}
             {/* <TouchableOpacity onPress={fetchListings} style={{ marginTop: "10%" }}>
@@ -106,7 +86,7 @@ export default function HomeScreen() {
                         {/* </TouchableOpacity> */}
                         <ListingPopup
                             listing={item}
-                            //navigation={router}
+                        //navigation={router}
                         />
                     </View>
                 )}
@@ -117,10 +97,11 @@ export default function HomeScreen() {
                     backgroundColor: "#F9F7F7",
                     paddingTop: "5%",
                 }}
-                onScroll={(e) => {
-                    scrollY.setValue(e.nativeEvent.contentOffset.y);
-                }}
-                bounces={false}
+                onScroll={Animated.event(
+                    [{ nativeEvent: { contentOffset: { y: scrollOffsetY } } }],
+                    { useNativeDriver: false }
+                )}
+                bounces={true}
                 refreshControl={
                     <RefreshControl
                         refreshing={refreshing}
