@@ -121,6 +121,13 @@ export async function getUserListings() {
         });
 }
 
+export function saveListing(listingId) {
+    const db = getDatabase();
+    userId = getUserID();
+    const userReference = ref(db, `/dorm_swap_shop/users/${userId}/private/savedListings/${listingId}`);
+    set(userReference);
+}
+
 
 // Function to update a user
 export function updateListing(listingId, listingData) {
