@@ -1,5 +1,5 @@
 import { database } from '../config/firebaseConfig';
-import { get, child, ref, set, push, getDatabase } from 'firebase/database';
+import { get, child, ref, set, push, remove, getDatabase } from 'firebase/database';
 import { getStorage, ref as sRef, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { readData, getUserID } from '../dbFunctions';
 import React, { useState, useEffect } from "react";
@@ -126,6 +126,13 @@ export function saveListing(listingId) {
     userId = getUserID();
     const userReference = ref(db, `/dorm_swap_shop/users/${userId}/private/savedListings/${listingId}`);
     set(userReference, listingId);
+}
+
+export function unsaveListing(listingId) {
+    const db = getDatabase();
+    userId = getUserID();
+    const userReference = ref(db, `/dorm_swap_shop/users/${userId}/private/savedListings/${listingId}`);
+    remove(userReference, listingId);
 }
 
 
