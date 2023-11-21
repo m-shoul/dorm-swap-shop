@@ -2,12 +2,6 @@ import { Text, View, TouchableOpacity, Image, TextInput, SafeAreaView, Touchable
 import styles from "../(aux)/StyleSheet";
 
 // Imports for pulling the image from firebase...
-import { pickImages, getUserID } from "../../backend/dbFunctions.js";
-import categories from "../../components/Component.js";
-import { getStorage, ref as sRef, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { getDatabase, ref, push, set } from "firebase/database";
-import * as ImagePicker from 'expo-image-picker';
-import { database } from '../../backend/config/firebaseConfig';
 import BackButtonComponent from "../../assets/svg/back_button.js";
 import React, { useState, useEffect } from "react";
 import { useLocalSearchParams, router } from 'expo-router';

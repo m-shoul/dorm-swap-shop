@@ -5,6 +5,7 @@ import { get, ref, getDatabase } from "@firebase/database";
 import React, { useState, useEffect } from "react";
 import { router } from "expo-router";
 import { getUserID } from "../../backend/dbFunctions.js";
+import { getUserListings } from "../../backend/api/listing.js";
 
 import ListingPopup from "../../components/ListingPopup.js";
 import ListImagesComponent from "../../assets/svg/list_images.js";
@@ -12,59 +13,24 @@ import RatingComponent from "../../assets/svg/rating_stars.js";
 
 export default function ProfileScreen() {
     const [listingsData, setListingsData] = useState([]);
-
-    const db = getDatabase();
-    // const listingsReference = ref(db, 'dorm_swap_shop/users/' + getUserID() + 'listings/');
-    const listingsReference = ref(db, "dorm_swap_shop/listings/");
-
-    const fetchListings = () => {
-        get(listingsReference)
-            .then((snapshot) => {
-                if (snapshot.exists()) {
-                    const listingsData = snapshot.val();
-                    // Set the retrieved data to the state
-                    setListingsData(listingsData);
-                } else {
-                    console.log("No data available");
-                }
-            })
-            .catch((error) => {
-                console.error("Error fetching listings:", error);
-            });
-    };
-
-    // work in progress - need to filter listings by user ID
-    // const fetchListings = () => {
-    //     userId = getUserID();
-    //     console.log("userId: " + userId);
-    //     get(listingsReference)
-    //         .then((snapshot) => {
-    //             if (snapshot.exists()) {
-    //                 const listingsData = snapshot.val();
-    //                 console.log("listingsData: " + listingsData);
-
-    //                 // Filter listings by the logged-in user's ID
-    //                 const userListings = Object.values(listingsData).filter((listing) => listing.userId === userId);
-    //                 console.log(userListings);
-    //                 // Set the filtered data to the state
-    //                 setListingsData(userListings);
-    //             } else {
-    //                 console.log("No data available");
-    //             }
-    //         })
-    //         .catch((error) => {
-    //             console.error("Error fetching listings:", error);
-    //         });
-    // };
-
-    const handleItemPress = (listing) => {
-        // setSelectedListing(listing);
-    };
+    const [selectedListing, setSelectedListing] = useState(null);
 
     useEffect(() => {
-        // Fetch listings data from Firebase when the component mounts
-        fetchListings();
+        const fetchUserListings = async () => {
+            try {
+                const listingsData = await getUserListings();
+                setListingsData(listingsData);
+                console.log("Got user listings.");
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+        fetchUserListings();
     }, []);
+
+    const handleItemPress = (listing) => {
+        setSelectedListing(listing);
+    };
 
     return (
         <SafeAreaView style={styles.background}>

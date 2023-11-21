@@ -14,7 +14,6 @@ import {
 } from "firebase/auth";
 import styles from "../(aux)/StyleSheet";
 import { router } from 'expo-router';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 export default function ResetPasswordScreen() {
     const [email, setEmail] = useState("");
@@ -47,7 +46,7 @@ export default function ResetPasswordScreen() {
     };
 
     return (
-        <SafeAreaProvider style={styles.background}>
+        <SafeAreaView style={styles.background}>
             <View>
                 <Text style={styles.resetHeader}>Reset Password</Text>
             </View>
@@ -82,13 +81,13 @@ export default function ResetPasswordScreen() {
 
             <View>
                 <TouchableOpacity
-                    onPress={() => router.push("LoginScreen")}
+                    onPress={() => router.push('/')}
                     style={styles.accountButtons}
                 >
                     <Text>Already Have an Account?</Text>
                     <Text>Login</Text>
                 </TouchableOpacity>
             </View>
-        </SafeAreaProvider>
+        </SafeAreaView>
     );
 };

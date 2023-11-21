@@ -17,7 +17,6 @@ import ReportComponent from "../assets/svg/report_icon.js";
 import FavouriteIcon from "../assets/svg/favourite_icon.js";
 import SavedListingIcon from "../assets/svg/savedListing_icon.js";
 import { useRouter, useLocalSearchParams } from "expo-router";
-import { SafeAreaProvider } from "react-native-safe-area-context";
 
 export default function ListingPopup({ listing }) {
     const { width, height } = Dimensions.get("window");
@@ -48,8 +47,15 @@ export default function ListingPopup({ listing }) {
         setListingModalVisible(true);
     };
 
+    const listingTitle = listing.title.length > 10 ? listing.title + "..." : listing.title;
+
+    console.log("Listing images " + listing.title + " " + listing.images);
+
     return (
-        <SafeAreaProvider>
+        <SafeAreaView>
+        {/* This touchable opacity needs to be moved out of here. All we want this popup to do is
+        show a swipeable image carousel and some text. We don't want it to show the listing as
+        it is supposed to look on the home screen. This should be able to be used anywhere. */}
             <TouchableOpacity onPress={openModal}>
                 <View style={{ backgroundColor: "white" }}>
                     {/* Source might be something like source={{uri: item.images}} */}
@@ -65,7 +71,7 @@ export default function ListingPopup({ listing }) {
                             marginBottom: "2%",
                         }}
                     />
-                    <Text>{"$" + listing.price + " - " + listing.title}</Text>
+                    <Text>{"$" + listing.price + " - " + listingTitle}</Text>
                 </View>
                 {/* <Text style={{ backgroundColor: "red" }}>Show Listing</Text> */}
             </TouchableOpacity>
@@ -237,6 +243,6 @@ export default function ListingPopup({ listing }) {
                     </View>
                 </SafeAreaView>
             </Modal>
-        </SafeAreaProvider>
+        </SafeAreaView>
     );
 }

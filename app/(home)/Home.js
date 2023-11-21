@@ -9,11 +9,12 @@ import {
     RefreshControl,
 } from "react-native";
 import React, { useState, useEffect } from "react";
+import { getAllListings } from "../../backend/api/listing";
 import styles from "../(aux)/StyleSheet";
 //import { getAuth, signOut } from "firebase/auth";
 import ListingPopup from "../../components/ListingPopup";
 import { SearchBar } from "@rneui/themed";
-import { get, child, ref, set, push, getDatabase } from "firebase/database";
+// import { get, child, ref, set, push, getDatabase } from "firebase/database";
 import { ScrollView } from "react-native-web";
 //import styles from "../styleSheets/StyleSheet.js";
 //import { HeaderComponent } from "../components/headerComponent.js";
@@ -26,99 +27,25 @@ export default function HomeScreen() {
         outputRange: [0, -1],
     });
 
-    // Delete this once the listings are 100% working.
-    // This was used for testing.
-    // const persons = [{
-    //     id: "1",
-    //     name: "Earnest Green",
-    // },
-    // {
-    //     id: "2",
-    //     name: "Winston Orn",
-    // },
-    // {
-    //     id: "3",
-    //     name: "Carlton Collins",
-    // },
-    // {
-    //     id: "4",
-    //     name: "Malcolm Labadie",
-    // },
-    // {
-    //     id: "5",
-    //     name: "Michelle Dare",
-    // },
-    // {
-    //     id: "6",
-    //     name: "Carlton Zieme",
-    // },
-    // {
-    //     id: "7",
-    //     name: "Jessie Dickinson",
-    // },
-    // {
-    //     id: "8",
-    //     name: "Julian Gulgowski",
-    // },
-    // {
-    //     id: "9",
-    //     name: "Ellen Veum",
-    // },
-    // {
-    //     id: "10",
-    //     name: "Lorena Rice",
-    // },
-
-    // {
-    //     id: "11",
-    //     name: "Carlton Zieme",
-    // },
-    // {
-    //     id: "12",
-    //     name: "Jessie Dickinson",
-    // },
-    // {
-    //     id: "13",
-    //     name: "Julian Gulgowski",
-    // },
-    // {
-    //     id: "14",
-    //     name: "Ellen Veum",
-    // },
-    // {
-    //     id: "15",
-    //     name: "Lorena Rice",
-    // },];
-
     const [search, setSearch] = useState("");
     const [listingsData, setListingsData] = useState([]); // State to store listings data
     const [selectedListing, setSelectedListing] = useState(null); // State to store the selected listing
-
-    const [refreshing, setRefreshing] = React.useState(false);
-
-    const db = getDatabase();
-    const listingsReference = ref(db, "dorm_swap_shop/listings/");
-
-    const fetchListings = () => {
-        setRefreshing(true);
-        get(listingsReference)
-            .then((snapshot) => {
-                if (snapshot.exists()) {
-                    const listingsData = snapshot.val();
-                    // Set the retrieved data to the state
-                    setListingsData(listingsData);
-                    setRefreshing(false);
-                } else {
-                    console.log("No data available");
-                }
-            })
-            .catch((error) => {
-                console.error("Error fetching listings:", error);
-            });
-    };
+    const [refreshing, setRefreshing] = useState(false);
 
     useEffect(() => {
         // Fetch listings data from Firebase when the component mounts
+        const fetchListings = async () => {
+            setRefreshing(true);
+            try {
+                const listingsData = await getAllListings();
+                setListingsData(listingsData);
+                console.log("Got all listings.");
+                setRefreshing(false);
+            } catch (error) {
+                console.error('Error:', error);
+                setRefreshing(false);
+            }
+        }
         fetchListings();
     }, []);
 
@@ -184,7 +111,7 @@ export default function HomeScreen() {
                     </View>
                 )}
                 numColumns={2}
-                keyExtractor={(item) => item.id}
+                keyExtractor={(item, index) => item.id + index.toString()}
                 style={{
                     flex: 1,
                     backgroundColor: "#F9F7F7",
@@ -197,7 +124,7 @@ export default function HomeScreen() {
                 refreshControl={
                     <RefreshControl
                         refreshing={refreshing}
-                        onRefresh={fetchListings}
+                        onRefresh={getAllListings}
                     />
                 }
             />
