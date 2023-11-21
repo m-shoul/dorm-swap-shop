@@ -125,7 +125,7 @@ export function saveListing(listingId) {
     const db = getDatabase();
     userId = getUserID();
     const userReference = ref(db, `/dorm_swap_shop/users/${userId}/private/savedListings/${listingId}`);
-    set(userReference);
+    set(userReference, listingId);
 }
 
 
