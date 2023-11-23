@@ -15,6 +15,7 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 // import { writeUserData } from "../../backend/dbFunctions.js";
 import { createUser } from "../../backend/api/user.js";
 import { router } from "expo-router";
+import { getUserID } from "../../backend/dbFunctions.js";
 
 export default function CreateUserScreen() {
     //All of the states that are used to store the actual values of the text inputs
@@ -70,7 +71,7 @@ export default function CreateUserScreen() {
         validate = 1;
     };
 
-    const validateForm = () => {
+    const validateForm = async () => {
         let errorCount = 0;
         let emptyFields = 0;
         console.log("Reached validateForm");
@@ -165,14 +166,15 @@ export default function CreateUserScreen() {
         }
 
         if (errorCount === 0) {
-            userRegistration();
-            createUser(firstName, lastName, username, email);
+            const userId = await userRegistration();
+            createUser(firstName, lastName, username, email, userId);
             router.push('/');
         }
         // Set the errors and update form validity
         // setErrors(errors);
     };
 
+    // const auth = initializeAuth();
     const auth = getAuth();
 
     // Creates a new user account
@@ -186,7 +188,10 @@ export default function CreateUserScreen() {
         if (email && password) {
             try {
                 // Creates user into Firebase
-                await createUserWithEmailAndPassword(auth, email, password);
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                const userId = userCredential.user.uid;
+                // Do something with the user ID
+                return userId;
             } catch (error) {
                 console.log("Got error: ", error.message);
             }

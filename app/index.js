@@ -12,6 +12,7 @@ import styles from "./(aux)/StyleSheet";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { getAuth } from "firebase/auth";
 import { router } from 'expo-router';
+import { getUserID } from "../backend/dbFunctions";
 
 
 export default function LoginScreen() {
@@ -59,6 +60,11 @@ export default function LoginScreen() {
             }
         }
     };
+
+    // Figure out what saves the userId when I go to the register screen
+    // we can use this to sage the state of the user and automatically log in
+    // so user doesnt have to log in every time.
+    console.log(getUserID());
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -118,7 +124,7 @@ export default function LoginScreen() {
                         Forgot Password
                     </Text>
                 </View>
-
+                
                 <TouchableOpacity style={styles.loginBtn} onPress={handleLogin}>
                     <Text style={styles.buttonText}>Login</Text>
                 </TouchableOpacity>

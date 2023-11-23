@@ -17,6 +17,7 @@ import ReportComponent from "../assets/svg/report_icon.js";
 import FavouriteIcon from "../assets/svg/favourite_icon.js";
 import SavedListingIcon from "../assets/svg/savedListing_icon.js";
 import { useRouter, useLocalSearchParams } from "expo-router";
+import { saveListing, unsaveListing } from "../backend/api/listing.js";
 
 export default function ListingPopup({ listing }) {
     const { width, height } = Dimensions.get("window");
@@ -28,12 +29,17 @@ export default function ListingPopup({ listing }) {
     const simpleAlert = () => {
         setIsFavorited(!isFavorited);
 
+        // Currently the listing can be saved and unsaved and it is added to the
+        // database under the UID, which is the Firebase auth UID... we want this to
+        // be stored under the realtime push UID... but these are different things
+        // so we have to come up with a solution to store the UID in the user data
+        // and then save the data in that direction??
         if (isFavorited) {
+            unsaveListing(listing.listingId);
             Alert.alert("Unsaved");
-            // Implement the backend functionality for saving the listing.
         } else {
+            saveListing(listing.listingId);
             Alert.alert("Favorited");
-            // Implement the backend functionality for unsaving the listing.
         }
     };
     const images = [
@@ -49,7 +55,7 @@ export default function ListingPopup({ listing }) {
 
     const listingTitle = listing.title.length > 10 ? listing.title + "..." : listing.title;
 
-    console.log("Listing images " + listing.title + " " + listing.images);
+    // console.log("Listing images " + listing.title + " " + listing.images);
 
     return (
         <SafeAreaView>
