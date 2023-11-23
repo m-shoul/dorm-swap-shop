@@ -1,16 +1,10 @@
 import { database } from '../config/firebaseConfig';
-import { get, child, ref, set, push, remove, getDatabase } from 'firebase/database';
+import { get, ref, set, push, remove, getDatabase } from 'firebase/database';
 import { getStorage, ref as sRef, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { readData, getUserID } from '../dbFunctions';
-import React, { useState, useEffect } from "react";
-import { categories, statuses, conditions } from '../../components/Enums';
-
-// ^^ Import whatever we need for this...
-// NOTE************ add additional parameters when needed!!! This is just a baseline.
+import { getUserID } from '../dbFunctions';
 
 // Get a reference to the storage database
 const storage = getStorage();
-
 
 export async function createListing(userId, title, description, price, category, condition, location, image) {
     // Reference listings in the database
@@ -123,16 +117,44 @@ export async function getUserListings() {
 
 export function saveListing(listingId) {
     const db = getDatabase();
-    userId = getUserID();
-    const userReference = ref(db, `/dorm_swap_shop/users/${userId}/private/savedListings/${listingId}`);
-    set(userReference, listingId);
+    const userId = getUserID();
+    const usersRef = ref(db, `dorm_swap_shop/users/`);
+
+    // Get all users
+    get(usersRef).then((snapshot) => {
+        snapshot.forEach((childSnapshot) => {
+            const userData = childSnapshot.val();
+            // Check if the userId matches the current user's userId
+            if (userData.private.userId === userId) {
+                // Add the listingId to the savedListings array
+                const savedListingsRef = ref(db, `dorm_swap_shop/users/${childSnapshot.key}/private/savedListings`);
+                push(savedListingsRef, listingId);
+            }
+        });
+    }).catch((error) => {
+        console.error(error);
+    });
 }
+   
 
 export function unsaveListing(listingId) {
     const db = getDatabase();
-    userId = getUserID();
-    const userReference = ref(db, `/dorm_swap_shop/users/${userId}/private/savedListings/${listingId}`);
-    remove(userReference, listingId);
+    const userId = getUserID();
+    const usersRef = ref(db, `dorm_swap_shop/users/`);
+
+    get(usersRef).then((snapshot) => {
+        snapshot.forEach((childSnapshot) => {
+            const userData = childSnapshot.val();
+            
+            if (userData.private.userId === userId) {
+                // Remove the listingId to the savedListings array
+                const savedListingsRef = ref(db, `dorm_swap_shop/users/${childSnapshot.key}/private/savedListings`);
+                remove(savedListingsRef, listingId);
+            }
+        });
+    }).catch((error) => {
+        console.error(error);
+    });
 }
 
 
