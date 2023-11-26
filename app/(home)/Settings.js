@@ -10,6 +10,7 @@ import React, { useState, useEffect } from "react";
 import styles from "../(aux)/StyleSheet.js";
 import { SearchBar } from "@rneui/themed";
 import { router } from "expo-router";
+import { logoutUser } from "../../backend/dbFunctions.js";
 import NotificationComponent from "../../assets/svg/notification_icon.js";
 import SupportComponent from "../../assets/svg/support_icon.js";
 import AboutComponent from "../../assets/svg/about_icon.js";
@@ -141,7 +142,7 @@ export default function SettingsScreen() {
                 />
                 <View style={{ flexDirection: "row", marginLeft: "5%" }}>
                     <TouchableOpacity
-                        onPress={() => router.push("(settings)/DeleteAccountScreen")}
+                        onPress={() => { logoutUser(); router.push("/"); }}
                         style={{
                             marginBottom: "5%",
                             marginTop: "-3%",
