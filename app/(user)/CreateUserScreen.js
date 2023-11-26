@@ -168,7 +168,7 @@ export default function CreateUserScreen() {
         if (errorCount === 0) {
             const userId = await userRegistration();
             createUser(firstName, lastName, username, email, userId);
-            router.push('/');
+            router.push("/");
         }
         // Set the errors and update form validity
         // setErrors(errors);
@@ -188,7 +188,11 @@ export default function CreateUserScreen() {
         if (email && password) {
             try {
                 // Creates user into Firebase
-                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                const userCredential = await createUserWithEmailAndPassword(
+                    auth,
+                    email,
+                    password
+                );
                 const userId = userCredential.user.uid;
                 // Do something with the user ID
                 return userId;
@@ -249,6 +253,7 @@ export default function CreateUserScreen() {
                             onSubmitEditing={() => {
                                 lastNameInputRef.current.focus();
                             }}
+                            maxLength={50}
                             ref={firstNameInputRef}
                             blurOnSubmit={false}
                             style={firstNameStyle}
@@ -270,6 +275,7 @@ export default function CreateUserScreen() {
                             onSubmitEditing={() => {
                                 userNameInputRef.current.focus();
                             }}
+                            maxLength={50}
                             ref={lastNameInputRef}
                             blurOnSubmit={false}
                             style={lastNameStyle}
@@ -286,6 +292,7 @@ export default function CreateUserScreen() {
                             onSubmitEditing={() => {
                                 emailInputRef.current.focus();
                             }}
+                            maxLength={50}
                             ref={userNameInputRef}
                             blurOnSubmit={false}
                             style={usernameStyle}
@@ -302,6 +309,7 @@ export default function CreateUserScreen() {
                             onSubmitEditing={() => {
                                 passwordInputRef.current.focus();
                             }}
+                            maxLength={254}
                             ref={emailInputRef}
                             blurOnSubmit={false}
                             style={emailStyle}
@@ -318,6 +326,7 @@ export default function CreateUserScreen() {
                             onSubmitEditing={() => {
                                 confirmPasswordInputRef.current.focus();
                             }}
+                            maxLength={254}
                             ref={passwordInputRef}
                             blurOnSubmit={false}
                             style={passwordStyle}
@@ -335,6 +344,7 @@ export default function CreateUserScreen() {
                             onSubmitEditing={() => {
                                 Keyboard.dismiss();
                             }}
+                            maxLength={254}
                             ref={confirmPasswordInputRef}
                             blurOnSubmit={false}
                             style={passwordCheckStyle}
@@ -367,11 +377,11 @@ export default function CreateUserScreen() {
             </TouchableOpacity>
 
             <TouchableOpacity
-                onPress={() => router.push('/')}
+                onPress={() => router.push("/")}
                 style={[styles.accountButtons, {}]}>
                 <Text>Already have an account?</Text>
                 <Text>Login</Text>
             </TouchableOpacity>
         </SafeAreaView>
     );
-};
+}
