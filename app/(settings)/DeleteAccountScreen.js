@@ -7,6 +7,7 @@ import {
 import styles from "../(aux)/StyleSheet.js";
 import BackButtonComponent from "../../assets/svg/back_button.js";
 import { router } from "expo-router";
+import { Button } from '../../components/Buttons.js';
 
 
 export default function DeleteAccount() {
@@ -28,10 +29,12 @@ export default function DeleteAccount() {
                 <Text style={{ fontWeight: "bold", fontSize: 25 }}>This action is irreversible</Text>
             </View>
 
-            <TouchableOpacity
+            {/* <TouchableOpacity
                 onPress={() => router.push("/")} style={styles.deleteBtn}>
                 <Text style={styles.buttonText}>Delete Account</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
+            <Button width="80%" height="7%" backgroundColor="#F30000" title="Delete Account" alignItems="center"
+                justifyContent="center" marginTop="12%" borderRadius="25%" href="/" />
         </SafeAreaView >
     );
 };
