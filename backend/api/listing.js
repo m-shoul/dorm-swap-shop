@@ -72,7 +72,7 @@ async function uploadImageAsync(uri, imagesRef) {
         console.log(downloadURL);
         console.log(imagesRef);
 
-        await set(imagesRef, downloadURL);
+        await push(imagesRef, downloadURL);
     
         return downloadURL;
     } catch (error) {

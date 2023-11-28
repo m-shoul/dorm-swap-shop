@@ -65,10 +65,17 @@ export default function ListingPopup({ listing }) {
             <TouchableOpacity onPress={openModal}>
                 <View style={{ backgroundColor: "white" }}>
                     {/* Source might be something like source={{uri: item.images}} */}
-                    <Image
-                        source={{ uri: listing.images[0] }}
-                        style={{ width: "100%", height: 200 }}
-                    />
+                    {Array.isArray(listing.images) ? (
+                        <Image
+                            source={{ uri: listing.images[0] }}
+                            style={{ width: "100%", height: 200 }}
+                        />
+                    ) : (
+                        <Image
+                            source={{ uri: listing.images }}
+                            style={{ width: "100%", height: 200 }}
+                        />
+                    )}
                     <View
                         style={{
                             backgroundColor: "#B3B3B3",
@@ -131,24 +138,24 @@ export default function ListingPopup({ listing }) {
                     </View>
                     {/* IMAGE */}
                     <View style={{ height: "33%" }}>
-                        {listing.images.length === 1 ? (
-                            <Image
-                                source={{ uri: listing.images }}
-                                style={{ width: width, height: 250 }}
-                            />
-                        ) : (                        
-                            <Swiper
-                                loop={false}
-                                onIndexChanged={(index) => setCurrentIndex(index)}>
-                                {listing.images.map((imageUrl, currentIndex) => (
-                                    <Image
-                                        key={currentIndex}
-                                        source={{ uri: imageUrl }}
-                                        style={{ width: width, height: 250 }}
-                                    />
-                                ))}
-                            </Swiper>
-                        )}
+                    {Array.isArray(listing.images) ? (
+                        <Swiper
+                            loop={false}
+                            onIndexChanged={(index) => setCurrentIndex(index)}>
+                            {listing.images.map((imageUrl, currentIndex) => (
+                                <Image
+                                    key={currentIndex}
+                                    source={{ uri: imageUrl }}
+                                    style={{ width: width, height: 250 }}
+                                />
+                            ))}
+                        </Swiper>
+                    ) : (
+                        <Image
+                            source={{ uri: listing.images }}
+                            style={{ width: width, height: 250 }}
+                        />
+                    )}
                     </View>
                     <View style={{ width: "100%", height: "25%" }}>
                         <View
