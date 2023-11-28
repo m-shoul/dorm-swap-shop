@@ -54,7 +54,7 @@ export default function ListingPopup({ listing }) {
     };
 
     const listingTitle =
-        listing.price.length + listing.title.length > 25
+        listing.price.length + listing.title.length > 22
             ? listing.title.substring(0, 14) + "..."
             : listing.title;
 
