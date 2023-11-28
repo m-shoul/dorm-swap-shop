@@ -8,6 +8,7 @@ import {
     ScrollView,
     KeyboardAvoidingView,
     Image,
+    Dimensions,
 } from "react-native";
 import React, { useState, useEffect, useRef } from "react";
 import styles from "../(aux)/StyleSheet.js";
@@ -28,6 +29,10 @@ export default function CreatePostScreen() {
     const [condition, setCondition] = useState(null);
     const [location, setLocation] = useState("");
 
+    //For pickers so they can get the right text size
+    const { width } = Dimensions.get("window");
+    const NormalFontSize = 20;
+    normalText = width / NormalFontSize;
     // For uploading images
     const [image, setImage] = useState(null);
 
@@ -140,7 +145,7 @@ export default function CreatePostScreen() {
 
         if (category === null) {
             setErrorMessageCategory("Category is required.");
-            setCategoryStyle(styles.dropdownlistserror);
+            setCategoryStyle(styles.dropDownListsError);
             emptyFields++;
             errorCount++;
         } else {
@@ -150,7 +155,7 @@ export default function CreatePostScreen() {
 
         if (condition === null) {
             setErrorMessageCondition("Condition is required.");
-            setConditionStyle(styles.dropdownlistserror);
+            setConditionStyle(styles.dropDownListsError);
             emptyFields++;
             errorCount++;
         } else {
@@ -250,7 +255,11 @@ export default function CreatePostScreen() {
                             {image ? (
                                 <Image
                                     source={{ uri: image }}
-                                    style={{ width: 200, height: 200 }}
+                                    style={{
+                                        width: 200,
+                                        height: 200,
+                                        marginBottom: "5%",
+                                    }}
                                 />
                             ) : (
                                 <ListImagesComponent
@@ -338,6 +347,14 @@ export default function CreatePostScreen() {
                                 }}
                                 items={categories}
                                 ref={categoryInputRef}
+                                style={{
+                                    inputIOS: {
+                                        fontSize: normalText, // Change this to your desired font size
+                                    },
+                                    inputAndroid: {
+                                        fontSize: normalText, // Change this to your desired font size
+                                    },
+                                }}
                             />
                         </View>
                         {errorMessageCategory && (
@@ -376,6 +393,14 @@ export default function CreatePostScreen() {
                                 }}
                                 ref={conditionInputRef}
                                 items={conditions}
+                                style={{
+                                    inputIOS: {
+                                        fontSize: normalText, // Change this to your desired font size
+                                    },
+                                    inputAndroid: {
+                                        fontSize: normalText, // Change this to your desired font size
+                                    },
+                                }}
                             />
                         </View>
 
