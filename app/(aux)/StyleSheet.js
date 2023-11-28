@@ -114,10 +114,13 @@ const styles = StyleSheet.create({
     postListingDescriptionError: {
         height: "20%",
         //was 20
+        paddingRight: "6%",
+        paddingLeft: "6%",
         borderWidth: "1%", //was 1
         borderRadius: "20",
         fontSize: normalText,
-        padding: "2%", //was 7
+        paddingTop: "2%", //was 7
+        paddingBottom: "2%", //was 7
         backgroundColor: "white",
         borderColor: "red",
         marginBottom: "-3%",

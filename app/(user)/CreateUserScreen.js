@@ -369,7 +369,7 @@ export default function CreateUserScreen() {
                     height: 50,
                     alignItems: "center",
                     justifyContent: "center",
-                    marginTop: 40,
+                    marginTop: "3%",
                     backgroundColor: "#3F72AF",
                 }}
                 onPress={handleValidation}>
@@ -379,8 +379,20 @@ export default function CreateUserScreen() {
             <TouchableOpacity
                 onPress={() => router.push("/")}
                 style={[styles.accountButtons, {}]}>
-                <Text>Already have an account?</Text>
-                <Text>Login</Text>
+                <Text
+                    style={[
+                        styles.notUserButtonText,
+                        { textAlign: "center", marginTop: "10%" },
+                    ]}>
+                    Already have an account?
+                </Text>
+                <Text
+                    style={[
+                        styles.notUserButtonText,
+                        { textAlign: "center", marginBottom: "-5%" },
+                    ]}>
+                    Login
+                </Text>
             </TouchableOpacity>
         </SafeAreaView>
     );
