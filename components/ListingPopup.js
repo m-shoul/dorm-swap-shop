@@ -57,7 +57,6 @@ export default function ListingPopup({ listing }) {
         router.push("Chat");
     };
 
-    const listingTitle = listing.title.length > 10 ? listing.title + "..." : listing.title;
     const listingTitle =
         listing.price.length + listing.title.length > 22
             ? listing.title.substring(0, 14) + "..."
