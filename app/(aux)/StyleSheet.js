@@ -91,10 +91,11 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
         borderRadius: 20,
         borderWidth: 1,
-        borderColor: "gray",
-        padding: 10,
-        marginBottom: 20,
-        fontSize: 16,
+        borderColor: "#B3B3B3",
+        paddingTop: "2%", //was 7
+        paddingBottom: "2%", //was 7
+        paddingLeft: "6%",
+        marginBottom: "6%",
     },
     postListingDescription: {
         height: "20%",
@@ -121,14 +122,15 @@ const styles = StyleSheet.create({
         borderColor: "red",
         marginBottom: "-3%",
     },
-    dropdownListSerror: {
+    dropDownListsError: {
         backgroundColor: "white",
         borderRadius: 20,
         borderWidth: 1,
         borderColor: "red",
-        padding: 10,
-        marginBottom: 20,
-        fontSize: 16,
+        paddingTop: "2%", //was 7
+        paddingBottom: "2%", //was 7
+        paddingLeft: "6%",
+        marginBottom: "6%",
     },
     loginHeader: {
         //paddingTop: "45%",
