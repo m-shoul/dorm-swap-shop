@@ -36,7 +36,8 @@ export default function CreatePostScreen() {
         // No permissions request is necessary for launching the image library
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
-            allowsEditing: true,
+            allowsMultipleSelection: true,
+            selectionLimit: 3,
             aspect: [4, 3],
             quality: 1,
         });
@@ -45,7 +46,8 @@ export default function CreatePostScreen() {
 
         if (!result.canceled) {
             console.log("Image picked successfully");
-            setImage(result.uri);
+            const selectedImages = result.assets.map(asset => asset.uri);
+            setImage(selectedImages);
         }
     };
 
@@ -248,7 +250,7 @@ export default function CreatePostScreen() {
                         <TouchableOpacity onPress={() => pickImage()}>
                             {image ? (
                                 <Image
-                                    source={{ uri: image }}
+                                    source={{ uri: image[0] }}
                                     style={{ width: 200, height: 200 }}
                                 />
                             ) : (

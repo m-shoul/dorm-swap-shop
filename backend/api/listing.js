@@ -6,7 +6,7 @@ import { getUserID } from '../dbFunctions';
 // Get a reference to the storage database
 const storage = getStorage();
 
-export async function createListing(userId, title, description, price, category, condition, location, image) {
+export async function createListing(userId, title, description, price, category, condition, location, images) {
     // Reference listings in the database
     const listingReference = ref(database, 'dorm_swap_shop/listings');
 
@@ -31,51 +31,58 @@ export async function createListing(userId, title, description, price, category,
         images: [], // Initialize with an empty array for images
     };
 
+    console.log(listingData);
+
     // Set the listing data
     await set(newListingReference, listingData);
 
+    console.log(images);
     // If an image is provided, upload it and update the listing
-    if (image) {
+    if (images) {
         const imagesRef = ref(database, `dorm_swap_shop/listings/${listingId}/images`);
-        await uploadImageAsync(image, imagesRef);
+        await Promise.all(images.map(image => uploadImageAsync(image, imagesRef)));
+        // await uploadImageAsync(image, imagesRef);
     }
 
     return listingId;
 }
 
 async function uploadImageAsync(uri, imagesRef) {
-    const blob = await new Promise((resolve, reject) => {
-        const xhr = new XMLHttpRequest();
-        xhr.onload = function () {
-            resolve(xhr.response);
-        };
-        xhr.onerror = function (e) {
-            reject(new TypeError("Network request failed"));
-        };
-        xhr.responseType = "blob";
-        xhr.open("GET", uri, true);
-        xhr.send(null);
-    });
+    try {
+        const blob = await new Promise((resolve, reject) => {
+            const xhr = new XMLHttpRequest();
+            xhr.onload = function () {
+                resolve(xhr.response);
+            };
+            xhr.onerror = function (e) {
+                reject(new TypeError("Network request failed"));
+            };
+            xhr.responseType = "blob";
+            xhr.open("GET", uri, true);
+            xhr.send(null);
+        });
+    
+        const storageRef = sRef(storage, "test/" + new Date().getTime());
+        await uploadBytesResumable(storageRef, blob);
+    
+        blob.close();
+    
+        const downloadURL = await getDownloadURL(storageRef);
 
-    const storageRef = sRef(storage, "test/" + new Date().getTime());
-    await uploadBytesResumable(storageRef, blob);
+        console.log(downloadURL);
+        console.log(imagesRef);
 
-    // We're done with the blob, close and release it
-    blob.close();
-
-    const downloadURL = await getDownloadURL(storageRef);
-    console.log(downloadURL);
-
-    // const imagesRef = ref(images, "images/");
-    console.log(imagesRef);
-    // const newImageRef = push(imagesRef);
-    await set(imagesRef, downloadURL);
-
-    return downloadURL;
+        await set(imagesRef, downloadURL);
+    
+        return downloadURL;
+    } catch (error) {
+        console.error("Error in uploadImageAsync: ", error);
+        throw error;
+    }
 }
 
 // Gets all listings in the database for home screen 
-export async function getAllListings() {
+export function getAllListings() {
     const db = getDatabase();
     const listingsReference = ref(db, "dorm_swap_shop/listings/");
 
@@ -95,7 +102,7 @@ export async function getAllListings() {
 };
 
 // Gets listings posted by user
-export async function getUserListings() {
+export function getUserListings() {
     const db = getDatabase();
     const listingsReference = ref(db, "dorm_swap_shop/listings/");
     userId = getUserID();

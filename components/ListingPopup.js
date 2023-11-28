@@ -55,7 +55,7 @@ export default function ListingPopup({ listing }) {
 
     const listingTitle = listing.title.length > 10 ? listing.title + "..." : listing.title;
 
-    // console.log("Listing images " + listing.title + " " + listing.images);
+    console.log("Listing images " + listing.title + " " + listing.images);
 
     return (
         <SafeAreaView>
@@ -66,7 +66,7 @@ export default function ListingPopup({ listing }) {
                 <View style={{ backgroundColor: "white" }}>
                     {/* Source might be something like source={{uri: item.images}} */}
                     <Image
-                        source={{ uri: listing.images }}
+                        source={{ uri: listing.images[0] }}
                         style={{ width: "100%", height: 200 }}
                     />
                     <View
@@ -131,21 +131,24 @@ export default function ListingPopup({ listing }) {
                     </View>
                     {/* IMAGE */}
                     <View style={{ height: "33%" }}>
-                        <Image
-                            source={{ uri: listing.images }}
-                            style={{ width: width, height: 250 }}
-                        />
-                        {/* <Swiper
-                            loop={false}
-                            onIndexChanged={(index) => setCurrentIndex(index)}>
-                            {images.map((image, currentIndex) => (
-                                <Image
-                                    key={currentIndex}
-                                    source={listing.images}
-                                    style={{ width: width, height: 250 }}
-                                />
-                            ))}
-                        </Swiper> */}
+                        {listing.images.length === 1 ? (
+                            <Image
+                                source={{ uri: listing.images }}
+                                style={{ width: width, height: 250 }}
+                            />
+                        ) : (                        
+                            <Swiper
+                                loop={false}
+                                onIndexChanged={(index) => setCurrentIndex(index)}>
+                                {listing.images.map((imageUrl, currentIndex) => (
+                                    <Image
+                                        key={currentIndex}
+                                        source={{ uri: imageUrl }}
+                                        style={{ width: width, height: 250 }}
+                                    />
+                                ))}
+                            </Swiper>
+                        )}
                     </View>
                     <View style={{ width: "100%", height: "25%" }}>
                         <View
