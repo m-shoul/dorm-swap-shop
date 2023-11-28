@@ -42,24 +42,25 @@ export default function ListingPopup({ listing }) {
             Alert.alert("Favorited");
         }
     };
-    const images = [
-        require("../assets/testImages/swoledoge.jpg"),
-        require("../assets/testImages/thumb.jpg"),
-        require("../assets/testImages/batt.jpg"),
-    ];
+    //Use this for when the user is able to post more than one image
+    // const images = [
+    // ];
     const [currentIndex, setCurrentIndex] = useState(0);
 
     const openModal = () => {
         setListingModalVisible(true);
     };
 
-    const listingTitle = listing.title.length > 10 ? listing.title + "..." : listing.title;
+    const listingTitle =
+        listing.price.length + listing.title.length > 22
+            ? listing.title.substring(0, 14) + "..."
+            : listing.title;
 
     console.log("Listing images " + listing.title + " " + listing.images);
 
     return (
         <SafeAreaView>
-        {/* This touchable opacity needs to be moved out of here. All we want this popup to do is
+            {/* This touchable opacity needs to be moved out of here. All we want this popup to do is
         show a swipeable image carousel and some text. We don't want it to show the listing as
         it is supposed to look on the home screen. This should be able to be used anywhere. */}
             <TouchableOpacity onPress={openModal}>
