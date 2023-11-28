@@ -58,7 +58,7 @@ export default function CreateUserScreen() {
 
     let validate = 0;
     useEffect(() => {
-        console.log("Reached useEffect");
+        // console.log("Reached useEffect");
         // Trigger form validation when name, email, or password changes
         if (validate == 1) {
             validateForm();
