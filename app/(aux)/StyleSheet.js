@@ -1,6 +1,6 @@
 import { StyleSheet, Dimensions } from "react-native";
 import * as Font from "expo-font";
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const { width } = Dimensions.get("window");
 const ButtonFontSize = 16;
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     },
     loginBtn: {
         width: "80%",
-        borderRadius: "25%", //was 25
+        borderRadius: 25, //was 25
         height: "7%", //was 50
         alignItems: "center",
         justifyContent: "center",
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     },
     deleteBtn: {
         width: "80%",
-        borderRadius: "25%", //was 25
+        borderRadius: 25, //was 25
         height: "7%", //was 50
         alignItems: "center",
         justifyContent: "center",
@@ -91,18 +91,22 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
         borderRadius: 20,
         borderWidth: 1,
-        borderColor: "gray",
-        padding: 10,
-        marginBottom: 20,
-        fontSize: 16,
+        borderColor: "#B3B3B3",
+        paddingTop: "2%", //was 7
+        paddingBottom: "2%", //was 7
+        paddingLeft: "6%",
+        marginBottom: "6%",
     },
     postListingDescription: {
         height: "20%",
         //was 20
-        borderWidth: "1%", //was 1
-        borderRadius: "20",
+        borderWidth: 1, //was 1
+        borderRadius: 20,
         fontSize: normalText,
-        padding: "2%", //was 7
+        paddingTop: "2%", //was 7
+        paddingBottom: "2%", //was 7
+        paddingLeft: "6%",
+        paddingRight: "6%",
         backgroundColor: "white",
         borderColor: "#B3B3B3",
         marginBottom: "-3%",
@@ -110,22 +114,26 @@ const styles = StyleSheet.create({
     postListingDescriptionError: {
         height: "20%",
         //was 20
-        borderWidth: "1%", //was 1
-        borderRadius: "20",
+        paddingRight: "6%",
+        paddingLeft: "6%",
+        borderWidth: 1, //was 1
+        borderRadius: 20,
         fontSize: normalText,
-        padding: "2%", //was 7
+        paddingTop: "2%", //was 7
+        paddingBottom: "2%", //was 7
         backgroundColor: "white",
         borderColor: "red",
         marginBottom: "-3%",
     },
-    dropdownListSerror: {
+    dropDownListsError: {
         backgroundColor: "white",
         borderRadius: 20,
         borderWidth: 1,
         borderColor: "red",
-        padding: 10,
-        marginBottom: 20,
-        fontSize: 16,
+        paddingTop: "2%", //was 7
+        paddingBottom: "2%", //was 7
+        paddingLeft: "6%",
+        marginBottom: "6%",
     },
     loginHeader: {
         //paddingTop: "45%",

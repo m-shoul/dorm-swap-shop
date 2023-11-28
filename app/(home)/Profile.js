@@ -1,4 +1,12 @@
-import { Text, View, TouchableOpacity, FlatList, SafeAreaView, StyleSheet, Image } from "react-native";
+import {
+    Text,
+    View,
+    TouchableOpacity,
+    FlatList,
+    SafeAreaView,
+    StyleSheet,
+    Image,
+} from "react-native";
 import styles from "../(aux)/StyleSheet.js";
 import { get, ref, getDatabase } from "@firebase/database";
 // import { getUserID } from "../../backend/dbFunctions.js";
@@ -22,9 +30,9 @@ export default function ProfileScreen() {
                 setListingsData(listingsData);
                 console.log("Got user listings.");
             } catch (error) {
-                console.error('Error:', error);
+                console.error("Error:", error);
             }
-        }
+        };
         fetchUserListings();
     }, []);
 
@@ -130,13 +138,13 @@ export default function ProfileScreen() {
                 }}>
                 <Text style={styles.boldtext}>My Listings</Text>
             </View>
-            <View style={styles.dividerLine} />
+            <View style={[styles.dividerLine, { marginBottom: 1 }]} />
             {/* Scrollable view displaying all the listings */}
             <FlatList
                 data={Object.values(listingsData)}
                 renderItem={({ item }) => (
                     <TouchableOpacity
-                        style={{ width: "50%", height: 200, padding: "1%" }}
+                        style={{ width: "50%", height: 230, padding: "1%" }}
                         onPress={() => handleItemPress(item)}
                         key={item.id}>
                         <ListingPopup listing={item} navigation={router} />
@@ -147,14 +155,13 @@ export default function ProfileScreen() {
                 style={{
                     flex: 1,
                     backgroundColor: "#F9F7F7",
-                    paddingTop: "5%",
+                    paddingTop: "2%",
                 }}
                 onScroll={(e) => {
                     // scrollY.setValue(e.nativeEvent.contentOffset.y);
                 }}
                 bounces={false}
             />
-
         </SafeAreaView>
     );
-};
+}
