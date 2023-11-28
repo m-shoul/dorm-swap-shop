@@ -249,7 +249,11 @@ export default function CreatePostScreen() {
                             {image ? (
                                 <Image
                                     source={{ uri: image }}
-                                    style={{ width: 200, height: 200 }}
+                                    style={{
+                                        width: 200,
+                                        height: 200,
+                                        marginBottom: "5%",
+                                    }}
                                 />
                             ) : (
                                 <ListImagesComponent
