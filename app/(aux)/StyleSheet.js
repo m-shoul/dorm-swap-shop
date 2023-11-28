@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     },
     loginBtn: {
         width: "80%",
-        borderRadius: "25%", //was 25
+        borderRadius: 25, //was 25
         height: "7%", //was 50
         alignItems: "center",
         justifyContent: "center",
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     },
     deleteBtn: {
         width: "80%",
-        borderRadius: "25%", //was 25
+        borderRadius: 25, //was 25
         height: "7%", //was 50
         alignItems: "center",
         justifyContent: "center",
@@ -100,8 +100,8 @@ const styles = StyleSheet.create({
     postListingDescription: {
         height: "20%",
         //was 20
-        borderWidth: "1%", //was 1
-        borderRadius: "20",
+        borderWidth: 1, //was 1
+        borderRadius: 20,
         fontSize: normalText,
         paddingTop: "2%", //was 7
         paddingBottom: "2%", //was 7
@@ -116,8 +116,8 @@ const styles = StyleSheet.create({
         //was 20
         paddingRight: "6%",
         paddingLeft: "6%",
-        borderWidth: "1%", //was 1
-        borderRadius: "20",
+        borderWidth: 1, //was 1
+        borderRadius: 20,
         fontSize: normalText,
         paddingTop: "2%", //was 7
         paddingBottom: "2%", //was 7

@@ -42,11 +42,9 @@ export default function ListingPopup({ listing }) {
             Alert.alert("Favorited");
         }
     };
-    const images = [
-        require("../assets/testImages/swoledoge.jpg"),
-        require("../assets/testImages/thumb.jpg"),
-        require("../assets/testImages/batt.jpg"),
-    ];
+    //Use this for when the user is able to post more than one image
+    // const images = [
+    // ];
     const [currentIndex, setCurrentIndex] = useState(0);
 
     const openModal = () => {
