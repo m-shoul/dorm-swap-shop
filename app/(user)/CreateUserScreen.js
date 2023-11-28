@@ -15,11 +15,8 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 // import { writeUserData } from "../../backend/dbFunctions.js";
 import { createUser } from "../../backend/api/user.js";
 import { router } from "expo-router";
-<<<<<<< Updated upstream
 import { getUserID } from "../../backend/dbFunctions.js";
-=======
 import { Button } from '../../components/Buttons.js';
->>>>>>> Stashed changes
 
 export default function CreateUserScreen() {
     //All of the states that are used to store the actual values of the text inputs

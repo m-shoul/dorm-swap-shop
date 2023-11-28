@@ -34,7 +34,7 @@ export default function DeleteAccount() {
                 <Text style={styles.buttonText}>Delete Account</Text>
             </TouchableOpacity> */}
             <Button width="80%" height="7%" backgroundColor="#F30000" title="Delete Account" alignItems="center"
-                justifyContent="center" marginTop="12%" borderRadius="25%" href="/" />
+                justifyContent="center" marginTop="12%" borderRadius="25%" href="/" titleStyle={styles.buttonText} />
         </SafeAreaView >
     );
 };

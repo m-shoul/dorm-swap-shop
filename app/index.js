@@ -12,11 +12,8 @@ import styles from "./(aux)/StyleSheet";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { getAuth } from "firebase/auth";
 import { router } from 'expo-router';
-<<<<<<< Updated upstream
 import { getUserID } from "../backend/dbFunctions";
-=======
 import { Button } from '../components/Buttons';
->>>>>>> Stashed changes
 
 
 export default function LoginScreen() {
@@ -128,17 +125,12 @@ export default function LoginScreen() {
                         Forgot Password
                     </Text>
                 </View>
-<<<<<<< Updated upstream
-                
-                <TouchableOpacity style={styles.loginBtn} onPress={handleLogin}>
-=======
 
                 {/* <TouchableOpacity style={styles.loginBtn} onPress={handleLogin}>
->>>>>>> Stashed changes
                     <Text style={styles.buttonText}>Login</Text>
                 </TouchableOpacity> */}
                 <Button width="80%" height="7%" backgroundColor="#3F72AF" title="Login" alignItems="center"
-                    justifyContent="center" marginTop="12%" borderRadius="25%" press={handleLogin} />
+                    justifyContent="center" marginTop="12%" borderRadius="25%" press={handleLogin} titleStyle={styles.buttonText} />
 
                 <TouchableOpacity
                     onPress={() => router.push("(user)/CreateUserScreen")}
