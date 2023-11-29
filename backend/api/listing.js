@@ -40,8 +40,8 @@ export async function createListing(userId, title, description, price, category,
     // If an image is provided, upload it and update the listing
     if (images) {
         const imagesRef = ref(database, `dorm_swap_shop/listings/${listingId}/images`);
-        await Promise.all(images.map(image => uploadImageAsync(image, imagesRef)));
-        // await uploadImageAsync(image, imagesRef);
+        const downloadURLs = await Promise.all(images.map(image => uploadImageAsync(image, imagesRef)));
+        await set(imagesRef, downloadURLs);
     }
 
     return listingId;
@@ -71,8 +71,6 @@ async function uploadImageAsync(uri, imagesRef) {
 
         console.log(downloadURL);
         console.log(imagesRef);
-
-        await push(imagesRef, downloadURL);
     
         return downloadURL;
     } catch (error) {

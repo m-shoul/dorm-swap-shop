@@ -24,17 +24,13 @@ export default function ListingPopup({ listing }) {
     const { width, height } = Dimensions.get("window");
     const [listingModalVisible, setListingModalVisible] = useState(false);
     const [isFavorited, setIsFavorited] = useState(false);
+    const [currentIndex, setCurrentIndex] = useState(0);
 
     const router = useRouter();
 
     const simpleAlert = () => {
         setIsFavorited(!isFavorited);
 
-        // Currently the listing can be saved and unsaved and it is added to the
-        // database under the UID, which is the Firebase auth UID... we want this to
-        // be stored under the realtime push UID... but these are different things
-        // so we have to come up with a solution to store the UID in the user data
-        // and then save the data in that direction??
         if (isFavorited) {
             unsaveListing(listing.listingId);
             Alert.alert("Unsaved");
@@ -43,10 +39,6 @@ export default function ListingPopup({ listing }) {
             Alert.alert("Favorited");
         }
     };
-    //Use this for when the user is able to post more than one image
-    // const images = [
-    // ];
-    const [currentIndex, setCurrentIndex] = useState(0);
 
     const openModal = () => {
         setListingModalVisible(true);
@@ -71,7 +63,6 @@ export default function ListingPopup({ listing }) {
         it is supposed to look on the home screen. This should be able to be used anywhere. */}
             <TouchableOpacity onPress={openModal}>
                 <View style={{ backgroundColor: "white" }}>
-                    {/* Source might be something like source={{uri: item.images}} */}
                     {Array.isArray(listing.images) ? (
                         <Image
                             source={{ uri: listing.images[0] }}
@@ -93,7 +84,6 @@ export default function ListingPopup({ listing }) {
                     />
                     <Text>{"$" + listing.price + " - " + listingTitle}</Text>
                 </View>
-                {/* <Text style={{ backgroundColor: "red" }}>Show Listing</Text> */}
             </TouchableOpacity>
 
             <Modal visible={listingModalVisible}>
@@ -128,10 +118,6 @@ export default function ListingPopup({ listing }) {
                                     pathname: "ReportScreen",
                                     params: listing,
                                 });
-
-                                // Pass the image into the report screen and display
-                                // it at the top so the user knows what listing they are
-                                // reporting.
                             }}>
                             <ReportComponent
                                 style={{
@@ -175,7 +161,6 @@ export default function ListingPopup({ listing }) {
                             {/* TITLE */}
                             <Text style={[styles.boldtext, { flex: 1 }]}>
                                 {listing.title}
-                                {/* The dog is very swole */}
                             </Text>
                             <TouchableOpacity
                                 style={{ flex: 0 }}
@@ -209,7 +194,6 @@ export default function ListingPopup({ listing }) {
                             {/* PRICE */}
                             <Text style={[styles.boldtext, { flex: 1 }]}>
                                 {"$" + listing.price}
-                                {/* $1,000,000 */}
                             </Text>
                         </View>
                         <View
@@ -221,7 +205,6 @@ export default function ListingPopup({ listing }) {
                             {/* CONDITION */}
                             <Text style={[styles.normaltext, { flex: 1 }]}>
                                 {listing.condition}
-                                {/* Condition: Brand new */}
                             </Text>
                         </View>
                         <View
@@ -233,11 +216,6 @@ export default function ListingPopup({ listing }) {
                             {/* DESCRIPTION */}
                             <Text style={[styles.normalText, { flex: 1 }]}>
                                 {listing.description}
-                                {/* I own a musket for home defense, since that's
-                                what the founding fathers intended. Four
-                                ruffians break into my house. "What the devil?"
-                                As I grab my powdered wig and Kentucky rifle.
-                                Blow a golf b */}
                             </Text>
                         </View>
                     </View>
