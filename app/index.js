@@ -13,6 +13,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { getAuth } from "firebase/auth";
 import { router } from 'expo-router';
 import { getUserID } from "../backend/dbFunctions";
+import { Button } from '../components/Buttons';
 
 
 export default function LoginScreen() {
@@ -124,10 +125,12 @@ export default function LoginScreen() {
                         Forgot Password
                     </Text>
                 </View>
-                
-                <TouchableOpacity style={styles.loginBtn} onPress={handleLogin}>
+
+                {/* <TouchableOpacity style={styles.loginBtn} onPress={handleLogin}>
                     <Text style={styles.buttonText}>Login</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
+                <Button width="80%" height="7%" backgroundColor="#3F72AF" title="Login" alignItems="center"
+                    justifyContent="center" marginTop="12%" borderRadius="25%" press={handleLogin} titleStyle={styles.buttonText} />
 
                 <TouchableOpacity
                     onPress={() => router.push("(user)/CreateUserScreen")}

@@ -16,6 +16,7 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { createUser } from "../../backend/api/user.js";
 import { router } from "expo-router";
 import { getUserID } from "../../backend/dbFunctions.js";
+import { Button } from '../../components/Buttons.js';
 
 export default function CreateUserScreen() {
     //All of the states that are used to store the actual values of the text inputs
@@ -228,7 +229,6 @@ export default function CreateUserScreen() {
                     // marginBottom: 0,
                     //paddingBottom: 0,
                     justifyContent: "center",
-                    width: "100%",
                     alignItems: "center",
                 }}
                 behavior={Platform.OS === "ios" ? "padding" : "height"}>
@@ -362,7 +362,7 @@ export default function CreateUserScreen() {
                 </ScrollView>
             </KeyboardAvoidingView>
 
-            <TouchableOpacity
+            {/* <TouchableOpacity
                 style={{
                     width: "80%",
                     borderRadius: 25,
@@ -374,7 +374,9 @@ export default function CreateUserScreen() {
                 }}
                 onPress={handleValidation}>
                 <Text style={styles.buttonText}>Create an Account</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
+            <Button width="80%" height="7%" backgroundColor="#3F72AF" title="Create an Account" alignItems="center"
+                justifyContent="center" marginTop="12%" borderRadius="25%" press={handleValidation} />
 
             <TouchableOpacity
                 onPress={() => router.push("/")}

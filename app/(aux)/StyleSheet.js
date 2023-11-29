@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
     notUserButton: {
         alignItems: "center",
         justifyContent: "center",
-        paddingTop: "10%",
+        paddingTop: "2%",
     },
     notUserButtonText: {
         fontSize: hintText,
@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
         borderBottomColor: "#F9F7F7",
         borderTopColor: "#F9F7F7",
         width: "100%",
-        height: 40,
+        //height: 40,
         justifyContent: "center",
     },
 });

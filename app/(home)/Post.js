@@ -19,6 +19,7 @@ import ListImagesComponent from "../../assets/svg/list_images.js";
 import RNPickerSelect from "react-native-picker-select";
 import { createListing } from "../../backend/api/listing.js";
 import { router } from "expo-router";
+import { Button } from '../../components/Buttons.js';
 
 export default function CreatePostScreen() {
     const [title, setTitle] = useState("");
@@ -444,33 +445,14 @@ export default function CreatePostScreen() {
                                 //paddingHorizontal: 20,
                                 height: "12%",
                             }}>
-                            <TouchableOpacity
-                                style={{
-                                    backgroundColor: "#B3B3B3",
-                                    borderRadius: "25%", //was 25
-                                    width: "35%",
-                                    marginRight: "5%",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                }}
-                                onPress={() => router.push("Home")}>
-                                <Text style={styles.buttonText}>Cancel</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                style={{
-                                    flex: 1,
 
-                                    borderRadius: "25%", //was 25
+                            {/* Cancel Button */}
+                            <Button width="35%" backgroundColor="#B3B3B3" title="Cancel" alignItems="center"
+                                justifyContent="center" borderRadius="25%" href="Home" marginRight="5%" titleStyle={styles.buttonText} />
 
-                                    alignItems: "center",
-                                    justifyContent: "center",
-
-                                    backgroundColor: "#3F72AF",
-                                }}
-                                //onPress={() => CreatePost()}
-                                onPress={handleValidation}>
-                                <Text style={styles.buttonText}>Post</Text>
-                            </TouchableOpacity>
+                            {/* Post Button */}
+                            <Button backgroundColor="#3F72AF" title="Post" alignItems="center" flex="1"
+                                justifyContent="center" borderRadius="25%" press={handleValidation} titleStyle={styles.buttonText} />
                             {/* Just for testing purposes 10/6/23 */}
                         </View>
                     </View>
