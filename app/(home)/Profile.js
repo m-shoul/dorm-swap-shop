@@ -19,6 +19,8 @@ import ListingPopup from "../../components/ListingPopup.js";
 import ListImagesComponent from "../../assets/svg/list_images.js";
 import RatingComponent from "../../assets/svg/rating_stars.js";
 
+import { Button } from '../../components/Buttons.js';
+
 export default function ProfileScreen() {
     const [listingsData, setListingsData] = useState([]);
     const [selectedListing, setSelectedListing] = useState(null);
@@ -95,40 +97,15 @@ export default function ProfileScreen() {
                     justifyContent: "space-between",
                     //paddingHorizontal: 20,
                 }}>
-                <TouchableOpacity
-                    style={{
-                        width: "45%",
-                        height: "33%",
-                        borderRadius: "25%", //was 25
 
-                        alignItems: "center",
-                        justifyContent: "center",
+                {/* Goes to saved listings */}
+                <Button width="45%" height="33%" backgroundColor="#3F72AF" title="Saved Listings" alignItems="center"
+                    justifyContent="center" marginRight="5%" borderRadius="25%" href="SavedListingsScreen"
+                    titleStyle={[styles.boldtext, { color: "white" }]} />
 
-                        backgroundColor: "#3F72AF",
-                        marginRight: "5%",
-                    }}
-                    onPress={() => router.push("SavedListingsScreen")}>
-                    <Text style={[styles.boldtext, { color: "white" }]}>
-                        Saved Listings
-                    </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={{
-                        width: "45%",
-                        height: "33%",
-                        borderRadius: "25%", //was 25
-
-                        alignItems: "center",
-                        justifyContent: "center",
-
-                        backgroundColor: "#3F72AF",
-                    }}
-                    onPress={() => router.push("Chat")}>
-                    {/* Should be a button to go to Chat */}
-                    <Text style={[styles.boldtext, { color: "white" }]}>
-                        Inbox
-                    </Text>
-                </TouchableOpacity>
+                {/* Goes to chats */}
+                <Button width="45%" height="33%" backgroundColor="#3F72AF" title="Inbox" alignItems="center"
+                    justifyContent="center" borderRadius="25%" href="Chat" titleStyle={[styles.boldtext, { color: "white" }]} />
             </View>
             <View
                 style={{

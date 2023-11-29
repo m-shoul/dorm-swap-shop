@@ -5,6 +5,7 @@ import {
     FlatList,
     SafeAreaView,
     StyleSheet,
+    Animated
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import styles from "../(aux)/StyleSheet.js";
@@ -16,8 +17,10 @@ import SupportComponent from "../../assets/svg/support_icon.js";
 import AboutComponent from "../../assets/svg/about_icon.js";
 import LogoutComponent from "../../assets/svg/logout_icon.js";
 import DeleteComponent from "../../assets/svg/delete_icon.js";
+import SearchBarHeader from "../../components/SearchBar";
 
 export default function SettingsScreen() {
+    const animHeaderValue = new Animated.Value(0);
     const [search, setSearch] = useState("");
     return (
         <SafeAreaView style={styles.background}>
@@ -31,7 +34,9 @@ export default function SettingsScreen() {
                     width: "100%",
                     marginBottom: "5%",
                 }}>
-                <SearchBar
+                <SearchBarHeader animHeaderValue={animHeaderValue} />
+
+                {/* <SearchBar
                     round
                     searchIcon={{ size: 24, color: "black" }}
                     containerStyle={styles.searchContainer}
@@ -47,7 +52,7 @@ export default function SettingsScreen() {
                     //onClear={(text) => searchFilterFunction("")}
                     placeholder="Search"
                     value={search}
-                />
+                /> */}
             </View>
             <View style={{ width: "100%" }}>
                 <View style={{ flexDirection: "row", marginLeft: "5%" }}>

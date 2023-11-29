@@ -18,6 +18,7 @@ import FavouriteIcon from "../assets/svg/favourite_icon.js";
 import SavedListingIcon from "../assets/svg/savedListing_icon.js";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { saveListing, unsaveListing } from "../backend/api/listing.js";
+import { Button } from './Buttons.js';
 
 export default function ListingPopup({ listing }) {
     const { width, height } = Dimensions.get("window");
@@ -49,6 +50,11 @@ export default function ListingPopup({ listing }) {
 
     const openModal = () => {
         setListingModalVisible(true);
+    };
+
+    const closeModal = () => {
+        setListingModalVisible(false);
+        router.push("Chat");
     };
 
     const listingTitle =
@@ -244,7 +250,7 @@ export default function ListingPopup({ listing }) {
                             width: "80%",
                             height: "25%",
                         }}>
-                        <TouchableOpacity
+                        {/* <TouchableOpacity
                             onPress={() => {
                                 setListingModalVisible(false);
                                 router.push("Chat");
@@ -256,7 +262,11 @@ export default function ListingPopup({ listing }) {
                                 },
                             ]}>
                             <Text style={styles.buttonText}>Reply</Text>
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
+                        <Button backgroundColor="#3F72AF" title="Post" alignItems="center"
+                            justifyContent="center" borderRadius="25%" width="80%"
+                            height="20%" marginTop="12%" press={closeModal} titleStyle={styles.buttonText}
+                        />
                     </View>
                 </SafeAreaView>
             </Modal>
