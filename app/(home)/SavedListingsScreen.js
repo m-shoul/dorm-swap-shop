@@ -16,7 +16,7 @@ import ListingPopup from "../../components/ListingPopup.js";
 import React, { useState, useEffect } from "react";
 import { SearchBar, Header } from "@rneui/themed";
 import styles from "../(aux)/StyleSheet.js";
-
+import { getUserSavedListings } from "../../backend/api/user.js";
 import BackButtonComponent from "../../assets/svg/back_button.js";
 import ProfileScreen from "./Profile.js";
 import SearchBarHeader from "../../components/SearchBar";
@@ -26,6 +26,8 @@ const SavedListingsScreen = ({ navigation }) => {
     const [search, setSearch] = useState("");
     const [selectedListing, setSelectedListing] = useState(null); // State to store the selected listing
     const [showProfile, setShowProfile] = useState(false);
+    const [savedListings, setSavedListings] = useState([]);
+
 
     // Used for test purposes.
     const testSavedListings = [{
@@ -46,9 +48,18 @@ const SavedListingsScreen = ({ navigation }) => {
     }];
 
     useEffect(() => {
-        // Fetch listings data from Firebase when the component mounts
-        // fetchListings();
-    }, []);
+        const fetchUserSavedListings = async () => {
+            try {
+                const savedListings = await getUserSavedListings();
+                console.log("Got user data.");
+                setSavedListings(savedListings);
+            } catch (error) {
+                console.error("Could not get user data: ", error);
+            }
+        }
+     
+        fetchUserSavedListings();
+     }, []);
 
     const handleItemPress = (listing) => {
         setSelectedListing(listing);
@@ -57,12 +68,9 @@ const SavedListingsScreen = ({ navigation }) => {
     if (showProfile) {
         return <ProfileScreen />;
     }
-    const data = [
-        { key: "Item 1" },
-        { key: "Item 2" },
-        { key: "Item 3" },
-        // ...more items
-    ];
+
+    console.log(savedListings);
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "#F9F7F7" }}>
             {/* Search bar was taken from homescreen, so will not have functionality. */}
@@ -105,7 +113,7 @@ const SavedListingsScreen = ({ navigation }) => {
                 /> */}
             </View>
             <FlatList
-                data={Object.values(testSavedListings)}
+                data={sace}
                 renderItem={({ item }) => (
                     <TouchableOpacity
                         style={{

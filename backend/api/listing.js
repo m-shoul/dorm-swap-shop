@@ -125,7 +125,6 @@ export function saveListing(listingId) {
     const userId = getUserID();
     const usersRef = ref(db, `dorm_swap_shop/users/`);
 
-    // Get all users
     get(usersRef).then((snapshot) => {
         snapshot.forEach((childSnapshot) => {
             const userData = childSnapshot.val();
@@ -133,14 +132,18 @@ export function saveListing(listingId) {
             if (userData.private.userId === userId) {
                 // Add the listingId to the savedListings array
                 const savedListingsRef = ref(db, `dorm_swap_shop/users/${childSnapshot.key}/private/savedListings`);
-                push(savedListingsRef, listingId);
+                get(savedListingsRef).then((savedListingsSnapshot) => {
+                    let savedListings = savedListingsSnapshot.val() || [];
+                    savedListings.push(listingId);
+                    set(savedListingsRef, savedListings);
+                });
             }
         });
     }).catch((error) => {
         console.error(error);
     });
 }
-   
+
 
 export function unsaveListing(listingId) {
     const db = getDatabase();
@@ -150,11 +153,17 @@ export function unsaveListing(listingId) {
     get(usersRef).then((snapshot) => {
         snapshot.forEach((childSnapshot) => {
             const userData = childSnapshot.val();
-            
             if (userData.private.userId === userId) {
-                // Remove the listingId to the savedListings array
+                // Remove the listingId from the savedListings array
                 const savedListingsRef = ref(db, `dorm_swap_shop/users/${childSnapshot.key}/private/savedListings`);
-                remove(savedListingsRef, listingId);
+                get(savedListingsRef).then((savedListingsSnapshot) => {
+                    let savedListings = savedListingsSnapshot.val() || [];
+                    const index = savedListings.indexOf(listingId);
+                    if (index !== -1) {
+                        savedListings.splice(index, 1);
+                        set(savedListingsRef, savedListings);
+                    }
+                });
             }
         });
     }).catch((error) => {
