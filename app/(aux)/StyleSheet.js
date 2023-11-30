@@ -180,11 +180,13 @@ const styles = StyleSheet.create({
 
     searchContainer: {
         position: "absolute",
-        backgroundColor: "#F9F7F7",
-        borderBottomColor: "#F9F7F7",
-        borderTopColor: "#F9F7F7",
+        top: "0",
+        left: "0",
+        right: "0",
+        backgroundColor: "transparent",
+        borderBottomColor: "transparent",
+        borderTopColor: "transparent",
         width: "100%",
-        //height: 40,
         justifyContent: "center",
     },
 });

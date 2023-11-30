@@ -80,7 +80,7 @@ export default function ResetPasswordScreen() {
                 <Text style={styles.buttonText}>Reset Password</Text>
             </TouchableOpacity> */}
             <Button width="80%" height="7%" backgroundColor="#3F72AF" title="Reset Password" alignItems="center"
-                justifyContent="center" marginTop="12%" borderRadius="25%" press={handleReset} />
+                justifyContent="center" marginTop="12%" borderRadius="25%" press={handleReset} titleStyle={styles.buttonText} />
 
             <View>
                 <TouchableOpacity

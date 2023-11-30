@@ -22,7 +22,7 @@ import { get, child, ref, set, push, getDatabase } from "firebase/database";
 import SearchBarHeader from "../../components/SearchBar";
 
 export default function HomeScreen() {
-    let scrollOffsetY = useRef(new Animated.Value(0)).current;
+    const scrollOffsetY = useRef(new Animated.Value(0)).current;
     //const scrollOffsetY = new Animated.Value(0);
     // const scrollY = new Animated.Value(0);
     // const diffClamp = Animated.diffClamp(scrollY, 0, 40);
@@ -58,6 +58,7 @@ export default function HomeScreen() {
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "#F9F7F7" }}>
+
             <SearchBarHeader animHeaderValue={scrollOffsetY} />
             {/* Scrollable view displaying all the listings */}
             <FlatList
@@ -75,7 +76,7 @@ export default function HomeScreen() {
                 style={{
                     flex: 1,
                     backgroundColor: "#F9F7F7",
-                    paddingTop: "5%",
+                    paddingTop: "15%",
                 }}
                 onScroll={Animated.event(
                     [{ nativeEvent: { contentOffset: { y: scrollOffsetY } } }],
@@ -88,6 +89,7 @@ export default function HomeScreen() {
                         onRefresh={getAllListings}
                     />
                 }
+                scrollEventThrottle={10}
             />
         </SafeAreaView>
     );

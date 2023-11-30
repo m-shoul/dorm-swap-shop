@@ -5,17 +5,24 @@ import styles from "../app/(aux)/StyleSheet.js";
 
 
 export default function SearchBarHeader({ animHeaderValue }) {
-    const Max_Header_Height = 60;
-    const Min_Header_Height = 0;
     const [search, setSearch] = useState("");
 
-    const animatedHeaderHeight = animHeaderValue.interpolate({
-        inputRange: [0, Max_Header_Height - Min_Header_Height],
-        outputRange: [Max_Header_Height, Min_Header_Height],
-        extrapolate: 'clamp'
+    const minScroll = 100;
+    const headerHeight = 120;
+    const activeRange = 200;
+
+    const diffClamp = Animated.diffClamp(animHeaderValue, -minScroll,
+        activeRange + minScroll);
+    const animatedHeaderHeight = diffClamp.interpolate({
+        inputRange: [0, activeRange],
+        outputRange: [0, -headerHeight],
+        extrapolate: "clamp"
     })
     return (
-        <Animated.View style={{ height: animatedHeaderHeight }}>
+        <Animated.View style={{
+            zIndex: 1,
+            transform: [{ translateY: animatedHeaderHeight }]
+        }}>
             <SearchBar
                 round
                 searchIcon={{ size: 24, color: "black" }}
