@@ -19,7 +19,7 @@ import ListingPopup from "../../components/ListingPopup.js";
 import ListImagesComponent from "../../assets/svg/list_images.js";
 import RatingComponent from "../../assets/svg/rating_stars.js";
 
-import { Button } from '../../components/Buttons.js';
+import { Button } from "../../components/Buttons.js";
 
 export default function ProfileScreen() {
     const [listingsData, setListingsData] = useState([]);
@@ -113,15 +113,32 @@ export default function ProfileScreen() {
                     justifyContent: "space-between",
                     //paddingHorizontal: 20,
                 }}>
-
                 {/* Goes to saved listings */}
-                <Button width="45%" height="33%" backgroundColor="#3F72AF" title="Saved Listings" alignItems="center"
-                    justifyContent="center" marginRight="5%" borderRadius="25%" href="SavedListingsScreen"
-                    titleStyle={[styles.boldtext, { color: "white" }]} />
+                <Button
+                    width="45%"
+                    height="33%"
+                    backgroundColor="#3F72AF"
+                    title="My Listings"
+                    alignItems="center"
+                    justifyContent="center"
+                    marginRight="5%"
+                    borderRadius="25%"
+                    href="SavedListingsScreen"
+                    titleStyle={[styles.boldtext, { color: "white" }]}
+                />
 
                 {/* Goes to chats */}
-                <Button width="45%" height="33%" backgroundColor="#3F72AF" title="Inbox" alignItems="center"
-                    justifyContent="center" borderRadius="25%" href="Chat" titleStyle={[styles.boldtext, { color: "white" }]} />
+                <Button
+                    width="45%"
+                    height="33%"
+                    backgroundColor="#3F72AF"
+                    title="Chat"
+                    alignItems="center"
+                    justifyContent="center"
+                    borderRadius="25%"
+                    href="Chat"
+                    titleStyle={[styles.boldtext, { color: "white" }]}
+                />
             </View>
             <View
                 style={{
@@ -129,7 +146,7 @@ export default function ProfileScreen() {
                     paddingLeft: "5%",
                     marginBottom: "4%",
                 }}>
-                <Text style={styles.boldtext}>My Listings</Text>
+                <Text style={styles.boldtext}>Saved Listings</Text>
             </View>
             <View style={[styles.dividerLine, { marginBottom: 1 }]} />
             {/* Scrollable view displaying all the listings */}
