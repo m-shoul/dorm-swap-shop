@@ -14,7 +14,7 @@ import React, { useState, useEffect } from "react";
 import { router } from "expo-router";
 import { getUserID } from "../../backend/dbFunctions.js";
 import { getUserListings } from "../../backend/api/listing.js";
-
+import { getUser } from "../../backend/api/user.js";
 import ListingPopup from "../../components/ListingPopup.js";
 import ListImagesComponent from "../../assets/svg/list_images.js";
 import RatingComponent from "../../assets/svg/rating_stars.js";
@@ -24,18 +24,31 @@ import { Button } from "../../components/Buttons.js";
 export default function ProfileScreen() {
     const [listingsData, setListingsData] = useState([]);
     const [selectedListing, setSelectedListing] = useState(null);
+    const [user, setUser] = useState(null);
 
     useEffect(() => {
-        const fetchUserListings = async () => {
+        const fetchListingData = async () => {
             try {
                 const listingsData = await getUserListings();
                 setListingsData(listingsData);
                 console.log("Got user listings.");
             } catch (error) {
-                console.error("Error:", error);
+                console.error("Could not get user listings: ", error);
             }
         };
-        fetchUserListings();
+
+        const fetchUserData = async () => {
+            try {
+                const user = await getUser();
+                console.log("Got user data.");
+                setUser(user);
+            } catch (error) {
+                console.error("Could not get user data: ", error);
+            }
+        }
+
+        fetchListingData();
+        fetchUserData();
     }, []);
 
     const handleItemPress = (listing) => {
@@ -76,8 +89,11 @@ export default function ProfileScreen() {
                 />
             </View>
             <View>
-                <Text style={styles.boldtext}>Full Name</Text>
+                <Text style={styles.boldtext}>{user && user.public && `${user.public.fname} ${user.public.lname}`}</Text>
             </View>
+            {/* <View>
+                <Text style={styles.boldtext}>{user && user.public && `${"Rating: " + user.public.rating}`}</Text>
+            </View> */}
             {/* <View>
                 <RatingComponent
                     source={require("../assets/svg/list_images.js")}

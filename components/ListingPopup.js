@@ -54,7 +54,7 @@ export default function ListingPopup({ listing }) {
             ? listing.title.substring(0, 14) + "..."
             : listing.title;
 
-    console.log("Listing images " + listing.title + " " + listing.images);
+    // console.log("Listing images " + listing.title + " " + listing.images);
 
     return (
         <SafeAreaView>
