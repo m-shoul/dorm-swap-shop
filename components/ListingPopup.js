@@ -18,7 +18,7 @@ import FavouriteIcon from "../assets/svg/favourite_icon.js";
 import SavedListingIcon from "../assets/svg/savedListing_icon.js";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { saveListing, unsaveListing } from "../backend/api/listing.js";
-import { Button } from './Buttons.js';
+import { Button } from "./Buttons.js";
 
 export default function ListingPopup({ listing }) {
     const { width, height } = Dimensions.get("window");
@@ -54,7 +54,7 @@ export default function ListingPopup({ listing }) {
             ? listing.title.substring(0, 14) + "..."
             : listing.title;
 
-    console.log("Listing images " + listing.title + " " + listing.images);
+    // console.log("Listing images " + listing.title + " " + listing.images);
 
     return (
         <SafeAreaView>
@@ -131,24 +131,31 @@ export default function ListingPopup({ listing }) {
                     </View>
                     {/* IMAGE */}
                     <View style={{ height: "33%" }}>
-                    {Array.isArray(listing.images) ? (
-                        <Swiper
-                            loop={false}
-                            onIndexChanged={(index) => setCurrentIndex(index)}>
-                            {listing.images.map((imageUrl, currentIndex) => (
-                                <Image
-                                    key={currentIndex}
-                                    source={{ uri: imageUrl }}
-                                    style={{ width: width, height: 250 }}
-                                />
-                            ))}
-                        </Swiper>
-                    ) : (
-                        <Image
-                            source={{ uri: listing.images }}
-                            style={{ width: width, height: 250 }}
-                        />
-                    )}
+                        {Array.isArray(listing.images) ? (
+                            <Swiper
+                                loop={false}
+                                onIndexChanged={(index) =>
+                                    setCurrentIndex(index)
+                                }>
+                                {listing.images.map(
+                                    (imageUrl, currentIndex) => (
+                                        <Image
+                                            key={currentIndex}
+                                            source={{ uri: imageUrl }}
+                                            style={{
+                                                width: width,
+                                                height: 250,
+                                            }}
+                                        />
+                                    )
+                                )}
+                            </Swiper>
+                        ) : (
+                            <Image
+                                source={{ uri: listing.images }}
+                                style={{ width: width, height: 250 }}
+                            />
+                        )}
                     </View>
                     <View style={{ width: "100%", height: "25%" }}>
                         <View
@@ -166,13 +173,7 @@ export default function ListingPopup({ listing }) {
                                 style={{ flex: 0 }}
                                 onPress={simpleAlert}>
                                 {!isFavorited ? (
-                                    <FavouriteIcon
-                                        style={{
-                                            width: 15,
-                                            height: 15,
-                                            fill: "black",
-                                        }}
-                                    />
+                                    <FavouriteIcon />
                                 ) : (
                                     <SavedListingIcon
                                         style={{
@@ -241,9 +242,17 @@ export default function ListingPopup({ listing }) {
                             ]}>
                             <Text style={styles.buttonText}>Reply</Text>
                         </TouchableOpacity> */}
-                        <Button backgroundColor="#3F72AF" title="Post" alignItems="center"
-                            justifyContent="center" borderRadius="25%" width="80%"
-                            height="20%" marginTop="12%" press={closeModal} titleStyle={styles.buttonText}
+                        <Button
+                            backgroundColor="#3F72AF"
+                            title="Post"
+                            alignItems="center"
+                            justifyContent="center"
+                            borderRadius="25%"
+                            width="80%"
+                            height="20%"
+                            marginTop="12%"
+                            press={closeModal}
+                            titleStyle={styles.buttonText}
                         />
                     </View>
                 </SafeAreaView>

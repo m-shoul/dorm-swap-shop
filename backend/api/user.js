@@ -47,9 +47,52 @@ export function createUser(fname, lname, username, email, userId) {
 }
 
 // Function to read user data
-export function readUser(userId) {
-    // Implement the functionality to read user data.
-    // This will be used in displaying the profile page and whatnot.
+export function getUser() {
+    const db = getDatabase();
+    const userId = getUserID();
+    const usersRef = ref(db, `dorm_swap_shop/users/`);
+
+    return get(usersRef).then((snapshot) => {
+        let userData;
+        snapshot.forEach((childSnapshot) => {
+            const data = childSnapshot.val();
+            if (data.private.userId === userId) {
+                userData = data;
+            }
+        });
+        return userData;
+    }).catch((error) => {
+        console.error(error);
+    });
+}
+
+export function getUserSavedListings() {
+    const db = getDatabase();
+    const userId = getUserID();
+    const usersRef = ref(db, `dorm_swap_shop/users/`);
+
+    return get(usersRef).then((snapshot) => {
+        let userData;
+        snapshot.forEach((childSnapshot) => {
+            const data = childSnapshot.val();
+            if (data.private.userId === userId) {
+                userData = data;
+            }
+        });
+        if (userData && userData.private.savedListings) {
+            const savedListingsRef = ref(db, `dorm_swap_shop/listings/`);
+            const savedListingsPromises = userData.private.savedListings.map((listingId) => {
+                return get(child(savedListingsRef, listingId));
+            });
+            return Promise.all(savedListingsPromises).then((savedListings) => {
+                return savedListings.filter(listing => listing !== undefined);
+            });
+        } else {
+            throw new Error('User data not found or no saved listings');
+        }
+    }).catch((error) => {
+        console.error(error);
+    });
 }
 
 // Function to update a user
