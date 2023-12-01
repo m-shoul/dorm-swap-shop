@@ -9,7 +9,7 @@ import {
     Modal,
     Animated,
 } from "react-native";
-
+import { useNavigation } from "@react-navigation/native";
 import { router } from "expo-router";
 import { get, child, ref, set, push, getDatabase } from "firebase/database";
 import ListingPopup from "../../components/ListingPopup.js";
@@ -20,34 +20,47 @@ import styles from "../(aux)/StyleSheet.js";
 import BackButtonComponent from "../../assets/svg/back_button.js";
 import ProfileScreen from "./Profile.js";
 import SearchBarHeader from "../../components/SearchBar";
+import { getUserListings } from "../../backend/api/listing.js";
 
+//This is now the my listings screen
 const SavedListingsScreen = ({ navigation }) => {
     const animHeaderValue = new Animated.Value(0);
     const [search, setSearch] = useState("");
     const [selectedListing, setSelectedListing] = useState(null); // State to store the selected listing
     const [showProfile, setShowProfile] = useState(false);
+    const [listingsData, setListingsData] = useState([]);
 
     // Used for test purposes.
-    const testSavedListings = [{
-        id: "1",
-        title: "Item Name 1",
-        description: "Description 1",
-        price: 10.00,
-        category: "Category type",
-        condition: "Condition type",
-    },
-    {
-        id: "2",
-        title: "Saved Item 2",
-        description: "Saved item",
-        price: 10.00,
-        category: "Books",
-        condition: "Used",
-    }];
+    const testSavedListings = [
+        {
+            id: "1",
+            title: "Item Name 1",
+            description: "Description 1",
+            price: 10.0,
+            category: "Category type",
+            condition: "Condition type",
+        },
+        {
+            id: "2",
+            title: "Saved Item 2",
+            description: "Saved item",
+            price: 10.0,
+            category: "Books",
+            condition: "Used",
+        },
+    ];
 
     useEffect(() => {
-        // Fetch listings data from Firebase when the component mounts
-        // fetchListings();
+        const fetchUserListings = async () => {
+            try {
+                const listingsData = await getUserListings();
+                setListingsData(listingsData);
+                console.log("Got user listings.");
+            } catch (error) {
+                console.error("Error:", error);
+            }
+        };
+        fetchUserListings();
     }, []);
 
     const handleItemPress = (listing) => {
@@ -66,7 +79,8 @@ const SavedListingsScreen = ({ navigation }) => {
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "#F9F7F7" }}>
             {/* Search bar was taken from homescreen, so will not have functionality. */}
-            <TouchableOpacity onPress={() => setShowProfile(true)}>
+            <TouchableOpacity onPress={() => router.push("Profile")}>
+                {/* ^Changed to router.push, not sure if this is right but it works -Ben*/}
                 {/* Should be changed to navigation.navigatee */}
                 <BackButtonComponent
                     //require("../assets/svg/back_button.js")}
@@ -105,7 +119,7 @@ const SavedListingsScreen = ({ navigation }) => {
                 /> */}
             </View>
             <FlatList
-                data={Object.values(testSavedListings)}
+                data={Object.values(listingsData)}
                 renderItem={({ item }) => (
                     <TouchableOpacity
                         style={{
@@ -166,9 +180,10 @@ const SavedListingsScreen = ({ navigation }) => {
                     backgroundColor: "#F9F7F7",
                     marginTop: 10,
                 }}
-                onScroll={(e) => {
-                    scrollY.setValue(e.nativeEvent.contentOffset.y);
-                }}
+                //kept causing errors, so turned it off
+                // onScroll={(e) => {
+                //     scrollY.setValue(e.nativeEvent.contentOffset.y);
+                // }}
                 bounces={false}
             />
         </SafeAreaView>
