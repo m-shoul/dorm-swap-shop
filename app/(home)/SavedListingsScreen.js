@@ -28,7 +28,8 @@ const SavedListingsScreen = ({ navigation }) => {
     const [search, setSearch] = useState("");
     const [selectedListing, setSelectedListing] = useState(null); // State to store the selected listing
     const [showProfile, setShowProfile] = useState(false);
-    const [savedListings, setSavedListings] = useState([]);
+    // const [savedListings, setSavedListings] = useState([]);
+    const [listingsData, setListingsData] = useState([]);
 
 
     // Used for test purposes.
@@ -52,17 +53,27 @@ const SavedListingsScreen = ({ navigation }) => {
     ];
 
     useEffect(() => {
-        const fetchUserSavedListings = async () => {
-            try {
-                const savedListings = await getUserSavedListings();
-                console.log("Got user data.");
-                setSavedListings(savedListings);
-            } catch (error) {
-                console.error("Could not get user data: ", error);
-            }
-        }
+        // const fetchUserSavedListings = async () => {
+        //     try {
+        //         const savedListings = await getUserSavedListings();
+        //         console.log("Got user data.");
+        //         setSavedListings(savedListings);
+        //     } catch (error) {
+        //         console.error("Could not get user data: ", error);
+        //     }
+        // }
      
-        fetchUserSavedListings();
+        // fetchUserSavedListings();
+        const fetchListingData = async () => {
+            try {
+                const listingsData = await getUserListings();
+                setListingsData(listingsData);
+                console.log("Got user listings.");
+            } catch (error) {
+                console.error("Could not get user listings: ", error);
+            }
+        };
+        fetchListingData();
      }, []);
 
     const handleItemPress = (listing) => {
@@ -73,7 +84,7 @@ const SavedListingsScreen = ({ navigation }) => {
         return <ProfileScreen />;
     }
 
-    console.log(savedListings);
+    // console.log(savedListings);
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "#F9F7F7" }}>
@@ -118,7 +129,7 @@ const SavedListingsScreen = ({ navigation }) => {
                 /> */}
             </View>
             <FlatList
-                data={testSavedListings}
+                data={listingsData}
                 renderItem={({ item }) => (
                     <TouchableOpacity
                         style={{
