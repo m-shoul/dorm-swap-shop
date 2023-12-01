@@ -177,9 +177,10 @@ const SavedListingsScreen = ({ navigation }) => {
                     backgroundColor: "#F9F7F7",
                     marginTop: 10,
                 }}
-                onScroll={(e) => {
-                    scrollY.setValue(e.nativeEvent.contentOffset.y);
-                }}
+                //kept causing errors, so turned it off
+                // onScroll={(e) => {
+                //     scrollY.setValue(e.nativeEvent.contentOffset.y);
+                // }}
                 bounces={false}
             />
         </SafeAreaView>
