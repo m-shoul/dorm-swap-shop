@@ -20,34 +20,45 @@ import styles from "../(aux)/StyleSheet.js";
 import BackButtonComponent from "../../assets/svg/back_button.js";
 import ProfileScreen from "./Profile.js";
 import SearchBarHeader from "../../components/SearchBar";
-
+import { getUserListings } from "../../backend/api/listing.js";
+//This is now the my listings screen
 const SavedListingsScreen = ({ navigation }) => {
     const animHeaderValue = new Animated.Value(0);
     const [search, setSearch] = useState("");
     const [selectedListing, setSelectedListing] = useState(null); // State to store the selected listing
     const [showProfile, setShowProfile] = useState(false);
-
+    const [listingsData, setListingsData] = useState([]);
     // Used for test purposes.
-    const testSavedListings = [{
-        id: "1",
-        title: "Item Name 1",
-        description: "Description 1",
-        price: 10.00,
-        category: "Category type",
-        condition: "Condition type",
-    },
-    {
-        id: "2",
-        title: "Saved Item 2",
-        description: "Saved item",
-        price: 10.00,
-        category: "Books",
-        condition: "Used",
-    }];
+    const testSavedListings = [
+        {
+            id: "1",
+            title: "Item Name 1",
+            description: "Description 1",
+            price: 10.0,
+            category: "Category type",
+            condition: "Condition type",
+        },
+        {
+            id: "2",
+            title: "Saved Item 2",
+            description: "Saved item",
+            price: 10.0,
+            category: "Books",
+            condition: "Used",
+        },
+    ];
 
     useEffect(() => {
-        // Fetch listings data from Firebase when the component mounts
-        // fetchListings();
+        const fetchUserListings = async () => {
+            try {
+                const listingsData = await getUserListings();
+                setListingsData(listingsData);
+                console.log("Got user listings.");
+            } catch (error) {
+                console.error("Error:", error);
+            }
+        };
+        fetchUserListings();
     }, []);
 
     const handleItemPress = (listing) => {
@@ -105,7 +116,7 @@ const SavedListingsScreen = ({ navigation }) => {
                 /> */}
             </View>
             <FlatList
-                data={Object.values(testSavedListings)}
+                data={Object.values(listingsData)}
                 renderItem={({ item }) => (
                     <TouchableOpacity
                         style={{
