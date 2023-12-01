@@ -7,7 +7,7 @@ import styles from "../app/(aux)/StyleSheet.js";
 export default function SearchBarHeader({ animHeaderValue, handleSearch }) {
     const Max_Header_Height = 60;
     const Min_Header_Height = 0;
-    // const [search, setSearch] = useState("");
+    const [search, setSearch] = useState("");
 
     const animatedHeaderHeight = animHeaderValue.interpolate({
         inputRange: [0, Max_Header_Height - Min_Header_Height],
@@ -28,10 +28,10 @@ export default function SearchBarHeader({ animHeaderValue, handleSearch }) {
                     borderBottomWidth: 1,
                     borderColor: "#B3B3B3",
                 }}
-                onChangeText={(text) => {handleSearch(text)}}
+                onChangeText={(text) => {handleSearch(text); setSearch(text)}}
                 // onClear={(text) => searchFilterFunction("")}
                 // placeholder="Search"
-                // value={search}
+                value={search}
             />
         </Animated.View>
 
