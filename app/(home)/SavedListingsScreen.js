@@ -80,6 +80,7 @@ const SavedListingsScreen = ({ navigation }) => {
         <SafeAreaView style={{ flex: 1, backgroundColor: "#F9F7F7" }}>
             {/* Search bar was taken from homescreen, so will not have functionality. */}
             <TouchableOpacity onPress={() => router.push("Profile")}>
+                {/* ^Changed to router.push, not sure if this is right but it works -Ben*/}
                 {/* Should be changed to navigation.navigatee */}
                 <BackButtonComponent
                     //require("../assets/svg/back_button.js")}
