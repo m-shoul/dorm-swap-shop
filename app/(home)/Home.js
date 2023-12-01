@@ -73,11 +73,11 @@ export default function HomeScreen() {
         setListingsData(filteredData);
     }
 
-    const contains = ({ title, description }, query) => {
+    const contains = ({ title, description, condition }, query) => {
         title = title.toLowerCase();
         description = description.toLowerCase();
 
-        if (title.includes(query) || description.includes(query)) {
+        if (title.includes(query) || description.includes(query) || condition.includes(query)) {
             return true;
         }
         return false;
