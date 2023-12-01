@@ -14,14 +14,11 @@ import { getAllListings } from "../../backend/api/listing";
 import styles from "../(aux)/StyleSheet";
 //import { getAuth, signOut } from "firebase/auth";
 import ListingPopup from "../../components/ListingPopup";
-// import { get, child, ref, set, push, getDatabase } from "firebase/database";
 import { ScrollView } from "react-native-web";
-import { set } from "firebase/database";
 //import styles from "../styleSheets/StyleSheet.js";
 //import { HeaderComponent } from "../components/headerComponent.js";
 import filter from "lodash.filter";
 import typescript from "react-native-svg";
-
 import { get, child, ref, set, push, getDatabase } from "firebase/database";
 import SearchBarHeader from "../../components/SearchBar";
 
@@ -112,7 +109,7 @@ export default function HomeScreen() {
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "#F9F7F7" }}>
-            <SearchBarHeader animHeaderValue={scrollOffsetY} />
+            <SearchBarHeader animHeaderValue={scrollOffsetY} handleSearch={handleSearch} />
             {/* Scrollable view displaying all the listings */}
             <FlatList
                 data={Object.values(listingsData)}

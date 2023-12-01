@@ -4,10 +4,10 @@ import { SearchBar } from '@rneui/themed';
 import styles from "../app/(aux)/StyleSheet.js";
 
 
-export default function SearchBarHeader({ animHeaderValue }) {
+export default function SearchBarHeader({ animHeaderValue, handleSearch }) {
     const Max_Header_Height = 60;
     const Min_Header_Height = 0;
-    const [search, setSearch] = useState("");
+    // const [search, setSearch] = useState("");
 
     const animatedHeaderHeight = animHeaderValue.interpolate({
         inputRange: [0, Max_Header_Height - Min_Header_Height],
@@ -28,10 +28,10 @@ export default function SearchBarHeader({ animHeaderValue }) {
                     borderBottomWidth: 1,
                     borderColor: "#B3B3B3",
                 }}
-                onChangeText={setSearch}
-                //onClear={(text) => searchFilterFunction("")}
-                placeholder="Search"
-                value={search}
+                onChangeText={(text) => {handleSearch(text)}}
+                // onClear={(text) => searchFilterFunction("")}
+                // placeholder="Search"
+                // value={search}
             />
         </Animated.View>
 
