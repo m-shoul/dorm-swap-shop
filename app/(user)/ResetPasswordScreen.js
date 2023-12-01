@@ -14,6 +14,7 @@ import {
 } from "firebase/auth";
 import styles from "../(aux)/StyleSheet";
 import { router } from 'expo-router';
+import { Button } from '../../components/Buttons.js';
 
 export default function ResetPasswordScreen() {
     const [email, setEmail] = useState("");
@@ -75,9 +76,11 @@ export default function ResetPasswordScreen() {
                 )}
             </View>
 
-            <TouchableOpacity style={styles.loginBtn} onPress={handleReset}>
+            {/* <TouchableOpacity style={styles.loginBtn} onPress={handleReset}>
                 <Text style={styles.buttonText}>Reset Password</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
+            <Button width="80%" height="7%" backgroundColor="#3F72AF" title="Reset Password" alignItems="center"
+                justifyContent="center" marginTop="12%" borderRadius="25%" press={handleReset} />
 
             <View>
                 <TouchableOpacity

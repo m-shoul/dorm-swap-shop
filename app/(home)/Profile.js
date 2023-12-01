@@ -1,4 +1,12 @@
-import { Text, View, TouchableOpacity, FlatList, SafeAreaView, StyleSheet, Image } from "react-native";
+import {
+    Text,
+    View,
+    TouchableOpacity,
+    FlatList,
+    SafeAreaView,
+    StyleSheet,
+    Image,
+} from "react-native";
 import styles from "../(aux)/StyleSheet.js";
 import { get, ref, getDatabase } from "@firebase/database";
 // import { getUserID } from "../../backend/dbFunctions.js";
@@ -11,6 +19,8 @@ import ListingPopup from "../../components/ListingPopup.js";
 import ListImagesComponent from "../../assets/svg/list_images.js";
 import RatingComponent from "../../assets/svg/rating_stars.js";
 
+import { Button } from '../../components/Buttons.js';
+
 export default function ProfileScreen() {
     const [listingsData, setListingsData] = useState([]);
     const [selectedListing, setSelectedListing] = useState(null);
@@ -22,9 +32,9 @@ export default function ProfileScreen() {
                 setListingsData(listingsData);
                 console.log("Got user listings.");
             } catch (error) {
-                console.error('Error:', error);
+                console.error("Error:", error);
             }
-        }
+        };
         fetchUserListings();
     }, []);
 
@@ -87,40 +97,15 @@ export default function ProfileScreen() {
                     justifyContent: "space-between",
                     //paddingHorizontal: 20,
                 }}>
-                <TouchableOpacity
-                    style={{
-                        width: "45%",
-                        height: "33%",
-                        borderRadius: "25%", //was 25
 
-                        alignItems: "center",
-                        justifyContent: "center",
+                {/* Goes to saved listings */}
+                <Button width="45%" height="33%" backgroundColor="#3F72AF" title="Saved Listings" alignItems="center"
+                    justifyContent="center" marginRight="5%" borderRadius="25%" href="SavedListingsScreen"
+                    titleStyle={[styles.boldtext, { color: "white" }]} />
 
-                        backgroundColor: "#3F72AF",
-                        marginRight: "5%",
-                    }}
-                    onPress={() => router.push("SavedListingsScreen")}>
-                    <Text style={[styles.boldtext, { color: "white" }]}>
-                        Saved Listings
-                    </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={{
-                        width: "45%",
-                        height: "33%",
-                        borderRadius: "25%", //was 25
-
-                        alignItems: "center",
-                        justifyContent: "center",
-
-                        backgroundColor: "#3F72AF",
-                    }}
-                    onPress={() => router.push("Chat")}>
-                    {/* Should be a button to go to Chat */}
-                    <Text style={[styles.boldtext, { color: "white" }]}>
-                        Inbox
-                    </Text>
-                </TouchableOpacity>
+                {/* Goes to chats */}
+                <Button width="45%" height="33%" backgroundColor="#3F72AF" title="Inbox" alignItems="center"
+                    justifyContent="center" borderRadius="25%" href="Chat" titleStyle={[styles.boldtext, { color: "white" }]} />
             </View>
             <View
                 style={{
@@ -130,13 +115,13 @@ export default function ProfileScreen() {
                 }}>
                 <Text style={styles.boldtext}>My Listings</Text>
             </View>
-            <View style={styles.dividerLine} />
+            <View style={[styles.dividerLine, { marginBottom: 1 }]} />
             {/* Scrollable view displaying all the listings */}
             <FlatList
                 data={Object.values(listingsData)}
                 renderItem={({ item }) => (
                     <TouchableOpacity
-                        style={{ width: "50%", height: 200, padding: "1%" }}
+                        style={{ width: "50%", height: 230, padding: "1%" }}
                         onPress={() => handleItemPress(item)}
                         key={item.id}>
                         <ListingPopup listing={item} navigation={router} />
@@ -147,14 +132,13 @@ export default function ProfileScreen() {
                 style={{
                     flex: 1,
                     backgroundColor: "#F9F7F7",
-                    paddingTop: "5%",
+                    paddingTop: "2%",
                 }}
                 onScroll={(e) => {
                     // scrollY.setValue(e.nativeEvent.contentOffset.y);
                 }}
                 bounces={false}
             />
-
         </SafeAreaView>
     );
-};
+}

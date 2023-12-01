@@ -19,19 +19,14 @@ import styles from "../(aux)/StyleSheet.js";
 
 import BackButtonComponent from "../../assets/svg/back_button.js";
 import ProfileScreen from "./Profile.js";
+import SearchBarHeader from "../../components/SearchBar";
 
 const SavedListingsScreen = ({ navigation }) => {
-    const scrollY = new Animated.Value(0);
-    const diffClamp = Animated.diffClamp(scrollY, 0, 100);
-    const translateYAxis = diffClamp.interpolate({
-        inputRange: [0, 100],
-        outputRange: [0, -100],
-    });
-
+    const animHeaderValue = new Animated.Value(0);
     const [search, setSearch] = useState("");
     const [selectedListing, setSelectedListing] = useState(null); // State to store the selected listing
     const [showProfile, setShowProfile] = useState(false);
-    
+
     // Used for test purposes.
     const testSavedListings = [{
         id: "1",
@@ -87,8 +82,11 @@ const SavedListingsScreen = ({ navigation }) => {
             <View
                 style={{
                     height: "5%",
+                    width: "100%",
+                    marginBottom: "5%",
                 }}>
-                <SearchBar
+                <SearchBarHeader animHeaderValue={animHeaderValue} />
+                {/* <SearchBar
                     round
                     searchIcon={{ size: 24, color: "black" }}
                     containerStyle={styles.searchContainer}
@@ -104,7 +102,7 @@ const SavedListingsScreen = ({ navigation }) => {
                     //onClear={(text) => searchFilterFunction("")}
                     placeholder="Search"
                     value={search}
-                />
+                /> */}
             </View>
             <FlatList
                 data={Object.values(testSavedListings)}

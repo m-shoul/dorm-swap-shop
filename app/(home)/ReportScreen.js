@@ -5,6 +5,7 @@ import styles from "../(aux)/StyleSheet";
 import BackButtonComponent from "../../assets/svg/back_button.js";
 import React, { useState, useEffect } from "react";
 import { useLocalSearchParams, router } from 'expo-router';
+import { Button } from '../../components/Buttons.js';
 
 //import { useRoute } from '@react-navigation/native';
 
@@ -37,6 +38,7 @@ export default function ReportScreen() {
             .then(() => {
                 setEmailSent(true);
                 alert("Post reported. Thank you");
+                router.push("PostReportedScreen");
             })
             .catch((error) => {
                 console.error('Email send error:', error);
@@ -89,12 +91,10 @@ export default function ReportScreen() {
             3.) Directs to another page that tells user post was reported and has 2 buttons that can
             allow the user to return to the listing or return to the chat. (DONE) */}
 
-                <TouchableOpacity style={styles.loginBtn} onPress={() => {
-                    sendEmail();
-                    router.push("PostReportedScreen")
-                }}>
-                    <Text style={styles.buttonText}>Send Email</Text>
-                </TouchableOpacity>
+                <Button backgroundColor="#3F72AF" title="Send Email" alignItems="center"
+                    justifyContent="center" borderRadius="25%" width="80%"
+                    height="7%" marginTop="12%" press={sendEmail} titleStyle={styles.buttonText}
+                />
                 {emailSent && <Text>Email sent successfully!</Text>}
 
                 <TouchableOpacity

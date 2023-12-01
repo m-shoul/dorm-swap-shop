@@ -18,22 +18,19 @@ import FavouriteIcon from "../assets/svg/favourite_icon.js";
 import SavedListingIcon from "../assets/svg/savedListing_icon.js";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { saveListing, unsaveListing } from "../backend/api/listing.js";
+import { Button } from './Buttons.js';
 
 export default function ListingPopup({ listing }) {
     const { width, height } = Dimensions.get("window");
     const [listingModalVisible, setListingModalVisible] = useState(false);
     const [isFavorited, setIsFavorited] = useState(false);
+    const [currentIndex, setCurrentIndex] = useState(0);
 
     const router = useRouter();
 
     const simpleAlert = () => {
         setIsFavorited(!isFavorited);
 
-        // Currently the listing can be saved and unsaved and it is added to the
-        // database under the UID, which is the Firebase auth UID... we want this to
-        // be stored under the realtime push UID... but these are different things
-        // so we have to come up with a solution to store the UID in the user data
-        // and then save the data in that direction??
         if (isFavorited) {
             unsaveListing(listing.listingId);
             Alert.alert("Unsaved");
@@ -42,33 +39,41 @@ export default function ListingPopup({ listing }) {
             Alert.alert("Favorited");
         }
     };
-    const images = [
-        require("../assets/testImages/swoledoge.jpg"),
-        require("../assets/testImages/thumb.jpg"),
-        require("../assets/testImages/batt.jpg"),
-    ];
-    const [currentIndex, setCurrentIndex] = useState(0);
 
     const openModal = () => {
         setListingModalVisible(true);
     };
 
-    const listingTitle = listing.title.length > 10 ? listing.title + "..." : listing.title;
+    const closeModal = () => {
+        setListingModalVisible(false);
+        router.push("Chat");
+    };
 
-    // console.log("Listing images " + listing.title + " " + listing.images);
+    const listingTitle =
+        listing.price.length + listing.title.length > 22
+            ? listing.title.substring(0, 14) + "..."
+            : listing.title;
+
+    console.log("Listing images " + listing.title + " " + listing.images);
 
     return (
         <SafeAreaView>
-        {/* This touchable opacity needs to be moved out of here. All we want this popup to do is
+            {/* This touchable opacity needs to be moved out of here. All we want this popup to do is
         show a swipeable image carousel and some text. We don't want it to show the listing as
         it is supposed to look on the home screen. This should be able to be used anywhere. */}
             <TouchableOpacity onPress={openModal}>
                 <View style={{ backgroundColor: "white" }}>
-                    {/* Source might be something like source={{uri: item.images}} */}
-                    <Image
-                        source={{ uri: listing.images }}
-                        style={{ width: "100%", height: 200 }}
-                    />
+                    {Array.isArray(listing.images) ? (
+                        <Image
+                            source={{ uri: listing.images[0] }}
+                            style={{ width: "100%", height: 200 }}
+                        />
+                    ) : (
+                        <Image
+                            source={{ uri: listing.images }}
+                            style={{ width: "100%", height: 200 }}
+                        />
+                    )}
                     <View
                         style={{
                             backgroundColor: "#B3B3B3",
@@ -79,7 +84,6 @@ export default function ListingPopup({ listing }) {
                     />
                     <Text>{"$" + listing.price + " - " + listingTitle}</Text>
                 </View>
-                {/* <Text style={{ backgroundColor: "red" }}>Show Listing</Text> */}
             </TouchableOpacity>
 
             <Modal visible={listingModalVisible}>
@@ -114,10 +118,6 @@ export default function ListingPopup({ listing }) {
                                     pathname: "ReportScreen",
                                     params: listing,
                                 });
-
-                                // Pass the image into the report screen and display
-                                // it at the top so the user knows what listing they are
-                                // reporting.
                             }}>
                             <ReportComponent
                                 style={{
@@ -131,21 +131,24 @@ export default function ListingPopup({ listing }) {
                     </View>
                     {/* IMAGE */}
                     <View style={{ height: "33%" }}>
+                    {Array.isArray(listing.images) ? (
+                        <Swiper
+                            loop={false}
+                            onIndexChanged={(index) => setCurrentIndex(index)}>
+                            {listing.images.map((imageUrl, currentIndex) => (
+                                <Image
+                                    key={currentIndex}
+                                    source={{ uri: imageUrl }}
+                                    style={{ width: width, height: 250 }}
+                                />
+                            ))}
+                        </Swiper>
+                    ) : (
                         <Image
                             source={{ uri: listing.images }}
                             style={{ width: width, height: 250 }}
                         />
-                        {/* <Swiper
-                            loop={false}
-                            onIndexChanged={(index) => setCurrentIndex(index)}>
-                            {images.map((image, currentIndex) => (
-                                <Image
-                                    key={currentIndex}
-                                    source={listing.images}
-                                    style={{ width: width, height: 250 }}
-                                />
-                            ))}
-                        </Swiper> */}
+                    )}
                     </View>
                     <View style={{ width: "100%", height: "25%" }}>
                         <View
@@ -158,7 +161,6 @@ export default function ListingPopup({ listing }) {
                             {/* TITLE */}
                             <Text style={[styles.boldtext, { flex: 1 }]}>
                                 {listing.title}
-                                {/* The dog is very swole */}
                             </Text>
                             <TouchableOpacity
                                 style={{ flex: 0 }}
@@ -192,7 +194,6 @@ export default function ListingPopup({ listing }) {
                             {/* PRICE */}
                             <Text style={[styles.boldtext, { flex: 1 }]}>
                                 {"$" + listing.price}
-                                {/* $1,000,000 */}
                             </Text>
                         </View>
                         <View
@@ -204,7 +205,6 @@ export default function ListingPopup({ listing }) {
                             {/* CONDITION */}
                             <Text style={[styles.normaltext, { flex: 1 }]}>
                                 {listing.condition}
-                                {/* Condition: Brand new */}
                             </Text>
                         </View>
                         <View
@@ -216,11 +216,6 @@ export default function ListingPopup({ listing }) {
                             {/* DESCRIPTION */}
                             <Text style={[styles.normalText, { flex: 1 }]}>
                                 {listing.description}
-                                {/* I own a musket for home defense, since that's
-                                what the founding fathers intended. Four
-                                ruffians break into my house. "What the devil?"
-                                As I grab my powdered wig and Kentucky rifle.
-                                Blow a golf b */}
                             </Text>
                         </View>
                     </View>
@@ -233,7 +228,7 @@ export default function ListingPopup({ listing }) {
                             width: "80%",
                             height: "25%",
                         }}>
-                        <TouchableOpacity
+                        {/* <TouchableOpacity
                             onPress={() => {
                                 setListingModalVisible(false);
                                 router.push("Chat");
@@ -245,7 +240,11 @@ export default function ListingPopup({ listing }) {
                                 },
                             ]}>
                             <Text style={styles.buttonText}>Reply</Text>
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
+                        <Button backgroundColor="#3F72AF" title="Post" alignItems="center"
+                            justifyContent="center" borderRadius="25%" width="80%"
+                            height="20%" marginTop="12%" press={closeModal} titleStyle={styles.buttonText}
+                        />
                     </View>
                 </SafeAreaView>
             </Modal>

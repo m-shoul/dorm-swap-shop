@@ -16,6 +16,7 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { createUser } from "../../backend/api/user.js";
 import { router } from "expo-router";
 import { getUserID } from "../../backend/dbFunctions.js";
+import { Button } from '../../components/Buttons.js';
 
 export default function CreateUserScreen() {
     //All of the states that are used to store the actual values of the text inputs
@@ -58,7 +59,7 @@ export default function CreateUserScreen() {
 
     let validate = 0;
     useEffect(() => {
-        console.log("Reached useEffect");
+        // console.log("Reached useEffect");
         // Trigger form validation when name, email, or password changes
         if (validate == 1) {
             validateForm();
@@ -168,7 +169,7 @@ export default function CreateUserScreen() {
         if (errorCount === 0) {
             const userId = await userRegistration();
             createUser(firstName, lastName, username, email, userId);
-            router.push('/');
+            router.push("/");
         }
         // Set the errors and update form validity
         // setErrors(errors);
@@ -188,7 +189,11 @@ export default function CreateUserScreen() {
         if (email && password) {
             try {
                 // Creates user into Firebase
-                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                const userCredential = await createUserWithEmailAndPassword(
+                    auth,
+                    email,
+                    password
+                );
                 const userId = userCredential.user.uid;
                 // Do something with the user ID
                 return userId;
@@ -224,7 +229,6 @@ export default function CreateUserScreen() {
                     // marginBottom: 0,
                     //paddingBottom: 0,
                     justifyContent: "center",
-                    width: "100%",
                     alignItems: "center",
                 }}
                 behavior={Platform.OS === "ios" ? "padding" : "height"}>
@@ -249,6 +253,7 @@ export default function CreateUserScreen() {
                             onSubmitEditing={() => {
                                 lastNameInputRef.current.focus();
                             }}
+                            maxLength={50}
                             ref={firstNameInputRef}
                             blurOnSubmit={false}
                             style={firstNameStyle}
@@ -270,6 +275,7 @@ export default function CreateUserScreen() {
                             onSubmitEditing={() => {
                                 userNameInputRef.current.focus();
                             }}
+                            maxLength={50}
                             ref={lastNameInputRef}
                             blurOnSubmit={false}
                             style={lastNameStyle}
@@ -286,6 +292,7 @@ export default function CreateUserScreen() {
                             onSubmitEditing={() => {
                                 emailInputRef.current.focus();
                             }}
+                            maxLength={50}
                             ref={userNameInputRef}
                             blurOnSubmit={false}
                             style={usernameStyle}
@@ -302,6 +309,7 @@ export default function CreateUserScreen() {
                             onSubmitEditing={() => {
                                 passwordInputRef.current.focus();
                             }}
+                            maxLength={254}
                             ref={emailInputRef}
                             blurOnSubmit={false}
                             style={emailStyle}
@@ -318,6 +326,7 @@ export default function CreateUserScreen() {
                             onSubmitEditing={() => {
                                 confirmPasswordInputRef.current.focus();
                             }}
+                            maxLength={254}
                             ref={passwordInputRef}
                             blurOnSubmit={false}
                             style={passwordStyle}
@@ -335,6 +344,7 @@ export default function CreateUserScreen() {
                             onSubmitEditing={() => {
                                 Keyboard.dismiss();
                             }}
+                            maxLength={254}
                             ref={confirmPasswordInputRef}
                             blurOnSubmit={false}
                             style={passwordCheckStyle}
@@ -352,26 +362,40 @@ export default function CreateUserScreen() {
                 </ScrollView>
             </KeyboardAvoidingView>
 
-            <TouchableOpacity
+            {/* <TouchableOpacity
                 style={{
                     width: "80%",
                     borderRadius: 25,
                     height: 50,
                     alignItems: "center",
                     justifyContent: "center",
-                    marginTop: 40,
+                    marginTop: "3%",
                     backgroundColor: "#3F72AF",
                 }}
                 onPress={handleValidation}>
                 <Text style={styles.buttonText}>Create an Account</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
+            <Button width="80%" height="7%" backgroundColor="#3F72AF" title="Create an Account" alignItems="center"
+                justifyContent="center" marginTop="12%" borderRadius="25%" press={handleValidation} />
 
             <TouchableOpacity
-                onPress={() => router.push('/')}
+                onPress={() => router.push("/")}
                 style={[styles.accountButtons, {}]}>
-                <Text>Already have an account?</Text>
-                <Text>Login</Text>
+                <Text
+                    style={[
+                        styles.notUserButtonText,
+                        { textAlign: "center", marginTop: "10%" },
+                    ]}>
+                    Already have an account?
+                </Text>
+                <Text
+                    style={[
+                        styles.notUserButtonText,
+                        { textAlign: "center", marginBottom: "-5%" },
+                    ]}>
+                    Login
+                </Text>
             </TouchableOpacity>
         </SafeAreaView>
     );
-};
+}

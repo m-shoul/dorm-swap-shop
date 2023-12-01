@@ -2,6 +2,7 @@ import { Text, View, TouchableOpacity, FlatList, SafeAreaView, StyleSheet } from
 import styles from "../(aux)/StyleSheet";
 import BackButtonComponent from "../../assets/svg/back_button.js";
 import { router } from "expo-router";
+import { Button } from '../../components/Buttons.js';
 
 
 export default function PostReportedScreen() {
@@ -17,15 +18,16 @@ export default function PostReportedScreen() {
 
             <Text style={{ fontWeight: "bold", marginTop: "40%", marginBottom: "40%" }}>Post reported. Thank you for your feedback.</Text>
 
-            <TouchableOpacity style={styles.loginBtn}
-                onPress={() => router.push("Home")}>
-                <Text style={styles.buttonText}>Return to Home</Text>
-            </TouchableOpacity>
 
-            <TouchableOpacity style={styles.loginBtn}
-                onPress={() => router.push("Chat")}>
-                <Text style={styles.buttonText}>Return to Chat</Text>
-            </TouchableOpacity>
+            <Button backgroundColor="#3F72AF" title="Return to Home" alignItems="center"
+                justifyContent="center" borderRadius="25%" width="80%"
+                height="7%" marginTop="12%" href="Home" titleStyle={styles.buttonText}
+            />
+
+            <Button backgroundColor="#3F72AF" title="Return to Chat" alignItems="center"
+                justifyContent="center" borderRadius="25%" width="80%"
+                height="7%" marginTop="12%" href="Chat" titleStyle={styles.buttonText}
+            />
 
         </SafeAreaView>
     );

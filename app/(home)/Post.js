@@ -8,6 +8,7 @@ import {
     ScrollView,
     KeyboardAvoidingView,
     Image,
+    Dimensions,
 } from "react-native";
 import React, { useState, useEffect, useRef } from "react";
 import styles from "../(aux)/StyleSheet.js";
@@ -18,6 +19,7 @@ import ListImagesComponent from "../../assets/svg/list_images.js";
 import RNPickerSelect from "react-native-picker-select";
 import { createListing } from "../../backend/api/listing.js";
 import { router } from "expo-router";
+import { Button } from '../../components/Buttons.js';
 
 export default function CreatePostScreen() {
     const [title, setTitle] = useState("");
@@ -27,6 +29,10 @@ export default function CreatePostScreen() {
     const [condition, setCondition] = useState(null);
     const [location, setLocation] = useState("");
 
+    //For pickers so they can get the right text size
+    const { width } = Dimensions.get("window");
+    const NormalFontSize = 20;
+    normalText = width / NormalFontSize;
     // For uploading images
     const [image, setImage] = useState(null);
 
@@ -36,7 +42,8 @@ export default function CreatePostScreen() {
         // No permissions request is necessary for launching the image library
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
-            allowsEditing: true,
+            allowsMultipleSelection: true,
+            selectionLimit: 3,
             aspect: [4, 3],
             quality: 1,
         });
@@ -45,7 +52,8 @@ export default function CreatePostScreen() {
 
         if (!result.canceled) {
             console.log("Image picked successfully");
-            setImage(result.uri);
+            const selectedImages = result.assets.map(asset => asset.uri);
+            setImage(selectedImages);
         }
     };
 
@@ -95,7 +103,7 @@ export default function CreatePostScreen() {
 
     let validate = 0;
     useEffect(() => {
-        console.log("Reached useEffect");
+        // console.log("Reached useEffect");
         // Trigger form validation when name, email, or password changes
         if (validate == 1) {
             validateForm();
@@ -139,7 +147,7 @@ export default function CreatePostScreen() {
 
         if (category === null) {
             setErrorMessageCategory("Category is required.");
-            setCategoryStyle(styles.dropdownlistserror);
+            setCategoryStyle(styles.dropDownListsError);
             emptyFields++;
             errorCount++;
         } else {
@@ -149,7 +157,7 @@ export default function CreatePostScreen() {
 
         if (condition === null) {
             setErrorMessageCondition("Condition is required.");
-            setConditionStyle(styles.dropdownlistserror);
+            setConditionStyle(styles.dropDownListsError);
             emptyFields++;
             errorCount++;
         } else {
@@ -248,8 +256,12 @@ export default function CreatePostScreen() {
                         <TouchableOpacity onPress={() => pickImage()}>
                             {image ? (
                                 <Image
-                                    source={{ uri: image }}
-                                    style={{ width: 200, height: 200 }}
+                                    source={{ uri: image[0] }}
+                                    style={{
+                                        width: 200,
+                                        height: 200,
+                                        marginBottom: "5%",
+                                    }}
                                 />
                             ) : (
                                 <ListImagesComponent
@@ -337,6 +349,14 @@ export default function CreatePostScreen() {
                                 }}
                                 items={categories}
                                 ref={categoryInputRef}
+                                style={{
+                                    inputIOS: {
+                                        fontSize: normalText, // Change this to your desired font size
+                                    },
+                                    inputAndroid: {
+                                        fontSize: normalText, // Change this to your desired font size
+                                    },
+                                }}
                             />
                         </View>
                         {errorMessageCategory && (
@@ -375,6 +395,14 @@ export default function CreatePostScreen() {
                                 }}
                                 ref={conditionInputRef}
                                 items={conditions}
+                                style={{
+                                    inputIOS: {
+                                        fontSize: normalText, // Change this to your desired font size
+                                    },
+                                    inputAndroid: {
+                                        fontSize: normalText, // Change this to your desired font size
+                                    },
+                                }}
                             />
                         </View>
 
@@ -419,33 +447,14 @@ export default function CreatePostScreen() {
                                 //paddingHorizontal: 20,
                                 height: "12%",
                             }}>
-                            <TouchableOpacity
-                                style={{
-                                    backgroundColor: "#B3B3B3",
-                                    borderRadius: "25%", //was 25
-                                    width: "35%",
-                                    marginRight: "5%",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                }}
-                                onPress={() => router.push("Home")}>
-                                <Text style={styles.buttonText}>Cancel</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                style={{
-                                    flex: 1,
 
-                                    borderRadius: "25%", //was 25
+                            {/* Cancel Button */}
+                            <Button width="35%" backgroundColor="#B3B3B3" title="Cancel" alignItems="center"
+                                justifyContent="center" borderRadius="25%" href="Home" marginRight="5%" titleStyle={styles.buttonText} />
 
-                                    alignItems: "center",
-                                    justifyContent: "center",
-
-                                    backgroundColor: "#3F72AF",
-                                }}
-                                //onPress={() => CreatePost()}
-                                onPress={handleValidation}>
-                                <Text style={styles.buttonText}>Post</Text>
-                            </TouchableOpacity>
+                            {/* Post Button */}
+                            <Button backgroundColor="#3F72AF" title="Post" alignItems="center" flex="1"
+                                justifyContent="center" borderRadius="25%" press={handleValidation} titleStyle={styles.buttonText} />
                             {/* Just for testing purposes 10/6/23 */}
                         </View>
                     </View>
