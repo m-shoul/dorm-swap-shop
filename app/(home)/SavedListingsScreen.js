@@ -9,7 +9,7 @@ import {
     Modal,
     Animated,
 } from "react-native";
-
+import { useNavigation } from "@react-navigation/native";
 import { router } from "expo-router";
 import { get, child, ref, set, push, getDatabase } from "firebase/database";
 import ListingPopup from "../../components/ListingPopup.js";
@@ -21,6 +21,7 @@ import BackButtonComponent from "../../assets/svg/back_button.js";
 import ProfileScreen from "./Profile.js";
 import SearchBarHeader from "../../components/SearchBar";
 import { getUserListings } from "../../backend/api/listing.js";
+
 //This is now the my listings screen
 const SavedListingsScreen = ({ navigation }) => {
     const animHeaderValue = new Animated.Value(0);
@@ -28,6 +29,7 @@ const SavedListingsScreen = ({ navigation }) => {
     const [selectedListing, setSelectedListing] = useState(null); // State to store the selected listing
     const [showProfile, setShowProfile] = useState(false);
     const [listingsData, setListingsData] = useState([]);
+
     // Used for test purposes.
     const testSavedListings = [
         {
@@ -77,7 +79,7 @@ const SavedListingsScreen = ({ navigation }) => {
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "#F9F7F7" }}>
             {/* Search bar was taken from homescreen, so will not have functionality. */}
-            <TouchableOpacity onPress={() => setShowProfile(true)}>
+            <TouchableOpacity onPress={() => router.push("Profile")}>
                 {/* Should be changed to navigation.navigatee */}
                 <BackButtonComponent
                     //require("../assets/svg/back_button.js")}
