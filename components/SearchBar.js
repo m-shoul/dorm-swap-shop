@@ -4,7 +4,7 @@ import { SearchBar } from '@rneui/themed';
 import styles from "../app/(aux)/StyleSheet.js";
 
 
-export default function SearchBarHeader({ animHeaderValue }) {
+export default function SearchBarHeader({ animHeaderValue, handleSearch }) {
     const [search, setSearch] = useState("");
 
     const minScroll = 100;
@@ -35,9 +35,9 @@ export default function SearchBarHeader({ animHeaderValue }) {
                     borderBottomWidth: 1,
                     borderColor: "#B3B3B3",
                 }}
-                onChangeText={setSearch}
-                //onClear={(text) => searchFilterFunction("")}
-                placeholder="Search"
+                onChangeText={(text) => { handleSearch(text); setSearch(text) }}
+                // onClear={(text) => searchFilterFunction("")}
+                // placeholder="Search"
                 value={search}
             />
         </Animated.View>
