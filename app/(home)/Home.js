@@ -32,7 +32,6 @@ export default function HomeScreen() {
     //     outputRange: [0, -1],
     // });
 
-    const [search, setSearch] = useState("");
     const [isLoading, setIsLoading] = useState(false); // State to track if the listings are loading
     const [listingsData, setListingsData] = useState([]); // State to store listings data
     const [error, setError] = useState(null); // State to track errors
@@ -65,7 +64,6 @@ export default function HomeScreen() {
     }, []);
 
     const handleSearch = (query) => {
-        setSearch(query);
         const formattedQuery = query.toLowerCase();
         const filteredData = filter(fullData, (listing) => {
             return contains(listing, formattedQuery);
