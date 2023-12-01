@@ -134,7 +134,7 @@ export default function HomeScreen() {
                 refreshControl={
                     <RefreshControl
                         refreshing={refreshing}
-                        onRefresh={getAllListings}
+                        onRefresh={fetchListings}
                     />
                 }
                 scrollEventThrottle={10}

@@ -37,7 +37,7 @@ export default function SearchBarHeader({ animHeaderValue, handleSearch }) {
                 }}
                 onChangeText={(text) => { handleSearch(text); setSearch(text) }}
                 // onClear={(text) => searchFilterFunction("")}
-                // placeholder="Search"
+                placeholder="Search"
                 value={search}
             />
         </Animated.View>

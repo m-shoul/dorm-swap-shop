@@ -87,36 +87,6 @@ export default function SettingsScreen() {
                 />
                 <View style={{ flexDirection: "row", marginLeft: "5%" }}>
                     <TouchableOpacity
-                        onPress={() => router.push("(settings)/DeleteAccountScreen")}
-                        style={{
-                            marginBottom: "5%",
-                            marginTop: "-3%",
-                            flexDirection: "row",
-                        }}>
-                        <SupportComponent
-                            style={{
-                                stroke: "black",
-                                strokeWidth: 0.25,
-                            }}
-                        />
-
-                        <Text
-                            style={[
-                                styles.normaltext,
-                                { marginTop: 7, paddingLeft: "2%" },
-                            ]}>
-                            Help and Support
-                        </Text>
-                    </TouchableOpacity>
-                </View>
-                <View
-                    style={[
-                        styles.dividerLine,
-                        { width: "83%", marginLeft: "7%" },
-                    ]}
-                />
-                <View style={{ flexDirection: "row", marginLeft: "5%" }}>
-                    <TouchableOpacity
                         onPress={() => router.push("(settings)/AboutScreen")}
                         style={{
                             marginBottom: "5%",
