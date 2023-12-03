@@ -22,18 +22,19 @@ export default function ChatScreen() {
     // Used for test purposes.
     const testData = [{
         id: "1",
+        images: "https://reactnative.dev/img/tiny_logo.png",
         name: "Joe Schmoe",
         message: "Hello world",
     },
     {
         id: "2",
+        images: "https://reactnative.dev/img/tiny_logo.png",
         name: "Schmoe Joe",
         message: "World hello"
     }];
 
     const [selectedChat, setSelectedChat] = useState("");
     const [search, setSearch] = useState("");
-    const [data, setData] = useState(testData);
 
     function handleItemPress(chat) {
         setSelectedChat(chat);
@@ -47,8 +48,7 @@ export default function ChatScreen() {
             {/* Scrollable view displaying all the chat messages */}
 
             <SwipeListView
-                data={data}
-                //{Object.values(testData)}
+                data={Object.values(testData)}
                 renderItem={({ item }) => (
                     <TouchableWithoutFeedback style={{ width: "100%" }}
                         onPress={() => handleItemPress(item)}
@@ -57,7 +57,7 @@ export default function ChatScreen() {
                         <View>
                             <View style={{ backgroundColor: "white", flexDirection: "row", flex: 1, marginLeft: "3%", marginRight: "3%", marginTop: "1%", height: 100 }}>
                                 {/* Source might be something like source={{uri: item.images}} */}
-                                <Image source={require("../../assets/expo/splash_screen_dark.png")} style={{ width: "30%", height: "100%" }} />
+                                <Image source={{ uri: item.images }} style={{ width: "30%", height: "100%" }} />
                                 <View style={{ justifyContent: "center", paddingLeft: "5%" }}>
                                     {/* <Text style={{ fontWeight: "bold" }}>{"$" + item.price + " - " + item.title}</Text> */}
                                     <Text style={{ fontWeight: "bold" }}>{item.name}</Text>
@@ -82,7 +82,9 @@ export default function ChatScreen() {
                                 // Handle the "Report" action
                                 router.push({
                                     pathname: "ReportScreen",
-                                });
+                                    params: testData
+                                })
+
                             }}
 
                         >

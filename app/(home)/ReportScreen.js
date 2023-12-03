@@ -14,9 +14,9 @@ import emailjs from 'emailjs-com';
 
 
 export default function ReportScreen() {
-    const listing = useLocalSearchParams();
+    const item = useLocalSearchParams();
 
-    console.log("listing" + listing);
+    console.log("listing" + item);
 
     // Sending the email to the admin.
     const [emailSent, setEmailSent] = useState(false);
@@ -69,7 +69,7 @@ export default function ReportScreen() {
                 The image is associated with whomever had posted the listing.
                 So we need to somehow get that image from the listingID, from that
                 specific user who is associated with the listingID.*/}
-                <Image source={{ uri: listing.images }} style={{ width: "30%", height: "15%", marginBottom: "10%" }} />
+                <Image source={{ uri: item.images }} style={{ width: "30%", height: "15%", marginBottom: "10%" }} />
 
                 {/* Description text field to enter what is wrong with the post */}
                 <TextInput

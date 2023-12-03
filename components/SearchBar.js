@@ -7,9 +7,11 @@ import styles from "../app/(aux)/StyleSheet.js";
 export default function SearchBarHeader({ animHeaderValue, handleSearch }) {
     const [search, setSearch] = useState("");
 
-    const minScroll = 100;
+    const minScroll = 300;
+
     const headerHeight = 120;
     const activeRange = 200;
+
 
     const diffClamp = Animated.diffClamp(animHeaderValue, -minScroll,
         activeRange + minScroll);
