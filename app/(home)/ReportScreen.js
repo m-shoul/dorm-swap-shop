@@ -14,9 +14,9 @@ import emailjs from 'emailjs-com';
 
 
 export default function ReportScreen() {
-    const listing = useLocalSearchParams();
+    const item = useLocalSearchParams();
 
-    console.log("listing" + listing);
+    console.log("listing" + item);
 
     // Sending the email to the admin.
     const [emailSent, setEmailSent] = useState(false);

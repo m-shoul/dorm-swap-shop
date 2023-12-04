@@ -46,7 +46,7 @@ export default function ListingPopup({ listing }) {
 
     const closeModal = () => {
         setListingModalVisible(false);
-        router.push("Chat");
+        router.push("(chat)/ConversationsScreen");
     };
 
     const listingTitle =
@@ -229,22 +229,9 @@ export default function ListingPopup({ listing }) {
                             width: "80%",
                             height: "25%",
                         }}>
-                        {/* <TouchableOpacity
-                            onPress={() => {
-                                setListingModalVisible(false);
-                                router.push("Chat");
-                            }}
-                            style={[
-                                styles.loginBtn,
-                                {
-                                    height: "20%",
-                                },
-                            ]}>
-                            <Text style={styles.buttonText}>Reply</Text>
-                        </TouchableOpacity> */}
                         <Button
                             backgroundColor="#3F72AF"
-                            title="Post"
+                            title="Reply"
                             alignItems="center"
                             justifyContent="center"
                             borderRadius="25%"

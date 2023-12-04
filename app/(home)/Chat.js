@@ -9,22 +9,26 @@ import { SwipeListView } from 'react-native-swipe-list-view';
 import TrashButtonComponent from "../../assets/svg/trash_button";
 import ReportComponent from "../../assets/svg/report_icon";
 import SearchBarHeader from "../../components/SearchBar";
+import { router } from "expo-router";
 
 //import styles from "../styleSheets/StyleSheet.js";
 //import { HeaderComponent } from "../components/headerComponent.js";
 
 
 export default function ChatScreen() {
-    let scrollOffsetY = useRef(new Animated.Value(0)).current;
+    const scrollOffsetY = useRef(new Animated.Value(0)).current;
+    const handleSearch = () => { null }
 
     // Used for test purposes.
     const testData = [{
         id: "1",
+        images: "https://reactnative.dev/img/tiny_logo.png",
         name: "Joe Schmoe",
-        message: "Hello world"
+        message: "Hello world",
     },
     {
         id: "2",
+        images: "https://reactnative.dev/img/tiny_logo.png",
         name: "Schmoe Joe",
         message: "World hello"
     }];
@@ -34,41 +38,26 @@ export default function ChatScreen() {
 
     function handleItemPress(chat) {
         setSelectedChat(chat);
+        router.push("ConversationsScreen");
     }
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "#F9F7F7" }}>
-            <SearchBarHeader animHeaderValue={scrollOffsetY} />
-
-            {/* <SearchBar
-                round
-                searchIcon={{ size: 24, color: "black" }}
-                containerStyle={styles.searchContainer}
-                inputStyle={{ backgroundColor: "#fff" }}
-                inputContainerStyle={{
-                    backgroundColor: "#fff", borderRadius: 40,
-                    borderWidth: 1, borderBottomWidth: 1, borderColor: "#B3B3B3"
-                }}
-                onChangeText={setSearch}
-                //onClear={(text) => searchFilterFunction("")}
-                placeholder="Search"
-                value={search}
-            /> */}
-            {/* </Animated.View> */}
+            <SearchBarHeader animHeaderValue={scrollOffsetY} handleSearch={handleSearch} />
 
             {/* Scrollable view displaying all the chat messages */}
 
             <SwipeListView
                 data={Object.values(testData)}
                 renderItem={({ item }) => (
-                    <TouchableWithoutFeedback style={{ width: "100%", height: 150, padding: "1%" }}
+                    <TouchableWithoutFeedback style={{ width: "100%" }}
                         onPress={() => handleItemPress(item)}
                         key={item.id}
                     >
                         <View>
-                            <View style={{ backgroundColor: "white", flexDirection: "row", flex: 1, marginLeft: "3%", marginRight: "3%" }}>
+                            <View style={{ backgroundColor: "white", flexDirection: "row", flex: 1, marginLeft: "3%", marginRight: "3%", marginTop: "1%", height: 100 }}>
                                 {/* Source might be something like source={{uri: item.images}} */}
-                                <Image source={require("../../assets/expo/splash_screen_dark.png")} style={{ width: "30%", height: "90%" }} />
+                                <Image source={{ uri: item.images }} style={{ width: "30%", height: "100%" }} />
                                 <View style={{ justifyContent: "center", paddingLeft: "5%" }}>
                                     {/* <Text style={{ fontWeight: "bold" }}>{"$" + item.price + " - " + item.title}</Text> */}
                                     <Text style={{ fontWeight: "bold" }}>{item.name}</Text>
@@ -88,35 +77,39 @@ export default function ChatScreen() {
                 renderHiddenItem={({ }) => (
                     <View style={{ flex: 1, flexDirection: "row", justifyContent: "flex-end", marginBottom: "6%", marginTop: "1%", marginRight: "4%" }}>
                         <TouchableOpacity
-                            style={{ width: 75, backgroundColor: "red", alignItems: "center", justifyContent: "center" }}
+                            style={{ width: 75, backgroundColor: "#FF9900", alignItems: "center", justifyContent: "center" }}
                             onPress={() => {
                                 // Handle the "Report" action
+                                router.push({
+                                    pathname: "ReportScreen",
+                                    params: testData
+                                })
+
                             }}
 
                         >
-                            <ReportComponent />
-                            {/* <Text style={{ color: "white" }}>Report</Text> */}
+                            <ReportComponent width="50%" height="50%" />
                         </TouchableOpacity>
                         <TouchableOpacity
-                            style={{ width: 75, backgroundColor: "blue", alignItems: "center", justifyContent: "center" }}
+                            style={{ width: 75, backgroundColor: "#F30000", alignItems: "center", justifyContent: "center" }}
                             onPress={() => {
                                 // Handle the "Delete" action
+                                alert("Chat will be deleted")
                             }}
                         >
-                            <TrashButtonComponent />
-                            {/* <Text style={{ color: "white" }}>Delete</Text> */}
+                            <TrashButtonComponent width="40%" height="40%" />
                         </TouchableOpacity>
                     </View>
                 )}
-                leftOpenValue={0}
-                rightOpenValue={-145}
+                disableRightSwipe={true}
+                rightOpenValue={-150}
                 keyExtractor={(item) => item.id}
-                style={{ flex: 1, backgroundColor: "#F9F7F7", paddingTop: "5%" }}
+                style={{ flex: 1, backgroundColor: "#F9F7F7", paddingTop: "15%", }}
                 onScroll={Animated.event(
                     [{ nativeEvent: { contentOffset: { y: scrollOffsetY } } }],
                     { useNativeDriver: false }
                 )}
-            //bounces={true}
+                bounces={false}
             />
         </SafeAreaView>
     );
