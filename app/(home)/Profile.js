@@ -29,15 +29,26 @@ export default function ProfileScreen() {
     const [user, setUser] = useState(null);
 
     useEffect(() => {
-        const fetchSavedListings = async () => {
+        // const fetchSavedListings = async () => {
+        //     try {
+        //         const savedListings = await getUserSavedListings();
+        //         setSavedListings(savedListings);
+        //         console.log("Got user saved listings.");
+        //     } catch (error) {
+        //         console.error("Could not get saved listings: ", error);
+        //     }
+        // };
+
+        const fetchListingData = async () => {
             try {
-                const savedListings = await getUserSavedListings();
-                setSavedListings(savedListings);
-                console.log("Got user saved listings.");
+                const listingsData = await getUserListings();
+                setListingsData(listingsData);
+                console.log("Got user listings.");
             } catch (error) {
-                console.error("Could not get saved listings: ", error);
+                console.error("Could not get user listings: ", error);
             }
         };
+        fetchListingData();
 
         const fetchUserData = async () => {
             try {
@@ -49,7 +60,8 @@ export default function ProfileScreen() {
             }
         }
 
-        fetchSavedListings();
+        // fetchSavedListings();
+        fetchListingData();
         fetchUserData();
     }, []);
 
@@ -61,7 +73,7 @@ export default function ProfileScreen() {
         <Text style={{ textAlign: 'center' }}>No saved listings</Text>
     );
 
-    console.log(savedListings);
+    // console.log(savedListings);
      
     return (
         <SafeAreaView style={styles.background}>
@@ -162,7 +174,7 @@ export default function ProfileScreen() {
                 // We want the savedListings state to be in here to render, but its being retarded because
                 // it then says listing.title.length doesn't exist and I don't know why... is it trying to
                 // render something that doesn't exist? Or is it not finding the listing based on the id??
-                data={Object.values(savedListings)}
+                data={Object.values(listingsData)}
                 renderItem={({ item }) => (
                     <TouchableOpacity
                         style={{ width: "50%", height: 230, padding: "1%" }}
