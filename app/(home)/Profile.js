@@ -14,7 +14,7 @@ import React, { useState, useEffect } from "react";
 import { router } from "expo-router";
 import { getUserID } from "../../backend/dbFunctions.js";
 import { getUserListings } from "../../backend/api/listing.js";
-import { getUser } from "../../backend/api/user.js";
+import { getUser, getUserSavedListings } from "../../backend/api/user.js";
 import ListingPopup from "../../components/ListingPopup.js";
 import ListImagesComponent from "../../assets/svg/list_images.js";
 import RatingComponent from "../../assets/svg/rating_stars.js";
@@ -23,17 +23,19 @@ import { Button } from "../../components/Buttons.js";
 
 export default function ProfileScreen() {
     const [listingsData, setListingsData] = useState([]);
+    const [savedListings, setSavedListings] = useState([]);
+
     const [selectedListing, setSelectedListing] = useState(null);
     const [user, setUser] = useState(null);
 
     useEffect(() => {
-        const fetchListingData = async () => {
+        const fetchSavedListings = async () => {
             try {
-                const listingsData = await getUserListings();
-                setListingsData(listingsData);
-                console.log("Got user listings.");
+                const savedListings = await getUserSavedListings();
+                setSavedListings(savedListings);
+                console.log("Got user saved listings.");
             } catch (error) {
-                console.error("Could not get user listings: ", error);
+                console.error("Could not get saved listings: ", error);
             }
         };
 
@@ -47,7 +49,7 @@ export default function ProfileScreen() {
             }
         }
 
-        fetchListingData();
+        fetchSavedListings();
         fetchUserData();
     }, []);
 
@@ -55,6 +57,12 @@ export default function ProfileScreen() {
         setSelectedListing(listing);
     };
 
+    const noSavedListings = () => (
+        <Text style={{ textAlign: 'center' }}>No saved listings</Text>
+    );
+
+    console.log(savedListings);
+     
     return (
         <SafeAreaView style={styles.background}>
             <TouchableOpacity
@@ -151,7 +159,10 @@ export default function ProfileScreen() {
             <View style={[styles.dividerLine, { marginBottom: 1 }]} />
             {/* Scrollable view displaying all the listings */}
             <FlatList
-                data={Object.values(listingsData)}
+                // We want the savedListings state to be in here to render, but its being retarded because
+                // it then says listing.title.length doesn't exist and I don't know why... is it trying to
+                // render something that doesn't exist? Or is it not finding the listing based on the id??
+                data={Object.values(savedListings)}
                 renderItem={({ item }) => (
                     <TouchableOpacity
                         style={{ width: "50%", height: 230, padding: "1%" }}
@@ -171,6 +182,7 @@ export default function ProfileScreen() {
                     // scrollY.setValue(e.nativeEvent.contentOffset.y);
                 }}
                 bounces={false}
+                ListEmptyComponent={noSavedListings}
             />
         </SafeAreaView>
     );
