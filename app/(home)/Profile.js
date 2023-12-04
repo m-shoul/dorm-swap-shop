@@ -171,7 +171,7 @@ export default function ProfileScreen() {
             <View style={[styles.dividerLine, { marginBottom: 1 }]} />
             {/* Scrollable view displaying all the listings */}
             <FlatList
-                // We want the savedListings state to be in here to render, but its being retarded because
+                // We want the savedListings state to be in here to render, but its being stupid because
                 // it then says listing.title.length doesn't exist and I don't know why... is it trying to
                 // render something that doesn't exist? Or is it not finding the listing based on the id??
                 data={Object.values(listingsData)}
