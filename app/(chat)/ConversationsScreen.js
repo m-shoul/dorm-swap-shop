@@ -15,7 +15,7 @@ export default function Conversations() {
             <View>
                 <Text style={styles.resetHeader}>Conversations</Text>
             </View>
-            <TouchableOpacity onPress={() => router.push("HomeScreen")}>
+            <TouchableOpacity onPress={() => router.push("(home)/Home")}>
                 <Text>Home</Text>
             </TouchableOpacity>
         </SafeAreaView>

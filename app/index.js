@@ -116,7 +116,7 @@ export default function LoginScreen() {
                 </View>
 
                 <View style={{ flexDirection: "row", color: "red" }}>
-                    <Text style={{ color: "#585858" }}>Remember Me</Text>
+                    <Text></Text>
                     <Text
                         style={{ paddingLeft: 100, color: "#585858" }}
                         onPress={() =>
