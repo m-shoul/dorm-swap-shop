@@ -38,6 +38,7 @@ export default function ReportScreen() {
             .then(() => {
                 setEmailSent(true);
                 alert("Post reported. Thank you");
+                console.log("Email send successfully");
                 router.push("PostReportedScreen");
             })
             .catch((error) => {
@@ -65,11 +66,7 @@ export default function ReportScreen() {
                     <Text style={styles.loginHeader}>Report Listing</Text>
                 </View>
 
-                {/* Display the first image of the reported listing
-                The image is associated with whomever had posted the listing.
-                So we need to somehow get that image from the listingID, from that
-                specific user who is associated with the listingID.*/}
-                <Image source={{ uri: item.images }} style={{ width: "30%", height: "15%", marginBottom: "10%" }} />
+                <Image source={{ uri: listing.images }} style={{ width: "30%", height: "15%", marginBottom: "10%" }} />
 
                 {/* Description text field to enter what is wrong with the post */}
                 <TextInput
@@ -84,12 +81,7 @@ export default function ReportScreen() {
                     placeholder="Description"
                 />
 
-
-                {/* Report button that
-            1.) Sends an email from to each of the developers to notify of the reported listing. (DONE)
-            2.) Flags the listing as reported... (not yet implemented)
-            3.) Directs to another page that tells user post was reported and has 2 buttons that can
-            allow the user to return to the listing or return to the chat. (DONE) */}
+                {/* 2.) Flags the listing as reported... (not yet implemented) */}
 
                 <Button backgroundColor="#3F72AF" title="Send Email" alignItems="center"
                     justifyContent="center" borderRadius="25%" width="80%"

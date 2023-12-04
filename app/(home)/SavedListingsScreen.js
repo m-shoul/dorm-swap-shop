@@ -53,17 +53,6 @@ const SavedListingsScreen = ({ navigation }) => {
     ];
 
     useEffect(() => {
-        // const fetchUserSavedListings = async () => {
-        //     try {
-        //         const savedListings = await getUserSavedListings();
-        //         console.log("Got user data.");
-        //         setSavedListings(savedListings);
-        //     } catch (error) {
-        //         console.error("Could not get user data: ", error);
-        //     }
-        // }
-     
-        // fetchUserSavedListings();
         const fetchListingData = async () => {
             try {
                 const listingsData = await getUserListings();
@@ -83,8 +72,6 @@ const SavedListingsScreen = ({ navigation }) => {
     if (showProfile) {
         return <ProfileScreen />;
     }
-
-    // console.log(savedListings);
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "#F9F7F7" }}>
@@ -151,15 +138,18 @@ const SavedListingsScreen = ({ navigation }) => {
                                 width: 370,
                                 justifyContent: "space-between",
                             }}>
-                            {/* Source might be something like source={{uri: item.images}} */}
-                            <Image
-                                source={require("../../assets/expo/splash_screen_dark.png")}
-                                style={{
-                                    width: 100,
-                                    height: 100,
-                                }}
-                            />
-
+                            {Array.isArray(item.images) ? (
+                                <Image
+                                    source={{ uri: item.images[0] }}
+                                    style={{ width: 100, height: 100 }}
+                                />
+                            ) : (
+                                <Image
+                                    source={{ uri: item.images }}
+                                    style={{ width: 100, height: 100 }}
+                                />
+                            )}
+                            
                             <View style={{ flex: 1 }}>
                                 <Text style={styles.boldtext}>
                                     {item.title}

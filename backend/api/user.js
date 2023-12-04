@@ -88,7 +88,7 @@ export function getUserSavedListings() {
                 return savedListings.filter(listing => listing !== undefined);
             });
         } else {
-            throw new Error('User data not found or no saved listings');
+            console.log("User has no listings saved to their account.");
         }
     }).catch((error) => {
         console.error(error);

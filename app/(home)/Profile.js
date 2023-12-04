@@ -14,7 +14,7 @@ import React, { useState, useEffect } from "react";
 import { router } from "expo-router";
 import { getUserID } from "../../backend/dbFunctions.js";
 import { getUserListings } from "../../backend/api/listing.js";
-import { getUser } from "../../backend/api/user.js";
+import { getUser, getUserSavedListings } from "../../backend/api/user.js";
 import ListingPopup from "../../components/ListingPopup.js";
 import ListImagesComponent from "../../assets/svg/list_images.js";
 import RatingComponent from "../../assets/svg/rating_stars.js";
@@ -23,10 +23,22 @@ import { Button } from "../../components/Buttons.js";
 
 export default function ProfileScreen() {
     const [listingsData, setListingsData] = useState([]);
+    const [savedListings, setSavedListings] = useState([]);
+
     const [selectedListing, setSelectedListing] = useState(null);
     const [user, setUser] = useState(null);
 
     useEffect(() => {
+        // const fetchSavedListings = async () => {
+        //     try {
+        //         const savedListings = await getUserSavedListings();
+        //         setSavedListings(savedListings);
+        //         console.log("Got user saved listings.");
+        //     } catch (error) {
+        //         console.error("Could not get saved listings: ", error);
+        //     }
+        // };
+
         const fetchListingData = async () => {
             try {
                 const listingsData = await getUserListings();
@@ -36,6 +48,7 @@ export default function ProfileScreen() {
                 console.error("Could not get user listings: ", error);
             }
         };
+        fetchListingData();
 
         const fetchUserData = async () => {
             try {
@@ -47,6 +60,7 @@ export default function ProfileScreen() {
             }
         }
 
+        // fetchSavedListings();
         fetchListingData();
         fetchUserData();
     }, []);
@@ -55,6 +69,12 @@ export default function ProfileScreen() {
         setSelectedListing(listing);
     };
 
+    const noSavedListings = () => (
+        <Text style={{ textAlign: 'center' }}>No saved listings</Text>
+    );
+
+    // console.log(savedListings);
+     
     return (
         <SafeAreaView style={styles.background}>
             <TouchableOpacity
@@ -151,6 +171,9 @@ export default function ProfileScreen() {
             <View style={[styles.dividerLine, { marginBottom: 1 }]} />
             {/* Scrollable view displaying all the listings */}
             <FlatList
+                // We want the savedListings state to be in here to render, but its being stupid because
+                // it then says listing.title.length doesn't exist and I don't know why... is it trying to
+                // render something that doesn't exist? Or is it not finding the listing based on the id??
                 data={Object.values(listingsData)}
                 renderItem={({ item }) => (
                     <TouchableOpacity
@@ -171,6 +194,7 @@ export default function ProfileScreen() {
                     // scrollY.setValue(e.nativeEvent.contentOffset.y);
                 }}
                 bounces={false}
+                ListEmptyComponent={noSavedListings}
             />
         </SafeAreaView>
     );
