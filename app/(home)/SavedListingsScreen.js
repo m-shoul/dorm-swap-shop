@@ -21,6 +21,7 @@ import BackButtonComponent from "../../assets/svg/back_button.js";
 import ProfileScreen from "./Profile.js";
 import SearchBarHeader from "../../components/SearchBar";
 import { getUserListings } from "../../backend/api/listing.js";
+import filter from "lodash.filter";
 
 //This is now the my listings screen
 const SavedListingsScreen = ({ navigation }) => {
@@ -30,6 +31,7 @@ const SavedListingsScreen = ({ navigation }) => {
     const [showProfile, setShowProfile] = useState(false);
     // const [savedListings, setSavedListings] = useState([]);
     const [listingsData, setListingsData] = useState([]);
+    const [fullData, setFullData] = useState([]);
 
 
     // Used for test purposes.
@@ -56,6 +58,7 @@ const SavedListingsScreen = ({ navigation }) => {
         const fetchListingData = async () => {
             try {
                 const listingsData = await getUserListings();
+                setFullData(listingsData);
                 setListingsData(listingsData);
                 console.log("Got user listings.");
             } catch (error) {
@@ -63,7 +66,7 @@ const SavedListingsScreen = ({ navigation }) => {
             }
         };
         fetchListingData();
-     }, []);
+    }, []);
 
     const handleItemPress = (listing) => {
         setSelectedListing(listing);
@@ -71,6 +74,24 @@ const SavedListingsScreen = ({ navigation }) => {
 
     if (showProfile) {
         return <ProfileScreen />;
+    }
+
+    const handleSearch = (query) => {
+        const formattedQuery = query.toLowerCase();
+        const filteredData = filter(fullData, (listingsData) => {
+            return contains(listingsData, formattedQuery);
+        });
+        setListingsData(filteredData);
+    }
+
+    const contains = ({ title, description, condition }, query) => {
+        title = title.toLowerCase();
+        description = description.toLowerCase();
+
+        if (title.includes(query) || description.includes(query) || condition.includes(query)) {
+            return true;
+        }
+        return false;
     }
 
     return (
@@ -96,24 +117,7 @@ const SavedListingsScreen = ({ navigation }) => {
                     width: "100%",
                     marginBottom: "5%",
                 }}>
-                <SearchBarHeader animHeaderValue={animHeaderValue} />
-                {/* <SearchBar
-                    round
-                    searchIcon={{ size: 24, color: "black" }}
-                    containerStyle={styles.searchContainer}
-                    inputStyle={{ backgroundColor: "#fff" }}
-                    inputContainerStyle={{
-                        backgroundColor: "#fff",
-                        borderRadius: 40,
-                        borderWidth: 1,
-                        borderBottomWidth: 1,
-                        borderColor: "#B3B3B3",
-                    }}
-                    onChangeText={setSearch}
-                    //onClear={(text) => searchFilterFunction("")}
-                    placeholder="Search"
-                    value={search}
-                /> */}
+                <SearchBarHeader animHeaderValue={animHeaderValue} handleSearch={handleSearch} />
             </View>
             <FlatList
                 data={listingsData}
@@ -149,7 +153,7 @@ const SavedListingsScreen = ({ navigation }) => {
                                     style={{ width: 100, height: 100 }}
                                 />
                             )}
-                            
+
                             <View style={{ flex: 1 }}>
                                 <Text style={styles.boldtext}>
                                     {item.title}
