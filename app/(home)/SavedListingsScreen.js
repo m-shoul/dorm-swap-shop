@@ -33,7 +33,6 @@ const SavedListingsScreen = ({ navigation }) => {
     const [listingsData, setListingsData] = useState([]);
     const [fullData, setFullData] = useState([]);
 
-
     // Used for test purposes.
     const testSavedListings = [
         {
@@ -82,17 +81,26 @@ const SavedListingsScreen = ({ navigation }) => {
             return contains(listingsData, formattedQuery);
         });
         setListingsData(filteredData);
-    }
+    };
 
     const contains = ({ title, description, condition }, query) => {
         title = title.toLowerCase();
         description = description.toLowerCase();
 
-        if (title.includes(query) || description.includes(query) || condition.includes(query)) {
+        if (
+            title.includes(query) ||
+            description.includes(query) ||
+            condition.includes(query)
+        ) {
             return true;
         }
         return false;
-    }
+    };
+
+    // const listingDescription =
+    //     description.length > 22
+    //         ? description.substring(0, 14) + "..."
+    //         : description;
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "#F9F7F7" }}>
@@ -117,7 +125,10 @@ const SavedListingsScreen = ({ navigation }) => {
                     width: "100%",
                     marginBottom: "5%",
                 }}>
-                <SearchBarHeader animHeaderValue={animHeaderValue} handleSearch={handleSearch} />
+                <SearchBarHeader
+                    animHeaderValue={animHeaderValue}
+                    handleSearch={handleSearch}
+                />
             </View>
             <FlatList
                 data={listingsData}
@@ -138,7 +149,8 @@ const SavedListingsScreen = ({ navigation }) => {
                                 backgroundColor: "#F9F7F7",
                                 flex: 1,
                                 flexDirection: "row",
-
+                                padding: 2,
+                                paddingRight: "5%",
                                 width: 370,
                                 justifyContent: "space-between",
                             }}>
@@ -154,7 +166,7 @@ const SavedListingsScreen = ({ navigation }) => {
                                 />
                             )}
 
-                            <View style={{ flex: 1 }}>
+                            <View style={{ flex: 1, marginLeft: "3%" }}>
                                 <Text style={styles.boldtext}>
                                     {item.title}
                                 </Text>
@@ -170,6 +182,7 @@ const SavedListingsScreen = ({ navigation }) => {
                             style={{
                                 backgroundColor: "#B3B3B3",
                                 height: 1,
+                                marginTop: 20,
                                 marginLeft: 10,
                                 marginRight: 20,
                                 marginBottom: -20,
