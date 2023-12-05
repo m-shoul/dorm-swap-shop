@@ -74,9 +74,9 @@ export default function ProfileScreen() {
     );
 
     // console.log(savedListings);
-     
+
     return (
-        <SafeAreaView style={styles.background}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: "#F9F7F7" }}>
             <TouchableOpacity
                 style={{
                     alignSelf: "stretch",
@@ -88,27 +88,31 @@ export default function ProfileScreen() {
                 </Text>
             </TouchableOpacity>
 
-            <View
-                style={{
-                    width: 190,
-                    height: 190,
-                    borderRadius: 200,
-                    overflow: "hidden",
-                    marginBottom: "5%",
-                    borderWidth: 1,
-                    borderColor: "#B3B3B3",
-                }}>
-                <ListImagesComponent
-                    source={require("../../assets/svg/list_images.js")}
+            <View style={{ width: "100%", marginBottom: "5%", alignItems: "center" }}>
+                <View
                     style={{
-                        width: "100%",
-                        height: "100%",
-                        stroke: "black",
-                        strokeWidth: 0.25,
-                    }}
-                />
+                        width: 190,
+                        height: 190,
+                        borderRadius: 200,
+                        overflow: "hidden",
+                        borderWidth: 1,
+                        borderColor: "#B3B3B3",
+                        justifyContent: "center"
+                    }}>
+                    <ListImagesComponent
+                        source={require("../../assets/svg/list_images.js")}
+                        style={{
+                            width: "100%",
+                            height: "100%",
+                            stroke: "black",
+                            strokeWidth: 0.25,
+                        }}
+                    />
+                </View>
             </View>
-            <View>
+
+
+            <View style={{ width: "100%", alignItems: "center" }}>
                 <Text style={styles.boldtext}>{user && user.public && `${user.public.fname} ${user.public.lname}`}</Text>
             </View>
             {/* <View>
@@ -130,7 +134,7 @@ export default function ProfileScreen() {
                     paddingTop: "5%",
                     flexDirection: "row",
                     marginBottom: "-15%",
-                    justifyContent: "space-between",
+                    justifyContent: "center",
                     //paddingHorizontal: 20,
                 }}>
                 {/* Goes to saved listings */}
@@ -168,20 +172,26 @@ export default function ProfileScreen() {
                 }}>
                 <Text style={styles.boldtext}>Saved Listings</Text>
             </View>
-            <View style={[styles.dividerLine, { marginBottom: 1 }]} />
+            <View style={{ alignItems: "center" }}>
+                <View style={[styles.dividerLine, { marginBottom: 1, }]} />
+            </View>
+
             {/* Scrollable view displaying all the listings */}
             <FlatList
                 // We want the savedListings state to be in here to render, but its being stupid because
                 // it then says listing.title.length doesn't exist and I don't know why... is it trying to
                 // render something that doesn't exist? Or is it not finding the listing based on the id??
                 data={Object.values(listingsData)}
+                //keyExtractor={(item) => item.listingId}
                 renderItem={({ item }) => (
-                    <TouchableOpacity
-                        style={{ width: "50%", height: 230, padding: "1%" }}
-                        onPress={() => handleItemPress(item)}
-                        key={item.id}>
-                        <ListingPopup listing={item} navigation={router} />
-                    </TouchableOpacity>
+                    <View style={{ width: "50%", height: 230, padding: "1%" }}>
+                        {/* <TouchableOpacity
+                            onPress={() => handleItemPress(item)}
+                            key={item.id}> */}
+                        <ListingPopup listing={item} />
+                        {/* </TouchableOpacity> */}
+                    </View>
+
                 )}
                 numColumns={2}
                 keyExtractor={(item) => item.id}

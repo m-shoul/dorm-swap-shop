@@ -22,6 +22,7 @@ import SearchBarHeader from "../../components/SearchBar";
 export default function SettingsScreen() {
     const animHeaderValue = new Animated.Value(0);
     const [search, setSearch] = useState("");
+    const handleSearch = () => { null }
     return (
         <SafeAreaView style={styles.background}>
             <View style={{ marginTop: "30%" }}>
@@ -34,26 +35,9 @@ export default function SettingsScreen() {
                     width: "100%",
                     marginBottom: "5%",
                 }}>
-                <SearchBarHeader animHeaderValue={animHeaderValue} />
-
-                {/* <SearchBar
-                    round
-                    searchIcon={{ size: 24, color: "black" }}
-                    containerStyle={styles.searchContainer}
-                    inputStyle={{ backgroundColor: "#fff" }}
-                    inputContainerStyle={{
-                        backgroundColor: "#fff",
-                        borderRadius: 40,
-                        borderWidth: 1,
-                        borderBottomWidth: 1,
-                        borderColor: "#B3B3B3",
-                    }}
-                    onChangeText={setSearch}
-                    //onClear={(text) => searchFilterFunction("")}
-                    placeholder="Search"
-                    value={search}
-                /> */}
+                <SearchBarHeader animHeaderValue={animHeaderValue} handleSearch={handleSearch} />
             </View>
+
             <View style={{ width: "100%" }}>
                 <View style={{ flexDirection: "row", marginLeft: "5%" }}>
                     <TouchableOpacity

@@ -210,11 +210,16 @@ export default function CreatePostScreen() {
                     height: "15%",
                     paddingTop: "5%",
                     margin: 0,
-                    marginBottom: -30,
+                    marginBottom: -10,
+                    width: "100%",
+                    backgroundColor: "#F9F7F7",
+                    alignItems: "center",
                 }}>
-                <Text style={styles.postListingHeader}>Create Listing</Text>
+                <Text style={[styles.postListingHeader, { marginBottom: "7%" }]}>Create Listing</Text>
+                <View style={styles.dividerLine} />
             </View>
-            <View style={styles.dividerLine} />
+
+
             {errorMessage && (
                 <Text
                     style={{
@@ -236,6 +241,7 @@ export default function CreatePostScreen() {
 
                     alignItems: "center",
                     marginTop: "-10%",
+                    zIndex: -1,
                 }}
                 behavior={Platform.OS === "ios" ? "padding" : "height"}>
                 <ScrollView
@@ -244,6 +250,7 @@ export default function CreatePostScreen() {
                         flex: 1,
                         KeyboardAvoidingView: "enabled",
                         width: "100%",
+
                     }}
                     contentContainerStyle={{
                         flexGrow: 1,
