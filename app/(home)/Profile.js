@@ -97,6 +97,7 @@ export default function ProfileScreen() {
                         overflow: "hidden",
                         borderWidth: 1,
                         borderColor: "#B3B3B3",
+                        justifyContent: "center"
                     }}>
                     <ListImagesComponent
                         source={require("../../assets/svg/list_images.js")}
