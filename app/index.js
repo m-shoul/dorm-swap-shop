@@ -11,10 +11,9 @@ import React, { useState, useRef } from "react";
 import styles from "./(aux)/StyleSheet";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { getAuth } from "firebase/auth";
-import { router } from 'expo-router';
+import { router } from "expo-router";
 import { getUserID } from "../backend/dbFunctions";
-import { Button } from '../components/Buttons';
-
+import { Button } from "../components/Buttons";
 
 export default function LoginScreen() {
     const [email, setEmail] = useState("");
@@ -25,7 +24,6 @@ export default function LoginScreen() {
     const [passwordStyle, setPasswordStyle] = useState(styles.createUserInput);
     const passwordInputRef = useRef(null);
     const auth = getAuth();
-
 
     const handleLogin = async () => {
         //Check that user fills out form
@@ -69,7 +67,7 @@ export default function LoginScreen() {
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-            <SafeAreaView style={styles.background} >
+            <SafeAreaView style={styles.background}>
                 <View style={{ paddingTop: "45%" }}>
                     <Text style={styles.loginHeader}> Login </Text>
                 </View>
@@ -118,7 +116,7 @@ export default function LoginScreen() {
                 <View style={{ flexDirection: "row", color: "red" }}>
                     <Text></Text>
                     <Text
-                        style={{ paddingLeft: 100, color: "#585858" }}
+                        style={{ color: "#585858" }}
                         onPress={() =>
                             router.push("(user)/ResetPasswordScreen")
                         }>
@@ -129,8 +127,18 @@ export default function LoginScreen() {
                 {/* <TouchableOpacity style={styles.loginBtn} onPress={handleLogin}>
                     <Text style={styles.buttonText}>Login</Text>
                 </TouchableOpacity> */}
-                <Button width="80%" height="7%" backgroundColor="#3F72AF" title="Login" alignItems="center"
-                    justifyContent="center" marginTop="12%" borderRadius="25%" press={handleLogin} titleStyle={styles.buttonText} />
+                <Button
+                    width="80%"
+                    height="7%"
+                    backgroundColor="#3F72AF"
+                    title="Login"
+                    alignItems="center"
+                    justifyContent="center"
+                    marginTop="6%"
+                    borderRadius="25%"
+                    press={handleLogin}
+                    titleStyle={styles.buttonText}
+                />
 
                 <TouchableOpacity
                     onPress={() => router.push("(user)/CreateUserScreen")}
@@ -143,4 +151,4 @@ export default function LoginScreen() {
             </SafeAreaView>
         </TouchableWithoutFeedback>
     );
-};
+}
