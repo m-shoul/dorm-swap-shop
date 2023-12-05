@@ -15,7 +15,8 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 // import { writeUserData } from "../../backend/dbFunctions.js";
 import { createUser } from "../../backend/api/user.js";
 import { router } from "expo-router";
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { getUserID } from "../../backend/dbFunctions.js";
+import { Button } from '../../components/Buttons.js';
 
 export default function CreateUserScreen() {
     //All of the states that are used to store the actual values of the text inputs
@@ -58,7 +59,7 @@ export default function CreateUserScreen() {
 
     let validate = 0;
     useEffect(() => {
-        console.log("Reached useEffect");
+        // console.log("Reached useEffect");
         // Trigger form validation when name, email, or password changes
         if (validate == 1) {
             validateForm();
@@ -71,7 +72,7 @@ export default function CreateUserScreen() {
         validate = 1;
     };
 
-    const validateForm = () => {
+    const validateForm = async () => {
         let errorCount = 0;
         let emptyFields = 0;
         console.log("Reached validateForm");
@@ -166,14 +167,15 @@ export default function CreateUserScreen() {
         }
 
         if (errorCount === 0) {
-            userRegistration();
-            createUser(firstName, lastName, username, email);
-            router.push("LoginScreen");
+            const userId = await userRegistration();
+            createUser(firstName, lastName, username, email, userId);
+            router.push("/");
         }
         // Set the errors and update form validity
         // setErrors(errors);
     };
 
+    // const auth = initializeAuth();
     const auth = getAuth();
 
     // Creates a new user account
@@ -187,7 +189,14 @@ export default function CreateUserScreen() {
         if (email && password) {
             try {
                 // Creates user into Firebase
-                await createUserWithEmailAndPassword(auth, email, password);
+                const userCredential = await createUserWithEmailAndPassword(
+                    auth,
+                    email,
+                    password
+                );
+                const userId = userCredential.user.uid;
+                // Do something with the user ID
+                return userId;
             } catch (error) {
                 console.log("Got error: ", error.message);
             }
@@ -198,7 +207,7 @@ export default function CreateUserScreen() {
     // Firebase auth, write the data to Realtime db, and direct user to login
 
     return (
-        <SafeAreaProvider style={styles.background}>
+        <SafeAreaView style={styles.background}>
             <View>
                 <Text style={styles.registerHeader}> Register </Text>
             </View>
@@ -220,7 +229,6 @@ export default function CreateUserScreen() {
                     // marginBottom: 0,
                     //paddingBottom: 0,
                     justifyContent: "center",
-                    width: "100%",
                     alignItems: "center",
                 }}
                 behavior={Platform.OS === "ios" ? "padding" : "height"}>
@@ -245,6 +253,7 @@ export default function CreateUserScreen() {
                             onSubmitEditing={() => {
                                 lastNameInputRef.current.focus();
                             }}
+                            maxLength={50}
                             ref={firstNameInputRef}
                             blurOnSubmit={false}
                             style={firstNameStyle}
@@ -266,6 +275,7 @@ export default function CreateUserScreen() {
                             onSubmitEditing={() => {
                                 userNameInputRef.current.focus();
                             }}
+                            maxLength={50}
                             ref={lastNameInputRef}
                             blurOnSubmit={false}
                             style={lastNameStyle}
@@ -282,6 +292,7 @@ export default function CreateUserScreen() {
                             onSubmitEditing={() => {
                                 emailInputRef.current.focus();
                             }}
+                            maxLength={50}
                             ref={userNameInputRef}
                             blurOnSubmit={false}
                             style={usernameStyle}
@@ -298,6 +309,7 @@ export default function CreateUserScreen() {
                             onSubmitEditing={() => {
                                 passwordInputRef.current.focus();
                             }}
+                            maxLength={254}
                             ref={emailInputRef}
                             blurOnSubmit={false}
                             style={emailStyle}
@@ -314,6 +326,7 @@ export default function CreateUserScreen() {
                             onSubmitEditing={() => {
                                 confirmPasswordInputRef.current.focus();
                             }}
+                            maxLength={254}
                             ref={passwordInputRef}
                             blurOnSubmit={false}
                             style={passwordStyle}
@@ -331,6 +344,7 @@ export default function CreateUserScreen() {
                             onSubmitEditing={() => {
                                 Keyboard.dismiss();
                             }}
+                            maxLength={254}
                             ref={confirmPasswordInputRef}
                             blurOnSubmit={false}
                             style={passwordCheckStyle}
@@ -348,26 +362,40 @@ export default function CreateUserScreen() {
                 </ScrollView>
             </KeyboardAvoidingView>
 
-            <TouchableOpacity
+            {/* <TouchableOpacity
                 style={{
                     width: "80%",
                     borderRadius: 25,
                     height: 50,
                     alignItems: "center",
                     justifyContent: "center",
-                    marginTop: 40,
+                    marginTop: "3%",
                     backgroundColor: "#3F72AF",
                 }}
                 onPress={handleValidation}>
                 <Text style={styles.buttonText}>Create an Account</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
+            <Button width="80%" height="7%" backgroundColor="#3F72AF" title="Create an Account" alignItems="center"
+                justifyContent="center" marginTop="2%" borderRadius="25%" press={handleValidation} titleStyle={styles.buttonText} />
 
             <TouchableOpacity
-                onPress={() => router.back()}
+                onPress={() => router.push("/")}
                 style={[styles.accountButtons, {}]}>
-                <Text>Already have an account?</Text>
-                <Text>Login</Text>
+                <Text
+                    style={[
+                        styles.notUserButtonText,
+                        { textAlign: "center", marginTop: "10%" },
+                    ]}>
+                    Already have an account?
+                </Text>
+                <Text
+                    style={[
+                        styles.notUserButtonText,
+                        { textAlign: "center", marginBottom: "-5%" },
+                    ]}>
+                    Login
+                </Text>
             </TouchableOpacity>
-        </SafeAreaProvider>
+        </SafeAreaView>
     );
-};
+}

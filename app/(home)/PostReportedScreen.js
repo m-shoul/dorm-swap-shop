@@ -1,32 +1,64 @@
-import { Text, View, TouchableOpacity, FlatList, SafeAreaView, StyleSheet } from "react-native";
+import {
+    Text,
+    View,
+    TouchableOpacity,
+    FlatList,
+    SafeAreaView,
+    StyleSheet,
+} from "react-native";
 import styles from "../(aux)/StyleSheet";
 import BackButtonComponent from "../../assets/svg/back_button.js";
 import { router } from "expo-router";
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { Button } from "../../components/Buttons.js";
 
 export default function PostReportedScreen() {
-
     return (
-        <SafeAreaProvider style={styles.background}>
+        <SafeAreaView style={styles.background}>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <TouchableOpacity onPress={() => navigation.goBack()}>
+                <TouchableOpacity onPress={() => router.back()}>
                     <BackButtonComponent />
                 </TouchableOpacity>
                 <Text style={styles.loginHeader}>Report Listing</Text>
             </View>
 
-            <Text style={{ fontWeight: "bold", marginTop: "40%", marginBottom: "40%" }}>Post reported. Thank you for your feedback.</Text>
+            <Text
+                style={{
+                    fontWeight: "bold",
+                    fontSize: 20,
+                    marginTop: "40%",
+                    marginBottom: "40%",
+                    paddingLeft: "10%",
+                    paddingRight: "10%",
+                    textAlign: "center",
+                }}>
+                Post reported. Thank you for your feedback.
+            </Text>
 
-            <TouchableOpacity style={styles.loginBtn}
-                onPress={() => router.push("Home")}>
-                <Text style={styles.buttonText}>Return to Home</Text>
-            </TouchableOpacity>
+            <Button
+                backgroundColor="#3F72AF"
+                title="Return to Home"
+                alignItems="center"
+                justifyContent="center"
+                borderRadius="25%"
+                width="80%"
+                height="7%"
+                marginTop="12%"
+                href="Home"
+                titleStyle={styles.buttonText}
+            />
 
-            <TouchableOpacity style={styles.loginBtn}
-                onPress={() => router.push("Chat")}>
-                <Text style={styles.buttonText}>Return to Chat</Text>
-            </TouchableOpacity>
-
-        </SafeAreaProvider>
+            <Button
+                backgroundColor="#3F72AF"
+                title="Return to Chat"
+                alignItems="center"
+                justifyContent="center"
+                borderRadius="25%"
+                width="80%"
+                height="7%"
+                marginTop="12%"
+                href="Chat"
+                titleStyle={styles.buttonText}
+            />
+        </SafeAreaView>
     );
-};
+}

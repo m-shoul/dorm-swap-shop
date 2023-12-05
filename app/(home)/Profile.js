@@ -1,73 +1,82 @@
-import { Text, View, TouchableOpacity, FlatList, SafeAreaView, StyleSheet, Image } from "react-native";
+import {
+    Text,
+    View,
+    TouchableOpacity,
+    FlatList,
+    SafeAreaView,
+    StyleSheet,
+    Image,
+} from "react-native";
 import styles from "../(aux)/StyleSheet.js";
 import { get, ref, getDatabase } from "@firebase/database";
 // import { getUserID } from "../../backend/dbFunctions.js";
 import React, { useState, useEffect } from "react";
 import { router } from "expo-router";
 import { getUserID } from "../../backend/dbFunctions.js";
-
+import { getUserListings } from "../../backend/api/listing.js";
+import { getUser, getUserSavedListings } from "../../backend/api/user.js";
 import ListingPopup from "../../components/ListingPopup.js";
 import ListImagesComponent from "../../assets/svg/list_images.js";
 import RatingComponent from "../../assets/svg/rating_stars.js";
 
+import { Button } from "../../components/Buttons.js";
+
 export default function ProfileScreen() {
     const [listingsData, setListingsData] = useState([]);
+    const [savedListings, setSavedListings] = useState([]);
 
-    const db = getDatabase();
-    // const listingsReference = ref(db, 'dorm_swap_shop/users/' + getUserID() + 'listings/');
-    const listingsReference = ref(db, "dorm_swap_shop/listings/");
-
-    const fetchListings = () => {
-        get(listingsReference)
-            .then((snapshot) => {
-                if (snapshot.exists()) {
-                    const listingsData = snapshot.val();
-                    // Set the retrieved data to the state
-                    setListingsData(listingsData);
-                } else {
-                    console.log("No data available");
-                }
-            })
-            .catch((error) => {
-                console.error("Error fetching listings:", error);
-            });
-    };
-
-    // work in progress - need to filter listings by user ID
-    // const fetchListings = () => {
-    //     userId = getUserID();
-    //     console.log("userId: " + userId);
-    //     get(listingsReference)
-    //         .then((snapshot) => {
-    //             if (snapshot.exists()) {
-    //                 const listingsData = snapshot.val();
-    //                 console.log("listingsData: " + listingsData);
-
-    //                 // Filter listings by the logged-in user's ID
-    //                 const userListings = Object.values(listingsData).filter((listing) => listing.userId === userId);
-    //                 console.log(userListings);
-    //                 // Set the filtered data to the state
-    //                 setListingsData(userListings);
-    //             } else {
-    //                 console.log("No data available");
-    //             }
-    //         })
-    //         .catch((error) => {
-    //             console.error("Error fetching listings:", error);
-    //         });
-    // };
-
-    const handleItemPress = (listing) => {
-        // setSelectedListing(listing);
-    };
+    const [selectedListing, setSelectedListing] = useState(null);
+    const [user, setUser] = useState(null);
 
     useEffect(() => {
-        // Fetch listings data from Firebase when the component mounts
-        fetchListings();
+        // const fetchSavedListings = async () => {
+        //     try {
+        //         const savedListings = await getUserSavedListings();
+        //         setSavedListings(savedListings);
+        //         console.log("Got user saved listings.");
+        //     } catch (error) {
+        //         console.error("Could not get saved listings: ", error);
+        //     }
+        // };
+
+        const fetchListingData = async () => {
+            try {
+                const listingsData = await getUserListings();
+                setListingsData(listingsData);
+                console.log("Got user listings.");
+            } catch (error) {
+                console.error("Could not get user listings: ", error);
+            }
+        };
+        fetchListingData();
+
+        const fetchUserData = async () => {
+            try {
+                const user = await getUser();
+                console.log("Got user data.");
+                setUser(user);
+            } catch (error) {
+                console.error("Could not get user data: ", error);
+            }
+        }
+
+        // fetchSavedListings();
+        fetchListingData();
+        fetchUserData();
     }, []);
 
+    const handleItemPress = (listing) => {
+        setSelectedListing(listing);
+    };
+
+    const noSavedListings = () => (
+        <Text style={{ textAlign: 'center' }}>No saved listings</Text>
+    );
+
+    // console.log(savedListings);
+
     return (
-        <SafeAreaView style={styles.background}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: "#F9F7F7" }}>
             <TouchableOpacity
                 style={{
                     alignSelf: "stretch",
@@ -79,29 +88,36 @@ export default function ProfileScreen() {
                 </Text>
             </TouchableOpacity>
 
-            <View
-                style={{
-                    width: 190,
-                    height: 190,
-                    borderRadius: 200,
-                    overflow: "hidden",
-                    marginBottom: "5%",
-                    borderWidth: 1,
-                    borderColor: "#B3B3B3",
-                }}>
-                <ListImagesComponent
-                    source={require("../../assets/svg/list_images.js")}
+            <View style={{ width: "100%", marginBottom: "5%", alignItems: "center" }}>
+                <View
                     style={{
-                        width: "100%",
-                        height: "100%",
-                        stroke: "black",
-                        strokeWidth: 0.25,
-                    }}
-                />
+                        width: 190,
+                        height: 190,
+                        borderRadius: 200,
+                        overflow: "hidden",
+                        borderWidth: 1,
+                        borderColor: "#B3B3B3",
+                        justifyContent: "center"
+                    }}>
+                    <ListImagesComponent
+                        source={require("../../assets/svg/list_images.js")}
+                        style={{
+                            width: "100%",
+                            height: "100%",
+                            stroke: "black",
+                            strokeWidth: 0.25,
+                        }}
+                    />
+                </View>
             </View>
-            <View>
-                <Text style={styles.boldtext}>Full Name</Text>
+
+
+            <View style={{ width: "100%", alignItems: "center" }}>
+                <Text style={styles.boldtext}>{user && user.public && `${user.public.fname} ${user.public.lname}`}</Text>
             </View>
+            {/* <View>
+                <Text style={styles.boldtext}>{user && user.public && `${"Rating: " + user.public.rating}`}</Text>
+            </View> */}
             {/* <View>
                 <RatingComponent
                     source={require("../assets/svg/list_images.js")}
@@ -118,43 +134,35 @@ export default function ProfileScreen() {
                     paddingTop: "5%",
                     flexDirection: "row",
                     marginBottom: "-15%",
-                    justifyContent: "space-between",
+                    justifyContent: "center",
                     //paddingHorizontal: 20,
                 }}>
-                <TouchableOpacity
-                    style={{
-                        width: "45%",
-                        height: "33%",
-                        borderRadius: "25%", //was 25
+                {/* Goes to saved listings */}
+                <Button
+                    width="45%"
+                    height="33%"
+                    backgroundColor="#3F72AF"
+                    title="My Listings"
+                    alignItems="center"
+                    justifyContent="center"
+                    marginRight="5%"
+                    borderRadius="25%"
+                    href="SavedListingsScreen"
+                    titleStyle={[styles.boldtext, { color: "white" }]}
+                />
 
-                        alignItems: "center",
-                        justifyContent: "center",
-
-                        backgroundColor: "#3F72AF",
-                        marginRight: "5%",
-                    }}
-                    onPress={() => router.push("SavedListingsScreen")}>
-                    <Text style={[styles.boldtext, { color: "white" }]}>
-                        Saved Listings
-                    </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={{
-                        width: "45%",
-                        height: "33%",
-                        borderRadius: "25%", //was 25
-
-                        alignItems: "center",
-                        justifyContent: "center",
-
-                        backgroundColor: "#3F72AF",
-                    }}
-                    onPress={() => router.push("Chat")}>
-                    {/* Should be a button to go to Chat */}
-                    <Text style={[styles.boldtext, { color: "white" }]}>
-                        Inbox
-                    </Text>
-                </TouchableOpacity>
+                {/* Goes to chats */}
+                <Button
+                    width="45%"
+                    height="33%"
+                    backgroundColor="#3F72AF"
+                    title="Chat"
+                    alignItems="center"
+                    justifyContent="center"
+                    borderRadius="25%"
+                    href="Chat"
+                    titleStyle={[styles.boldtext, { color: "white" }]}
+                />
             </View>
             <View
                 style={{
@@ -162,33 +170,42 @@ export default function ProfileScreen() {
                     paddingLeft: "5%",
                     marginBottom: "4%",
                 }}>
-                <Text style={styles.boldtext}>My Listings</Text>
+                <Text style={styles.boldtext}>Saved Listings</Text>
             </View>
-            <View style={styles.dividerLine} />
+            <View style={{ alignItems: "center" }}>
+                <View style={[styles.dividerLine, { marginBottom: 1, }]} />
+            </View>
+
             {/* Scrollable view displaying all the listings */}
             <FlatList
+                // We want the savedListings state to be in here to render, but its being stupid because
+                // it then says listing.title.length doesn't exist and I don't know why... is it trying to
+                // render something that doesn't exist? Or is it not finding the listing based on the id??
                 data={Object.values(listingsData)}
+                //keyExtractor={(item) => item.listingId}
                 renderItem={({ item }) => (
-                    <TouchableOpacity
-                        style={{ width: "50%", height: 200, padding: "1%" }}
-                        onPress={() => handleItemPress(item)}
-                        key={item.id}>
-                        <ListingPopup listing={item} navigation={router} />
-                    </TouchableOpacity>
+                    <View style={{ width: "50%", height: 230, padding: "1%" }}>
+                        {/* <TouchableOpacity
+                            onPress={() => handleItemPress(item)}
+                            key={item.id}> */}
+                        <ListingPopup listing={item} />
+                        {/* </TouchableOpacity> */}
+                    </View>
+
                 )}
                 numColumns={2}
                 keyExtractor={(item) => item.id}
                 style={{
                     flex: 1,
                     backgroundColor: "#F9F7F7",
-                    paddingTop: "5%",
+                    paddingTop: "2%",
                 }}
                 onScroll={(e) => {
                     // scrollY.setValue(e.nativeEvent.contentOffset.y);
                 }}
                 bounces={false}
+                ListEmptyComponent={noSavedListings}
             />
-
         </SafeAreaView>
     );
-};
+}

@@ -7,7 +7,8 @@ import {
     SafeAreaView,
     ScrollView,
     KeyboardAvoidingView,
-    Image
+    Image,
+    Dimensions,
 } from "react-native";
 import React, { useState, useEffect, useRef } from "react";
 import styles from "../(aux)/StyleSheet.js";
@@ -18,7 +19,7 @@ import ListImagesComponent from "../../assets/svg/list_images.js";
 import RNPickerSelect from "react-native-picker-select";
 import { createListing } from "../../backend/api/listing.js";
 import { router } from "expo-router";
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { Button } from '../../components/Buttons.js';
 
 export default function CreatePostScreen() {
     const [title, setTitle] = useState("");
@@ -28,6 +29,10 @@ export default function CreatePostScreen() {
     const [condition, setCondition] = useState(null);
     const [location, setLocation] = useState("");
 
+    //For pickers so they can get the right text size
+    const { width } = Dimensions.get("window");
+    const NormalFontSize = 20;
+    normalText = width / NormalFontSize;
     // For uploading images
     const [image, setImage] = useState(null);
 
@@ -37,7 +42,8 @@ export default function CreatePostScreen() {
         // No permissions request is necessary for launching the image library
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
-            allowsEditing: true,
+            allowsMultipleSelection: true,
+            selectionLimit: 3,
             aspect: [4, 3],
             quality: 1,
         });
@@ -46,7 +52,8 @@ export default function CreatePostScreen() {
 
         if (!result.canceled) {
             console.log("Image picked successfully");
-            setImage(result.uri);
+            const selectedImages = result.assets.map(asset => asset.uri);
+            setImage(selectedImages);
         }
     };
 
@@ -54,7 +61,16 @@ export default function CreatePostScreen() {
     const CreatePost = () => {
         let userId = getUserID();
         try {
-            createListing(userId, title, description, price, category, condition, "location - replace with param in future", image);
+            createListing(
+                userId,
+                title,
+                description,
+                price,
+                category,
+                condition,
+                "location - replace with param in future",
+                image
+            );
             console.log("Post created successfully");
         } catch (error) {
             console.log(error);
@@ -87,7 +103,7 @@ export default function CreatePostScreen() {
 
     let validate = 0;
     useEffect(() => {
-        console.log("Reached useEffect");
+        // console.log("Reached useEffect");
         // Trigger form validation when name, email, or password changes
         if (validate == 1) {
             validateForm();
@@ -131,7 +147,7 @@ export default function CreatePostScreen() {
 
         if (category === null) {
             setErrorMessageCategory("Category is required.");
-            setCategoryStyle(styles.dropdownlistserror);
+            setCategoryStyle(styles.dropDownListsError);
             emptyFields++;
             errorCount++;
         } else {
@@ -141,7 +157,7 @@ export default function CreatePostScreen() {
 
         if (condition === null) {
             setErrorMessageCondition("Condition is required.");
-            setConditionStyle(styles.dropdownlistserror);
+            setConditionStyle(styles.dropDownListsError);
             emptyFields++;
             errorCount++;
         } else {
@@ -188,17 +204,22 @@ export default function CreatePostScreen() {
     };
 
     return (
-        <SafeAreaProvider style={styles.background}>
+        <SafeAreaView style={styles.background}>
             <View
                 style={{
                     height: "15%",
                     paddingTop: "5%",
                     margin: 0,
-                    marginBottom: -30,
+                    marginBottom: -10,
+                    width: "100%",
+                    backgroundColor: "#F9F7F7",
+                    alignItems: "center",
                 }}>
-                <Text style={styles.postListingHeader}>Create Listing</Text>
+                <Text style={[styles.postListingHeader, { marginBottom: "7%" }]}>Create Listing</Text>
+                <View style={styles.dividerLine} />
             </View>
-            <View style={styles.dividerLine} />
+
+
             {errorMessage && (
                 <Text
                     style={{
@@ -220,6 +241,7 @@ export default function CreatePostScreen() {
 
                     alignItems: "center",
                     marginTop: "-10%",
+                    zIndex: -1,
                 }}
                 behavior={Platform.OS === "ios" ? "padding" : "height"}>
                 <ScrollView
@@ -228,6 +250,7 @@ export default function CreatePostScreen() {
                         flex: 1,
                         KeyboardAvoidingView: "enabled",
                         width: "100%",
+
                     }}
                     contentContainerStyle={{
                         flexGrow: 1,
@@ -239,7 +262,14 @@ export default function CreatePostScreen() {
                     <View>
                         <TouchableOpacity onPress={() => pickImage()}>
                             {image ? (
-                                <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
+                                <Image
+                                    source={{ uri: image[0] }}
+                                    style={{
+                                        width: 200,
+                                        height: 200,
+                                        marginBottom: "5%",
+                                    }}
+                                />
                             ) : (
                                 <ListImagesComponent
                                     source={require("../../assets/svg/list_images.js")}
@@ -257,6 +287,7 @@ export default function CreatePostScreen() {
 
                     <View style={[styles.forms, { height: "50%" }]}>
                         <TextInput
+                            maxLength={25}
                             style={titleStyle}
                             blurOnSubmit={false}
                             onChangeText={(value) => setTitle(value)}
@@ -279,6 +310,7 @@ export default function CreatePostScreen() {
                         )}
                         <TextInput
                             style={priceStyle}
+                            maxLength={5}
                             blurOnSubmit={false}
                             onChangeText={(value) => setPrice(value)}
                             value={price}
@@ -324,6 +356,14 @@ export default function CreatePostScreen() {
                                 }}
                                 items={categories}
                                 ref={categoryInputRef}
+                                style={{
+                                    inputIOS: {
+                                        fontSize: normalText, // Change this to your desired font size
+                                    },
+                                    inputAndroid: {
+                                        fontSize: normalText, // Change this to your desired font size
+                                    },
+                                }}
                             />
                         </View>
                         {errorMessageCategory && (
@@ -360,9 +400,16 @@ export default function CreatePostScreen() {
                                 onSubmitEditing={() => {
                                     Keyboard.dismiss();
                                 }}
-
                                 ref={conditionInputRef}
                                 items={conditions}
+                                style={{
+                                    inputIOS: {
+                                        fontSize: normalText, // Change this to your desired font size
+                                    },
+                                    inputAndroid: {
+                                        fontSize: normalText, // Change this to your desired font size
+                                    },
+                                }}
                             />
                         </View>
 
@@ -382,6 +429,7 @@ export default function CreatePostScreen() {
                             onChangeText={(value) => setDescription(value)}
                             multiline={true}
                             value={description}
+                            maxLength={250}
                             placeholder="Description"
                             style={descriptionStyle}
                             ref={descriptionInputRef}
@@ -406,38 +454,19 @@ export default function CreatePostScreen() {
                                 //paddingHorizontal: 20,
                                 height: "12%",
                             }}>
-                            <TouchableOpacity
-                                style={{
-                                    backgroundColor: "#B3B3B3",
-                                    borderRadius: "25%", //was 25
-                                    width: "35%",
-                                    marginRight: "5%",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                }}
-                                onPress={() => router.push("Home")}>
-                                <Text style={styles.buttonText}>Cancel</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                style={{
-                                    flex: 1,
 
-                                    borderRadius: "25%", //was 25
+                            {/* Cancel Button */}
+                            <Button width="35%" backgroundColor="#B3B3B3" title="Cancel" alignItems="center"
+                                justifyContent="center" borderRadius="25%" href="Home" marginRight="5%" titleStyle={styles.buttonText} />
 
-                                    alignItems: "center",
-                                    justifyContent: "center",
-
-                                    backgroundColor: "#3F72AF",
-                                }}
-                                //onPress={() => CreatePost()}
-                                onPress={handleValidation}>
-                                <Text style={styles.buttonText}>Post</Text>
-                            </TouchableOpacity>
+                            {/* Post Button */}
+                            <Button backgroundColor="#3F72AF" title="Post" alignItems="center" flex="1"
+                                justifyContent="center" borderRadius="25%" press={handleValidation} titleStyle={styles.buttonText} />
                             {/* Just for testing purposes 10/6/23 */}
                         </View>
                     </View>
                 </ScrollView>
             </KeyboardAvoidingView>
-        </SafeAreaProvider>
+        </SafeAreaView>
     );
-};
+}

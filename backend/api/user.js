@@ -1,11 +1,12 @@
 import { database } from '../config/firebaseConfig';
 import { get, child, ref, set, push, getDatabase } from 'firebase/database';
+import { getUserID } from '../dbFunctions';
 
 // ^^ Import whatever we need for this...
 // NOTE************ add additional parameters when needed!!! This is just a baseline.
 
 // Function to create a new user
-export function createUser(fname, lname, username, email) {
+export function createUser(fname, lname, username, email, userId) {
 
     // Reference users in database
     const userReference = ref(database, 'dorm_swap_shop/users/');
@@ -14,7 +15,7 @@ export function createUser(fname, lname, username, email) {
     const newUserReference = push(userReference);
 
     // Gets the unique ID
-    const userId = newUserReference.key;
+    // const userId = getUserID();
 
     const publicUserData = {
         fname: fname,
@@ -27,6 +28,7 @@ export function createUser(fname, lname, username, email) {
     };
 
     const privateUserData = {
+        userId: userId,
         email: email,
         timestamp: new Date().toISOString(),
         chats: [],
@@ -41,13 +43,56 @@ export function createUser(fname, lname, username, email) {
 
     set(newUserReference, userData);
 
-    return userId;
+    // return userId;
 }
 
 // Function to read user data
-export function readUser(userId) {
-    // Implement the functionality to read user data.
-    // This will be used in displaying the profile page and whatnot.
+export function getUser() {
+    const db = getDatabase();
+    const userId = getUserID();
+    const usersRef = ref(db, `dorm_swap_shop/users/`);
+
+    return get(usersRef).then((snapshot) => {
+        let userData;
+        snapshot.forEach((childSnapshot) => {
+            const data = childSnapshot.val();
+            if (data.private.userId === userId) {
+                userData = data;
+            }
+        });
+        return userData;
+    }).catch((error) => {
+        console.error(error);
+    });
+}
+
+export function getUserSavedListings() {
+    const db = getDatabase();
+    const userId = getUserID();
+    const usersRef = ref(db, `dorm_swap_shop/users/`);
+
+    return get(usersRef).then((snapshot) => {
+        let userData;
+        snapshot.forEach((childSnapshot) => {
+            const data = childSnapshot.val();
+            if (data.private.userId === userId) {
+                userData = data;
+            }
+        });
+        if (userData && userData.private.savedListings) {
+            const savedListingsRef = ref(db, `dorm_swap_shop/listings/`);
+            const savedListingsPromises = userData.private.savedListings.map((listingId) => {
+                return get(child(savedListingsRef, listingId));
+            });
+            return Promise.all(savedListingsPromises).then((savedListings) => {
+                return savedListings.filter(listing => listing !== undefined);
+            });
+        } else {
+            console.log("User has no listings saved to their account.");
+        }
+    }).catch((error) => {
+        console.error(error);
+    });
 }
 
 // Function to update a user

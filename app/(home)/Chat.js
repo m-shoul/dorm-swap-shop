@@ -1,5 +1,5 @@
-import { Text, View, TouchableOpacity, SafeAreaView, Image, Animated } from "react-native";
-import React, { useState, useEffect } from "react";
+import { Text, View, TouchableWithoutFeedback, TouchableOpacity, SafeAreaView, Image, Animated } from "react-native";
+import React, { useState, useEffect, useRef } from "react";
 import styles from "../(aux)/StyleSheet";
 //import { getAuth, signOut } from "firebase/auth";
 //import ListingPopup from "../../components/ListingPopup.js";
@@ -8,133 +8,109 @@ import { get, child, ref, set, push, getDatabase } from 'firebase/database';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import TrashButtonComponent from "../../assets/svg/trash_button";
 import ReportComponent from "../../assets/svg/report_icon";
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import SearchBarHeader from "../../components/SearchBar";
+import { router } from "expo-router";
 
 //import styles from "../styleSheets/StyleSheet.js";
 //import { HeaderComponent } from "../components/headerComponent.js";
 
 
 export default function ChatScreen() {
+    const scrollOffsetY = useRef(new Animated.Value(0)).current;
+    const handleSearch = () => { null }
 
-    const scrollY = new Animated.Value(0);
-    const diffClamp = Animated.diffClamp(scrollY, 0, 100);
-    const translateYAxis = diffClamp.interpolate({
-        inputRange: [0, 100],
-        outputRange: [0, -100],
-    });
+    // Used for test purposes.
+    const testData = [{
+        id: "1",
+        images: "https://reactnative.dev/img/tiny_logo.png",
+        name: "Joe Schmoe",
+        message: "Hello world",
+    },
+    {
+        id: "2",
+        images: "https://reactnative.dev/img/tiny_logo.png",
+        name: "Schmoe Joe",
+        message: "World hello"
+    }];
 
+    const [selectedChat, setSelectedChat] = useState("");
     const [search, setSearch] = useState("");
-    const [listingsData, setListingsData] = useState([]); // State to store listings data
-    const [selectedListing, setSelectedListing] = useState(null); // State to store the selected listing
 
-
-    const db = getDatabase();
-    const listingsReference = ref(db, 'dorm_swap_shop/listings/');
-
-    const fetchListings = () => {
-        get(listingsReference)
-            .then((snapshot) => {
-                if (snapshot.exists()) {
-                    const listingsData = snapshot.val();
-                    // Set the retrieved data to the state
-                    setListingsData(listingsData);
-                } else {
-                    console.log("No data available");
-                }
-            })
-            .catch((error) => {
-                console.error("Error fetching listings:", error);
-            });
-    };
-
-    useEffect(() => {
-        // Fetch listings data from Firebase when the component mounts
-        fetchListings();
-    }, []);
-
-    const handleItemPress = (listing) => {
-        setSelectedListing(listing);
-    };
+    function handleItemPress(chat) {
+        setSelectedChat(chat);
+        router.push("ConversationsScreen");
+    }
 
     return (
-        <SafeAreaProvider style={{ flex: 1, backgroundColor: "#F9F7F7" }}>
-            {/* <Animated.View style={{
-                transform: [{ translateY: translateYAxis }],
-                elevation: 4,
-                zIndex: 100,
-            }}> */}
-            <SearchBar
-                round
-                searchIcon={{ size: 24, color: "black" }}
-                containerStyle={styles.searchContainer}
-                inputStyle={{ backgroundColor: "#fff" }}
-                inputContainerStyle={{
-                    backgroundColor: "#fff", borderRadius: 40,
-                    borderWidth: 1, borderBottomWidth: 1, borderColor: "#B3B3B3"
-                }}
-                onChangeText={setSearch}
-                //onClear={(text) => searchFilterFunction("")}
-                placeholder="Search"
-                value={search}
-            />
-            {/* </Animated.View> */}
+        <SafeAreaView style={{ flex: 1, backgroundColor: "#F9F7F7" }}>
+            <SearchBarHeader animHeaderValue={scrollOffsetY} handleSearch={handleSearch} />
 
             {/* Scrollable view displaying all the chat messages */}
+
             <SwipeListView
-                data={Object.values(listingsData)}
+                data={Object.values(testData)}
                 renderItem={({ item }) => (
-                    <TouchableOpacity style={{ width: "100%", height: 150, padding: "1%" }}
+                    <TouchableWithoutFeedback style={{ width: "100%" }}
                         onPress={() => handleItemPress(item)}
                         key={item.id}
                     >
-                        <View style={{ backgroundColor: "white", flexDirection: "row", flex: 1, marginLeft: "3%", marginRight: "3%" }}>
-                            {/* Source might be something like source={{uri: item.images}} */}
-                            <Image source={require("../../assets/expo/splash_screen_dark.png")} style={{ width: "30%", height: "90%" }} />
-                            <View style={{ justifyContent: "center", paddingLeft: "5%" }}>
-                                <Text style={{ fontWeight: "bold" }}>{"$" + item.price + " - " + item.title}</Text>
-                                <Text>Sneak peak at text</Text>
-                            </View>
+                        <View>
+                            <View style={{ backgroundColor: "white", flexDirection: "row", flex: 1, marginLeft: "3%", marginRight: "3%", marginTop: "1%", height: 100 }}>
+                                {/* Source might be something like source={{uri: item.images}} */}
+                                <Image source={{ uri: item.images }} style={{ width: "30%", height: "100%" }} />
+                                <View style={{ justifyContent: "center", paddingLeft: "5%" }}>
+                                    {/* <Text style={{ fontWeight: "bold" }}>{"$" + item.price + " - " + item.title}</Text> */}
+                                    <Text style={{ fontWeight: "bold" }}>{item.name}</Text>
+                                    <Text>{item.message}</Text>
+                                </View>
 
+                            </View>
+                            <View style={{
+                                backgroundColor: "#B3B3B3", height: 1,
+                                marginBottom: "5%", marginLeft: "7%", marginRight: "7%"
+                            }} />
                         </View>
-                        <View style={{
-                            backgroundColor: "#B3B3B3", height: 1,
-                            marginBottom: "5%", marginLeft: "7%", marginRight: "7%"
-                        }} />
-                    </TouchableOpacity>
+
+                    </TouchableWithoutFeedback>
 
                 )}
                 renderHiddenItem={({ }) => (
                     <View style={{ flex: 1, flexDirection: "row", justifyContent: "flex-end", marginBottom: "6%", marginTop: "1%", marginRight: "4%" }}>
                         <TouchableOpacity
-                            style={{ width: 75, backgroundColor: "red", alignItems: "center", justifyContent: "center" }}
+                            style={{ width: 75, backgroundColor: "#FF9900", alignItems: "center", justifyContent: "center" }}
                             onPress={() => {
                                 // Handle the "Report" action
+                                router.push({
+                                    pathname: "ReportScreen",
+                                    params: testData
+                                })
+
                             }}
 
                         >
-                            <ReportComponent />
-                            {/* <Text style={{ color: "white" }}>Report</Text> */}
+                            <ReportComponent width="50%" height="50%" />
                         </TouchableOpacity>
                         <TouchableOpacity
-                            style={{ width: 75, backgroundColor: "blue", alignItems: "center", justifyContent: "center" }}
+                            style={{ width: 75, backgroundColor: "#F30000", alignItems: "center", justifyContent: "center" }}
                             onPress={() => {
                                 // Handle the "Delete" action
+                                alert("Chat will be deleted")
                             }}
                         >
-                            <TrashButtonComponent />
-                            {/* <Text style={{ color: "white" }}>Delete</Text> */}
+                            <TrashButtonComponent width="40%" height="40%" />
                         </TouchableOpacity>
                     </View>
                 )}
-                leftOpenValue={0}
-                rightOpenValue={-145}
+                disableRightSwipe={true}
+                rightOpenValue={-150}
                 keyExtractor={(item) => item.id}
-                style={{ flex: 1, backgroundColor: "#F9F7F7", paddingTop: "5%" }}
-                onScroll={(e) => {
-                    scrollY.setValue(e.nativeEvent.contentOffset.y);
-                }}
-            //bounces={true}
+                style={{ flex: 1, backgroundColor: "#F9F7F7", paddingTop: "15%", }}
+                onScroll={Animated.event(
+                    [{ nativeEvent: { contentOffset: { y: scrollOffsetY } } }],
+                    { useNativeDriver: false }
+                )}
+                bounces={false}
             />
-        </SafeAreaProvider>
+        </SafeAreaView>
     );
 }

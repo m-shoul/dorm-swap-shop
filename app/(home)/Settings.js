@@ -5,19 +5,24 @@ import {
     FlatList,
     SafeAreaView,
     StyleSheet,
+    Animated
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import styles from "../(aux)/StyleSheet.js";
 import { SearchBar } from "@rneui/themed";
 import { router } from "expo-router";
+import { logoutUser } from "../../backend/dbFunctions.js";
 import NotificationComponent from "../../assets/svg/notification_icon.js";
 import SupportComponent from "../../assets/svg/support_icon.js";
 import AboutComponent from "../../assets/svg/about_icon.js";
 import LogoutComponent from "../../assets/svg/logout_icon.js";
 import DeleteComponent from "../../assets/svg/delete_icon.js";
+import SearchBarHeader from "../../components/SearchBar";
 
 export default function SettingsScreen() {
+    const animHeaderValue = new Animated.Value(0);
     const [search, setSearch] = useState("");
+    const handleSearch = () => { null }
     return (
         <SafeAreaView style={styles.background}>
             <View style={{ marginTop: "30%" }}>
@@ -30,24 +35,9 @@ export default function SettingsScreen() {
                     width: "100%",
                     marginBottom: "5%",
                 }}>
-                <SearchBar
-                    round
-                    searchIcon={{ size: 24, color: "black" }}
-                    containerStyle={styles.searchContainer}
-                    inputStyle={{ backgroundColor: "#fff" }}
-                    inputContainerStyle={{
-                        backgroundColor: "#fff",
-                        borderRadius: 40,
-                        borderWidth: 1,
-                        borderBottomWidth: 1,
-                        borderColor: "#B3B3B3",
-                    }}
-                    onChangeText={setSearch}
-                    //onClear={(text) => searchFilterFunction("")}
-                    placeholder="Search"
-                    value={search}
-                />
+                <SearchBarHeader animHeaderValue={animHeaderValue} handleSearch={handleSearch} />
             </View>
+
             <View style={{ width: "100%" }}>
                 <View style={{ flexDirection: "row", marginLeft: "5%" }}>
                     <TouchableOpacity
@@ -81,37 +71,7 @@ export default function SettingsScreen() {
                 />
                 <View style={{ flexDirection: "row", marginLeft: "5%" }}>
                     <TouchableOpacity
-                        onPress={() => router.push("(settings)/DeleteAccountScreen")}
-                        style={{
-                            marginBottom: "5%",
-                            marginTop: "-3%",
-                            flexDirection: "row",
-                        }}>
-                        <SupportComponent
-                            style={{
-                                stroke: "black",
-                                strokeWidth: 0.25,
-                            }}
-                        />
-
-                        <Text
-                            style={[
-                                styles.normaltext,
-                                { marginTop: 7, paddingLeft: "2%" },
-                            ]}>
-                            Help and Support
-                        </Text>
-                    </TouchableOpacity>
-                </View>
-                <View
-                    style={[
-                        styles.dividerLine,
-                        { width: "83%", marginLeft: "7%" },
-                    ]}
-                />
-                <View style={{ flexDirection: "row", marginLeft: "5%" }}>
-                    <TouchableOpacity
-                        onPress={() => router.push("(settings)/DeleteAccountScreen")}
+                        onPress={() => router.push("(settings)/AboutScreen")}
                         style={{
                             marginBottom: "5%",
                             marginTop: "-3%",
@@ -141,7 +101,7 @@ export default function SettingsScreen() {
                 />
                 <View style={{ flexDirection: "row", marginLeft: "5%" }}>
                     <TouchableOpacity
-                        onPress={() => router.push("(settings)/DeleteAccountScreen")}
+                        onPress={() => { logoutUser(); router.push("/"); }}
                         style={{
                             marginBottom: "5%",
                             marginTop: "-3%",
