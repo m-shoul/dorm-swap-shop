@@ -73,7 +73,7 @@ export default function ReportScreen() {
                 </View>
 
                 <Image
-                    //source={{ uri: listing.images }}
+                    source={{ uri: listing.images }}
                     style={{ width: "30%", height: "15%", marginBottom: "10%" }}
                 />
 
