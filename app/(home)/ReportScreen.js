@@ -22,9 +22,9 @@ import { Button } from "../../components/Buttons.js";
 import emailjs from "emailjs-com";
 
 export default function ReportScreen() {
-    const item = useLocalSearchParams();
+    const listing = useLocalSearchParams();
 
-    console.log("listing" + item);
+    console.log("listing" + listing);
 
     // Sending the email to the admin.
     const [emailSent, setEmailSent] = useState(false);
