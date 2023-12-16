@@ -1,4 +1,14 @@
 # Development Standards
+## Contents
+* [Branch Naming Conventions](DEV_STANDARDS.md#branch-naming-conventions)
+* [Formatting](DEV_STANDARDS.md#formatting)
+* [Naming Conventions](DEV_STANDARDS.md#naming-conventions)
+  * [File Naming](DEV_STANDARDS.md#file-naming)
+  * [Variable Naming](DEV_STANDARDS.md#variable-naming)
+  * [Constants](DEV_STANDARDS.md#constants)
+  * [Functions](DEV_STANDARDS.md#functions)
+  * [Methods](DEV_STANDARDS.md#methods)
+  * [Components](DEV_STANDARDS.md#components)
 
 ## Branch Naming Conventions
 Checkout a branch using [GitHub Desktop](https://desktop.github.com/) or `git checkout -b branchName`

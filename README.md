@@ -10,7 +10,7 @@
 | 1.0.03  | 2023-11-10 | App Navigation and view listings.
 | 1.0.04  | 2023-11-01 | Searching and saving listings.
 
-## Table of Contents
+## Contents
 * [Releases](https://github.com/m-shoul/dorm-swap-shop#releases)
 * [Introduction](https://github.com/m-shoul/dorm-swap-shop#introduction)
 * [Problem Statement](https://github.com/m-shoul/dorm-swap-shop#problem-statement)
