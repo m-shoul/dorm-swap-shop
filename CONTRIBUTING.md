@@ -1,9 +1,9 @@
 # Contributor's Guide
 ## Contents
-* [Code of Conduct](https://github.com/m-shoul/dorm-swap-shop/CONTRIBUTING.md#code-of-conduct)
-* [Responsibilities of Contributors](https://github.com/m-shoul/dorm-swap-shop/CONTRIBUTING.md#responsibilities-of-contributors)
-* [Enforcement](https://github.com/m-shoul/dorm-swap-shop/CONTRIBUTING.md#enforcement)
-* [How to Contribute](https://github.com/m-shoul/dorm-swap-shop/CONTRIBUTING.md#how-to-contribute)
+* [Code of Conduct](CONTRIBUTING.md#code-of-conduct)
+* [Responsibilities of Contributors](CONTRIBUTING.md#responsibilities-of-contributors)
+* [Enforcement](CONTRIBUTING.md#enforcement)
+* [How to Contribute](CONTRIBUTING.md#how-to-contribute)
 
 ## Code of Conduct
 * Using welcoming and inclusive language.
