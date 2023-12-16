@@ -1,6 +1,9 @@
 # Contributor's Guide
 ## Contents
-* Update accordingly
+* [Code of Conduct](https://github.com/m-shoul/dorm-swap-shop/CONTRIBUTING.md#code-of-conduct)
+* [Responsibilities of Contributors](https://github.com/m-shoul/dorm-swap-shop/CONTRIBUTING.md#responsibilities-of-contributors)
+* [Enforcement](https://github.com/m-shoul/dorm-swap-shop/CONTRIBUTING.md#enforcement)
+* [How to Contribute](https://github.com/m-shoul/dorm-swap-shop/CONTRIBUTING.md#how-to-contribute)
 
 ## Code of Conduct
 * Using welcoming and inclusive language.
@@ -21,8 +24,8 @@ Instances of abusive, harassing, or otherwise unacceptable behavior may be repor
 ## How to Contribute
 1. [Fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo) this repository into your organization.
 2. [Clone](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) the forked repository to your local machine.
-3. Create a branch based on the naming conventions in our [development standards]().
-4. Make the desired changes to the code, adhering to our [development standards]().
+3. Create a branch based on the naming conventions in our [development standards](DEV_STANDARDS.md).
+4. Make the desired changes to the code, adhering to our [development standards](DEV_STANDARDS.md).
 5. Commit and push the changes to the remote repository.
 6. Submit a pull request to merge changes into main.
 7. One of the Dorm Swap and Shop [contributors](https://github.com/m-shoul/dorm-swap-shop?tab=readme-ov-file#contributors) will review the changes and approve accordingly.
