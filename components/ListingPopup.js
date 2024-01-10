@@ -18,7 +18,10 @@ import FavouriteIcon from "../assets/svg/favourite_icon.js";
 import SavedListingIcon from "../assets/svg/savedListing_icon.js";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { saveListing, unsaveListing } from "../backend/api/listing.js";
+import { getUserByID } from "../backend/api/user.js";
 import { Button } from "./Buttons.js";
+import { get } from "firebase/database";
+import { getUser } from "../backend/api/user.js";
 
 export default function ListingPopup({ listing }) {
     const { width, height } = Dimensions.get("window");
@@ -53,6 +56,8 @@ export default function ListingPopup({ listing }) {
         listing.price.length + listing.title.length > 22
             ? listing.title.substring(0, 14) + "..."
             : listing.title;
+
+    const username = getUserByID(listing.user).username;
 
     // console.log("Listing images " + listing.title + " " + listing.images);
 
@@ -184,6 +189,18 @@ export default function ListingPopup({ listing }) {
                                     />
                                 )}
                             </TouchableOpacity>
+                        </View>
+                        <View
+                            style={{
+                                flexDirection: "row",
+                                alignItems: "center",
+                                marginLeft: "3%",
+                                marginTop: "2%",
+                            }}>
+                            {/* USER */}
+                            <Text style={[styles.normaltext, { flex: 1 }]}>
+                                {username}
+                            </Text>
                         </View>
                         <View
                             style={{
