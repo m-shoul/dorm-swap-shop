@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     Modal,
     Text,
@@ -18,16 +18,16 @@ import FavouriteIcon from "../assets/svg/favourite_icon.js";
 import SavedListingIcon from "../assets/svg/savedListing_icon.js";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { saveListing, unsaveListing } from "../backend/api/listing.js";
-import { getUserByID } from "../backend/api/user.js";
 import { Button } from "./Buttons.js";
-import { get } from "firebase/database";
-import { getUser } from "../backend/api/user.js";
+import { get, set } from "firebase/database";
+import { getUsernameByID } from "../backend/api/user.js";
 
 export default function ListingPopup({ listing }) {
     const { width, height } = Dimensions.get("window");
     const [listingModalVisible, setListingModalVisible] = useState(false);
     const [isFavorited, setIsFavorited] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [username, setUsername] = useState("");
 
     const router = useRouter();
 
@@ -57,9 +57,14 @@ export default function ListingPopup({ listing }) {
             ? listing.title.substring(0, 14) + "..."
             : listing.title;
 
-    const user = getUserByID(listing.user);
-    console.log("User: " + user.toString());
-    const username = user.fname + " " + user.lname;
+    const fetchUser = async () => {
+        const username = await getUsernameByID(listing.user);
+        setUsername(username);
+    };
+
+    useEffect(() => {
+        fetchUser();
+    }, []);
 
     // console.log("Listing images " + listing.title + " " + listing.images);
 

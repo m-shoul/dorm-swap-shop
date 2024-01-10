@@ -70,6 +70,15 @@ export function getUserByID(userId) {
     });
 }
 
+export async function getUsernameByID(userId) {
+    const user = await getUserByID(userId);
+
+    if (user != null && user.public.fname != null && user.public.lname != null)
+        return user.public.fname + " " + user.public.lname;
+    else
+        return "Unknown User";
+}
+
 export function getUserSavedListings() {
     const db = getDatabase();
     const userId = getUserID();
