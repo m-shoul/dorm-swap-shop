@@ -21,12 +21,12 @@
     "android": {
       "package": "com.mshoul.dormswapshop",
       "adaptiveIcon": {
-        "foregroundImage": "assets/expo/adaptive-icon.png",
+        "foregroundImage": "assets/logos/logoV2.png",
         "backgroundColor": "#ffffff"
       }
     },
     "web": {
-      "favicon": "assets/expo/favicon.png"
+      "favicon": "assets/logos/logoV2.png"
     },
     "extra": {
       "eas": {
