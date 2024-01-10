@@ -57,7 +57,9 @@ export default function ListingPopup({ listing }) {
             ? listing.title.substring(0, 14) + "..."
             : listing.title;
 
-    const username = getUserByID(listing.user).username;
+    const user = getUserByID(listing.user);
+    console.log("User: " + user.toString());
+    const username = user.fname + " " + user.lname;
 
     // console.log("Listing images " + listing.title + " " + listing.images);
 
