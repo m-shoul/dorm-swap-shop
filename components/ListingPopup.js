@@ -54,6 +54,9 @@ export default function ListingPopup({ listing }) {
             ? listing.title.substring(0, 14) + "..."
             : listing.title;
 
+    const timestamp = new Date(listing.timestamp).toLocaleDateString("en-US");
+
+
     // console.log("Listing images " + listing.title + " " + listing.images);
 
     return (
@@ -206,6 +209,17 @@ export default function ListingPopup({ listing }) {
                             {/* CONDITION */}
                             <Text style={[styles.normaltext, { flex: 1 }]}>
                                 {listing.condition}
+                            </Text>
+                        </View>
+                        <View
+                            style={{
+                                flexDirection: "row",
+                                alignItems: "center",
+                                margin: "3%",
+                            }}>
+                            {/* TIME POSTED */}
+                            <Text style={[styles.normaltext, { flex: 1 }]}>
+                                {timestamp}
                             </Text>
                         </View>
                         <View
