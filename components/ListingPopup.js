@@ -65,6 +65,8 @@ export default function ListingPopup({ listing }) {
     useEffect(() => {
         fetchUser();
     }, []);
+  
+    const timestamp = new Date(listing.timestamp).toLocaleDateString("en-US");
 
     // console.log("Listing images " + listing.title + " " + listing.images);
 
@@ -230,6 +232,17 @@ export default function ListingPopup({ listing }) {
                             {/* CONDITION */}
                             <Text style={[styles.normaltext, { flex: 1 }]}>
                                 {listing.condition}
+                            </Text>
+                        </View>
+                        <View
+                            style={{
+                                flexDirection: "row",
+                                alignItems: "center",
+                                margin: "3%",
+                            }}>
+                            {/* TIME POSTED */}
+                            <Text style={[styles.normaltext, { flex: 1 }]}>
+                                {timestamp}
                             </Text>
                         </View>
                         <View
