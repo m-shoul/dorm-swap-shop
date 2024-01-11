@@ -18,10 +18,12 @@ import * as ImagePicker from "expo-image-picker";
 import ListImagesComponent from "../../assets/svg/list_images.js";
 import RNPickerSelect from "react-native-picker-select";
 import { createListing } from "../../backend/api/listing.js";
-import { router } from "expo-router";
+import { router, useNavigation } from "expo-router";
 import { Button } from '../../components/Buttons.js';
 
 export default function CreatePostScreen() {
+
+    const navigation = useNavigation();
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState("");
@@ -104,16 +106,36 @@ export default function CreatePostScreen() {
     let validate = 0;
     useEffect(() => {
         // console.log("Reached useEffect");
+
+        const unsubscribeBlur = navigation.addListener('blur', () => {
+            // You can put any logic you want to execute when the screen is unfocused here
+            clearTextInputs();
+        });
+
         // Trigger form validation when name, email, or password changes
         if (validate == 1) {
             validateForm();
         }
-    }, [title, price, description]);
+
+        return () => {
+            unsubscribeBlur();
+        };
+    }, [title, price, description, navigation]);
+
 
     const handleValidation = () => {
         console.log("Reached handleSubmit");
         validateForm();
         validate = 1;
+    };
+
+    const clearTextInputs = () => {
+        setTitle("");
+        setPrice("");
+        setDescription("");
+        setCategory(null);
+        setCondition(null);
+        setImage(null);
     };
 
     const validateForm = () => {
@@ -457,7 +479,7 @@ export default function CreatePostScreen() {
 
                             {/* Cancel Button */}
                             <Button width="35%" backgroundColor="#B3B3B3" title="Cancel" alignItems="center"
-                                justifyContent="center" borderRadius="25%" href="Home" marginRight="5%" titleStyle={styles.buttonText} />
+                                justifyContent="center" borderRadius="25%" press={clearTextInputs} marginRight="5%" titleStyle={styles.buttonText} />
 
                             {/* Post Button */}
                             <Button backgroundColor="#3F72AF" title="Post" alignItems="center" flex="1"
