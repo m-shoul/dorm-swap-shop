@@ -87,7 +87,9 @@ export function getAllListings() {
     return get(listingsReference)
         .then((snapshot) => {
             if (snapshot.exists()) {
-                return snapshot.val();
+                const listingsData = snapshot.val();
+                const sortedListings = Object.values(listingsData).sort((a, b) => b.timestamp - a.timestamp);
+                return sortedListings;
             } else {
                 console.log("No data available");
                 return [];
