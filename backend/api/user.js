@@ -46,10 +46,14 @@ export function createUser(fname, lname, username, email, userId) {
     // return userId;
 }
 
-// Function to read user data
-export function getUser() {
-    const db = getDatabase();
+export function getUser(){
     const userId = getUserID();
+    getUserByID(userId);
+}
+
+// Function to read user data
+export function getUserByID(userId) {
+    const db = getDatabase();
     const usersRef = ref(db, `dorm_swap_shop/users/`);
 
     return get(usersRef).then((snapshot) => {
@@ -64,6 +68,15 @@ export function getUser() {
     }).catch((error) => {
         console.error(error);
     });
+}
+
+export async function getUsernameByID(userId) {
+    const user = await getUserByID(userId);
+
+    if (user != null && user.public.fname != null && user.public.lname != null)
+        return user.public.fname + " " + user.public.lname;
+    else
+        return "Unknown User";
 }
 
 export function getUserSavedListings() {

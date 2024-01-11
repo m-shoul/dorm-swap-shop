@@ -21,6 +21,7 @@ import filter from "lodash.filter";
 import typescript from "react-native-svg";
 import { get, child, ref, set, push, getDatabase } from "firebase/database";
 import SearchBarHeader from "../../components/SearchBar";
+import { getUsernameByID } from "../../backend/api/user";
 
 export default function HomeScreen() {
     const scrollOffsetY = useRef(new Animated.Value(0)).current;
@@ -63,19 +64,27 @@ export default function HomeScreen() {
         fetchListings();
     }, []);
 
-    const handleSearch = (query) => {
+    const handleSearch = async (query) => {
+        if (typeof fullData !== 'object') {
+            console.error('fullData is not an object:', fullData);
+            return;
+        }
         const formattedQuery = query.toLowerCase();
-        const filteredData = filter(fullData, (listing) => {
-            return contains(listing, formattedQuery);
-        });
-        setListingsData(filteredData);
+        const filteredData = await Promise.all(Object.values(fullData).map(async (listing) => {
+            const username = await getUsernameByID(listing.user);
+            if (username && contains(listing, formattedQuery, username.toLowerCase())) {
+                return listing;
+            }
+        }));
+        setListingsData(filteredData.filter(Boolean)); // Remove undefined values
     }
 
-    const contains = ({ title, description, condition }, query) => {
+    const contains = ({ title, description, condition, category}, query, username) => {
         title = title.toLowerCase();
         description = description.toLowerCase();
-
-        if (title.includes(query) || description.includes(query) || condition.includes(query)) {
+        category = category.toLowerCase();
+    
+        if (title.includes(query) || description.includes(query) || condition.includes(query) || username.includes(query) || category.includes(query)) {
             return true;
         }
         return false;
