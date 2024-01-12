@@ -1,21 +1,14 @@
 import { database } from '../config/firebaseConfig';
-import { get, child, ref, set, push, getDatabase } from 'firebase/database';
+import { get, child, ref, set, push, getDatabase, remove } from 'firebase/database';
 import { getUserID } from '../dbFunctions';
-
+import { getAuth } from 'firebase/auth';
 // ^^ Import whatever we need for this...
 // NOTE************ add additional parameters when needed!!! This is just a baseline.
 
 // Function to create a new user
 export function createUser(fname, lname, username, email, userId) {
-
-    // Reference users in database
     const userReference = ref(database, 'dorm_swap_shop/users/');
-
-    // Generates a unique ID
     const newUserReference = push(userReference);
-
-    // Gets the unique ID
-    // const userId = getUserID();
 
     const publicUserData = {
         fname: fname,
@@ -42,8 +35,6 @@ export function createUser(fname, lname, username, email, userId) {
     };
 
     set(newUserReference, userData);
-
-    // return userId;
 }
 
 export function getUser(){
@@ -54,7 +45,7 @@ export function getUser(){
 // Function to read user data
 export function getUserByID(userId) {
     const db = getDatabase();
-    const usersRef = ref(db, `dorm_swap_shop/users/`);
+    const usersRef = ref(db, "dorm_swap_shop/users/");
 
     return get(usersRef).then((snapshot) => {
         let userData;
@@ -79,10 +70,11 @@ export async function getUsernameByID(userId) {
         return "Unknown User";
 }
 
+// Get the users saved listings. // TODO
 export function getUserSavedListings() {
     const db = getDatabase();
     const userId = getUserID();
-    const usersRef = ref(db, `dorm_swap_shop/users/`);
+    const usersRef = ref(db, "dorm_swap_shop/users/");
 
     return get(usersRef).then((snapshot) => {
         let userData;
@@ -93,7 +85,7 @@ export function getUserSavedListings() {
             }
         });
         if (userData && userData.private.savedListings) {
-            const savedListingsRef = ref(db, `dorm_swap_shop/listings/`);
+            const savedListingsRef = ref(db, "dorm_swap_shop/listings/");
             const savedListingsPromises = userData.private.savedListings.map((listingId) => {
                 return get(child(savedListingsRef, listingId));
             });
@@ -108,21 +100,72 @@ export function getUserSavedListings() {
     });
 }
 
+// Function to delete a user
+export function deleteUser() {
+    const user = getAuth().currentUser;
+    const userId = user.uid;
+
+    deleteUserFromRealtimeDatabase(userId);
+    deleteUserListingsFromRealtimeDatabase(userId);
+
+    // Delete from Firebase auth
+    user.delete().then(() => {
+        console.log("User account deleted.");
+    }).catch((error) => {
+        console.log("Error: Unable to delete account. Please try again");
+    });
+}
+
+export async function deleteUserListingsFromRealtimeDatabase(userId) {
+    const db = getDatabase();
+    const listingsReference = ref(db, "dorm_swap_shop/listings/");
+
+    const snapshot = await get(listingsReference);
+
+    if (snapshot.exists()) {
+        const listingsData = snapshot.val();
+
+        await Promise.all(Object.entries(listingsData).map(async ([listingKey, listing]) => {
+            // Check if the user ID matches
+            if (listing.user === userId) {
+                // Delete the listing
+                await remove(ref(db, `dorm_swap_shop/listings/${listingKey}`));
+            }
+        }));
+        console.log("Deleted user listings from Realtime database.");
+
+    } else {
+        console.log("No data available to delete.")
+    }
+}
+
+export async function deleteUserFromRealtimeDatabase(userId) {
+    const db = getDatabase();
+    const usersRef = ref(db, "dorm_swap_shop/users/");
+
+    return get(usersRef).then(async (snapshot) => {
+        let userKey;
+        snapshot.forEach((childSnapshot) => {
+            const data = childSnapshot.val();
+            if (data.private.userId === userId) {
+                userKey = childSnapshot.key;
+            }
+        });
+        if (userKey) {
+            // Delete the user
+            await remove(ref(db, `dorm_swap_shop/users/${userKey}`));
+            console.log("Deleted user from Realtime database.");
+        } else {
+            console.log("No user found with matching ID");
+        }
+    }).catch((error) => {
+        console.error(error);
+    });
+}
+
 // Function to update a user
 export function updateUser(userId, userData) {
     // Implement the functionality to update user data.
     // This will be used when the user wants to edit their profile.
 }
 
-// Function to delete a user
-export function deleteUser(userId) {
-    // Implement the functionality to delete user data.
-    // This will be used when a user wants to delete their account.
-
-    // We could also use this say if the user has 1 star rating we can
-    // automatically delete the account. 
-}
-
-
-// Can add additional functions in here that deal with the user
-// and curtail them to our needs.
