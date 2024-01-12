@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     Modal,
     Text,
@@ -19,12 +19,15 @@ import SavedListingIcon from "../assets/svg/savedListing_icon.js";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { saveListing, unsaveListing } from "../backend/api/listing.js";
 import { Button } from "./Buttons.js";
+import { get, set } from "firebase/database";
+import { getUsernameByID } from "../backend/api/user.js";
 
 export default function ListingPopup({ listing }) {
     const { width, height } = Dimensions.get("window");
     const [listingModalVisible, setListingModalVisible] = useState(false);
     const [isFavorited, setIsFavorited] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [username, setUsername] = useState("");
 
     const router = useRouter();
 
@@ -53,6 +56,17 @@ export default function ListingPopup({ listing }) {
         listing.price.length + listing.title.length > 22
             ? listing.title.substring(0, 14) + "..."
             : listing.title;
+
+    const fetchUser = async () => {
+        const username = await getUsernameByID(listing.user);
+        setUsername(username);
+    };
+
+    useEffect(() => {
+        fetchUser();
+    }, []);
+  
+    const timestamp = new Date(listing.timestamp).toLocaleDateString("en-US");
 
     // console.log("Listing images " + listing.title + " " + listing.images);
 
@@ -192,6 +206,18 @@ export default function ListingPopup({ listing }) {
                                 marginLeft: "3%",
                                 marginTop: "2%",
                             }}>
+                            {/* USER */}
+                            <Text style={[styles.normaltext, { flex: 1 }]}>
+                                {username}
+                            </Text>
+                        </View>
+                        <View
+                            style={{
+                                flexDirection: "row",
+                                alignItems: "center",
+                                marginLeft: "3%",
+                                marginTop: "2%",
+                            }}>
                             {/* PRICE */}
                             <Text style={[styles.boldtext, { flex: 1 }]}>
                                 {"$" + listing.price}
@@ -206,6 +232,17 @@ export default function ListingPopup({ listing }) {
                             {/* CONDITION */}
                             <Text style={[styles.normaltext, { flex: 1 }]}>
                                 {listing.condition}
+                            </Text>
+                        </View>
+                        <View
+                            style={{
+                                flexDirection: "row",
+                                alignItems: "center",
+                                margin: "3%",
+                            }}>
+                            {/* TIME POSTED */}
+                            <Text style={[styles.normaltext, { flex: 1 }]}>
+                                {timestamp}
                             </Text>
                         </View>
                         <View
