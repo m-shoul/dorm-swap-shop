@@ -106,7 +106,7 @@ export function getUserListings() {
     const db = getDatabase();
     const listingsReference = ref(db, "dorm_swap_shop/listings/");
     userId = getUserID();
-    console.log("userId: " + userId);
+    
     return get(listingsReference)
         .then((snapshot) => {
             if (snapshot.exists()) {
