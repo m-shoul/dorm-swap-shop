@@ -147,7 +147,7 @@ export default function ProfileScreen() {
                     justifyContent="center"
                     marginRight="5%"
                     borderRadius="25%"
-                    href="SavedListingsScreen"
+                    href="MyListingsScreen"
                     titleStyle={[styles.boldtext, { color: "white" }]}
                 />
 

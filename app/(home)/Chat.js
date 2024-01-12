@@ -74,7 +74,7 @@ export default function ChatScreen() {
                     </TouchableWithoutFeedback>
 
                 )}
-                renderHiddenItem={({ }) => (
+                renderHiddenItem={({ item }) => (
                     <View style={{ flex: 1, flexDirection: "row", justifyContent: "flex-end", marginBottom: "6%", marginTop: "1%", marginRight: "4%" }}>
                         <TouchableOpacity
                             style={{ width: 75, backgroundColor: "#FF9900", alignItems: "center", justifyContent: "center" }}
@@ -82,7 +82,7 @@ export default function ChatScreen() {
                                 // Handle the "Report" action
                                 router.push({
                                     pathname: "ReportScreen",
-                                    params: testData
+                                    params: { image: item.images },
                                 })
 
                             }}
