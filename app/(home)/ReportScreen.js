@@ -22,9 +22,9 @@ import { Button } from "../../components/Buttons.js";
 import emailjs from "emailjs-com";
 
 export default function ReportScreen() {
-    const listing = useLocalSearchParams();
+    const { image } = useLocalSearchParams();
 
-    console.log("listing" + listing);
+    console.log("listing" + image);
 
     // Sending the email to the admin.
     const [emailSent, setEmailSent] = useState(false);
@@ -73,8 +73,9 @@ export default function ReportScreen() {
                 </View>
 
                 <Image
-                    source={{ uri: listing.images }}
+                    source={{ uri: image }}
                     style={{ width: "30%", height: "15%", marginBottom: "10%" }}
+                    key={image}
                 />
 
                 {/* Description text field to enter what is wrong with the post */}

@@ -92,7 +92,7 @@ export default function Layout() {
             />
             <Tabs.Screen
                 // Name of the route to hide.
-                name="SavedListingsScreen"
+                name="MyListingsScreen"
                 options={{
                     // This tab will no longer show up in the tab bar.
                     href: null,

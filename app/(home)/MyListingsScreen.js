@@ -19,12 +19,12 @@ import styles from "../(aux)/StyleSheet.js";
 import { getUserSavedListings } from "../../backend/api/user.js";
 import BackButtonComponent from "../../assets/svg/back_button.js";
 import ProfileScreen from "./Profile.js";
-import SearchBarHeader from "../../components/SearchBar";
+import SearchBarHeader from "../../components/SearchBar.js";
 import { getUserListings } from "../../backend/api/listing.js";
 import filter from "lodash.filter";
 
 //This is now the my listings screen
-const SavedListingsScreen = ({ navigation }) => {
+const MyListingsScreen = ({ navigation }) => {
     const animHeaderValue = new Animated.Value(0);
     const [search, setSearch] = useState("");
     const [selectedListing, setSelectedListing] = useState(null); // State to store the selected listing
@@ -105,20 +105,15 @@ const SavedListingsScreen = ({ navigation }) => {
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "#F9F7F7" }}>
             {/* Search bar was taken from homescreen, so will not have functionality. */}
-            <TouchableOpacity onPress={() => router.push("Profile")}>
-                {/* ^Changed to router.push, not sure if this is right but it works -Ben*/}
-                {/* Should be changed to navigation.navigatee */}
-                <BackButtonComponent
-                    //require("../assets/svg/back_button.js")}
-                    style={{
-                        width: 200,
-                        height: 28,
-                        stroke: "black",
-                        strokeWidth: 0.25,
-                        marginBottom: 10,
-                    }}
-                />
-            </TouchableOpacity>
+            <View style={{ flexDirection: "row", alignItems: "center", width: "100%", paddingHorizontal: "5%" }}>
+                <TouchableOpacity onPress={() => router.back()}>
+                    <BackButtonComponent></BackButtonComponent>
+                </TouchableOpacity>
+
+                <View style={{ justifyContent: "center", flex: 1 }}>
+                    <Text style={styles.loginHeader}>My Listings</Text>
+                </View>
+            </View>
             <View
                 style={{
                     height: "5%",
@@ -207,4 +202,4 @@ const SavedListingsScreen = ({ navigation }) => {
     );
 };
 
-export default SavedListingsScreen;
+export default MyListingsScreen;

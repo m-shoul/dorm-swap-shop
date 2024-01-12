@@ -14,6 +14,7 @@ import { getAuth } from "firebase/auth";
 import { router } from "expo-router";
 import { getUserID } from "../backend/dbFunctions";
 import { Button } from "../components/Buttons";
+import LogoV2 from "../assets/svg/logoV2";
 
 export default function LoginScreen() {
     const [email, setEmail] = useState("");
@@ -68,9 +69,12 @@ export default function LoginScreen() {
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
             <SafeAreaView style={styles.background}>
-                <View style={{ paddingTop: "45%" }}>
+                <LogoV2 />
+
+                {/* <View>
+                    paddingTop: "45%"
                     <Text style={styles.loginHeader}> Login </Text>
-                </View>
+                </View> */}
 
                 <View style={styles.dividerLine} />
 
