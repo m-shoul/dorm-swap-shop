@@ -7,6 +7,7 @@ import {
     ScrollView,
     KeyboardAvoidingView,
     Keyboard,
+    Modal,
 } from "react-native";
 import React from "react";
 import styles from "../(aux)/StyleSheet.js";
@@ -16,7 +17,10 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { createUser } from "../../backend/api/user.js";
 import { router } from "expo-router";
 import { getUserID } from "../../backend/dbFunctions.js";
-import { Button } from '../../components/Buttons.js';
+import { Button } from "../../components/Buttons.js";
+
+import termsOfService from "../../assets/termsOfService.js";
+import { set } from "firebase/database";
 
 export default function CreateUserScreen() {
     //All of the states that are used to store the actual values of the text inputs
@@ -24,12 +28,17 @@ export default function CreateUserScreen() {
     const [lastName, setLastName] = useState("");
     const [username, setUsername] = useState("");
 
+    const [modalVisible, setModalVisible] = useState(false);
+    const [agreeTermsOfService, setAgreeTermsOfService] = useState("");
+
     // Email and password needed for auth
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [passwordCheck, setPasswordCheck] = useState("");
 
     //All of the states that are used to store the styles
+    const [agreeTermsOfServiceStyle, setAgreeTermsOfServiceStyle] =
+        useState("");
     const [firstNameStyle, setFirstNameStyle] = useState(
         styles.createUserInput
     );
@@ -49,7 +58,8 @@ export default function CreateUserScreen() {
     const [errorMessageEmail, setErrorMessageEmail] = useState("");
     const [errorMessagePassword, setErrorMessagePassword] = useState("");
     const [errorMessageConfirm, setErrorMessageConfirm] = useState("");
-
+    const [errorMessageTermsOfService, setErrorMessageTermsOfService] =
+        useState("");
     const firstNameInputRef = useRef(null);
     const lastNameInputRef = useRef(null);
     const userNameInputRef = useRef(null);
@@ -152,6 +162,16 @@ export default function CreateUserScreen() {
         } else {
             setErrorMessageConfirm("");
             setPasswordCheckStyle(styles.createUserInput);
+        }
+
+        if (!agreeTermsOfService) {
+            setErrorMessageTermsOfService(
+                "You must agree to the Terms of Service."
+            );
+
+            errorCount++;
+        } else {
+            setErrorMessageTermsOfService("");
         }
 
         if (emptyFields > 2) {
@@ -361,7 +381,65 @@ export default function CreateUserScreen() {
                     </View>
                 </ScrollView>
             </KeyboardAvoidingView>
+            {errorMessageTermsOfService && (
+                <Text style={{ color: "red", paddingBottom: 0 }}>
+                    {errorMessageTermsOfService}
+                </Text>
+            )}
+            <TouchableOpacity
+                onPress={() => {
+                    setModalVisible(true);
+                }}>
+                <Text>Terms of Service</Text>
+            </TouchableOpacity>
 
+            <Modal
+                animationType="slide"
+                transparent={false}
+                visible={modalVisible}
+                onRequestClose={() => {
+                    setModalVisible(!modalVisible);
+                }}>
+                <View style={{ flex: 1 }}>
+                    <ScrollView>
+                        <Text
+                            style={{
+                                margin: "10%",
+                                marginTop: "20%",
+                            }}>
+                            {termsOfService}
+                        </Text>
+                    </ScrollView>
+                    <TouchableOpacity
+                        style={{
+                            position: "absolute",
+                            top: "8%",
+                            right: "5%",
+                            padding: 10,
+                            backgroundColor: "lightgray",
+                            borderRadius: 5,
+                        }}
+                        onPress={() => setModalVisible(false)}>
+                        <Text>Close</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={[
+                            styles.loginBtn,
+                            {
+                                marginBottom: "10%",
+                                marginRight: "20%",
+                                marginLeft: "10%",
+                                marginTop: "5%",
+                            },
+                        ]}
+                        onPress={() => {
+                            setModalVisible(false);
+                            setAgreeTermsOfService(true);
+                        }}>
+                        <Text style={styles.buttonText}>I agree</Text>
+                    </TouchableOpacity>
+                </View>
+            </Modal>
             {/* <TouchableOpacity
                 style={{
                     width: "80%",
@@ -375,8 +453,18 @@ export default function CreateUserScreen() {
                 onPress={handleValidation}>
                 <Text style={styles.buttonText}>Create an Account</Text>
             </TouchableOpacity> */}
-            <Button width="80%" height="7%" backgroundColor="#3F72AF" title="Create an Account" alignItems="center"
-                justifyContent="center" marginTop="2%" borderRadius="25%" press={handleValidation} titleStyle={styles.buttonText} />
+            <Button
+                width="80%"
+                height="7%"
+                backgroundColor="#3F72AF"
+                title="Create an Account"
+                alignItems="center"
+                justifyContent="center"
+                marginTop="2%"
+                borderRadius="25%"
+                press={handleValidation}
+                titleStyle={styles.buttonText}
+            />
 
             <TouchableOpacity
                 onPress={() => router.push("/")}
