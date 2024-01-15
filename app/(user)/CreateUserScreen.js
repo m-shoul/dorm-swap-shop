@@ -460,7 +460,7 @@ export default function CreateUserScreen() {
                 title="Create an Account"
                 alignItems="center"
                 justifyContent="center"
-                marginTop="2%"
+                marginTop="5%"
                 borderRadius="25%"
                 press={handleValidation}
                 titleStyle={styles.buttonText}
@@ -472,14 +472,18 @@ export default function CreateUserScreen() {
                 <Text
                     style={[
                         styles.notUserButtonText,
-                        { textAlign: "center", marginTop: "10%" },
+                        {
+                            paddingBottom: "5%",
+                            textAlign: "center",
+                            marginTop: "10%",
+                        },
                     ]}>
                     Already have an account?
                 </Text>
                 <Text
                     style={[
                         styles.notUserButtonText,
-                        { textAlign: "center", marginBottom: "-10%" },
+                        { textAlign: "center", marginBottom: "-20%" },
                     ]}>
                     Login
                 </Text>
