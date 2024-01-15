@@ -479,7 +479,7 @@ export default function CreateUserScreen() {
                 <Text
                     style={[
                         styles.notUserButtonText,
-                        { textAlign: "center", marginBottom: "-5%" },
+                        { textAlign: "center", marginBottom: "-10%" },
                     ]}>
                     Login
                 </Text>
