@@ -130,7 +130,7 @@ export default function ListingPopup({ listing }) {
                                 setListingModalVisible(false);
                                 router.push({
                                     pathname: "ReportScreen",
-                                    params: listing,
+                                    params: { image: listing.images },
                                 });
                             }}>
                             <ReportComponent

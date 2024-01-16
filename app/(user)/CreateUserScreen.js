@@ -18,7 +18,6 @@ import { createUser } from "../../backend/api/user.js";
 import { router } from "expo-router";
 import { getUserID } from "../../backend/dbFunctions.js";
 import { Button } from "../../components/Buttons.js";
-
 import termsOfService from "../../assets/termsOfService.js";
 import { set } from "firebase/database";
 
@@ -127,6 +126,10 @@ export default function CreateUserScreen() {
             errorCount++;
         } else if (!/\S+@\S+\.\S+/.test(email)) {
             setErrorMessageEmail("Email is invalid.");
+            setEmailStyle(styles.createUserInputError);
+            errorCount++;
+        } else if (/[^\p{L}\p{N}\p{P}\p{Z}]/gu.test(email)) {
+            setErrorMessageEmail("Email should not contain emojis.");
             setEmailStyle(styles.createUserInputError);
             errorCount++;
         } else {
