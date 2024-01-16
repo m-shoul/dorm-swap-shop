@@ -1,15 +1,8 @@
 import { database } from '../config/firebaseConfig.js';
 import { get, child, ref, set, push, getDatabase } from 'firebase/database';
 
-// ^^ Import whatever we need for this...
-// NOTE************ add additional parameters when needed!!! This is just a baseline.
-
 // Function to create a new user
 export async function createChatThread(userId_1, userId_2) {
-    // Implement the functionality to create a chat between users in the db.
-    // Think about this and how EACH user will have a different list of
-    // chats depending on who they reply to.
-
     // The "Reply", button will most likely call this method and then
     // navigate to the chat screen.
 
@@ -70,8 +63,31 @@ export async function addMessage(chatId, userId, message) {
 
 // Function to read user data
 export function readChat(chatId) {
-    // Implement the functionality to display chats.
-    // we can change the name but for CRUD purposes I just had it readChat.
+    // !!!! This function is untested !!!!
+
+    const chatRef = ref(database, `dorm_swap_shop/chats/${chatId}`);
+    
+    // Read the chat data from the database
+    get(chatRef).then((snapshot) => {
+        if (snapshot.exists()) {
+            const chatData = snapshot.val();
+            const participants = chatData.participants;
+            
+            // Loop through the participants and their messages
+            for (const userId in participants) {
+                const messages = participants[userId].messages;
+                
+                // Loop through the messages and display them
+                for (const message of messages) {
+                    console.log(`User ${userId} sent a message: ${message.message}`);
+                }
+            }
+        } else {
+            console.log('Chat does not exist.');
+        }
+    }).catch((error) => {
+        console.error('Error reading chat:', error);
+    });
 }
 
 // Function to update a user
