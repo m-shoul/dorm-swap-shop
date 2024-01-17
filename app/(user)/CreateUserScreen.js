@@ -76,7 +76,7 @@ export default function CreateUserScreen() {
     }, [firstName, lastName, username, email, password, passwordCheck]);
 
     const handleValidation = () => {
-        console.log("Reached handleSubmit");
+        // console.log("Reached handleValidation");
         validateForm();
         validate = 1;
     };
@@ -84,8 +84,8 @@ export default function CreateUserScreen() {
     const validateForm = async () => {
         let errorCount = 0;
         let emptyFields = 0;
-        console.log("Reached validateForm");
-        console.log(validate);
+        // console.log("Reached validateForm");
+        // console.log(validate);
         // Validate first name field
         if (!firstName) {
             setErrorMessageFirst("First name is required.");

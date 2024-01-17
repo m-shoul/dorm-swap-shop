@@ -31,7 +31,7 @@ export async function createListing(userId, title, description, price, category,
         images: [], // Initialize with an empty array for images
     };
 
-    console.log(listingData);
+    // console.log(listingData);
 
     // Set the listing data
     await set(newListingReference, listingData);
@@ -69,8 +69,8 @@ async function uploadImageAsync(uri, imagesRef) {
     
         const downloadURL = await getDownloadURL(storageRef);
 
-        console.log(downloadURL);
-        console.log(imagesRef);
+        // console.log(downloadURL);
+        // console.log(imagesRef);
     
         return downloadURL;
     } catch (error) {
