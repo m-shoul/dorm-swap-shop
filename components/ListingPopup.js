@@ -21,6 +21,7 @@ import { saveListing, unsaveListing } from "../backend/api/listing.js";
 import { Button } from "./Buttons.js";
 import { get, set } from "firebase/database";
 import { getUsernameByID } from "../backend/api/user.js";
+import { isListingFavorited } from "../backend/api/listing.js";
 
 export default function ListingPopup({ listing }) {
     const { width, height } = Dimensions.get("window");
@@ -62,8 +63,14 @@ export default function ListingPopup({ listing }) {
         setUsername(username);
     };
 
+    const checkIfFavorited = async () => {
+        const favorited = await isListingFavorited(listing.listingId);
+        setIsFavorited(favorited);
+    }
+
     useEffect(() => {
         fetchUser();
+        checkIfFavorited()
     }, []);
 
     const timestamp = new Date(listing.timestamp).toLocaleDateString("en-US");

@@ -61,17 +61,17 @@ async function uploadImageAsync(uri, imagesRef) {
             xhr.open("GET", uri, true);
             xhr.send(null);
         });
-    
+
         const storageRef = sRef(storage, "test/" + new Date().getTime());
         await uploadBytesResumable(storageRef, blob);
-    
-        blob.close();
-    
-        const downloadURL = await getDownloadURL(storageRef);
 
+        blob.close();
+
+        const downloadURL = await getDownloadURL(storageRef);
+      
         // console.log(downloadURL);
         // console.log(imagesRef);
-    
+   
         return downloadURL;
     } catch (error) {
         console.error("Error in uploadImageAsync: ", error);
@@ -170,6 +170,27 @@ export function unsaveListing(listingId) {
         });
     }).catch((error) => {
         console.error(error);
+    });
+}
+
+export async function isListingFavorited(listingId) {
+    const db = getDatabase();
+    const userId = getUserID();
+    const usersRef = ref(db, `dorm_swap_shop/users/`);
+
+    return get(usersRef).then((snapshot) => {
+        let isFavorited = false;
+        snapshot.forEach((childSnapshot) => {
+            const userData = childSnapshot.val();
+            if (userData.private.userId === userId) {
+                const savedListings = userData.private.savedListings || [];
+                isFavorited = savedListings.includes(listingId);
+            }
+        });
+        return isFavorited;
+    }).catch((error) => {
+        console.error(error);
+        console.log("Error checking if user is favorited.");
     });
 }
 
