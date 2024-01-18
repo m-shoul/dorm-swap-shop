@@ -129,7 +129,6 @@ export default function HomeScreen() {
                     </View>
                 )}
                 numColumns={2}
-                // keyExtractor={(item, index) => item.id + index.toString()}
                 style={{
                     flex: 1,
                     backgroundColor: "#F9F7F7",

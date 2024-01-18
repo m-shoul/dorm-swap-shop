@@ -31,6 +31,8 @@ export default function ListingPopup({ listing }) {
 
     const router = useRouter();
 
+    console.log(listing.description);
+
     const simpleAlert = () => {
         setIsFavorited(!isFavorited);
 
@@ -53,9 +55,11 @@ export default function ListingPopup({ listing }) {
     };
 
     const listingTitle =
-        listing.price.length + listing.title.length > 22
+    listing.price && listing.title ?
+        (listing.price.length + listing.title.length > 22
             ? listing.title.substring(0, 14) + "..."
-            : listing.title;
+            : listing.title)
+        : "";
 
     const fetchUser = async () => {
         const username = await getUsernameByID(listing.user);

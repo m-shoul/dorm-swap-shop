@@ -50,10 +50,10 @@ export default function CreatePostScreen() {
             quality: 1,
         });
 
-        console.log(result);
+        // console.log(result);
 
-        if (!result.canceled) {
-            console.log("Image picked successfully");
+        if (result.assets && result.assets.length > 0) {
+            // console.log("Image picked successfully");
             const selectedImages = result.assets.map(asset => asset.uri);
             setImage(selectedImages);
         }
