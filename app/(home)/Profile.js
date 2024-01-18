@@ -201,7 +201,8 @@ export default function ProfileScreen() {
                 <ActivityIndicator size="large" color="#5500dc" />
             ) : (
                 <FlatList
-                    data={Object.values(savedListings) || []}
+                    data={savedListings}
+                    // data={Object.values(savedListings)}; // maybe this?
                     renderItem={({ item }) => (
                         <View style={{ width: "50%", height: 230, padding: "1%" }}>
                             <ListingPopup listing={item} />
