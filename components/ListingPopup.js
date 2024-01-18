@@ -21,6 +21,7 @@ import { saveListing, unsaveListing } from "../backend/api/listing.js";
 import { Button } from "./Buttons.js";
 import { get, set } from "firebase/database";
 import { getUsernameByID } from "../backend/api/user.js";
+import { isListingFavorited } from "../backend/api/listing.js";
 
 export default function ListingPopup({ listing }) {
     const { width, height } = Dimensions.get("window");
@@ -66,10 +67,16 @@ export default function ListingPopup({ listing }) {
         setUsername(username);
     };
 
+    const checkIfFavorited = async () => {
+        const favorited = await isListingFavorited(listing.listingId);
+        setIsFavorited(favorited);
+    }
+
     useEffect(() => {
         fetchUser();
+        checkIfFavorited()
     }, []);
-  
+
     const timestamp = new Date(listing.timestamp).toLocaleDateString("en-US");
 
     // console.log("Listing images " + listing.title + " " + listing.images);
@@ -81,6 +88,27 @@ export default function ListingPopup({ listing }) {
         it is supposed to look on the home screen. This should be able to be used anywhere. */}
             <TouchableOpacity onPress={openModal}>
                 <View style={{ backgroundColor: "white" }}>
+                    <TouchableOpacity
+                        style={{
+                            flex: 0,
+                            position: "absolute",
+                            right: "1%",
+                            top: "1%",
+                            zIndex: 1,
+                        }}
+                        onPress={simpleAlert}>
+                        {!isFavorited ? (
+                            <FavouriteIcon />
+                        ) : (
+                            <SavedListingIcon
+                                style={{
+                                    width: 15,
+                                    height: 15,
+                                    fill: "yellow",
+                                }}
+                            />
+                        )}
+                    </TouchableOpacity>
                     {Array.isArray(listing.images) ? (
                         <Image
                             source={{ uri: listing.images[0] }}
