@@ -2,6 +2,8 @@ import { database } from '../config/firebaseConfig';
 import { get, child, ref, set, push, getDatabase, remove } from 'firebase/database';
 import { getUserID } from '../dbFunctions';
 import { getAuth } from 'firebase/auth';
+import { getStorage, ref as sRef, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+
 // ^^ Import whatever we need for this...
 // NOTE************ add additional parameters when needed!!! This is just a baseline.
 
@@ -60,6 +62,26 @@ export function getUserByID(userId) {
         console.error(error);
     });
 }
+
+export async function getAllUserDataForProfile() {
+    const db = getDatabase();
+    const userId = getUserID();
+    const usersRef = ref(db, "dorm_swap_shop/users/");
+
+    return get(usersRef).then((snapshot) => {
+        let userData;
+        snapshot.forEach((childSnapshot) => {
+            const data = childSnapshot.val();
+            if (data.private.userId === userId) {
+                userData = data;
+            }
+        });
+        return userData;
+    }).catch((error) => {
+        console.error(error);
+    });
+}
+
 
 export async function getUsernameByID(userId) {
     const user = await getUserByID(userId);
@@ -169,3 +191,40 @@ export function updateUser(userId, userData) {
     // This will be used when the user wants to edit their profile.
 }
 
+// TODO: Finish working through this
+export async function uploadProfileImage(uri) {
+    try {
+        const blob = await new Promise((resolve, reject) => {
+            const xhr = new XMLHttpRequest();
+            xhr.onload = function () {
+                resolve(xhr.response);
+            };
+            xhr.onerror = function (e) {
+                reject(new TypeError("Network request failed"));
+            };
+            xhr.responseType = "blob";
+            xhr.open("GET", uri, true);
+            xhr.send(null);
+        });
+    
+        const storage = getStorage();
+        const storageRef = sRef(storage, "profileImages/" + new Date().getTime());
+        await uploadBytesResumable(storageRef, blob);
+    
+        blob.close();
+
+        const userId = getUser();
+        console.log(userId);
+        
+        const profileImageRef = ref(database, `dorm_swap_shop/users/${userId}/public/profileImage`);
+        const downloadURL = await getDownloadURL(profileImageRef);
+        await set(profileImageRef, downloadURL);
+
+        console.log(downloadURL);
+    
+        // return downloadURL;
+    } catch (error) {
+        console.error("Error in uploading profile image: ", error);
+        throw error;
+    }
+}
