@@ -10,7 +10,6 @@ import {
     Alert,
 } from "react-native";
 import styles from "../app/(aux)/StyleSheet.js";
-
 import Swiper from "react-native-swiper";
 import Xmark from "../assets/svg/xmark.js";
 import ReportComponent from "../assets/svg/report_icon.js";
@@ -19,7 +18,6 @@ import SavedListingIcon from "../assets/svg/savedListing_icon.js";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { saveListing, unsaveListing } from "../backend/api/listing.js";
 import { Button } from "./Buttons.js";
-import { get, set } from "firebase/database";
 import { getUsernameByID } from "../backend/api/user.js";
 import { isListingFavorited } from "../backend/api/listing.js";
 

@@ -9,8 +9,6 @@ import {
     ActivityIndicator
 } from "react-native";
 import styles from "../(aux)/StyleSheet.js";
-import { get, ref, getDatabase } from "@firebase/database";
-// import { getUserID } from "../../backend/dbFunctions.js";
 import React, { useState, useEffect } from "react";
 import { router } from "expo-router";
 import { getAllUserDataForProfile, getUserSavedListings, uploadProfileImage } from "../../backend/api/user.js";
@@ -67,6 +65,7 @@ export default function ProfileScreen() {
     // Profile image stuff
     const [profileImage, setProfileImage] = useState(null);
 	const pickProfileImage = async () => {
+        console.log("Picking profile image.");
 		let result = await ImagePicker.launchImageLibraryAsync({
 			mediaTypes: ImagePicker.MediaTypeOptions.Images,
 			allowsEditing: true,

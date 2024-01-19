@@ -9,14 +9,11 @@ import {
     Modal,
     Animated,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 import { router } from "expo-router";
-import { get, child, ref, set, push, getDatabase } from "firebase/database";
 import ListingPopup from "../../components/ListingPopup.js";
 import React, { useState, useEffect } from "react";
 import { SearchBar, Header } from "@rneui/themed";
 import styles from "../(aux)/StyleSheet.js";
-import { getUserSavedListings } from "../../backend/api/user.js";
 import BackButtonComponent from "../../assets/svg/back_button.js";
 import ProfileScreen from "./Profile.js";
 import SearchBarHeader from "../../components/SearchBar.js";
