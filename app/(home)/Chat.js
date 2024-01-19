@@ -1,4 +1,5 @@
-import { Text, View, TouchableWithoutFeedback, TouchableOpacity, SafeAreaView, Image, Animated } from "react-native";
+import { Text, View, TouchableWithoutFeedback, TouchableOpacity, SafeAreaView, /*Image,*/ Animated } from "react-native";
+import { Image } from 'expo-image';
 import React, { useState, useEffect, useRef } from "react";
 import styles from "../(aux)/StyleSheet";
 //import { getAuth, signOut } from "firebase/auth";
