@@ -84,6 +84,27 @@ export default function ListingPopup({ listing }) {
         it is supposed to look on the home screen. This should be able to be used anywhere. */}
             <TouchableOpacity onPress={openModal}>
                 <View style={{ backgroundColor: "white" }}>
+                    <TouchableOpacity
+                        style={{
+                            flex: 0,
+                            position: "absolute",
+                            right: "1%",
+                            top: "1%",
+                            zIndex: 1,
+                        }}
+                        onPress={simpleAlert}>
+                        {!isFavorited ? (
+                            <FavouriteIcon />
+                        ) : (
+                            <SavedListingIcon
+                                style={{
+                                    width: 15,
+                                    height: 15,
+                                    fill: "yellow",
+                                }}
+                            />
+                        )}
+                    </TouchableOpacity>
                     {Array.isArray(listing.images) ? (
                         <Image
                             source={{ uri: listing.images[0] }}

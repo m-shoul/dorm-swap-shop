@@ -1,5 +1,5 @@
 import { database } from '../config/firebaseConfig';
-import { get, ref, set, push, remove, getDatabase } from 'firebase/database';
+import { get, ref, set, push, remove } from 'firebase/database';
 import { getStorage, ref as sRef, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { getUserID } from '../dbFunctions';
 
@@ -31,12 +31,12 @@ export async function createListing(userId, title, description, price, category,
         images: [], // Initialize with an empty array for images
     };
 
-    console.log(listingData);
+    // console.log(listingData);
 
     // Set the listing data
     await set(newListingReference, listingData);
 
-    console.log(images);
+    // console.log(images);
     // If an image is provided, upload it and update the listing
     if (images) {
         const imagesRef = ref(database, `dorm_swap_shop/listings/${listingId}/images`);
@@ -68,10 +68,10 @@ async function uploadImageAsync(uri, imagesRef) {
         blob.close();
 
         const downloadURL = await getDownloadURL(storageRef);
-
-        console.log(downloadURL);
-        console.log(imagesRef);
-
+      
+        // console.log(downloadURL);
+        // console.log(imagesRef);
+   
         return downloadURL;
     } catch (error) {
         console.error("Error in uploadImageAsync: ", error);
@@ -81,8 +81,8 @@ async function uploadImageAsync(uri, imagesRef) {
 
 // Gets all listings in the database for home screen 
 export function getAllListings() {
-    const db = getDatabase();
-    const listingsReference = ref(db, "dorm_swap_shop/listings/");
+    // const db = getDatabase();
+    const listingsReference = ref(database, "dorm_swap_shop/listings/");
 
     return get(listingsReference)
         .then((snapshot) => {
@@ -103,10 +103,10 @@ export function getAllListings() {
 
 // Gets listings posted by user
 export function getUserListings() {
-    const db = getDatabase();
-    const listingsReference = ref(db, "dorm_swap_shop/listings/");
+    // const db = getDatabase();
+    const listingsReference = ref(database, "dorm_swap_shop/listings/");
     userId = getUserID();
-    console.log("userId: " + userId);
+    
     return get(listingsReference)
         .then((snapshot) => {
             if (snapshot.exists()) {
@@ -123,41 +123,47 @@ export function getUserListings() {
 }
 
 export function saveListing(listingId) {
-    const db = getDatabase();
     const userId = getUserID();
-    const usersRef = ref(db, `dorm_swap_shop/users/`);
+    const usersRef = ref(database, `dorm_swap_shop/users/`);
 
-    get(usersRef).then((snapshot) => {
-        snapshot.forEach((childSnapshot) => {
-            const userData = childSnapshot.val();
-            // Check if the userId matches the current user's userId
-            if (userData.private.userId === userId) {
-                // Add the listingId to the savedListings array
-                const savedListingsRef = ref(db, `dorm_swap_shop/users/${childSnapshot.key}/private/savedListings`);
-                get(savedListingsRef).then((savedListingsSnapshot) => {
-                    let savedListings = savedListingsSnapshot.val() || [];
-                    savedListings.push(listingId);
-                    set(savedListingsRef, savedListings);
-                });
-            }
+    get(usersRef)
+        .then((snapshot) => {
+            snapshot.forEach((childSnapshot) => {
+                const userData = childSnapshot.val();
+                if (userData.private.userId === userId) {
+                    const savedListingsRef = ref(database, `dorm_swap_shop/users/${childSnapshot.key}/private/savedListings`);
+                    get(savedListingsRef)
+                        .then((savedListingsSnapshot) => {
+                            let savedListings = savedListingsSnapshot.val();
+                            if (!Array.isArray(savedListings)) {
+                                savedListings = [];
+                            }
+                            savedListings.push(listingId);
+                            set(savedListingsRef, savedListings);
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                        });
+                }
+            });
+        })
+        .catch((error) => {
+            console.error(error);
         });
-    }).catch((error) => {
-        console.error(error);
-    });
 }
 
 
 export function unsaveListing(listingId) {
-    const db = getDatabase();
+    // const db = getDatabase();
     const userId = getUserID();
-    const usersRef = ref(db, `dorm_swap_shop/users/`);
+    const usersRef = ref(database, `dorm_swap_shop/users/`);
 
     get(usersRef).then((snapshot) => {
         snapshot.forEach((childSnapshot) => {
             const userData = childSnapshot.val();
             if (userData.private.userId === userId) {
                 // Remove the listingId from the savedListings array
-                const savedListingsRef = ref(db, `dorm_swap_shop/users/${childSnapshot.key}/private/savedListings`);
+                const savedListingsRef = ref(database, `dorm_swap_shop/users/${childSnapshot.key}/private/savedListings`);
                 get(savedListingsRef).then((savedListingsSnapshot) => {
                     let savedListings = savedListingsSnapshot.val() || [];
                     const index = savedListings.indexOf(listingId);
@@ -174,9 +180,8 @@ export function unsaveListing(listingId) {
 }
 
 export async function isListingFavorited(listingId) {
-    const db = getDatabase();
     const userId = getUserID();
-    const usersRef = ref(db, `dorm_swap_shop/users/`);
+    const usersRef = ref(database, `dorm_swap_shop/users/`);
 
     return get(usersRef).then((snapshot) => {
         let isFavorited = false;
@@ -184,7 +189,9 @@ export async function isListingFavorited(listingId) {
             const userData = childSnapshot.val();
             if (userData.private.userId === userId) {
                 const savedListings = userData.private.savedListings || [];
-                isFavorited = savedListings.includes(listingId);
+                if (Array.isArray(savedListings)) {
+                    isFavorited = savedListings.includes(listingId);
+                }
             }
         });
         return isFavorited;

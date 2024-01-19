@@ -4,12 +4,13 @@ import styles from "../(aux)/StyleSheet";
 //import { getAuth, signOut } from "firebase/auth";
 //import ListingPopup from "../../components/ListingPopup.js";
 import { SearchBar, Header } from "@rneui/themed";
-import { get, child, ref, set, push, getDatabase } from 'firebase/database';
+// import { get, child, ref, set, push, getDatabase } from 'firebase/database';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import TrashButtonComponent from "../../assets/svg/trash_button";
 import ReportComponent from "../../assets/svg/report_icon";
 import SearchBarHeader from "../../components/SearchBar";
 import { router } from "expo-router";
+import { createChatThread, addMessage } from "../../backend/api/chat.js";
 
 //import styles from "../styleSheets/StyleSheet.js";
 //import { HeaderComponent } from "../components/headerComponent.js";
@@ -36,7 +37,14 @@ export default function ChatScreen() {
     const [selectedChat, setSelectedChat] = useState("");
     const [search, setSearch] = useState("");
 
-    function handleItemPress(chat) {
+    async function handleItemPress(chat) {
+
+        // // Testing
+        // const chatId = await createChatThread("1", "2");
+        // await addMessage(chatId, "1", "Hello world");
+        // await addMessage(chatId, "2", "World hello");
+        // ////////
+
         setSelectedChat(chat);
         router.push("ConversationsScreen");
     }

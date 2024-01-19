@@ -22,7 +22,7 @@ import { ScrollView } from "react-native-web";
 //import { HeaderComponent } from "../components/headerComponent.js";
 import filter from "lodash.filter";
 import typescript from "react-native-svg";
-import { get, child, ref, set, push, getDatabase } from "firebase/database";
+// import { get, child, ref, set, push } from "firebase/database";
 import SearchBarHeader from "../../components/SearchBar";
 import { getUsernameByID } from "../../backend/api/user";
 import FilterPopup from "../../components/FilterPopup";
