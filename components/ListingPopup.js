@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
+    ScrollView,
     Modal,
     Text,
     View,
@@ -10,6 +11,11 @@ import {
     Alert,
 } from "react-native";
 import styles from "../app/(aux)/StyleSheet.js";
+import {
+    TapGestureHandler,
+    PanGestureHandler,
+    State,
+} from "react-native-gesture-handler";
 
 import Swiper from "react-native-swiper";
 import Xmark from "../assets/svg/xmark.js";
@@ -66,15 +72,15 @@ export default function ListingPopup({ listing }) {
     const checkIfFavorited = async () => {
         const favorited = await isListingFavorited(listing.listingId);
         setIsFavorited(favorited);
-    }
+    };
 
     useEffect(() => {
         fetchUser();
-        checkIfFavorited()
+        checkIfFavorited();
     }, []);
 
     const timestamp = new Date(listing.timestamp).toLocaleDateString("en-US");
-
+    const [nestedModalImage, setNestedModalImage] = useState(false);
     // console.log("Listing images " + listing.title + " " + listing.images);
 
     return (
@@ -174,31 +180,79 @@ export default function ListingPopup({ listing }) {
                     {/* IMAGE */}
                     <View style={{ height: "33%" }}>
                         {Array.isArray(listing.images) ? (
-                            <Swiper
-                                loop={false}
-                                onIndexChanged={(index) =>
-                                    setCurrentIndex(index)
-                                }>
+                            <TouchableOpacity
+                                delayPressIn={100}
+                                onPress={() => setNestedModalImage(true)}>
+                                <Swiper
+                                    loop={false}
+                                    onIndexChanged={(index) =>
+                                        setCurrentIndex(index)
+                                    }>
+                                    {listing.images.map(
+                                        (imageUrl, currentIndex) => (
+                                            <TouchableOpacity
+                                                key={currentIndex}
+                                                delayPressIn={100}
+                                                onPress={() =>
+                                                    setNestedModalImage(true)
+                                                }>
+                                                <Image
+                                                    source={{ uri: imageUrl }}
+                                                    style={{
+                                                        width: width,
+                                                        height: 250,
+                                                    }}
+                                                />
+                                            </TouchableOpacity>
+                                        )
+                                    )}
+                                </Swiper>
+                            </TouchableOpacity>
+                        ) : (
+                            <TouchableOpacity
+                                onPress={() => setNestedModalImage(true)}>
+                                {/* ... */}
+                            </TouchableOpacity>
+                        )}
+                    </View>
+                    <Modal
+                        style={{ backgroundColor: "black" }}
+                        animationType="slide"
+                        transparent={true}
+                        visible={nestedModalImage}
+                        onRequestClose={() => setNestedModalImage(false)}>
+                        <TouchableOpacity
+                            style={{ flex: 1, backgroundColor: "black" }}
+                            onPress={() => setNestedModalImage(false)}>
+                            <ScrollView
+                                contentContainerStyle={{
+                                    flexGrow: 1,
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                }}
+                                maximumZoomScale={3}
+                                minimumZoomScale={1}
+                                centerContent={true}>
                                 {listing.images.map(
                                     (imageUrl, currentIndex) => (
                                         <Image
-                                            key={currentIndex}
-                                            source={{ uri: imageUrl }}
+                                            source={{
+                                                uri: listing.images[
+                                                    currentIndex
+                                                ],
+                                            }} // replace with the image you want to display
                                             style={{
-                                                width: width,
-                                                height: 250,
+                                                width: "90%",
+                                                height: "90%",
+                                                resizeMode: "contain",
+                                                marginBottom: "",
                                             }}
                                         />
                                     )
                                 )}
-                            </Swiper>
-                        ) : (
-                            <Image
-                                source={{ uri: listing.images }}
-                                style={{ width: width, height: 250 }}
-                            />
-                        )}
-                    </View>
+                            </ScrollView>
+                        </TouchableOpacity>
+                    </Modal>
                     <View style={{ width: "100%", height: "25%" }}>
                         <View
                             style={{
