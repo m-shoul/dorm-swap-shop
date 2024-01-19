@@ -74,6 +74,7 @@ export async function getAllUserDataForProfile() {
             const data = childSnapshot.val();
             if (data.private.userId === userId) {
                 userData = data;
+                
             }
         });
         return userData;
@@ -82,6 +83,25 @@ export async function getAllUserDataForProfile() {
     });
 }
 
+export async function getUserPushIdFromFirebaseRealtime() {
+    const db = getDatabase();
+    const userId = getUserID();
+    const usersRef = ref(db, "dorm_swap_shop/users/");
+
+    return get(usersRef).then((snapshot) => {
+        let pushId;
+        snapshot.forEach((childSnapshot) => {
+            const data = childSnapshot.val();
+            if (data.private.userId === userId) {
+                pushId = childSnapshot.key;
+            }
+        });
+        return pushId;
+    }).catch((error) => {
+        console.error(error);
+        throw error;
+    });
+}
 
 export async function getUsernameByID(userId) {
     const user = await getUserByID(userId);
@@ -115,7 +135,7 @@ export function getUserSavedListings() {
                 return savedListings.filter(listing => listing !== undefined);
             });
         } else {
-            console.log("User has no listings saved to their account.");
+            console.log("DATABASE: User has no listings saved to their account.");
         }
     }).catch((error) => {
         console.error(error);
@@ -154,10 +174,10 @@ export async function deleteUserListingsFromRealtimeDatabase(userId) {
                 await remove(ref(db, `dorm_swap_shop/listings/${listingKey}`));
             }
         }));
-        console.log("Deleted user listings from Realtime database.");
+        console.log("DATABASE: Deleted user listings from Realtime database");
 
     } else {
-        console.log("No data available to delete.")
+        console.log("DATABASE: No data available to delete")
     }
 }
 
@@ -176,9 +196,9 @@ export async function deleteUserFromRealtimeDatabase(userId) {
         if (userKey) {
             // Delete the user
             await remove(ref(db, `dorm_swap_shop/users/${userKey}`));
-            console.log("Deleted user from Realtime database.");
+            console.log("DATABASE: Deleted user from Realtime database");
         } else {
-            console.log("No user found with matching ID");
+            console.log("DATABASE: No user found with matching ID");
         }
     }).catch((error) => {
         console.error(error);
@@ -206,25 +226,25 @@ export async function uploadProfileImage(uri) {
             xhr.open("GET", uri, true);
             xhr.send(null);
         });
-    
-        const storage = getStorage();
-        const storageRef = sRef(storage, "profileImages/" + new Date().getTime());
-        await uploadBytesResumable(storageRef, blob);
-    
-        blob.close();
 
-        const userId = getUser();
-        console.log(userId);
+        const userId = await getUserPushIdFromFirebaseRealtime();
+        console.log("DATABASE: " + userId);
         
-        const profileImageRef = ref(database, `dorm_swap_shop/users/${userId}/public/profileImage`);
-        const downloadURL = await getDownloadURL(profileImageRef);
-        await set(profileImageRef, downloadURL);
+        if (userId) {
+            const storage = getStorage();
+            const storageRef = sRef(storage, "profileImages/" + new Date().getTime());
+            await uploadBytesResumable(storageRef, blob);
+            blob.close();
 
-        console.log(downloadURL);
-    
-        // return downloadURL;
+            const downloadURL = await getDownloadURL(storageRef);
+            const profileImageRef = ref(database, `dorm_swap_shop/users/${userId}/public/profileImage`);
+            await set(profileImageRef, downloadURL);
+            console.log("DATABASE: " + downloadURL);
+        } else {
+            console.error("DATABASE: User ID is undefined or null");
+        }    
     } catch (error) {
-        console.error("Error in uploading profile image: ", error);
+        console.error("DATABASE: Error in uploading profile image: ", error);
         throw error;
     }
 }
