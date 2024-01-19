@@ -123,27 +123,33 @@ export function getUserListings() {
 }
 
 export function saveListing(listingId) {
-    // const db = getDatabase();
     const userId = getUserID();
     const usersRef = ref(database, `dorm_swap_shop/users/`);
 
-    get(usersRef).then((snapshot) => {
-        snapshot.forEach((childSnapshot) => {
-            const userData = childSnapshot.val();
-            // Check if the userId matches the current user's userId
-            if (userData.private.userId === userId) {
-                // Add the listingId to the savedListings array
-                const savedListingsRef = ref(database, `dorm_swap_shop/users/${childSnapshot.key}/private/savedListings`);
-                get(savedListingsRef).then((savedListingsSnapshot) => {
-                    let savedListings = savedListingsSnapshot.val() || [];
-                    savedListings.push(listingId);
-                    set(savedListingsRef, savedListings);
-                });
-            }
+    get(usersRef)
+        .then((snapshot) => {
+            snapshot.forEach((childSnapshot) => {
+                const userData = childSnapshot.val();
+                if (userData.private.userId === userId) {
+                    const savedListingsRef = ref(database, `dorm_swap_shop/users/${childSnapshot.key}/private/savedListings`);
+                    get(savedListingsRef)
+                        .then((savedListingsSnapshot) => {
+                            let savedListings = savedListingsSnapshot.val();
+                            if (!Array.isArray(savedListings)) {
+                                savedListings = [];
+                            }
+                            savedListings.push(listingId);
+                            set(savedListingsRef, savedListings);
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                        });
+                }
+            });
+        })
+        .catch((error) => {
+            console.error(error);
         });
-    }).catch((error) => {
-        console.error(error);
-    });
 }
 
 
@@ -174,9 +180,8 @@ export function unsaveListing(listingId) {
 }
 
 export async function isListingFavorited(listingId) {
-    const db = getDatabase();
     const userId = getUserID();
-    const usersRef = ref(db, `dorm_swap_shop/users/`);
+    const usersRef = ref(database, `dorm_swap_shop/users/`);
 
     return get(usersRef).then((snapshot) => {
         let isFavorited = false;
@@ -184,7 +189,9 @@ export async function isListingFavorited(listingId) {
             const userData = childSnapshot.val();
             if (userData.private.userId === userId) {
                 const savedListings = userData.private.savedListings || [];
-                isFavorited = savedListings.includes(listingId);
+                if (Array.isArray(savedListings)) {
+                    isFavorited = savedListings.includes(listingId);
+                }
             }
         });
         return isFavorited;

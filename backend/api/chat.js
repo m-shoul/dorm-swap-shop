@@ -1,5 +1,5 @@
 import { database } from '../config/firebaseConfig.js';
-import { get, child, ref, set, push, getDatabase } from 'firebase/database';
+import { get, child, ref, set, push } from 'firebase/database';
 
 // Function to create a new user
 export async function createChatThread(userId_1, userId_2) {
