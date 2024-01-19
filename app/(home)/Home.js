@@ -7,7 +7,10 @@ import {
     Image,
     Animated,
     RefreshControl,
-    ActivityIndicator
+    ActivityIndicator,
+    TouchableWithoutFeedback,
+    Modal,
+    Pressable
 } from "react-native";
 import React, { useState, useEffect, useRef } from "react";
 import { getAllListings } from "../../backend/api/listing";
@@ -22,16 +25,10 @@ import typescript from "react-native-svg";
 import { get, child, ref, set, push, getDatabase } from "firebase/database";
 import SearchBarHeader from "../../components/SearchBar";
 import { getUsernameByID } from "../../backend/api/user";
+import FilterPopup from "../../components/FilterPopup";
 
 export default function HomeScreen() {
     const scrollOffsetY = useRef(new Animated.Value(0)).current;
-    //const scrollOffsetY = new Animated.Value(0);
-    // const scrollY = new Animated.Value(0);
-    // const diffClamp = Animated.diffClamp(scrollY, 0, 40);
-    // const translateYAxis = diffClamp.interpolate({
-    //     inputRange: [0, 1],
-    //     outputRange: [0, -1],
-    // });
 
     const [isLoading, setIsLoading] = useState(false); // State to track if the listings are loading
     const [listingsData, setListingsData] = useState([]); // State to store listings data
@@ -79,11 +76,11 @@ export default function HomeScreen() {
         setListingsData(filteredData.filter(Boolean)); // Remove undefined values
     }
 
-    const contains = ({ title, description, condition, category}, query, username) => {
+    const contains = ({ title, description, condition, category }, query, username) => {
         title = title.toLowerCase();
         description = description.toLowerCase();
         category = category.toLowerCase();
-    
+
         if (title.includes(query) || description.includes(query) || condition.includes(query) || username.includes(query) || category.includes(query)) {
             return true;
         }
@@ -113,9 +110,42 @@ export default function HomeScreen() {
         );
     }
 
+    const minScroll = 300;
+
+    const animHeaderValue = scrollOffsetY;
+
+    const headerHeight = 120;
+    const activeRange = 200;
+
+
+    const diffClamp = Animated.diffClamp(animHeaderValue, -minScroll,
+        activeRange + minScroll);
+    const animatedHeaderHeight = diffClamp.interpolate({
+        inputRange: [0, activeRange],
+        outputRange: [0, -headerHeight],
+        extrapolate: "clamp"
+    })
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "#F9F7F7" }}>
-            <SearchBarHeader animHeaderValue={scrollOffsetY} handleSearch={handleSearch} />
+            <Animated.View style={{
+                zIndex: 1,
+                transform: [{ translateY: animatedHeaderHeight }]
+            }}>
+                <View style={{
+                    flexDirection: "row", alignItems: "center", width: "100%", paddingHorizontal: "2%",
+                    position: "absolute", top: 0, left: 0, right: 0
+                }}>
+                    <View style={{ justifyContent: "center", width: "90%" }}>
+                        <SearchBarHeader handleSearch={handleSearch} />
+                    </View>
+                    <View style={{ width: "10%" }}>
+                        <FilterPopup />
+                    </View>
+
+                </View>
+            </Animated.View>
+
             {/* Scrollable view displaying all the listings */}
             <FlatList
                 data={Object.values(listingsData)}
