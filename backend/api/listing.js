@@ -80,7 +80,7 @@ async function uploadImageAsync(uri, imagesRef) {
 }
 
 // Gets all listings in the database for home screen 
-export function getAllListings() {
+export async function getAllListings() {
     // const db = getDatabase();
     const listingsReference = ref(database, "dorm_swap_shop/listings/");
 
@@ -140,6 +140,7 @@ export function saveListing(listingId) {
                             }
                             savedListings.push(listingId);
                             set(savedListingsRef, savedListings);
+                            console.log("DATABASE: Saved listing " + listingId + " to user " + userData.private.userId);
                         })
                         .catch((error) => {
                             console.error(error);
@@ -170,6 +171,7 @@ export function unsaveListing(listingId) {
                     if (index !== -1) {
                         savedListings.splice(index, 1);
                         set(savedListingsRef, savedListings);
+                        console.log("DATABASE: Unsaved listing " + listingId + " from user " + userData.private.userId);
                     }
                 });
             }
@@ -197,7 +199,7 @@ export async function isListingFavorited(listingId) {
         return isFavorited;
     }).catch((error) => {
         console.error(error);
-        console.log("Error checking if user is favorited.");
+        console.log("Error checking if user " + userId + " favorited listing");
     });
 }
 

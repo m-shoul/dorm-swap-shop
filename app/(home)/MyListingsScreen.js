@@ -5,18 +5,16 @@ import {
     FlatList,
     SafeAreaView,
     StyleSheet,
-    Image,
+    //Image,
     Modal,
     Animated,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { Image } from 'expo-image';
 import { router } from "expo-router";
-import { get, child, ref, set, push, getDatabase } from "firebase/database";
 import ListingPopup from "../../components/ListingPopup.js";
 import React, { useState, useEffect } from "react";
 import { SearchBar, Header } from "@rneui/themed";
 import styles from "../(aux)/StyleSheet.js";
-import { getUserSavedListings } from "../../backend/api/user.js";
 import BackButtonComponent from "../../assets/svg/back_button.js";
 import ProfileScreen from "./Profile.js";
 import SearchBarHeader from "../../components/SearchBar.js";
@@ -27,31 +25,10 @@ import filter from "lodash.filter";
 const MyListingsScreen = ({ navigation }) => {
     const animHeaderValue = new Animated.Value(0);
     const [search, setSearch] = useState("");
-    const [selectedListing, setSelectedListing] = useState(null); // State to store the selected listing
+    const [selectedListing, setSelectedListing] = useState(null);
     const [showProfile, setShowProfile] = useState(false);
-    // const [savedListings, setSavedListings] = useState([]);
     const [listingsData, setListingsData] = useState([]);
     const [fullData, setFullData] = useState([]);
-
-    // Used for test purposes.
-    const testSavedListings = [
-        {
-            id: "1",
-            title: "Item Name 1",
-            description: "Description 1",
-            price: 10.0,
-            category: "Category type",
-            condition: "Condition type",
-        },
-        {
-            id: "2",
-            title: "Saved Item 2",
-            description: "Saved item",
-            price: 10.0,
-            category: "Books",
-            condition: "Used",
-        },
-    ];
 
     useEffect(() => {
         const fetchListingData = async () => {
@@ -186,7 +163,7 @@ const MyListingsScreen = ({ navigation }) => {
                     </TouchableOpacity>
                 )}
                 //numColumns={2}
-                keyExtractor={(item) => item.id}
+                keyExtractor={(item) => item.listingId}
                 style={{
                     flex: 1,
                     backgroundColor: "#F9F7F7",

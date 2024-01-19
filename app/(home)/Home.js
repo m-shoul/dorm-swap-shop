@@ -4,7 +4,7 @@ import {
     TouchableOpacity,
     FlatList,
     SafeAreaView,
-    Image,
+    //Image,
     Animated,
     RefreshControl,
     ActivityIndicator,
@@ -12,10 +12,10 @@ import {
     Modal,
     Pressable
 } from "react-native";
-import React, { useState, useEffect, useRef } from "react";
+import { Image } from 'expo-image';
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import { getAllListings } from "../../backend/api/listing";
 import styles from "../(aux)/StyleSheet";
-//import { getAuth, signOut } from "firebase/auth";
 import ListingPopup from "../../components/ListingPopup";
 import { ScrollView } from "react-native-web";
 //import styles from "../styleSheets/StyleSheet.js";
@@ -38,28 +38,41 @@ export default function HomeScreen() {
     const [selectedListing, setSelectedListing] = useState(null); // State to store the selected listing
     const [refreshing, setRefreshing] = useState(false);
 
+    let timerId;
+
     const fetchListings = async () => {
-        setRefreshing(true);
-        try {
-            const listingsData = await getAllListings();
-            setFullData(listingsData);
-            setListingsData(listingsData);
-            console.log("Got all listings.");
-            setRefreshing(false);
-            setIsLoading(false);
-        } catch (error) {
-            setError(error);
-            console.error('Error:', error);
-            setRefreshing(false);
-            setIsLoading(false);
-        }
+        clearTimeout(timerId);
+        timerId = setTimeout(async () => {
+            setRefreshing(true);
+            try {
+                const listingsData = await getAllListings();
+                setFullData(listingsData);
+                setListingsData(listingsData);
+                console.log("***IN APP - Home.js*** Got all listings.");
+                setRefreshing(false);
+                setIsLoading(false);
+            } catch (error) {
+                setError(error);
+                console.error('Error:', error);
+                setRefreshing(false);
+                setIsLoading(false);
+            }
+        }, 1000); // Delay of 1 second
     }
 
     useEffect(() => {
         // Fetch listings data from Firebase when the component mounts
         setIsLoading(true);
         fetchListings();
+        return () => {
+            clearTimeout(timerId);
+        };
     }, []);
+
+    const memoizedListingsData = useMemo(() => Object.values(listingsData), [listingsData]);
+
+    console.log("***IN APP - Home.js*** - Printing out listings.");
+    console.log(memoizedListingsData);
 
     const handleSearch = async (query) => {
         if (typeof fullData !== 'object') {
@@ -94,7 +107,7 @@ export default function HomeScreen() {
     if (isLoading) {
         return (
             <View style={styles.container}>
-                <ActivityIndicator size="large" color="#5500dc" />
+                <ActivityIndicator size="large" color="#112d4e" />
             </View>
         );
     }
@@ -148,7 +161,7 @@ export default function HomeScreen() {
 
             {/* Scrollable view displaying all the listings */}
             <FlatList
-                data={Object.values(listingsData)}
+                data={Object.values(memoizedListingsData)}
                 keyExtractor={(item) => item.listingId}
                 renderItem={({ item }) => (
                     <View style={{ width: "50%", height: 230, padding: "1%" }}>
@@ -159,7 +172,6 @@ export default function HomeScreen() {
                     </View>
                 )}
                 numColumns={2}
-                // keyExtractor={(item, index) => item.id + index.toString()}
                 style={{
                     flex: 1,
                     backgroundColor: "#F9F7F7",

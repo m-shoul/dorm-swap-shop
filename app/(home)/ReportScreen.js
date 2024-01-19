@@ -2,14 +2,14 @@ import {
     Text,
     View,
     TouchableOpacity,
-    Image,
+    //Image,
     TextInput,
     SafeAreaView,
     TouchableWithoutFeedback,
     Keyboard,
 } from "react-native";
 import styles from "../(aux)/StyleSheet";
-
+import { Image } from 'expo-image';
 // Imports for pulling the image from firebase...
 import BackButtonComponent from "../../assets/svg/back_button.js";
 import React, { useState, useEffect } from "react";
