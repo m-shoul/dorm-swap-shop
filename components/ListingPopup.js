@@ -11,11 +11,6 @@ import {
     Alert,
 } from "react-native";
 import styles from "../app/(aux)/StyleSheet.js";
-import {
-    TapGestureHandler,
-    PanGestureHandler,
-    State,
-} from "react-native-gesture-handler";
 
 import Swiper from "react-native-swiper";
 import Xmark from "../assets/svg/xmark.js";
