@@ -7,9 +7,10 @@ import {
     SafeAreaView,
     ScrollView,
     KeyboardAvoidingView,
-    Image,
+    //Image,
     Dimensions,
 } from "react-native";
+import { Image } from 'expo-image';
 import React, { useState, useEffect, useRef } from "react";
 import styles from "../(aux)/StyleSheet.js";
 import { getUserID } from "../../backend/dbFunctions.js";

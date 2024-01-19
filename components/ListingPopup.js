@@ -5,10 +5,11 @@ import {
     View,
     SafeAreaView,
     TouchableOpacity,
-    Image,
+    //Image,
     Dimensions,
     Alert,
 } from "react-native";
+import { Image } from 'expo-image';
 import styles from "../app/(aux)/StyleSheet.js";
 import Swiper from "react-native-swiper";
 import Xmark from "../assets/svg/xmark.js";
@@ -29,8 +30,6 @@ export default function ListingPopup({ listing }) {
     const [username, setUsername] = useState("");
 
     const router = useRouter();
-
-    console.log(listing.description);
 
     const simpleAlert = () => {
         setIsFavorited(!isFavorited);
@@ -72,7 +71,8 @@ export default function ListingPopup({ listing }) {
 
     useEffect(() => {
         fetchUser();
-        checkIfFavorited()
+        checkIfFavorited();
+        console.log("*** IN APP - ListingPopup.js*** " + listing.description);
     }, []);
 
     const timestamp = new Date(listing.timestamp).toLocaleDateString("en-US");
