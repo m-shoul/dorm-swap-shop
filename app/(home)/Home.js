@@ -13,6 +13,12 @@ import React, { useState, useEffect, useRef } from "react";
 import { getAllListings } from "../../backend/api/listing";
 import styles from "../(aux)/StyleSheet";
 import ListingPopup from "../../components/ListingPopup";
+import { ScrollView } from "react-native-web";
+//import styles from "../styleSheets/StyleSheet.js";
+//import { HeaderComponent } from "../components/headerComponent.js";
+import filter from "lodash.filter";
+import typescript from "react-native-svg";
+// import { get, child, ref, set, push } from "firebase/database";
 import SearchBarHeader from "../../components/SearchBar";
 import { getUsernameByID } from "../../backend/api/user";
 
