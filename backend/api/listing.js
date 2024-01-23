@@ -80,7 +80,7 @@ async function uploadImageAsync(uri, imagesRef) {
 }
 
 // Gets all listings in the database for home screen 
-export function getAllListings() {
+export async function getAllListings() {
     // const db = getDatabase();
     const listingsReference = ref(database, "dorm_swap_shop/listings/");
 
@@ -123,27 +123,34 @@ export function getUserListings() {
 }
 
 export function saveListing(listingId) {
-    // const db = getDatabase();
     const userId = getUserID();
     const usersRef = ref(database, `dorm_swap_shop/users/`);
 
-    get(usersRef).then((snapshot) => {
-        snapshot.forEach((childSnapshot) => {
-            const userData = childSnapshot.val();
-            // Check if the userId matches the current user's userId
-            if (userData.private.userId === userId) {
-                // Add the listingId to the savedListings array
-                const savedListingsRef = ref(database, `dorm_swap_shop/users/${childSnapshot.key}/private/savedListings`);
-                get(savedListingsRef).then((savedListingsSnapshot) => {
-                    let savedListings = savedListingsSnapshot.val() || [];
-                    savedListings.push(listingId);
-                    set(savedListingsRef, savedListings);
-                });
-            }
+    get(usersRef)
+        .then((snapshot) => {
+            snapshot.forEach((childSnapshot) => {
+                const userData = childSnapshot.val();
+                if (userData.private.userId === userId) {
+                    const savedListingsRef = ref(database, `dorm_swap_shop/users/${childSnapshot.key}/private/savedListings`);
+                    get(savedListingsRef)
+                        .then((savedListingsSnapshot) => {
+                            let savedListings = savedListingsSnapshot.val();
+                            if (!Array.isArray(savedListings)) {
+                                savedListings = [];
+                            }
+                            savedListings.push(listingId);
+                            set(savedListingsRef, savedListings);
+                            console.log("DATABASE: Saved listing " + listingId + " to user " + userData.private.userId);
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                        });
+                }
+            });
+        })
+        .catch((error) => {
+            console.error(error);
         });
-    }).catch((error) => {
-        console.error(error);
-    });
 }
 
 
@@ -164,6 +171,7 @@ export function unsaveListing(listingId) {
                     if (index !== -1) {
                         savedListings.splice(index, 1);
                         set(savedListingsRef, savedListings);
+                        console.log("DATABASE: Unsaved listing " + listingId + " from user " + userData.private.userId);
                     }
                 });
             }
@@ -174,9 +182,8 @@ export function unsaveListing(listingId) {
 }
 
 export async function isListingFavorited(listingId) {
-    const db = getDatabase();
     const userId = getUserID();
-    const usersRef = ref(db, `dorm_swap_shop/users/`);
+    const usersRef = ref(database, `dorm_swap_shop/users/`);
 
     return get(usersRef).then((snapshot) => {
         let isFavorited = false;
@@ -184,13 +191,15 @@ export async function isListingFavorited(listingId) {
             const userData = childSnapshot.val();
             if (userData.private.userId === userId) {
                 const savedListings = userData.private.savedListings || [];
-                isFavorited = savedListings.includes(listingId);
+                if (Array.isArray(savedListings)) {
+                    isFavorited = savedListings.includes(listingId);
+                }
             }
         });
         return isFavorited;
     }).catch((error) => {
         console.error(error);
-        console.log("Error checking if user is favorited.");
+        console.log("Error checking if user " + userId + " favorited listing");
     });
 }
 

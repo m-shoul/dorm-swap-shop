@@ -5,75 +5,94 @@ import {
     FlatList,
     SafeAreaView,
     StyleSheet,
-    Image,
+    //Image,
+    ActivityIndicator,
+    RefreshControl
 } from "react-native";
+import { Image } from 'expo-image';
 import styles from "../(aux)/StyleSheet.js";
-import { get, ref, getDatabase } from "@firebase/database";
-// import { getUserID } from "../../backend/dbFunctions.js";
 import React, { useState, useEffect } from "react";
 import { router } from "expo-router";
-import { getUserID } from "../../backend/dbFunctions.js";
-import { getUserListings } from "../../backend/api/listing.js";
-import { getUser, getUserSavedListings } from "../../backend/api/user.js";
+import { getAllUserDataForProfile, getUserSavedListings, uploadProfileImage } from "../../backend/api/user.js";
 import ListingPopup from "../../components/ListingPopup.js";
 import ListImagesComponent from "../../assets/svg/list_images.js";
 import RatingComponent from "../../assets/svg/rating_stars.js";
-
+import * as ImagePicker from "expo-image-picker";
+// import { Camera, CameraType } from 'expo-camera';
 import { Button } from "../../components/Buttons.js";
 
 export default function ProfileScreen() {
-    const [listingsData, setListingsData] = useState([]);
     const [savedListings, setSavedListings] = useState([]);
-
     const [selectedListing, setSelectedListing] = useState(null);
     const [user, setUser] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [refreshing, setRefreshing] = useState(false);
+
+    const fetchSavedListings = async () => {
+        try {
+            const savedListings = await getUserSavedListings();
+            console.log("***IN APP - Profile.js*** - Got user saved listings.");
+            setSavedListings(savedListings);
+            setIsLoading(false);
+        } catch (error) {
+            console.error("***IN APP - Profile.js*** - Could not get saved listings: ", error);
+            setIsLoading(false);
+        }
+    };
+
+    const fetchUserData = async () => {
+        try {
+            const user = await getAllUserDataForProfile();
+            console.log("***IN APP - Profile.js*** - Got user data for user: " + user.public.fname + " " + user.public.lname);
+            setUser(user);
+            setIsLoading(false);
+        } catch (error) {
+            console.error("***IN APP - Profile.js*** - Could not get user data: ", error);
+            setIsLoading(false);
+        }
+    }
 
     useEffect(() => {
-        // const fetchSavedListings = async () => {
-        //     try {
-        //         const savedListings = await getUserSavedListings();
-        //         setSavedListings(savedListings);
-        //         console.log("Got user saved listings.");
-        //     } catch (error) {
-        //         console.error("Could not get saved listings: ", error);
-        //     }
-        // };
-
-        const fetchListingData = async () => {
-            try {
-                const listingsData = await getUserListings();
-                setListingsData(listingsData);
-                console.log("Got user listings.");
-            } catch (error) {
-                console.error("Could not get user listings: ", error);
-            }
-        };
-        fetchListingData();
-
-        const fetchUserData = async () => {
-            try {
-                const user = await getUser();
-                console.log("Got user data.");
-                setUser(user);
-            } catch (error) {
-                console.error("Could not get user data: ", error);
-            }
-        }
-
-        // fetchSavedListings();
-        fetchListingData();
+        fetchSavedListings();
         fetchUserData();
     }, []);
+
+    console.log("***IN APP - Profile.js*** - Saved listings: ");
+    console.log(savedListings);
 
     const handleItemPress = (listing) => {
         setSelectedListing(listing);
     };
 
+    const handleRefresh = () => {
+        fetchSavedListings();
+        fetchUserData();
+    }
+
     const noSavedListings = () => (
         <Text style={{ textAlign: 'center' }}>No saved listings</Text>
     );
 
-    // console.log(savedListings);
+    // Profile image stuff
+    const [profileImage, setProfileImage] = useState(null);
+	const pickProfileImage = async () => {
+        console.log("Picking profile image.");
+		let result = await ImagePicker.launchImageLibraryAsync({
+			mediaTypes: ImagePicker.MediaTypeOptions.Images,
+			allowsEditing: true,
+            selectionLimit: 1,
+			aspect: [1, 1],
+			quality: 1
+		});
+
+		if (result.assets && result.assets.length > 0) {
+			const selectedProfileImage = result.assets[0];
+			setProfileImage(selectedProfileImage.uri);
+            uploadProfileImage(selectedProfileImage.uri);
+		}
+	};
+
+    const profileImageUrl = user?.public?.profileImage;
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "#F9F7F7" }}>
@@ -88,27 +107,40 @@ export default function ProfileScreen() {
                 </Text>
             </TouchableOpacity>
 
+
             <View style={{ width: "100%", marginBottom: "5%", alignItems: "center" }}>
-                <View
-                    style={{
-                        width: 190,
-                        height: 190,
-                        borderRadius: 200,
-                        overflow: "hidden",
-                        borderWidth: 1,
-                        borderColor: "#B3B3B3",
-                        justifyContent: "center"
-                    }}>
-                    <ListImagesComponent
-                        source={require("../../assets/svg/list_images.js")}
+                <TouchableOpacity onPress={pickProfileImage}>
+                    <View
                         style={{
-                            width: "100%",
-                            height: "100%",
-                            stroke: "black",
-                            strokeWidth: 0.25,
-                        }}
-                    />
-                </View>
+                            width: 190,
+                            height: 190,
+                            borderRadius: 200,
+                            overflow: "hidden",
+                            borderWidth: 1,
+                            borderColor: "#B3B3B3",
+                            justifyContent: "center"
+                        }}>
+                        {profileImageUrl ? (
+                            <Image
+                            source={{ uri: profileImageUrl }}
+                            style={{
+                                width: "100%",
+                                height: "100%",
+                            }}
+                            />
+                        ) : (
+                            <ListImagesComponent
+                                source={require("../../assets/svg/list_images.js")}
+                                style={{
+                                    width: "100%",
+                                    height: "100%",
+                                    stroke: "black",
+                                    strokeWidth: 0.25,
+                                }}
+                            />   
+                        )}
+                    </View>
+                </TouchableOpacity>
             </View>
 
 
@@ -176,36 +208,36 @@ export default function ProfileScreen() {
                 <View style={[styles.dividerLine, { marginBottom: 1, }]} />
             </View>
 
-            {/* Scrollable view displaying all the listings */}
-            <FlatList
-                // We want the savedListings state to be in here to render, but its being stupid because
-                // it then says listing.title.length doesn't exist and I don't know why... is it trying to
-                // render something that doesn't exist? Or is it not finding the listing based on the id??
-                data={Object.values(listingsData)}
-                //keyExtractor={(item) => item.listingId}
-                renderItem={({ item }) => (
-                    <View style={{ width: "50%", height: 230, padding: "1%" }}>
-                        {/* <TouchableOpacity
-                            onPress={() => handleItemPress(item)}
-                            key={item.id}> */}
-                        <ListingPopup listing={item} />
-                        {/* </TouchableOpacity> */}
-                    </View>
-
-                )}
-                numColumns={2}
-                keyExtractor={(item) => item.id}
-                style={{
-                    flex: 1,
-                    backgroundColor: "#F9F7F7",
-                    paddingTop: "2%",
-                }}
-                onScroll={(e) => {
-                    // scrollY.setValue(e.nativeEvent.contentOffset.y);
-                }}
-                bounces={false}
-                ListEmptyComponent={noSavedListings}
-            />
+            {isLoading ? (
+                <ActivityIndicator size="large" color="#112d4e" />
+            ) : (
+                <FlatList
+                    data={savedListings || []}
+                    keyExtractor={(item) => item.listingId}
+                    renderItem={({ item }) => (
+                        <View style={{ width: "50%", height: 230, padding: "1%" }}>
+                            <ListingPopup listing={item} />
+                        </View>
+                    )}
+                    numColumns={2}
+                    style={{
+                        flex: 1,
+                        backgroundColor: "#F9F7F7",
+                        paddingTop: "2%",
+                    }}
+                    onScroll={(e) => {
+                        // scrollY.setValue(e.nativeEvent.contentOffset.y);
+                    }}
+                    bounces={true}
+                    refreshControl={
+                    <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={handleRefresh}
+                    />
+                    }
+                    ListEmptyComponent={noSavedListings}
+                />
+            )}
         </SafeAreaView>
     );
 }

@@ -64,7 +64,7 @@ export default function LoginScreen() {
     // Figure out what saves the userId when I go to the register screen
     // we can use this to sage the state of the user and automatically log in
     // so user doesnt have to log in every time.
-    console.log(getUserID());
+    console.log("*** IN APP - Login Screen " + getUserID());
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>

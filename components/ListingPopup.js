@@ -6,12 +6,12 @@ import {
     View,
     SafeAreaView,
     TouchableOpacity,
-    Image,
+    //Image,
     Dimensions,
     Alert,
 } from "react-native";
+import { Image } from "expo-image";
 import styles from "../app/(aux)/StyleSheet.js";
-
 import Swiper from "react-native-swiper";
 import Xmark from "../assets/svg/xmark.js";
 import ReportComponent from "../assets/svg/report_icon.js";
@@ -20,7 +20,6 @@ import SavedListingIcon from "../assets/svg/savedListing_icon.js";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { saveListing, unsaveListing } from "../backend/api/listing.js";
 import { Button } from "./Buttons.js";
-import { get, set } from "firebase/database";
 import { getUsernameByID } from "../backend/api/user.js";
 import { isListingFavorited } from "../backend/api/listing.js";
 
@@ -55,9 +54,11 @@ export default function ListingPopup({ listing }) {
     };
 
     const listingTitle =
-        listing.price.length + listing.title.length > 22
-            ? listing.title.substring(0, 14) + "..."
-            : listing.title;
+        listing.price && listing.title
+            ? listing.price.length + listing.title.length > 22
+                ? listing.title.substring(0, 14) + "..."
+                : listing.title
+            : "";
 
     const fetchUser = async () => {
         const username = await getUsernameByID(listing.user);
@@ -72,6 +73,7 @@ export default function ListingPopup({ listing }) {
     useEffect(() => {
         fetchUser();
         checkIfFavorited();
+        console.log("*** IN APP - ListingPopup.js*** " + listing.description);
     }, []);
 
     const timestamp = new Date(listing.timestamp).toLocaleDateString("en-US");

@@ -7,9 +7,10 @@ import {
     SafeAreaView,
     ScrollView,
     KeyboardAvoidingView,
-    Image,
+    //Image,
     Dimensions,
 } from "react-native";
+import { Image } from 'expo-image';
 import React, { useState, useEffect, useRef } from "react";
 import styles from "../(aux)/StyleSheet.js";
 import { getUserID } from "../../backend/dbFunctions.js";
@@ -50,10 +51,10 @@ export default function CreatePostScreen() {
             quality: 1,
         });
 
-        console.log(result);
+        // console.log(result);
 
-        if (!result.canceled) {
-            console.log("Image picked successfully");
+        if (result.assets && result.assets.length > 0) {
+            // console.log("Image picked successfully");
             const selectedImages = result.assets.map(asset => asset.uri);
             setImage(selectedImages);
         }

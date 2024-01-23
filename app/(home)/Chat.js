@@ -1,10 +1,11 @@
-import { Text, View, TouchableWithoutFeedback, TouchableOpacity, SafeAreaView, Image, Animated } from "react-native";
+import { Text, View, TouchableWithoutFeedback, TouchableOpacity, SafeAreaView, /*Image,*/ Animated } from "react-native";
+import { Image } from 'expo-image';
 import React, { useState, useEffect, useRef } from "react";
 import styles from "../(aux)/StyleSheet";
 //import { getAuth, signOut } from "firebase/auth";
 //import ListingPopup from "../../components/ListingPopup.js";
 import { SearchBar, Header } from "@rneui/themed";
-import { get, child, ref, set, push, getDatabase } from 'firebase/database';
+// import { get, child, ref, set, push, getDatabase } from 'firebase/database';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import TrashButtonComponent from "../../assets/svg/trash_button";
 import ReportComponent from "../../assets/svg/report_icon";
@@ -39,11 +40,11 @@ export default function ChatScreen() {
 
     async function handleItemPress(chat) {
 
-        // Testing
-        const chatId = await createChatThread("1", "2");
-        await addMessage(chatId, "1", "Hello world");
-        await addMessage(chatId, "2", "World hello");
-        ////////
+        // // Testing
+        // const chatId = await createChatThread("1", "2");
+        // await addMessage(chatId, "1", "Hello world");
+        // await addMessage(chatId, "2", "World hello");
+        // ////////
 
         setSelectedChat(chat);
         router.push("ConversationsScreen");
