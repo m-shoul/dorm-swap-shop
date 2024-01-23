@@ -139,6 +139,7 @@ export default function LoginScreen() {
                     alignItems="center"
                     justifyContent="center"
                     marginTop="6%"
+                    marginBottom="6%"
                     borderRadius="25%"
                     press={handleLogin}
                     titleStyle={styles.buttonText}
