@@ -9,6 +9,7 @@ import {
     Keyboard,
     Modal,
 } from "react-native";
+import { Checkbox } from "expo-checkbox";
 import React from "react";
 import styles from "../(aux)/StyleSheet.js";
 import { useState, useEffect, useRef } from "react";
@@ -65,6 +66,8 @@ export default function CreateUserScreen() {
     const emailInputRef = useRef(null);
     const passwordInputRef = useRef(null);
     const confirmPasswordInputRef = useRef(null);
+
+    const [isSelected, setSelection] = useState(false);
 
     let validate = 0;
     useEffect(() => {
@@ -393,7 +396,14 @@ export default function CreateUserScreen() {
                 onPress={() => {
                     setModalVisible(true);
                 }}>
-                <Text>Terms of Service</Text>
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                    <Text style={{ marginRight: "5%" }}>Terms of Service</Text>
+                    <Checkbox
+                        value={isSelected}
+                        onValueChange={setSelection}
+                        disabled={true}
+                    />
+                </View>
             </TouchableOpacity>
 
             <Modal
@@ -438,6 +448,7 @@ export default function CreateUserScreen() {
                         onPress={() => {
                             setModalVisible(false);
                             setAgreeTermsOfService(true);
+                            setSelection(true);
                         }}>
                         <Text style={styles.buttonText}>I agree</Text>
                     </TouchableOpacity>

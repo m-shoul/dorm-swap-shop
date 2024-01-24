@@ -43,8 +43,9 @@ const styles = StyleSheet.create({
         height: "7%", //was 50
         alignItems: "center",
         justifyContent: "center",
-        marginTop: "12%", //was 40
+
         backgroundColor: "#F30000",
+        marginBottom: "50%",
     },
     buttonText: {
         color: "white",
@@ -54,8 +55,8 @@ const styles = StyleSheet.create({
     container: {
         marginTop: 50,
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
+        justifyContent: "center",
+        alignItems: "center",
     },
     createUserInput: {
         marginBottom: "6%", //was 20

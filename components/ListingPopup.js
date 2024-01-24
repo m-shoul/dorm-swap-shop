@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
+    ScrollView,
     Modal,
     Text,
     View,
@@ -9,7 +10,7 @@ import {
     Dimensions,
     Alert,
 } from "react-native";
-import { Image } from 'expo-image';
+import { Image } from "expo-image";
 import styles from "../app/(aux)/StyleSheet.js";
 import Swiper from "react-native-swiper";
 import Xmark from "../assets/svg/xmark.js";
@@ -23,6 +24,7 @@ import { getUsernameByID } from "../backend/api/user.js";
 import { isListingFavorited } from "../backend/api/listing.js";
 
 export default function ListingPopup({ listing }) {
+    const [selectedImage, setSelectedImage] = useState(null);
     const { width, height } = Dimensions.get("window");
     const [listingModalVisible, setListingModalVisible] = useState(false);
     const [isFavorited, setIsFavorited] = useState(false);
@@ -53,11 +55,11 @@ export default function ListingPopup({ listing }) {
     };
 
     const listingTitle =
-    listing.price && listing.title ?
-        (listing.price.length + listing.title.length > 22
-            ? listing.title.substring(0, 14) + "..."
-            : listing.title)
-        : "";
+        listing.price && listing.title
+            ? listing.price.length + listing.title.length > 22
+                ? listing.title.substring(0, 13) + "..."
+                : listing.title
+            : "";
 
     const fetchUser = async () => {
         const username = await getUsernameByID(listing.user);
@@ -67,7 +69,7 @@ export default function ListingPopup({ listing }) {
     const checkIfFavorited = async () => {
         const favorited = await isListingFavorited(listing.listingId);
         setIsFavorited(favorited);
-    }
+    };
 
     useEffect(() => {
         fetchUser();
@@ -76,7 +78,7 @@ export default function ListingPopup({ listing }) {
     }, []);
 
     const timestamp = new Date(listing.timestamp).toLocaleDateString("en-US");
-
+    const [nestedModalImage, setNestedModalImage] = useState(false);
     // console.log("Listing images " + listing.title + " " + listing.images);
 
     return (
@@ -174,33 +176,76 @@ export default function ListingPopup({ listing }) {
                         </TouchableOpacity>
                     </View>
                     {/* IMAGE */}
-                    <View style={{ height: "33%" }}>
+                    <View style={{ height: "50%" }}>
                         {Array.isArray(listing.images) ? (
-                            <Swiper
-                                loop={false}
-                                onIndexChanged={(index) =>
-                                    setCurrentIndex(index)
-                                }>
-                                {listing.images.map(
-                                    (imageUrl, currentIndex) => (
-                                        <Image
-                                            key={currentIndex}
-                                            source={{ uri: imageUrl }}
-                                            style={{
-                                                width: width,
-                                                height: 250,
-                                            }}
-                                        />
-                                    )
-                                )}
-                            </Swiper>
+                            <TouchableOpacity
+                                delayPressIn={100}
+                                onPress={() => setNestedModalImage(true)}>
+                                <Swiper
+                                    loop={false}
+                                    onIndexChanged={(index) =>
+                                        setCurrentIndex(index)
+                                    }>
+                                    {listing.images.map(
+                                        (imageUrl, currentIndex) => (
+                                            <TouchableOpacity
+                                                key={currentIndex}
+                                                delayPressIn={100}
+                                                onPress={() => {
+                                                    setNestedModalImage(true);
+                                                    setSelectedImage(imageUrl);
+                                                }}>
+                                                <Image
+                                                    source={{ uri: imageUrl }}
+                                                    style={{
+                                                        width: width,
+                                                        height: 375,
+                                                    }}
+                                                />
+                                            </TouchableOpacity>
+                                        )
+                                    )}
+                                </Swiper>
+                            </TouchableOpacity>
                         ) : (
-                            <Image
-                                source={{ uri: listing.images }}
-                                style={{ width: width, height: 250 }}
-                            />
+                            <TouchableOpacity
+                                onPress={() =>
+                                    setNestedModalImage(true)
+                                }></TouchableOpacity>
                         )}
                     </View>
+                    {/* This allows an image to be clicked on, and then zoomed*/}
+                    <Modal
+                        style={{ backgroundColor: "black" }}
+                        animationType="slide"
+                        transparent={true}
+                        visible={nestedModalImage}
+                        onRequestClose={() => setNestedModalImage(false)}>
+                        <TouchableOpacity
+                            style={{ flex: 1, backgroundColor: "black" }}
+                            onPress={() => setNestedModalImage(false)}
+                            activeOpacity={1}>
+                            <ScrollView
+                                contentContainerStyle={{
+                                    flexGrow: 1,
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                }}
+                                maximumZoomScale={3}
+                                minimumZoomScale={1}
+                                centerContent={true}>
+                                <Image
+                                    source={{ uri: selectedImage }}
+                                    style={{
+                                        width: "90%",
+                                        height: "90%",
+                                        resizeMode: "contain",
+                                        marginBottom: "",
+                                    }}
+                                />
+                            </ScrollView>
+                        </TouchableOpacity>
+                    </Modal>
                     <View style={{ width: "100%", height: "25%" }}>
                         <View
                             style={{
@@ -303,7 +348,7 @@ export default function ListingPopup({ listing }) {
                             justifyContent="center"
                             borderRadius="25%"
                             width="80%"
-                            height="20%"
+                            height="40%"
                             marginTop="12%"
                             press={closeModal}
                             titleStyle={styles.buttonText}
