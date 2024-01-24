@@ -48,7 +48,7 @@ export default function CreatePostScreen() {
             allowsMultipleSelection: true,
             selectionLimit: 3,
             aspect: [4, 3],
-            quality: 1,
+            quality: 0.2
         });
 
         // console.log(result);

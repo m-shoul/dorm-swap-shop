@@ -82,7 +82,7 @@ export default function ProfileScreen() {
 			allowsEditing: true,
             selectionLimit: 1,
 			aspect: [1, 1],
-			quality: 1
+			quality: 0.2
 		});
 
 		if (result.assets && result.assets.length > 0) {
