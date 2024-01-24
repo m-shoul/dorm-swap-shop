@@ -24,6 +24,7 @@ import { getUsernameByID } from "../backend/api/user.js";
 import { isListingFavorited } from "../backend/api/listing.js";
 
 export default function ListingPopup({ listing }) {
+    const [selectedImage, setSelectedImage] = useState(null);
     const { width, height } = Dimensions.get("window");
     const [listingModalVisible, setListingModalVisible] = useState(false);
     const [isFavorited, setIsFavorited] = useState(false);
@@ -190,9 +191,10 @@ export default function ListingPopup({ listing }) {
                                             <TouchableOpacity
                                                 key={currentIndex}
                                                 delayPressIn={100}
-                                                onPress={() =>
-                                                    setNestedModalImage(true)
-                                                }>
+                                                onPress={() => {
+                                                    setNestedModalImage(true);
+                                                    setSelectedImage(imageUrl);
+                                                }}>
                                                 <Image
                                                     source={{ uri: imageUrl }}
                                                     style={{
@@ -207,11 +209,12 @@ export default function ListingPopup({ listing }) {
                             </TouchableOpacity>
                         ) : (
                             <TouchableOpacity
-                                onPress={() => setNestedModalImage(true)}>
-                                {/* ... */}
-                            </TouchableOpacity>
+                                onPress={() =>
+                                    setNestedModalImage(true)
+                                }></TouchableOpacity>
                         )}
                     </View>
+                    {/* This allows an image to be clicked on, and then zoomed*/}
                     <Modal
                         style={{ backgroundColor: "black" }}
                         animationType="slide"
@@ -220,7 +223,8 @@ export default function ListingPopup({ listing }) {
                         onRequestClose={() => setNestedModalImage(false)}>
                         <TouchableOpacity
                             style={{ flex: 1, backgroundColor: "black" }}
-                            onPress={() => setNestedModalImage(false)}>
+                            onPress={() => setNestedModalImage(false)}
+                            activeOpacity={1}>
                             <ScrollView
                                 contentContainerStyle={{
                                     flexGrow: 1,
@@ -230,23 +234,15 @@ export default function ListingPopup({ listing }) {
                                 maximumZoomScale={3}
                                 minimumZoomScale={1}
                                 centerContent={true}>
-                                {listing.images.map(
-                                    (imageUrl, currentIndex) => (
-                                        <Image
-                                            source={{
-                                                uri: listing.images[
-                                                    currentIndex
-                                                ],
-                                            }} // replace with the image you want to display
-                                            style={{
-                                                width: "90%",
-                                                height: "90%",
-                                                resizeMode: "contain",
-                                                marginBottom: "",
-                                            }}
-                                        />
-                                    )
-                                )}
+                                <Image
+                                    source={{ uri: selectedImage }}
+                                    style={{
+                                        width: "90%",
+                                        height: "90%",
+                                        resizeMode: "contain",
+                                        marginBottom: "",
+                                    }}
+                                />
                             </ScrollView>
                         </TouchableOpacity>
                     </Modal>
