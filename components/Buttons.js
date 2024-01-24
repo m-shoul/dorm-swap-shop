@@ -15,6 +15,7 @@ const Button =
             alignItems,
             justifyContent,
             marginTop,
+            marginBottom,
             marginRight,
             press,
             href,
@@ -24,7 +25,7 @@ const Button =
         return (
             <TouchableOpacity style={{
                 width, height, backgroundColor, borderRadius, alignItems,
-                justifyContent, marginTop, marginRight, flex
+                justifyContent, marginTop, marginRight, marginBottom, flex
             }} onPress={() => {
                 if (press) press();
                 if (href) router.push(href);
