@@ -1,5 +1,6 @@
 import { View, Text, Pressable, Modal, SafeAreaView, TouchableOpacity, Dimensions } from "react-native";
 import FilterComponent from "../assets/svg/filter_icon";
+import ExpandComponent from "../assets/svg/expand_icon";
 import styles from "../app/(aux)/StyleSheet";
 import { Button } from "../components/Buttons";
 import RNPickerSelect from "react-native-picker-select";
@@ -80,6 +81,14 @@ export default function FilterPopup() {
                                         inputAndroid: {
                                             fontSize: normalText, // Change this to your desired font size
                                         },
+                                        iconContainer: {
+                                            right: "3%",
+                                        }
+                                    }}
+                                    Icon={() => {
+                                        return (
+                                            <ExpandComponent style={{ fill: "red", width: 30 }} />
+                                        )
                                     }}
                                 />
                             </View>
@@ -159,6 +168,14 @@ export default function FilterPopup() {
                                     inputAndroid: {
                                         fontSize: normalText, // Change this to your desired font size
                                     },
+                                    iconContainer: {
+                                        right: "3%",
+                                    }
+                                }}
+                                Icon={() => {
+                                    return (
+                                        <ExpandComponent />
+                                    )
                                 }}
                             />
                         </View>
