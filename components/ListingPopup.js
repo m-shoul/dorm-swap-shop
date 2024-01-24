@@ -57,7 +57,7 @@ export default function ListingPopup({ listing }) {
     const listingTitle =
         listing.price && listing.title
             ? listing.price.length + listing.title.length > 22
-                ? listing.title.substring(0, 14) + "..."
+                ? listing.title.substring(0, 13) + "..."
                 : listing.title
             : "";
 
@@ -176,7 +176,7 @@ export default function ListingPopup({ listing }) {
                         </TouchableOpacity>
                     </View>
                     {/* IMAGE */}
-                    <View style={{ height: "33%" }}>
+                    <View style={{ height: "50%" }}>
                         {Array.isArray(listing.images) ? (
                             <TouchableOpacity
                                 delayPressIn={100}
@@ -199,7 +199,7 @@ export default function ListingPopup({ listing }) {
                                                     source={{ uri: imageUrl }}
                                                     style={{
                                                         width: width,
-                                                        height: 250,
+                                                        height: 375,
                                                     }}
                                                 />
                                             </TouchableOpacity>
@@ -348,7 +348,7 @@ export default function ListingPopup({ listing }) {
                             justifyContent="center"
                             borderRadius="25%"
                             width="80%"
-                            height="20%"
+                            height="40%"
                             marginTop="12%"
                             press={closeModal}
                             titleStyle={styles.buttonText}
