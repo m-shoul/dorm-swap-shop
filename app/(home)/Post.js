@@ -42,19 +42,15 @@ export default function CreatePostScreen() {
     // Function to pick images to upload to Firebase storage
     const pickImage = async () => {
         console.log("Picking Image");
-        // No permissions request is necessary for launching the image library
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             allowsMultipleSelection: true,
             selectionLimit: 3,
             aspect: [4, 3],
-            quality: 1,
+            quality: 0.2
         });
 
-        // console.log(result);
-
         if (result.assets && result.assets.length > 0) {
-            // console.log("Image picked successfully");
             const selectedImages = result.assets.map(asset => asset.uri);
             setImage(selectedImages);
         }
@@ -206,7 +202,6 @@ export default function CreatePostScreen() {
         }
 
         // Validate email field
-
         if (emptyFields > 1) {
             setErrorMessage("Please fill out all fields.");
             setErrorMessageTitle("");
@@ -222,8 +217,6 @@ export default function CreatePostScreen() {
             CreatePost();
             console.log("Post created successfully");
         }
-        // Set the errors and update form validity
-        // setErrors(errors);
     };
 
     return (
@@ -242,7 +235,6 @@ export default function CreatePostScreen() {
                 <View style={styles.dividerLine} />
             </View>
 
-
             {errorMessage && (
                 <Text
                     style={{
@@ -256,12 +248,8 @@ export default function CreatePostScreen() {
             <KeyboardAvoidingView
                 style={{
                     flex: 1,
-
                     width: "100%",
-                    // marginBottom: 0,
-                    //paddingBottom: 0,
                     justifyContent: "center",
-
                     alignItems: "center",
                     marginTop: "-10%",
                     zIndex: -1,
@@ -273,12 +261,10 @@ export default function CreatePostScreen() {
                         flex: 1,
                         KeyboardAvoidingView: "enabled",
                         width: "100%",
-
                     }}
                     contentContainerStyle={{
                         flexGrow: 1,
                         justifyContent: "center",
-
                         alignItems: "center",
                     }}
                     keyboardShouldPersistTaps="handled">
@@ -474,7 +460,6 @@ export default function CreatePostScreen() {
                                 flexDirection: "row",
                                 marginTop: "10%",
                                 justifyContent: "space-between",
-                                //paddingHorizontal: 20,
                                 height: "12%",
                             }}>
 
