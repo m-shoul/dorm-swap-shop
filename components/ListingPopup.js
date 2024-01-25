@@ -240,7 +240,6 @@ export default function ListingPopup({ listing }) {
                                         width: "90%",
                                         height: "90%",
                                         resizeMode: "contain",
-                                        marginBottom: "",
                                     }}
                                 />
                             </ScrollView>
