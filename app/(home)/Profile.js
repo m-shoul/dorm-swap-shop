@@ -20,6 +20,7 @@ import RatingComponent from "../../assets/svg/rating_stars.js";
 import * as ImagePicker from "expo-image-picker";
 // import { Camera, CameraType } from 'expo-camera';
 import { Button } from "../../components/Buttons.js";
+import CachedImage from "expo-cached-image";
 
 export default function ProfileScreen() {
     const [savedListings, setSavedListings] = useState([]);
@@ -94,6 +95,8 @@ export default function ProfileScreen() {
 
     const profileImageUrl = user?.public?.profileImage;
 
+    var shortHash = require('short-hash');
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "#F9F7F7" }}>
             <TouchableOpacity
@@ -106,7 +109,6 @@ export default function ProfileScreen() {
                     Edit
                 </Text>
             </TouchableOpacity>
-
 
             <View style={{ width: "100%", marginBottom: "5%", alignItems: "center" }}>
                 <TouchableOpacity onPress={pickProfileImage}>
@@ -121,12 +123,14 @@ export default function ProfileScreen() {
                             justifyContent: "center"
                         }}>
                         {profileImageUrl ? (
-                            <Image
-                            source={{ uri: profileImageUrl }}
-                            style={{
-                                width: "100%",
-                                height: "100%",
-                            }}
+                            <CachedImage    
+                                source={{ uri: profileImageUrl }}
+                                cacheKey={`user-${user.id}-profileImage`}
+                                // cacheKey={shortHash(user.id)} // this might be user.userId
+                                style={{
+                                    width: "100%",
+                                    height: "100%",
+                                }}
                             />
                         ) : (
                             <ListImagesComponent
@@ -142,7 +146,6 @@ export default function ProfileScreen() {
                     </View>
                 </TouchableOpacity>
             </View>
-
 
             <View style={{ width: "100%", alignItems: "center" }}>
                 <Text style={styles.boldtext}>{user && user.public && `${user.public.fname} ${user.public.lname}`}</Text>
@@ -167,7 +170,6 @@ export default function ProfileScreen() {
                     flexDirection: "row",
                     marginBottom: "-15%",
                     justifyContent: "center",
-                    //paddingHorizontal: 20,
                 }}>
                 {/* Goes to saved listings */}
                 <Button

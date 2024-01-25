@@ -22,6 +22,7 @@ import { saveListing, unsaveListing } from "../backend/api/listing.js";
 import { Button } from "./Buttons.js";
 import { getUsernameByID } from "../backend/api/user.js";
 import { isListingFavorited } from "../backend/api/listing.js";
+import CachedImage from "expo-cached-image";
 
 export default function ListingPopup({ listing }) {
     const [selectedImage, setSelectedImage] = useState(null);
@@ -79,13 +80,11 @@ export default function ListingPopup({ listing }) {
 
     const timestamp = new Date(listing.timestamp).toLocaleDateString("en-US");
     const [nestedModalImage, setNestedModalImage] = useState(false);
-    // console.log("Listing images " + listing.title + " " + listing.images);
+
+    var shortHash = require('short-hash');
 
     return (
         <SafeAreaView>
-            {/* This touchable opacity needs to be moved out of here. All we want this popup to do is
-        show a swipeable image carousel and some text. We don't want it to show the listing as
-        it is supposed to look on the home screen. This should be able to be used anywhere. */}
             <TouchableOpacity onPress={openModal}>
                 <View style={{ backgroundColor: "white" }}>
                     <TouchableOpacity
@@ -115,8 +114,10 @@ export default function ListingPopup({ listing }) {
                             style={{ width: "100%", height: 200 }}
                         />
                     ) : (
-                        <Image
+                        <CachedImage
                             source={{ uri: listing.images }}
+                            cacheKey={`listing-${listing.id}-image`}
+                            // cacheKey={shortHash(listing.id)} // listing.listingId
                             style={{ width: "100%", height: 200 }}
                         />
                     )}
