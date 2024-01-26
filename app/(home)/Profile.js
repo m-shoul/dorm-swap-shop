@@ -15,6 +15,7 @@ import React, { useState, useEffect } from "react";
 import { router } from "expo-router";
 import { getAllUserDataForProfile, getUserSavedListings, uploadProfileImage } from "../../backend/api/user.js";
 import ListingPopup from "../../components/ListingPopup.js";
+import ProfileHeader from "../../components/ProfileHeader.js";
 import ListImagesComponent from "../../assets/svg/list_images.js";
 import RatingComponent from "../../assets/svg/rating_stars.js";
 import * as ImagePicker from "expo-image-picker";
@@ -41,21 +42,21 @@ export default function ProfileScreen() {
         }
     };
 
-    const fetchUserData = async () => {
-        try {
-            const user = await getAllUserDataForProfile();
-            console.log("***IN APP - Profile.js*** - Got user data for user: " + user.public.fname + " " + user.public.lname);
-            setUser(user);
-            setIsLoading(false);
-        } catch (error) {
-            console.error("***IN APP - Profile.js*** - Could not get user data: ", error);
-            setIsLoading(false);
-        }
-    }
+    // const fetchUserData = async () => {
+    //     try {
+    //         const user = await getAllUserDataForProfile();
+    //         console.log("***IN APP - Profile.js*** - Got user data for user: " + user.public.fname + " " + user.public.lname);
+    //         setUser(user);
+    //         setIsLoading(false);
+    //     } catch (error) {
+    //         console.error("***IN APP - Profile.js*** - Could not get user data: ", error);
+    //         setIsLoading(false);
+    //     }
+    // }
 
     useEffect(() => {
         fetchSavedListings();
-        fetchUserData();
+        //fetchUserData();
     }, []);
 
     console.log("***IN APP - Profile.js*** - Saved listings: ");
@@ -67,7 +68,7 @@ export default function ProfileScreen() {
 
     const handleRefresh = () => {
         fetchSavedListings();
-        fetchUserData();
+        //fetchUserData();
     }
 
     const noSavedListings = () => (
@@ -75,31 +76,31 @@ export default function ProfileScreen() {
     );
 
     // Profile image stuff
-    const [profileImage, setProfileImage] = useState(null);
-	const pickProfileImage = async () => {
-        console.log("Picking profile image.");
-		let result = await ImagePicker.launchImageLibraryAsync({
-			mediaTypes: ImagePicker.MediaTypeOptions.Images,
-			allowsEditing: true,
-            selectionLimit: 1,
-			aspect: [1, 1],
-			quality: 0.1
-		});
+    // const [profileImage, setProfileImage] = useState(null);
+    // const pickProfileImage = async () => {
+    //     console.log("Picking profile image.");
+    //     let result = await ImagePicker.launchImageLibraryAsync({
+    //         mediaTypes: ImagePicker.MediaTypeOptions.Images,
+    //         allowsEditing: true,
+    //         selectionLimit: 1,
+    //         aspect: [1, 1],
+    //         quality: 0.1
+    //     });
 
-		if (result.assets && result.assets.length > 0) {
-			const selectedProfileImage = result.assets[0];
-			setProfileImage(selectedProfileImage.uri);
-            uploadProfileImage(selectedProfileImage.uri);
-		}
-	};
+    //     if (result.assets && result.assets.length > 0) {
+    //         const selectedProfileImage = result.assets[0];
+    //         setProfileImage(selectedProfileImage.uri);
+    //         uploadProfileImage(selectedProfileImage.uri);
+    //     }
+    // };
 
-    const profileImageUrl = user?.public?.profileImage;
+    // const profileImageUrl = user?.public?.profileImage;
 
-    var shortHash = require('short-hash');
+    // var shortHash = require('short-hash');
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "#F9F7F7" }}>
-            <TouchableOpacity
+            {/* <TouchableOpacity
                 style={{
                     alignSelf: "stretch",
                     paddingRight: "5%",
@@ -108,9 +109,10 @@ export default function ProfileScreen() {
                 <Text style={[styles.boldtext, { textAlign: "right" }]}>
                     Edit
                 </Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
 
-            <View style={{ width: "100%", marginBottom: "5%", alignItems: "center" }}>
+
+            {/* <View style={{ width: "100%", marginBottom: "5%", alignItems: "center" }}>
                 <TouchableOpacity onPress={pickProfileImage}>
                     <View
                         style={{
@@ -141,15 +143,16 @@ export default function ProfileScreen() {
                                     stroke: "black",
                                     strokeWidth: 0.25,
                                 }}
-                            />   
+                            />
                         )}
                     </View>
                 </TouchableOpacity>
-            </View>
+            </View> */}
 
-            <View style={{ width: "100%", alignItems: "center" }}>
+
+            {/* <View style={{ width: "100%", alignItems: "center" }}>
                 <Text style={styles.boldtext}>{user && user.public && `${user.public.fname} ${user.public.lname}`}</Text>
-            </View>
+            </View> */}
             {/* <View>
                 <Text style={styles.boldtext}>{user && user.public && `${"Rating: " + user.public.rating}`}</Text>
             </View> */}
@@ -164,15 +167,16 @@ export default function ProfileScreen() {
                     }}
                 />
             </View> */}
-            <View
+            {/* <View
                 style={{
                     paddingTop: "5%",
                     flexDirection: "row",
                     marginBottom: "-15%",
                     justifyContent: "center",
-                }}>
-                {/* Goes to saved listings */}
-                <Button
+                    //paddingHorizontal: 20,
+                }}> */}
+            {/* Goes to saved listings */}
+            {/* <Button
                     width="45%"
                     height="33%"
                     backgroundColor="#3F72AF"
@@ -183,10 +187,10 @@ export default function ProfileScreen() {
                     borderRadius="25%"
                     href="MyListingsScreen"
                     titleStyle={[styles.boldtext, { color: "white" }]}
-                />
+                /> */}
 
-                {/* Goes to chats */}
-                <Button
+            {/* Goes to chats */}
+            {/* <Button
                     width="45%"
                     height="33%"
                     backgroundColor="#3F72AF"
@@ -196,19 +200,19 @@ export default function ProfileScreen() {
                     borderRadius="25%"
                     href="Chat"
                     titleStyle={[styles.boldtext, { color: "white" }]}
-                />
-            </View>
-            <View
+                /> */}
+            {/* </View> */}
+            {/* <View
                 style={{
                     alignSelf: "stretch",
                     paddingLeft: "5%",
                     marginBottom: "4%",
                 }}>
                 <Text style={styles.boldtext}>Saved Listings</Text>
-            </View>
-            <View style={{ alignItems: "center" }}>
+            </View> */}
+            {/* <View style={{ alignItems: "center" }}>
                 <View style={[styles.dividerLine, { marginBottom: 1, }]} />
-            </View>
+            </View> */}
 
             {isLoading ? (
                 <ActivityIndicator size="large" color="#112d4e" />
@@ -225,19 +229,20 @@ export default function ProfileScreen() {
                     style={{
                         flex: 1,
                         backgroundColor: "#F9F7F7",
-                        paddingTop: "2%",
+                        //paddingTop: "2%",
                     }}
                     onScroll={(e) => {
                         // scrollY.setValue(e.nativeEvent.contentOffset.y);
                     }}
                     bounces={true}
                     refreshControl={
-                    <RefreshControl
-                        refreshing={refreshing}
-                        onRefresh={handleRefresh}
-                    />
+                        <RefreshControl
+                            refreshing={refreshing}
+                            onRefresh={handleRefresh}
+                        />
                     }
                     ListEmptyComponent={noSavedListings}
+                    ListHeaderComponent={<ProfileHeader />}
                 />
             )}
         </SafeAreaView>
