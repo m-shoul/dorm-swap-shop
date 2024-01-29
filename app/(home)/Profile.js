@@ -1,13 +1,12 @@
 import {
     Text,
     View,
-    TouchableOpacity,
     FlatList,
     SafeAreaView,
-    StyleSheet,
     //Image,
     ActivityIndicator,
-    RefreshControl
+    RefreshControl,
+    StatusBar
 } from "react-native";
 import { Image } from 'expo-image';
 import styles from "../(aux)/StyleSheet.js";
@@ -99,7 +98,7 @@ export default function ProfileScreen() {
     // var shortHash = require('short-hash');
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: "#F9F7F7" }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: "#112D4E" }}>
             {/* <TouchableOpacity
                 style={{
                     alignSelf: "stretch",
@@ -213,6 +212,7 @@ export default function ProfileScreen() {
             {/* <View style={{ alignItems: "center" }}>
                 <View style={[styles.dividerLine, { marginBottom: 1, }]} />
             </View> */}
+            <StatusBar barStyle="light-content" />
 
             {isLoading ? (
                 <ActivityIndicator size="large" color="#112d4e" />
@@ -226,7 +226,7 @@ export default function ProfileScreen() {
                         </View>
                     )}
                     numColumns={2}
-                    style={{
+                    contentContainerStyle={{
                         flex: 1,
                         backgroundColor: "#F9F7F7",
                         //paddingTop: "2%",
@@ -239,6 +239,8 @@ export default function ProfileScreen() {
                         <RefreshControl
                             refreshing={refreshing}
                             onRefresh={handleRefresh}
+                            tintColor={"#F9F7F7"}
+                            stye={{ backgroundColor: "blue" }}
                         />
                     }
                     ListEmptyComponent={noSavedListings}

@@ -2,12 +2,7 @@ import {
     Text,
     View,
     TouchableOpacity,
-    FlatList,
-    SafeAreaView,
-    StyleSheet,
-    //Image,
-    ActivityIndicator,
-    RefreshControl
+    StyleSheet
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { Image } from 'expo-image';
@@ -17,6 +12,7 @@ import * as ImagePicker from "expo-image-picker";
 import { Button } from "./Buttons.js";
 import { getAllUserDataForProfile, uploadProfileImage } from "../backend/api/user.js";
 import CachedImage from "expo-cached-image";
+import RoundHeader from "./RoundHeader.js";
 
 export default function ProfileHeader() {
     const [user, setUser] = useState(null);
@@ -63,7 +59,7 @@ export default function ProfileHeader() {
 
     return (
         <View >
-            <TouchableOpacity
+            {/* <TouchableOpacity
                 style={{
                     alignSelf: "stretch",
                     paddingRight: "5%",
@@ -72,20 +68,43 @@ export default function ProfileHeader() {
                 <Text style={[styles.boldtext, { textAlign: "right" }]}>
                     Edit
                 </Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
 
 
             <View style={{ width: "100%", marginBottom: "5%", alignItems: "center" }}>
-                <TouchableOpacity onPress={pickProfileImage}>
+                <TouchableOpacity
+                    style={{
+                        alignSelf: "stretch",
+                        paddingRight: "5%",
+                        marginBottom: "4%",
+                        zIndex: 1
+                    }}>
+                    <Text style={[styles.boldtext, { textAlign: "right", color: "#F9F7F7" }]}>
+                        Edit
+                    </Text>
+                </TouchableOpacity>
+                <RoundHeader />
+                <TouchableOpacity onPress={pickProfileImage} style={{
+                    shadowColor: "#000",
+                    shadowOffset: {
+                        width: 0,
+                        height: 4,
+                    },
+                    shadowOpacity: 0.8,
+                    shadowRadius: 3.84,
+                    elevation: 5,
+                }}>
                     <View
                         style={{
                             width: 190,
                             height: 190,
                             borderRadius: 200,
                             overflow: "hidden",
-                            borderWidth: 1,
-                            borderColor: "#B3B3B3",
-                            justifyContent: "center"
+                            borderWidth: 2,
+                            //borderColor: "red",
+                            justifyContent: "center",
+                            //zIndex: 1,
+                            backgroundColor: "white",
                         }}>
                         {profileImageUrl ? (
                             <CachedImage
@@ -134,14 +153,23 @@ export default function ProfileHeader() {
                 style={{
                     paddingTop: "5%",
                     flexDirection: "row",
-                    marginBottom: "-15%",
+                    marginBottom: "-5%",
                     justifyContent: "center",
-                    //paddingHorizontal: 20,
+                    paddingHorizontal: 20,
+                    backgroundColor: "transparent",
+                    shadowColor: "#000",
+                    shadowOffset: {
+                        width: 0,
+                        height: 4,
+                    },
+                    shadowOpacity: 0.8,
+                    shadowRadius: 3.84,
+                    elevation: 5,
                 }}>
                 {/* Goes to saved listings */}
                 <Button
                     width="45%"
-                    height="33%"
+                    height="40%"
                     backgroundColor="#3F72AF"
                     title="My Listings"
                     alignItems="center"
@@ -155,7 +183,7 @@ export default function ProfileHeader() {
                 {/* Goes to chats */}
                 <Button
                     width="45%"
-                    height="33%"
+                    height="40%"
                     backgroundColor="#3F72AF"
                     title="Chat"
                     alignItems="center"
@@ -174,7 +202,7 @@ export default function ProfileHeader() {
                 <Text style={styles.boldtext}>Saved Listings</Text>
             </View>
             <View style={{ alignItems: "center" }}>
-                <View style={[styles.dividerLine, { marginBottom: 1, }]} />
+                <View style={[styles.dividerLine, { marginBottom: 20, }]} />
             </View>
         </View>
     );
