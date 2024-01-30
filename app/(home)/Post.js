@@ -10,7 +10,7 @@ import {
     //Image,
     Dimensions,
 } from "react-native";
-import { Image } from 'expo-image';
+import { Image } from "expo-image";
 import React, { useState, useEffect, useRef } from "react";
 import styles from "../(aux)/StyleSheet.js";
 import { getUserID } from "../../backend/dbFunctions.js";
@@ -24,7 +24,6 @@ import { Button } from '../../components/Buttons.js';
 import RoundHeader from "../../components/RoundHeader.js";
 
 export default function CreatePostScreen() {
-
     const navigation = useNavigation();
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
@@ -44,15 +43,15 @@ export default function CreatePostScreen() {
     const pickImage = async () => {
         console.log("Picking Image");
         let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            mediaTypes: ImagePicker.MediaTypeOptions.Image,
             allowsMultipleSelection: true,
             selectionLimit: 3,
             aspect: [4, 3],
-            quality: 0.2
+            quality: 0.2,
         });
 
         if (result.assets && result.assets.length > 0) {
-            const selectedImages = result.assets.map(asset => asset.uri);
+            const selectedImages = result.assets.map((asset) => asset.uri);
             setImage(selectedImages);
         }
     };
@@ -105,7 +104,7 @@ export default function CreatePostScreen() {
     useEffect(() => {
         // console.log("Reached useEffect");
 
-        const unsubscribeBlur = navigation.addListener('blur', () => {
+        const unsubscribeBlur = navigation.addListener("blur", () => {
             // You can put any logic you want to execute when the screen is unfocused here
             clearTextInputs();
         });
@@ -119,7 +118,6 @@ export default function CreatePostScreen() {
             unsubscribeBlur();
         };
     }, [title, price, description, navigation]);
-
 
     const handleValidation = () => {
         console.log("Reached handleSubmit");
@@ -471,14 +469,30 @@ export default function CreatePostScreen() {
                                 justifyContent: "space-between",
                                 height: "12%",
                             }}>
-
                             {/* Cancel Button */}
-                            <Button width="35%" backgroundColor="#B3B3B3" title="Cancel" alignItems="center"
-                                justifyContent="center" borderRadius="25%" press={clearTextInputs} marginRight="5%" titleStyle={styles.buttonText} />
+                            <Button
+                                width="35%"
+                                backgroundColor="#B3B3B3"
+                                title="Cancel"
+                                alignItems="center"
+                                justifyContent="center"
+                                borderRadius="25%"
+                                press={clearTextInputs}
+                                marginRight="5%"
+                                titleStyle={styles.buttonText}
+                            />
 
                             {/* Post Button */}
-                            <Button backgroundColor="#3F72AF" title="Post" alignItems="center" flex="1"
-                                justifyContent="center" borderRadius="25%" press={handleValidation} titleStyle={styles.buttonText} />
+                            <Button
+                                backgroundColor="#3F72AF"
+                                title="Post"
+                                alignItems="center"
+                                flex="1"
+                                justifyContent="center"
+                                borderRadius="25%"
+                                press={handleValidation}
+                                titleStyle={styles.buttonText}
+                            />
                             {/* Just for testing purposes 10/6/23 */}
                         </View>
                     </View>

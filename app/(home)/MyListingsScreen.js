@@ -9,7 +9,7 @@ import {
     Modal,
     Animated,
 } from "react-native";
-import { Image } from 'expo-image';
+import { Image } from "expo-image";
 import { router } from "expo-router";
 import ListingPopup from "../../components/ListingPopup.js";
 import React, { useState, useEffect } from "react";
@@ -82,7 +82,13 @@ const MyListingsScreen = ({ navigation }) => {
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "#F9F7F7" }}>
             {/* Search bar was taken from homescreen, so will not have functionality. */}
-            <View style={{ flexDirection: "row", alignItems: "center", width: "100%", paddingHorizontal: "5%" }}>
+            <View
+                style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    width: "100%",
+                    paddingHorizontal: "5%",
+                }}>
                 <TouchableOpacity onPress={() => router.back()}>
                     <BackButtonComponent></BackButtonComponent>
                 </TouchableOpacity>
@@ -104,64 +110,70 @@ const MyListingsScreen = ({ navigation }) => {
             </View>
             <FlatList
                 data={listingsData}
-                renderItem={({ item }) => (
-                    <TouchableOpacity
-                        style={{
-                            width: 400,
-                            marginTop: 20,
-                            padding: 10,
+                renderItem={({ item }) => {
+                    const truncatedDescription =
+                        item.description && item.description.length > 10
+                            ? item.description.substring(0, 35) + "..."
+                            : item.description;
 
-                            flex: 1,
-                            margin: 0,
-                        }}
-                        onPress={() => handleItemPress(item)}
-                        key={item.id}>
-                        <View
+                    return (
+                        <TouchableOpacity
                             style={{
-                                backgroundColor: "#F9F7F7",
-                                flex: 1,
-                                flexDirection: "row",
-                                padding: 2,
-                                paddingRight: "5%",
-                                width: 370,
-                                justifyContent: "space-between",
-                            }}>
-                            {Array.isArray(item.images) ? (
-                                <Image
-                                    source={{ uri: item.images[0] }}
-                                    style={{ width: 100, height: 100 }}
-                                />
-                            ) : (
-                                <Image
-                                    source={{ uri: item.images }}
-                                    style={{ width: 100, height: 100 }}
-                                />
-                            )}
-
-                            <View style={{ flex: 1, marginLeft: "3%" }}>
-                                <Text style={styles.boldtext}>
-                                    {item.title}
-                                </Text>
-                                <Text>{"$" + item.price}</Text>
-                                <Text>{item.condition}</Text>
-                                <Text>{item.description}</Text>
-                            </View>
-                        </View>
-
-                        {/* For now this is commented out since the listing popup is broken */}
-                        {/* <ListingPopup listing={item} navigation={navigation} /> */}
-                        <View
-                            style={{
-                                backgroundColor: "#B3B3B3",
-                                height: 1,
+                                width: 400,
                                 marginTop: 20,
-                                marginLeft: 10,
-                                marginRight: 20,
-                                marginBottom: -20,
+                                padding: 10,
+                                flex: 1,
+                                margin: 0,
                             }}
-                        />
-                    </TouchableOpacity>
-                )}
+                            onPress={() => handleItemPress(item)}
+                            key={item.id}>
+                            <View
+                                style={{
+                                    backgroundColor: "#F9F7F7",
+                                    flex: 1,
+                                    flexDirection: "row",
+                                    padding: 2,
+                                    paddingRight: "5%",
+                                    width: 370,
+                                    justifyContent: "space-between",
+                                }}>
+                                {Array.isArray(item.images) ? (
+                                    <Image
+                                        source={{ uri: item.images[0] }}
+                                        style={{ width: 100, height: 100 }}
+                                    />
+                                ) : (
+                                    <Image
+                                        source={{ uri: item.images }}
+                                        style={{ width: 100, height: 100 }}
+                                    />
+                                )}
+
+                                <View style={{ flex: 1, marginLeft: "3%" }}>
+                                    <Text style={styles.boldtext}>
+                                        {item.title}
+                                    </Text>
+                                    <Text>{"$" + item.price}</Text>
+                                    <Text>{item.condition}</Text>
+                                    <Text>{truncatedDescription}</Text>
+                                </View>
+                            </View>
+
+                            {/* For now this is commented out since the listing popup is broken */}
+                            {/* <ListingPopup listing={item} navigation={navigation} /> */}
+                            <View
+                                style={{
+                                    backgroundColor: "#B3B3B3",
+                                    height: 1,
+                                    marginTop: 20,
+                                    marginLeft: 10,
+                                    marginRight: 20,
+                                    marginBottom: -20,
+                                }}
+                            />
+                        </TouchableOpacity>
+                    );
+                }}
                 //numColumns={2}
                 keyExtractor={(item) => item.listingId}
                 style={{
