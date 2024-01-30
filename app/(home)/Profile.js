@@ -6,7 +6,6 @@ import {
     //Image,
     ActivityIndicator,
     RefreshControl,
-    StatusBar
 } from "react-native";
 import { Image } from 'expo-image';
 import styles from "../(aux)/StyleSheet.js";
@@ -212,7 +211,6 @@ export default function ProfileScreen() {
             {/* <View style={{ alignItems: "center" }}>
                 <View style={[styles.dividerLine, { marginBottom: 1, }]} />
             </View> */}
-            <StatusBar barStyle="light-content" />
 
             {isLoading ? (
                 <ActivityIndicator size="large" color="#112d4e" />

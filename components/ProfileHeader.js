@@ -69,8 +69,7 @@ export default function ProfileHeader() {
                     Edit
                 </Text>
             </TouchableOpacity> */}
-
-
+            <RoundHeader height="25%" />
             <View style={{ width: "100%", marginBottom: "5%", alignItems: "center" }}>
                 <TouchableOpacity
                     style={{
@@ -83,7 +82,6 @@ export default function ProfileHeader() {
                         Edit
                     </Text>
                 </TouchableOpacity>
-                <RoundHeader />
                 <TouchableOpacity onPress={pickProfileImage} style={{
                     shadowColor: "#000",
                     shadowOffset: {

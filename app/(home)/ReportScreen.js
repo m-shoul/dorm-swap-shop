@@ -15,6 +15,7 @@ import BackButtonComponent from "../../assets/svg/back_button.js";
 import React, { useState, useEffect } from "react";
 import { useLocalSearchParams, router } from "expo-router";
 import { Button } from "../../components/Buttons.js";
+import RoundHeader from "../../components/RoundHeader.js";
 
 //import { useRoute } from '@react-navigation/native';
 
@@ -22,8 +23,8 @@ import { Button } from "../../components/Buttons.js";
 import emailjs from "emailjs-com";
 
 export default function ReportScreen() {
-    const { image } = useLocalSearchParams();
-    
+    const { image, title } = useLocalSearchParams();
+
     // Sending the email to the admin.
     const [emailSent, setEmailSent] = useState(false);
     const [description, setDescription] = useState("");
@@ -58,16 +59,17 @@ export default function ReportScreen() {
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
             <SafeAreaView style={styles.background}>
+                <RoundHeader height={"25%"} />
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
                     {/* Need to add in the back arrow and the 
-            functionality of going back on click. */}
+                        functionality of going back on click. */}
                     <TouchableOpacity onPress={() => router.back()}>
                         <BackButtonComponent />
                     </TouchableOpacity>
 
                     {/* Title of page */}
 
-                    <Text style={styles.loginHeader}>Report Listing</Text>
+                    <Text style={[styles.loginHeader, { color: "white" }]}>Report Listing</Text>
                 </View>
 
                 <Image
@@ -76,29 +78,39 @@ export default function ReportScreen() {
                     key={image}
                 />
 
-                {/* Description text field to enter what is wrong with the post */}
-                <TextInput
-                    style={{
-                        width: "80%",
-                        height: "40%",
-                        borderRadius: 20,
-                        borderWidth: 1,
-                        borderColor: "#B3B3B3",
-                        backgroundColor: "white",
-                        padding: "5%",
-                        fontSize: 20,
-                    }}
-                    multiline={true}
-                    value={description}
-                    onChangeText={(value) => setDescription(value)}
-                    placeholder="Description"
-                />
+                <View>
+                    <Text style={styles.boldtext}>{title}</Text>
+                </View>
+
+                <View style={{ width: "80%", height: "40%", marginTop: "10%" }}>
+                    <Text style={{ marginBottom: "5%" }}>This listing will be reported to the Dorm Swap and Shop admins.
+                        The reported listing will be reviewed and further actions will be
+                        taken accordingly. Thank you. </Text>
+
+                    {/* Description text field to enter what is wrong with the post */}
+                    <TextInput
+                        style={{
+                            //width: "80%",
+                            height: "80%",
+                            borderRadius: 20,
+                            borderWidth: 1,
+                            borderColor: "#B3B3B3",
+                            backgroundColor: "white",
+                            padding: "5%",
+                            fontSize: 20,
+                        }}
+                        multiline={true}
+                        value={description}
+                        onChangeText={(value) => setDescription(value)}
+                        placeholder="Description"
+                    />
+                </View>
 
                 {/* 2.) Flags the listing as reported... (not yet implemented) */}
 
                 <Button
                     backgroundColor="#3F72AF"
-                    title="Send Email"
+                    title="Report"
                     alignItems="center"
                     justifyContent="center"
                     borderRadius="25%"
@@ -110,10 +122,6 @@ export default function ReportScreen() {
                 />
                 {emailSent && <Text>Email sent successfully!</Text>}
 
-                <TouchableOpacity
-                    onPress={() => router.push("PostReportedScreen")}>
-                    <Text>Post reported (second screen)</Text>
-                </TouchableOpacity>
             </SafeAreaView>
         </TouchableWithoutFeedback>
     );

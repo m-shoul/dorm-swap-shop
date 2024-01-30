@@ -21,6 +21,7 @@ import RNPickerSelect from "react-native-picker-select";
 import { createListing } from "../../backend/api/listing.js";
 import { router, useNavigation } from "expo-router";
 import { Button } from '../../components/Buttons.js';
+import RoundHeader from "../../components/RoundHeader.js";
 
 export default function CreatePostScreen() {
 
@@ -221,17 +222,17 @@ export default function CreatePostScreen() {
 
     return (
         <SafeAreaView style={styles.background}>
+            <RoundHeader height="35%" />
             <View
                 style={{
                     height: "15%",
                     paddingTop: "5%",
-                    margin: 0,
+                    //margin: 0,
                     marginBottom: -10,
                     width: "100%",
-                    backgroundColor: "#F9F7F7",
                     alignItems: "center",
                 }}>
-                <Text style={[styles.postListingHeader, { marginBottom: "7%" }]}>Create Listing</Text>
+                <Text style={[styles.postListingHeader, { marginBottom: "7%", color: "#F9F7F7" }]}>Create Listing</Text>
                 <View style={styles.dividerLine} />
             </View>
 
@@ -252,7 +253,7 @@ export default function CreatePostScreen() {
                     justifyContent: "center",
                     alignItems: "center",
                     marginTop: "-10%",
-                    zIndex: -1,
+                    //zIndex: -1,
                 }}
                 behavior={Platform.OS === "ios" ? "padding" : "height"}>
                 <ScrollView
@@ -281,13 +282,21 @@ export default function CreatePostScreen() {
                                 />
                             ) : (
                                 <ListImagesComponent
-                                    source={require("../../assets/svg/list_images.js")}
+                                    //source={require("../../assets/svg/list_images.js")}
                                     style={{
                                         width: 200,
                                         height: 28,
-                                        stroke: "black",
-                                        strokeWidth: 0.25,
+                                        // stroke: "black",
+                                        // strokeWidth: 0.25,
                                         marginBottom: "5%",
+                                        shadowColor: "#000",
+                                        shadowOffset: {
+                                            width: 0,
+                                            height: 4,
+                                        },
+                                        shadowOpacity: 0.8,
+                                        shadowRadius: 3.84,
+                                        elevation: 5,
                                     }}
                                 />
                             )}
@@ -475,6 +484,7 @@ export default function CreatePostScreen() {
                     </View>
                 </ScrollView>
             </KeyboardAvoidingView>
+
         </SafeAreaView>
     );
 }
