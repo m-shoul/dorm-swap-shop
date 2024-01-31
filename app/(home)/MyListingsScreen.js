@@ -5,7 +5,6 @@ import {
     FlatList,
     SafeAreaView,
     StyleSheet,
-    //Image,
     Modal,
     Animated,
 } from "react-native";
@@ -15,7 +14,6 @@ import { Image } from "expo-image";
 import { router } from "expo-router";
 import ListingPopup from "../../components/ListingPopup.js";
 import React, { useState, useEffect, useRef } from "react";
-import { SearchBar, Header } from "@rneui/themed";
 import styles from "../(aux)/StyleSheet.js";
 import BackButtonComponent from "../../assets/svg/back_button.js";
 import ProfileScreen from "./Profile.js";
