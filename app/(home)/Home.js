@@ -204,7 +204,8 @@ export default function HomeScreen() {
                 )}
                 numColumns={2}
                 contentContainerStyle={{
-                    paddingBottom: "15%", // Add this line
+                    paddingBottom: "15%",
+                    paddingTop: "3%", // Add this line
                 }}
                 style={{
                     flex: 1,
