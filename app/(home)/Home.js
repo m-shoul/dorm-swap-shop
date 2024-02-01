@@ -9,19 +9,17 @@ import {
     ActivityIndicator,
     TouchableWithoutFeedback,
     Modal,
-    Pressable
+    Pressable,
 } from "react-native";
 import { Image } from "expo-image";
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import { getAllListings } from "../../backend/api/listing";
 import styles from "../(aux)/StyleSheet";
 import ListingPopup from "../../components/ListingPopup";
-import { ScrollView } from "react-native-web";
-import filter from "lodash.filter";
-import typescript from "react-native-svg";
 import SearchBarHeader from "../../components/SearchBar";
 import { getUsernameByID } from "../../backend/api/user";
 import FilterPopup from "../../components/FilterPopup";
+import SquareHeader from "../../components/SquareHeader";
 
 export default function HomeScreen() {
     const scrollOffsetY = useRef(new Animated.Value(0)).current;
@@ -144,32 +142,43 @@ export default function HomeScreen() {
     const headerHeight = 120;
     const activeRange = 200;
 
-
-    const diffClamp = Animated.diffClamp(animHeaderValue, -minScroll,
-        activeRange + minScroll);
+    const diffClamp = Animated.diffClamp(
+        animHeaderValue,
+        -minScroll,
+        activeRange + minScroll
+    );
     const animatedHeaderHeight = diffClamp.interpolate({
         inputRange: [0, activeRange],
         outputRange: [0, -headerHeight],
-        extrapolate: "clamp"
-    })
+        extrapolate: "clamp",
+    });
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "#F9F7F7" }}>
-            <Animated.View style={{
-                zIndex: 1,
-                transform: [{ translateY: animatedHeaderHeight }]
-            }}>
-                <View style={{
-                    flexDirection: "row", alignItems: "center", width: "100%", paddingHorizontal: "2%",
-                    position: "absolute", top: 0, left: 0, right: 0
+            <SquareHeader height={"8%"} />
+            <Animated.View
+                style={{
+                    zIndex: 1,
+                    transform: [{ translateY: animatedHeaderHeight }],
                 }}>
+                <View
+                    style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        width: "100%",
+                        paddingHorizontal: "2%",
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        backgroundColor: "#112D4E",
+                    }}>
                     <View style={{ justifyContent: "center", width: "90%" }}>
                         <SearchBarHeader handleSearch={handleSearch} />
                     </View>
                     <View style={{ width: "10%" }}>
                         <FilterPopup />
                     </View>
-
                 </View>
             </Animated.View>
 
@@ -186,13 +195,14 @@ export default function HomeScreen() {
                         }}>
                         <ListingPopup
                             listing={item}
-                        //navigation={router}
+                            //navigation={router}
                         />
                     </View>
                 )}
                 numColumns={2}
                 contentContainerStyle={{
-                    paddingBottom: "15%", // Add this line
+                    paddingBottom: "15%",
+                    paddingTop: "3%", // Add this line
                 }}
                 style={{
                     flex: 1,
