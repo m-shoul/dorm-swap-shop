@@ -10,6 +10,7 @@ import {
     Dimensions,
     Alert,
 } from "react-native";
+import SquareHeader from "./SquareHeader.js";
 import { Image } from "expo-image";
 import styles from "../app/(aux)/StyleSheet.js";
 import Swiper from "react-native-swiper";
@@ -81,7 +82,7 @@ export default function ListingPopup({ listing }) {
     const timestamp = new Date(listing.timestamp).toLocaleDateString("en-US");
     const [nestedModalImage, setNestedModalImage] = useState(false);
 
-    var shortHash = require('short-hash');
+    var shortHash = require("short-hash");
 
     return (
         <SafeAreaView>
@@ -135,13 +136,16 @@ export default function ListingPopup({ listing }) {
 
             <Modal visible={listingModalVisible}>
                 <SafeAreaView style={styles.background}>
+                    <SquareHeader height={"20%"} />
                     <View
                         style={{
                             flexDirection: "row",
-                            marginTop: "10%",
+                            marginTop: "5%",
                             justifyContent: "space-between",
                             paddingHorizontal: 20,
-                            height: "3%",
+                            height: "5%",
+                            backgroundColor: "#112D4E",
+                            paddingTop: "-8%",
                         }}>
                         <TouchableOpacity
                             style={{ flex: 1 }}
@@ -151,7 +155,7 @@ export default function ListingPopup({ listing }) {
                                 style={{
                                     width: 200,
                                     height: 28,
-                                    stroke: "black",
+                                    stroke: "white",
                                     strokeWidth: 0.25,
                                 }}
                             />
@@ -170,7 +174,7 @@ export default function ListingPopup({ listing }) {
                                 style={{
                                     width: 15,
                                     height: 15,
-                                    stroke: "black",
+                                    stroke: "white",
                                     strokeWidth: 0.25,
                                 }}
                             />
