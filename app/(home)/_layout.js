@@ -71,14 +71,6 @@ export default function Layout() {
                 />
                 <Tabs.Screen
                     // Name of the route to hide.
-                    name="PostReportedScreen"
-                    options={{
-                        // This tab will no longer show up in the tab bar.
-                        href: null,
-                    }}
-                />
-                <Tabs.Screen
-                    // Name of the route to hide.
                     name="RecentSearchScreen"
                     options={{
                         // This tab will no longer show up in the tab bar.

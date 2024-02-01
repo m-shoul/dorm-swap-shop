@@ -18,6 +18,7 @@ SmallHeadText = width / SmallerHeaderFontSize;
 const styles = StyleSheet.create({
     boldtext: { fontSize: normalText, fontWeight: "bold" },
     normaltext: { fontSize: normalText },
+    SmallerHeaderFontSize: { fontSize: SmallHeadText, color: "#F9F7F7" },
     background: {
         flex: 1,
         alignItems: "center",
@@ -48,7 +49,7 @@ const styles = StyleSheet.create({
         marginBottom: "50%",
     },
     buttonText: {
-        color: "white",
+        color: "#F9F7F7",
         fontSize: buttonText,
         fontWeight: "bold",
     },

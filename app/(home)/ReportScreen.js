@@ -69,20 +69,40 @@ export default function ReportScreen() {
 
                     {/* Title of page */}
 
-                    <Text style={[styles.loginHeader, { color: "white" }]}>Report Listing</Text>
+                    <Text style={[styles.loginHeader, { color: "#F9F7F7" }]}>Report Listing</Text>
                 </View>
 
-                <Image
-                    source={{ uri: image }}
-                    style={{ width: "30%", height: "15%", marginBottom: "10%" }}
-                    key={image}
-                />
+                <View style={{
+                    width: "50%",
+                    height: "28%",
+                    marginBottom: "2%",
+                    shadowColor: "#000",
+                    shadowOffset: {
+                        width: 0,
+                        height: 4,
+                    },
+                    shadowOpacity: 0.8,
+                    shadowRadius: 3.84,
+                    elevation: 5,
+
+                }}>
+                    <Image
+                        source={{ uri: image }}
+                        style={{
+                            width: "100%",
+                            height: "100%",
+                            borderRadius: 20,
+                        }}
+                        key={image}
+                    />
+                </View>
+
 
                 <View>
                     <Text style={styles.boldtext}>{title}</Text>
                 </View>
 
-                <View style={{ width: "80%", height: "40%", marginTop: "10%" }}>
+                <View style={{ width: "80%", height: "40%", marginTop: "2%" }}>
                     <Text style={{ marginBottom: "5%" }}>This listing will be reported to the Dorm Swap and Shop admins.
                         The reported listing will be reviewed and further actions will be
                         taken accordingly. Thank you. </Text>
@@ -91,7 +111,7 @@ export default function ReportScreen() {
                     <TextInput
                         style={{
                             //width: "80%",
-                            height: "80%",
+                            height: "70%",
                             borderRadius: 20,
                             borderWidth: 1,
                             borderColor: "#B3B3B3",
@@ -114,9 +134,9 @@ export default function ReportScreen() {
                     alignItems="center"
                     justifyContent="center"
                     borderRadius="25%"
-                    width="80%"
+                    width="60%"
                     height="7%"
-                    marginTop="12%"
+                    marginTop="5%"
                     press={sendEmail}
                     titleStyle={styles.buttonText}
                 />

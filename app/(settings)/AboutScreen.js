@@ -11,102 +11,138 @@ import styles from "../(aux)/StyleSheet";
 import { router } from "expo-router";
 import BackButtonComponent from "../../assets/svg/back_button.js";
 import termsOfService from "../../assets/termsOfService.js";
+import RoundHeader from "../../components/RoundHeader.js";
+import SimpleLogo from "../../assets/svg/simpleLogo_icon.js";
+import { Button } from "../../components/Buttons.js";
+import HeadShot from "../../components/HeadShot.js";
+import EmailComponent from "../../assets/svg/email_icon.js";
 
 export default function About() {
     const [modalVisible, setModalVisible] = useState(false);
 
     return (
-        <SafeAreaView style={styles.background}>
+        <ScrollView>
+            <RoundHeader height={"20%"} />
             <View
                 style={{
                     flexDirection: "row",
-                    alignItems: "center",
-                    width: "100%",
                     paddingHorizontal: "5%",
+                    width: "100%",
+                    marginBottom: "10%",
+                    marginTop: "15%",
                 }}>
                 <TouchableOpacity onPress={() => router.back()}>
                     <BackButtonComponent></BackButtonComponent>
                 </TouchableOpacity>
 
-                <View style={{ justifyContent: "center", flex: 1 }}>
-                    <Text style={styles.loginHeader}>About Us</Text>
+                <View style={{ alignItems: "center", width: "80%", }}>
+                    <SimpleLogo />
+                    <Text style={[styles.SmallerHeaderFontSize, { textAlign: "center" }]}>The one-stop shop for all your college needs</Text>
                 </View>
             </View>
+
             <View style={{ paddingHorizontal: "3%" }}>
                 <View style={{ marginBottom: "2%" }}>
                     <Text style={[styles.boldtext, { marginBottom: "2%" }]}>
-                        Mission Statement:
+                        Our Story
                     </Text>
                     <Text style={styles.normaltext}>
-                        The one stop shop for all your college needs.
+                        Dorm Swap and Shop was created to make it easier for college students to get rid of unwanted
+                        goods for members of the campus community. We believe everyone should be able to find what
+                        they need with ease, which is why we created this one-stop shop.
                     </Text>
                 </View>
 
                 <View style={{ marginBottom: "2%" }}>
                     <Text style={[styles.boldtext, { marginBottom: "2%" }]}>
-                        Brand History:{" "}
+                        Unique
                     </Text>
                     <Text style={styles.normaltext}>
-                        Dorm Swap and Shop was created to solve the problem of
-                        college students having to scour different websites and
-                        pay hundreds for school resources.
+                        Our app is specific to colleges and universities to keep out unwanted buyers and sellers.
+                    </Text>
+                    <Text style={styles.normaltext}>
+                        We only facilitate the communication between buyers and sellers, and do not handle in-app transactions.
                     </Text>
                 </View>
 
-                <View style={{ marginBottom: "2%" }}>
-                    <Text style={[styles.boldtext, { marginBottom: "2%" }]}>
-                        What Makes us Different:{" "}
-                    </Text>
-                    <Text style={styles.normaltext}>
-                        {" "}
-                        - Specific to colleges and universities
-                    </Text>
-                    <Text style={styles.normaltext}>
-                        {" "}
-                        - Includes a lost and found feature
-                    </Text>
-                    <Text style={styles.normaltext}>
-                        {" "}
-                        - No transactions through the app
-                    </Text>
-                </View>
-
-                <View style={{ marginBottom: "2%" }}>
+                <View style={{ marginBottom: "2%", alignItems: "center" }}>
                     <Text style={[styles.boldtext, { marginBottom: "2%" }]}>
                         Meet the Team:
                     </Text>
-                    <Text style={styles.normaltext}>
-                        Project Lead/Owner: Mike Shoul
-                    </Text>
-                    <Text style={styles.normaltext}>
-                        Developers: Joseph McGillen, Ben Clarke, Josh Phillips
-                    </Text>
+                    <View style={{ flexDirection: "row", justifyContent: "center" }}>
+                        <View style={{ alignItems: "center" }}>
+                            <HeadShot source={require("../../assets/pfps/IMG_6676.jpg")} />
+                            <Text style={[styles.boldtext, { textAlign: "center" }]}>
+                                Mike Shoul
+                            </Text>
+                            <Text style={[styles.normaltext, { textAlign: "center" }]}>
+                                Project Owner & {"\n"} Backend Developer
+                            </Text>
+                        </View>
+
+                        <View style={{ alignItems: "center" }}>
+                            <HeadShot />
+                            <Text style={[styles.boldtext, { textAlign: "center" }]}>
+                                Josh Phillips
+                            </Text>
+                            <Text style={[styles.normaltext, { textAlign: "center" }]}>
+                                Backend Developer
+                            </Text>
+                        </View>
+                    </View>
+                    <View style={{ flexDirection: "row", justifyContent: "center" }}>
+                        <View style={{ alignItems: "center" }}>
+                            <HeadShot source={require("../../assets/pfps/Screenshot.jpg")} />
+                            <Text style={[styles.boldtext, { textAlign: "center" }]}>
+                                Joseph McGillen
+                            </Text>
+                            <Text style={[styles.normaltext, { textAlign: "center" }]}>
+                                Frontend Developer
+                            </Text>
+                        </View>
+                        <View style={{ alignItems: "center" }}>
+                            <HeadShot source={require("../../assets/pfps/headshot.jpg")} />
+                            <Text style={[styles.boldtext, { textAlign: "center" }]}>
+                                Ben Clarke
+                            </Text>
+                            <Text style={[styles.normaltext, { textAlign: "center" }]}>
+                                Frontend Developer {"\n"} & Security Expert
+                            </Text>
+                        </View>
+                    </View>
+
                 </View>
 
                 <View style={{ marginBottom: "2%" }}>
                     <Text style={[styles.boldtext, { marginBottom: "2%" }]}>
-                        Contact Us:{" "}
+                        Contact Us:
                     </Text>
-                    <Text style={styles.normaltext}>
-                        dormswapnshop@gmail.com
-                    </Text>
+                    <View style={{ flexDirection: "row" }}>
+                        <EmailComponent />
+                        <Text style={styles.normaltext}>
+                            dormswapnshop@gmail.com
+                        </Text>
+                    </View>
+
                 </View>
             </View>
-            <TouchableOpacity
-                style={[
-                    styles.loginBtn,
-                    {
-                        marginBottom: "10%",
-                        marginRight: "10%",
-                        marginLeft: "10%",
-                        marginTop: "10%",
-                    },
-                ]}
-                onPress={() => {
-                    setModalVisible(true);
-                }}>
-                <Text style={styles.buttonText}>Terms of Service</Text>
-            </TouchableOpacity>
+            <View style={{ paddingHorizontal: "3%", paddingBottom: "15%" }}>
+                <Text style={[styles.boldtext, { marginBottom: "5%" }]}>Terms and Conditions</Text>
+                <Button
+                    width="100%"
+                    height="20%"
+                    backgroundColor="#3F72AF"
+                    title="Terms and Conditions"
+                    alignItems="center"
+                    justifyContent="center"
+                    borderRadius="25%"
+                    press={() => setModalVisible(true)}
+                    titleStyle={[styles.boldtext, { color: "white" }]}
+                />
+            </View>
+
+
+
 
             <Modal
                 animationType="slide"
@@ -139,6 +175,6 @@ export default function About() {
                     </TouchableOpacity>
                 </View>
             </Modal>
-        </SafeAreaView>
+        </ScrollView>
     );
 }

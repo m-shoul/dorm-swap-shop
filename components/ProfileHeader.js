@@ -58,7 +58,7 @@ export default function ProfileHeader() {
     }, []);
 
     return (
-        <View >
+        <>
             {/* <TouchableOpacity
                 style={{
                     alignSelf: "stretch",
@@ -70,13 +70,12 @@ export default function ProfileHeader() {
                 </Text>
             </TouchableOpacity> */}
             <RoundHeader height="25%" />
-            <View style={{ width: "100%", marginBottom: "5%", alignItems: "center" }}>
+            <View style={{ marginBottom: "5%", alignItems: "center" }}>
                 <TouchableOpacity
                     style={{
                         alignSelf: "stretch",
                         paddingRight: "5%",
                         marginBottom: "4%",
-                        zIndex: 1
                     }}>
                     <Text style={[styles.boldtext, { textAlign: "right", color: "#F9F7F7" }]}>
                         Edit
@@ -98,10 +97,8 @@ export default function ProfileHeader() {
                             height: 190,
                             borderRadius: 200,
                             overflow: "hidden",
-                            borderWidth: 2,
-                            //borderColor: "red",
+                            //borderWidth: 2,
                             justifyContent: "center",
-                            //zIndex: 1,
                             backgroundColor: "white",
                         }}>
                         {profileImageUrl ? (
@@ -202,6 +199,6 @@ export default function ProfileHeader() {
             <View style={{ alignItems: "center" }}>
                 <View style={[styles.dividerLine, { marginBottom: 20, }]} />
             </View>
-        </View>
+        </>
     );
 }

@@ -97,7 +97,7 @@ export default function ProfileScreen() {
     // var shortHash = require('short-hash');
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: "#112D4E" }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: '#112D4E' }}>
             {/* <TouchableOpacity
                 style={{
                     alignSelf: "stretch",

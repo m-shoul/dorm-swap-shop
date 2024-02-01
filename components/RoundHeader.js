@@ -15,14 +15,6 @@ export default function RoundHeader({ height }) {
             borderBottomRightRadius: 200,
             transform: [{ scaleX: 1.2 }],
             backgroundColor: '#112D4E',
-            // shadowColor: "#000",
-            // shadowOffset: {
-            //     width: 0,
-            //     height: 4,
-            // },
-            // shadowOpacity: 0.8,
-            // shadowRadius: 3.84,
-            // elevation: 5,
         }}>
         </View>
     );
