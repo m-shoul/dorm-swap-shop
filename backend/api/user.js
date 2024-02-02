@@ -212,12 +212,17 @@ export async function deleteUserFromRealtimeDatabase(userId) {
 }
 
 // Function to update a user
-export function updateUser(userId, userData) {
-    // Implement the functionality to update user data.
-    // This will be used when the user wants to edit their profile.
+export function updateUser(username, userId, bio) {
+    const userReference = ref(database, `dorm_swap_shop/users/${userId}/public`);
+
+    // Add more data as needed
+    const updatedInfo = {
+        username: username,
+    };
+
+    set(userReference, updatedInfo);
 }
 
-// TODO: Finish working through this
 export async function uploadProfileImage(uri) {
     try {
         const blob = await new Promise((resolve, reject) => {

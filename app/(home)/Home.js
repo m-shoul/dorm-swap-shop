@@ -108,9 +108,62 @@ export default function HomeScreen() {
         return false;
     };
 
+    const handleFiltering = async (category, condition, activePrice) => {
+        if (typeof fullData !== "object") {
+            console.error("fullData is not an object:", fullData);
+            return;
+        }
+        const filteredData = await Promise.all(
+            Object.values(fullData).map(async (listing) => {
+                if (containsFiltering(listing, category, condition, activePrice)) {
+                    return listing;
+                }
+            })
+        );
+        setListingsData(filteredData.filter(Boolean));
+    };
+
+    const containsFiltering = (
+        { condition, category, price },
+        filteredCategory,
+        filteredCondition,
+        filteredPrice
+    ) => {
+        category = category.toLowerCase();
+        condition = condition.toLowerCase();
+
+        let priceMatch = true;
+        switch (filteredPrice) {
+            case "$":
+                priceMatch = parseFloat(price) < 10;
+                break;
+            case "$$":
+                priceMatch = parseFloat(price) >= 10 && parseFloat(price) <= 100;
+                break;
+            case "$$$":
+                priceMatch = parseFloat(price) > 100;
+                break;
+        }
+
+        if ((!filteredCategory || category === filteredCategory) &&
+            (!filteredCondition || condition === filteredCondition) &&
+            priceMatch) {
+
+            return true;
+        }
+
+        return false;
+    };
+
     const handleItemPress = (listing) => {
         setSelectedListing(listing);
     };
+
+    const noListingsFromSearchOrFilter = () => (
+        <Text style={{ textAlign: "center"}}>
+            Oops! No listings match that criteria. Refresh to clear results.
+        </Text>
+    );
 
     if (isLoading) {
         return (
@@ -173,7 +226,7 @@ export default function HomeScreen() {
                         <SearchBarHeader handleSearch={handleSearch} />
                     </View>
                     <View style={{ width: "10%" }}>
-                        <FilterPopup />
+                        <FilterPopup handleFiltering={handleFiltering} />
                     </View>
                 </View>
             </Animated.View>
@@ -216,6 +269,7 @@ export default function HomeScreen() {
                         onRefresh={fetchListings}
                     />
                 }
+                ListEmptyComponent={noListingsFromSearchOrFilter}
                 scrollEventThrottle={10}
             />
         </SafeAreaView>

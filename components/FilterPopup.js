@@ -5,9 +5,9 @@ import styles from "../app/(aux)/StyleSheet";
 import { Button } from "../components/Buttons";
 import RNPickerSelect from "react-native-picker-select";
 import { categories, conditions } from "./Enums";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
-export default function FilterPopup() {
+export default function FilterPopup({ handleFiltering }) {
     const [modalVisible, setModalVisible] = useState(false);
     const [category, setCategory] = useState(null);
     const [condition, setCondition] = useState(null);
@@ -16,6 +16,16 @@ export default function FilterPopup() {
     const categoryInputRef = useRef(null);
     const defaultColor = "#B3B3B3";
     const activeColor = "#3F72AF";
+
+    useEffect(() => {
+        if (modalVisible) {
+            setCategory(null);
+            setCondition(null);
+            setActivePrice(null);
+        }
+    }, [modalVisible]);
+
+
     return (
         <SafeAreaView>
             <TouchableOpacity onPress={() => setModalVisible(true)}>
@@ -198,7 +208,10 @@ export default function FilterPopup() {
                                 alignItems="center"
                                 justifyContent="center"
                                 borderRadius="25%"
-                                press={() => setModalVisible(!modalVisible)}
+                                press={() => {
+                                    setModalVisible(!modalVisible)
+                                    handleFiltering(category, condition, activePrice);     
+                                }}
                                 titleStyle={styles.buttonText}
                             />
                         </View>
