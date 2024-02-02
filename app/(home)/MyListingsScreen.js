@@ -37,7 +37,7 @@ const MyListingsScreen = ({ navigation }) => {
                 setListingsData(listingsData);
                 console.log("Got user listings.");
             } catch (error) {
-                console.error("Could not get user listings: ", error);
+                console.error("ERROR: Could not get user listings: ", error);
             }
         };
         fetchListingData();

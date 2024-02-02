@@ -31,11 +31,10 @@ export default function ProfileScreen() {
     const fetchSavedListings = async () => {
         try {
             const savedListings = await getUserSavedListings();
-            console.log("***IN APP - Profile.js*** - Got user saved listings.");
             setSavedListings(savedListings);
             setIsLoading(false);
         } catch (error) {
-            console.error("***IN APP - Profile.js*** - Could not get saved listings: ", error);
+            console.error("ERROR: Could not get saved listings: ", error);
             setIsLoading(false);
         }
     };
@@ -43,11 +42,10 @@ export default function ProfileScreen() {
     // const fetchUserData = async () => {
     //     try {
     //         const user = await getAllUserDataForProfile();
-    //         console.log("***IN APP - Profile.js*** - Got user data for user: " + user.public.fname + " " + user.public.lname);
     //         setUser(user);
     //         setIsLoading(false);
     //     } catch (error) {
-    //         console.error("***IN APP - Profile.js*** - Could not get user data: ", error);
+    //         console.error("ERROR: Could not get user data: ", error);
     //         setIsLoading(false);
     //     }
     // }
@@ -56,9 +54,6 @@ export default function ProfileScreen() {
         fetchSavedListings();
         //fetchUserData();
     }, []);
-
-    console.log("***IN APP - Profile.js*** - Saved listings: ");
-    console.log(savedListings);
 
     const handleItemPress = (listing) => {
         setSelectedListing(listing);
@@ -93,8 +88,6 @@ export default function ProfileScreen() {
     // };
 
     // const profileImageUrl = user?.public?.profileImage;
-
-    // var shortHash = require('short-hash');
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: '#112D4E' }}>

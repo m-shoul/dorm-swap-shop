@@ -10,6 +10,7 @@ import {
     Dimensions,
     Alert,
 } from "react-native";
+import ListImagesComponent from "../assets/svg/list_images.js";
 import SquareHeader from "./SquareHeader.js";
 import { Image } from "expo-image";
 import styles from "../app/(aux)/StyleSheet.js";
@@ -72,11 +73,12 @@ export default function ListingPopup({ listing }) {
         const favorited = await isListingFavorited(listing.listingId);
         setIsFavorited(favorited);
     };
+    const [user, setUser] = useState(null);
+    const profileImageUrl = user?.public?.profileImage;
 
     useEffect(() => {
         fetchUser();
         checkIfFavorited();
-        console.log("*** IN APP - ListingPopup.js*** " + listing.description);
     }, []);
 
     const timestamp = new Date(listing.timestamp).toLocaleDateString("en-US");
@@ -136,11 +138,11 @@ export default function ListingPopup({ listing }) {
 
             <Modal visible={listingModalVisible}>
                 <SafeAreaView style={styles.background}>
-                    <SquareHeader height={"20%"} />
+                    <SquareHeader height={"15%"} />
                     <View
                         style={{
                             flexDirection: "row",
-                            marginTop: "5%",
+                            marginTop: "1%",
                             justifyContent: "space-between",
                             paddingHorizontal: 20,
                             height: "5%",
@@ -285,18 +287,6 @@ export default function ListingPopup({ listing }) {
                                 marginLeft: "3%",
                                 marginTop: "2%",
                             }}>
-                            {/* USER */}
-                            <Text style={[styles.normaltext, { flex: 1 }]}>
-                                {username}
-                            </Text>
-                        </View>
-                        <View
-                            style={{
-                                flexDirection: "row",
-                                alignItems: "center",
-                                marginLeft: "3%",
-                                marginTop: "2%",
-                            }}>
                             {/* PRICE */}
                             <Text style={[styles.boldtext, { flex: 1 }]}>
                                 {"$" + listing.price}
@@ -310,18 +300,7 @@ export default function ListingPopup({ listing }) {
                             }}>
                             {/* CONDITION */}
                             <Text style={[styles.normaltext, { flex: 1 }]}>
-                                {listing.condition}
-                            </Text>
-                        </View>
-                        <View
-                            style={{
-                                flexDirection: "row",
-                                alignItems: "center",
-                                margin: "3%",
-                            }}>
-                            {/* TIME POSTED */}
-                            <Text style={[styles.normaltext, { flex: 1 }]}>
-                                {timestamp}
+                                Condition: {listing.condition}
                             </Text>
                         </View>
                         <View
@@ -335,6 +314,59 @@ export default function ListingPopup({ listing }) {
                                 {listing.description}
                             </Text>
                         </View>
+                        <View
+                            style={{
+                                position: "absolute",
+                                paddingLeft: "3%",
+                                paddingTop: "3%",
+                                marginTop: "50%",
+                                flexDirection: "row",
+                                alignItems: "center",
+                                paddingRight: "3%",
+                            }}>
+                            <View style={{ marginRight: 10 }}>
+                                <View
+                                    style={{
+                                        width: 40,
+                                        height: 40,
+                                        borderRadius: 200,
+                                        overflow: "hidden",
+                                        borderWidth: 1,
+                                        borderColor: "#B3B3B3",
+                                    }}>
+                                    {profileImageUrl ? (
+                                        <CachedImage
+                                            source={{
+                                                uri: profileImageUrl,
+                                            }}
+                                            cacheKey={`user-${user.id}-profileImage`}
+                                            style={{
+                                                width: "100%",
+                                                height: "100%",
+                                            }}
+                                        />
+                                    ) : (
+                                        <ListImagesComponent
+                                            source={require("../assets/svg/list_images.js")}
+                                            style={{
+                                                width: "20%",
+                                                height: "20%",
+                                                stroke: "black",
+                                                strokeWidth: 0.25,
+                                            }}
+                                        />
+                                    )}
+                                </View>
+                            </View>
+                            <Text style={styles.boldtext}>{username}</Text>
+                            <Text
+                                style={[
+                                    styles.normaltext,
+                                    { marginLeft: "40%" },
+                                ]}>
+                                {timestamp}
+                            </Text>
+                        </View>
                     </View>
                     <View
                         style={{
@@ -343,7 +375,7 @@ export default function ListingPopup({ listing }) {
                             justifyContent: "center",
                             padding: 0,
                             width: "80%",
-                            height: "25%",
+                            height: "20%",
                         }}>
                         <Button
                             backgroundColor="#3F72AF"
@@ -352,7 +384,7 @@ export default function ListingPopup({ listing }) {
                             justifyContent="center"
                             borderRadius="25%"
                             width="80%"
-                            height="40%"
+                            height="35%"
                             marginTop="12%"
                             press={closeModal}
                             titleStyle={styles.buttonText}
