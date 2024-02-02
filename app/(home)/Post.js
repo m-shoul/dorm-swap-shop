@@ -27,7 +27,7 @@ import ListingForm from "../../components/ListingForm";
 
 export default function CreatePostScreen() {
     return (
-        <ListingForm header="Create Listing" buttonTitle="Post" pressCommand={this.handleValidation} imageText="" />
+        <ListingForm header="Create Listing" buttonTitle="Post" imageText="" />
         // const navigation = useNavigation();
         // const [title, setTitle] = useState("");
         // const [description, setDescription] = useState("");

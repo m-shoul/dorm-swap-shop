@@ -75,6 +75,7 @@ export default function ProfileHeader() {
             </TouchableOpacity>
             <View style={{ width: "100%", marginBottom: "5%", alignItems: "center" }}>
                 <TouchableOpacity onPress={pickProfileImage} style={{
+                    backgroundColor: "transparent",
                     shadowColor: "#000",
                     shadowOffset: {
                         width: 0,
@@ -144,15 +145,15 @@ export default function ProfileHeader() {
                     marginBottom: "-5%",
                     justifyContent: "center",
                     paddingHorizontal: 20,
-                    backgroundColor: "transparent",
-                    shadowColor: "#000",
-                    shadowOffset: {
-                        width: 0,
-                        height: 4,
-                    },
-                    shadowOpacity: 0.8,
-                    shadowRadius: 3.84,
-                    elevation: 5,
+                    // backgroundColor: "transparent",
+                    // shadowColor: "#000",
+                    // shadowOffset: {
+                    //     width: 0,
+                    //     height: 4,
+                    // },
+                    // shadowOpacity: 0.8,
+                    // shadowRadius: 3.84,
+                    // elevation: 5,
                 }}>
                 {/* Goes to saved listings */}
                 <Button
@@ -166,6 +167,15 @@ export default function ProfileHeader() {
                     borderRadius="25%"
                     href="MyListingsScreen"
                     titleStyle={[styles.boldtext, { color: "white" }]}
+                    shadowColor="#000"
+                    shadowOffset={{
+                        width: 0,
+                        height: 4
+                    }}
+                    shadowOpacity="0.8"
+                    shadowRadius="3.84"
+                    elevation=" 5"
+
                 />
 
                 {/* Goes to chats */}
@@ -179,6 +189,14 @@ export default function ProfileHeader() {
                     borderRadius="25%"
                     href="Chat"
                     titleStyle={[styles.boldtext, { color: "white" }]}
+                    shadowColor="#000"
+                    shadowOffset={{
+                        width: 0,
+                        height: 4
+                    }}
+                    shadowOpacity="0.8"
+                    shadowRadius="3.84"
+                    elevation=" 5"
                 />
             </View>
             <View

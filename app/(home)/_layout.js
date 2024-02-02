@@ -12,7 +12,7 @@ export default function Layout() {
             <StatusBar barStyle="light-content" />
             <Tabs
                 screenOptions={{
-                    headerShown: false, tabBarStyle: { height: '12%' }, tabBarActiveTintColor: "#3F72AF",
+                    headerShown: false, tabBarStyle: { height: '11%', paddingVertical: 15 }, tabBarActiveTintColor: "#3F72AF",
                     tabBarInactiveTintColor: "black", tabBarLabelStyle: { fontSize: 13 }, gestureEnabled: false,
                 }}
             >

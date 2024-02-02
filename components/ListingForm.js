@@ -24,7 +24,7 @@ import { Button } from '../components/Buttons.js';
 import RoundHeader from "../components/RoundHeader.js";
 import ExpandComponent from "../assets/svg/expand_icon.js";
 
-export default function ListingForm({ header, buttonTitle, pressCommand, imageText }) {
+export default function ListingForm({ header, buttonTitle, imageText }) {
     const navigation = useNavigation();
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
@@ -273,6 +273,7 @@ export default function ListingForm({ header, buttonTitle, pressCommand, imageTe
                                         width: 200,
                                         height: 200,
                                         marginBottom: "2%",
+                                        borderRadius: 20
                                     }}
                                 />
                             ) : (
@@ -504,7 +505,7 @@ export default function ListingForm({ header, buttonTitle, pressCommand, imageTe
                                 flex="1"
                                 justifyContent="center"
                                 borderRadius="25%"
-                                press={pressCommand}
+                                press={handleValidation}
                                 titleStyle={styles.buttonText}
                             />
                             {/* Just for testing purposes 10/6/23 */}
