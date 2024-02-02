@@ -7,14 +7,11 @@ import {
     StyleSheet,
 } from "react-native";
 import styles from "../(aux)/StyleSheet";
-import { router } from "expo-router";
-import RoundHeader from "../../components/RoundHeader";
+import ListingForm from "../../components/ListingForm";
 
 
 export default function EditListings() {
     return (
-        <SafeAreaView>
-            <RoundHeader height="25%" />
-        </SafeAreaView>
+        <ListingForm header="Edit Listing" buttonTitle="Update" pressCommand={this.handleValidation} imageText="Change Image(s)" />
     );
 };

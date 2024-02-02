@@ -22,11 +22,10 @@ export default function ProfileHeader() {
     const fetchUserData = async () => {
         try {
             const user = await getAllUserDataForProfile();
-            console.log("***IN APP - Profile.js*** - Got user data for user: " + user.public.fname + " " + user.public.lname);
             setUser(user);
             setIsLoading(false);
         } catch (error) {
-            console.error("***IN APP - Profile.js*** - Could not get user data: ", error);
+            console.error("ERROR: Could not get user data: ", error);
             setIsLoading(false);
         }
     }
@@ -59,31 +58,22 @@ export default function ProfileHeader() {
     }, []);
 
     return (
-        <>
-            {/* <TouchableOpacity
+        <View style={{ flex: 1, marginBottom: "10%" }}>
+            <RoundHeader height="45%" />
+            {/* <View style={{ marginBottom: "5%", alignItems: "center" }}> */}
+            <TouchableOpacity
                 style={{
                     alignSelf: "stretch",
                     paddingRight: "5%",
                     marginBottom: "4%",
-                }}>
-                <Text style={[styles.boldtext, { textAlign: "right" }]}>
+                }}
+                onPress={() => router.push("EditProfile")}
+            >
+                <Text style={[styles.boldtext, { textAlign: "right", color: "#F9F7F7" }]}>
                     Edit
                 </Text>
-            </TouchableOpacity> */}
-            <RoundHeader height="25%" />
-            <View style={{ marginBottom: "5%", alignItems: "center" }}>
-                <TouchableOpacity
-                    style={{
-                        alignSelf: "stretch",
-                        paddingRight: "5%",
-                        marginBottom: "4%",
-                    }}
-                    onPress={() => router.push("EditProfile")}
-                >
-                    <Text style={[styles.boldtext, { textAlign: "right", color: "#F9F7F7" }]}>
-                        Edit
-                    </Text>
-                </TouchableOpacity>
+            </TouchableOpacity>
+            <View style={{ width: "100%", marginBottom: "5%", alignItems: "center" }}>
                 <TouchableOpacity onPress={pickProfileImage} style={{
                     shadowColor: "#000",
                     shadowOffset: {
@@ -100,7 +90,7 @@ export default function ProfileHeader() {
                             height: 190,
                             borderRadius: 200,
                             overflow: "hidden",
-                            //borderWidth: 2,
+                            //borderWidth: 1,
                             justifyContent: "center",
                             backgroundColor: "white",
                         }}>
@@ -127,7 +117,7 @@ export default function ProfileHeader() {
                         )}
                     </View>
                 </TouchableOpacity>
-            </View>
+            </View >
 
 
             <View style={{ width: "100%", alignItems: "center" }}>
@@ -200,8 +190,8 @@ export default function ProfileHeader() {
                 <Text style={styles.boldtext}>Saved Listings</Text>
             </View>
             <View style={{ alignItems: "center" }}>
-                <View style={[styles.dividerLine, { marginBottom: 20, }]} />
+                <View style={styles.dividerLine} />
             </View>
-        </>
+        </View>
     );
 }

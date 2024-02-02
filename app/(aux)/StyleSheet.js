@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
         textAlign: "center",
     },
     registerHeader: {
-        marginBottom: "10%", //was 20
+        marginBottom: "2%", //was 20
         fontWeight: "bold",
         fontSize: headerText,
         alignContent: "center",

@@ -119,7 +119,7 @@ export default function EditListings() {
 
             <View>
                 <View>
-                    <Text>Username</Text>
+                    <Text style={styles.boldtext}>Username</Text>
                     <TextInput
                         style={styles.createUserInput}
                         //value={email}
@@ -133,7 +133,7 @@ export default function EditListings() {
                     />
                 </View>
                 <View>
-                    <Text>Email</Text>
+                    <Text style={styles.boldtext}>Email</Text>
                     <TextInput
                         style={styles.createUserInput}
                         //value={email}
@@ -147,7 +147,7 @@ export default function EditListings() {
                     />
                 </View>
                 <View>
-                    <Text>Password</Text>
+                    <Text style={styles.boldtext}>Password</Text>
                     <TextInput
                         style={styles.createUserInput}
                         //value={email}
@@ -162,26 +162,24 @@ export default function EditListings() {
                 </View>
                 <View
                     style={{
-                        //paddingTop: "5%",
                         flexDirection: "row",
-                        //marginBottom: "-5%",
-                        justifyContent: "center",
-                        paddingHorizontal: 20,
-                        backgroundColor: "transparent",
-                        shadowColor: "#000",
-                        shadowOffset: {
-                            width: 0,
-                            height: 4,
-                        },
-                        shadowOpacity: 0.8,
-                        shadowRadius: 3.84,
-                        elevation: 5,
+                        justifyContent: "space-between",
+                        //paddingHorizontal: 2,
+                        // backgroundColor: "transparent",
+                        // shadowColor: "#000",
+                        // shadowOffset: {
+                        //     width: 0,
+                        //     height: 4,
+                        // },
+                        // shadowOpacity: 0.8,
+                        // shadowRadius: 3.84,
+                        // elevation: 5,
                     }}>
-                    {/* Goes to saved listings */}
+
                     <Button
                         width="35%"
-                        //height="40%"
-                        backgroundColor="#3F72AF"
+                        height="40%"
+                        backgroundColor="#B3B3B3"
                         title="Cancel"
                         alignItems="center"
                         justifyContent="center"
@@ -191,10 +189,10 @@ export default function EditListings() {
                         titleStyle={[styles.boldtext, { color: "white" }]}
                     />
 
-                    {/* Goes to chats */}
+
                     <Button
-                        width="45%"
-                        //height="40%"
+                        width="50%"
+                        height="40%"
                         backgroundColor="#3F72AF"
                         title="Save"
                         alignItems="center"
