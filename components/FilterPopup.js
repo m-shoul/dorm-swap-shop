@@ -87,7 +87,7 @@ export default function FilterPopup() {
                                     }}
                                     Icon={() => {
                                         return (
-                                            <ExpandComponent style={{ fill: "red", width: 30 }} />
+                                            <ExpandComponent />
                                         )
                                     }}
                                 />

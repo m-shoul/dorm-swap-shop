@@ -13,6 +13,7 @@ import { Button } from "./Buttons.js";
 import { getAllUserDataForProfile, uploadProfileImage } from "../backend/api/user.js";
 import CachedImage from "expo-cached-image";
 import RoundHeader from "./RoundHeader.js";
+import { router } from "expo-router";
 
 export default function ProfileHeader() {
     const [user, setUser] = useState(null);
@@ -76,7 +77,9 @@ export default function ProfileHeader() {
                         alignSelf: "stretch",
                         paddingRight: "5%",
                         marginBottom: "4%",
-                    }}>
+                    }}
+                    onPress={() => router.push("EditProfile")}
+                >
                     <Text style={[styles.boldtext, { textAlign: "right", color: "#F9F7F7" }]}>
                         Edit
                     </Text>

@@ -8,16 +8,13 @@ import {
 } from "react-native";
 import styles from "../(aux)/StyleSheet";
 import { router } from "expo-router";
+import RoundHeader from "../../components/RoundHeader";
+
 
 export default function EditListings() {
     return (
-        <SafeAreaView style={styles.background}>
-            <View>
-                <Text style={styles.resetHeader}>EditListings</Text>
-            </View>
-            <TouchableOpacity onPress={() => router.push("HomeScreen")}>
-                <Text>Home</Text>
-            </TouchableOpacity>
+        <SafeAreaView>
+            <RoundHeader height="25%" />
         </SafeAreaView>
     );
 };

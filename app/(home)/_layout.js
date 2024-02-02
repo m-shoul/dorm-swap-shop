@@ -12,7 +12,7 @@ export default function Layout() {
             <StatusBar barStyle="light-content" />
             <Tabs
                 screenOptions={{
-                    headerShown: false, tabBarStyle: { height: '10%' }, tabBarActiveTintColor: "#3F72AF",
+                    headerShown: false, tabBarStyle: { height: '12%' }, tabBarActiveTintColor: "#3F72AF",
                     tabBarInactiveTintColor: "black", tabBarLabelStyle: { fontSize: 13 }, gestureEnabled: false,
                 }}
             >
@@ -64,6 +64,14 @@ export default function Layout() {
                 <Tabs.Screen
                     // Name of the route to hide.
                     name="EditListingScreen"
+                    options={{
+                        // This tab will no longer show up in the tab bar.
+                        href: null,
+                    }}
+                />
+                <Tabs.Screen
+                    // Name of the route to hide.
+                    name="EditProfile"
                     options={{
                         // This tab will no longer show up in the tab bar.
                         href: null,

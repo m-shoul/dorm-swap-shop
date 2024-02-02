@@ -21,6 +21,8 @@ import { getUserID } from "../../backend/dbFunctions.js";
 import { Button } from "../../components/Buttons.js";
 import termsOfService from "../../assets/termsOfService.js";
 import { set } from "firebase/database";
+import RoundHeader from "../../components/RoundHeader.js";
+import SimpleLogo from "../../assets/svg/simpleLogo_icon.js";
 
 export default function CreateUserScreen() {
     //All of the states that are used to store the actual values of the text inputs
@@ -234,7 +236,9 @@ export default function CreateUserScreen() {
 
     return (
         <SafeAreaView style={styles.background}>
-            <View>
+            <RoundHeader height={"18%"} />
+            <View style={{ alignItems: "center" }}>
+                <SimpleLogo style={{ width: 90 }} />
                 <Text style={styles.registerHeader}> Register </Text>
             </View>
             <View style={styles.dividerLine} />

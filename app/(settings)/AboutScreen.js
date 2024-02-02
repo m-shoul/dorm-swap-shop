@@ -5,6 +5,7 @@ import {
     SafeAreaView,
     Modal,
     ScrollView,
+    StatusBar
 } from "react-native";
 import { useState } from "react";
 import styles from "../(aux)/StyleSheet";
@@ -22,7 +23,8 @@ export default function About() {
 
     return (
         <ScrollView>
-            <RoundHeader height={"20%"} />
+            <StatusBar barStyle={"light-content"} />
+            <RoundHeader height={"19%"} />
             <View
                 style={{
                     flexDirection: "row",
@@ -42,7 +44,7 @@ export default function About() {
             </View>
 
             <View style={{ paddingHorizontal: "3%" }}>
-                <View style={{ marginBottom: "2%" }}>
+                <View style={{ marginBottom: "5%" }}>
                     <Text style={[styles.boldtext, { marginBottom: "2%" }]}>
                         Our Story
                     </Text>
@@ -53,11 +55,11 @@ export default function About() {
                     </Text>
                 </View>
 
-                <View style={{ marginBottom: "2%" }}>
+                <View style={{ marginBottom: "10%" }}>
                     <Text style={[styles.boldtext, { marginBottom: "2%" }]}>
                         Unique
                     </Text>
-                    <Text style={styles.normaltext}>
+                    <Text style={[styles.normaltext, { marginBottom: "5%" }]}>
                         Our app is specific to colleges and universities to keep out unwanted buyers and sellers.
                     </Text>
                     <Text style={styles.normaltext}>
@@ -66,11 +68,11 @@ export default function About() {
                 </View>
 
                 <View style={{ marginBottom: "2%", alignItems: "center" }}>
-                    <Text style={[styles.boldtext, { marginBottom: "2%" }]}>
+                    <Text style={[styles.boldtext, { marginBottom: "5%" }]}>
                         Meet the Team:
                     </Text>
-                    <View style={{ flexDirection: "row", justifyContent: "center" }}>
-                        <View style={{ alignItems: "center" }}>
+                    <View style={{ flexDirection: "row", marginBottom: "5%" }}>
+                        <View style={{ alignItems: "center", marginRight: "5%" }}>
                             <HeadShot source={require("../../assets/pfps/IMG_6676.jpg")} />
                             <Text style={[styles.boldtext, { textAlign: "center" }]}>
                                 Mike Shoul
@@ -81,7 +83,7 @@ export default function About() {
                         </View>
 
                         <View style={{ alignItems: "center" }}>
-                            <HeadShot />
+                            <HeadShot source={require("../../assets/pfps/IMG_2162.jpg")} />
                             <Text style={[styles.boldtext, { textAlign: "center" }]}>
                                 Josh Phillips
                             </Text>
@@ -90,8 +92,8 @@ export default function About() {
                             </Text>
                         </View>
                     </View>
-                    <View style={{ flexDirection: "row", justifyContent: "center" }}>
-                        <View style={{ alignItems: "center" }}>
+                    <View style={{ flexDirection: "row", marginBottom: "5%" }}>
+                        <View style={{ alignItems: "center", marginRight: "5%" }}>
                             <HeadShot source={require("../../assets/pfps/Screenshot.jpg")} />
                             <Text style={[styles.boldtext, { textAlign: "center" }]}>
                                 Joseph McGillen
@@ -115,11 +117,11 @@ export default function About() {
 
                 <View style={{ marginBottom: "2%" }}>
                     <Text style={[styles.boldtext, { marginBottom: "2%" }]}>
-                        Contact Us:
+                        Contact Us
                     </Text>
                     <View style={{ flexDirection: "row" }}>
                         <EmailComponent />
-                        <Text style={styles.normaltext}>
+                        <Text style={[styles.normaltext, { marginLeft: "2%" }]}>
                             dormswapnshop@gmail.com
                         </Text>
                     </View>
