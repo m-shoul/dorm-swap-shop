@@ -5,15 +5,15 @@ import {
     FlatList,
     SafeAreaView,
     StyleSheet,
-    //Image,
     Modal,
     Animated,
 } from "react-native";
+
+import SquareHeader from "../../components/SquareHeader.js";
 import { Image } from "expo-image";
 import { router } from "expo-router";
 import ListingPopup from "../../components/ListingPopup.js";
-import React, { useState, useEffect } from "react";
-import { SearchBar, Header } from "@rneui/themed";
+import React, { useState, useEffect, useRef } from "react";
 import styles from "../(aux)/StyleSheet.js";
 import BackButtonComponent from "../../assets/svg/back_button.js";
 import ProfileScreen from "./Profile.js";
@@ -23,7 +23,6 @@ import filter from "lodash.filter";
 
 //This is now the my listings screen
 const MyListingsScreen = ({ navigation }) => {
-    const animHeaderValue = new Animated.Value(0);
     const [search, setSearch] = useState("");
     const [selectedListing, setSelectedListing] = useState(null);
     const [showProfile, setShowProfile] = useState(false);
@@ -51,7 +50,7 @@ const MyListingsScreen = ({ navigation }) => {
     if (showProfile) {
         return <ProfileScreen />;
     }
-
+    const scrollOffsetY = useRef(new Animated.Value(0)).current;
     const handleSearch = (query) => {
         const formattedQuery = query.toLowerCase();
         const filteredData = filter(fullData, (listingsData) => {
@@ -59,7 +58,23 @@ const MyListingsScreen = ({ navigation }) => {
         });
         setListingsData(filteredData);
     };
+    const minScroll = 300;
 
+    const animHeaderValue = scrollOffsetY;
+
+    const headerHeight = 120;
+    const activeRange = 200;
+
+    const diffClamp = Animated.diffClamp(
+        animHeaderValue,
+        -minScroll,
+        activeRange + minScroll
+    );
+    const animatedHeaderHeight = diffClamp.interpolate({
+        inputRange: [0, activeRange],
+        outputRange: [0, -headerHeight],
+        extrapolate: "clamp",
+    });
     const contains = ({ title, description, condition }, query) => {
         title = title.toLowerCase();
         description = description.toLowerCase();
@@ -82,34 +97,57 @@ const MyListingsScreen = ({ navigation }) => {
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "#F9F7F7" }}>
             {/* Search bar was taken from homescreen, so will not have functionality. */}
-            <View
+            <SquareHeader height={"8%"} />
+            <Animated.View
+                style={{
+                    zIndex: 1,
+                    transform: [{ translateY: animatedHeaderHeight }],
+                }}>
+                <View
+                    style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        width: "100%",
+                        paddingHorizontal: "2%",
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        backgroundColor: "#112D4E",
+                    }}>
+                    <TouchableOpacity onPress={() => router.back()}>
+                        <BackButtonComponent></BackButtonComponent>
+                    </TouchableOpacity>
+                    <View style={{ justifyContent: "center", width: "90%" }}>
+                        <SearchBarHeader handleSearch={handleSearch} />
+                    </View>
+                </View>
+            </Animated.View>
+            {/* <View
                 style={{
                     flexDirection: "row",
                     alignItems: "center",
                     width: "100%",
+                    backgroundColor: "#112D4E",
                     paddingHorizontal: "5%",
                 }}>
                 <TouchableOpacity onPress={() => router.back()}>
                     <BackButtonComponent></BackButtonComponent>
                 </TouchableOpacity>
-
-                <View style={{ justifyContent: "center", flex: 1 }}>
-                    <Text style={styles.loginHeader}>My Listings</Text>
+                <View style={{ width: "95%" }}>
+                    <SearchBarHeader
+                        animHeaderValue={animHeaderValue}
+                        handleSearch={handleSearch}
+                    />
                 </View>
-            </View>
-            <View
-                style={{
-                    height: "5%",
-                    width: "100%",
-                    marginBottom: "5%",
-                }}>
-                <SearchBarHeader
-                    animHeaderValue={animHeaderValue}
-                    handleSearch={handleSearch}
-                />
-            </View>
+            </View> */}
             <FlatList
                 data={listingsData}
+                onScroll={Animated.event(
+                    [{ nativeEvent: { contentOffset: { y: scrollOffsetY } } }],
+                    { useNativeDriver: false }
+                )}
+                bounces={true}
                 renderItem={({ item }) => {
                     const truncatedDescription =
                         item.description && item.description.length > 10
@@ -176,16 +214,20 @@ const MyListingsScreen = ({ navigation }) => {
                 }}
                 //numColumns={2}
                 keyExtractor={(item) => item.listingId}
+                contentContainerStyle={{
+                    paddingBottom: "15%", // Add this line
+                }}
+                scrollEventThrottle={10}
                 style={{
                     flex: 1,
                     backgroundColor: "#F9F7F7",
                     marginTop: 10,
+                    paddingTop: "15%",
                 }}
                 //kept causing errors, so turned it off
                 // onScroll={(e) => {
                 //     scrollY.setValue(e.nativeEvent.contentOffset.y);
                 // }}
-                bounces={false}
             />
         </SafeAreaView>
     );
