@@ -52,9 +52,12 @@ To develop and run this front-end locally, you will need to have Expo CLI and No
 5. Start the development server: `npx expo start --tunnel` or `npm start`.
 6. Follow the Expo CLI instructions to run the app on an emulator, device, or web browser.
 
-
 ## Demo
 > This could be a gif or something of how to use the app (when it's built and not just spinning up locally). 
+
+## Contributing
+If you would like to contribute to this project, please take a look at the [CONTRIBUTING.md](./CONTRIBUTING.md) file for more information.
+Pull requests are welcome! For major changes, please open an issue first to discuss what you would like to change.
 
 ## Contributors
 * [m-shoul](https://github.com/m-shoul) - Mike Shoul  
