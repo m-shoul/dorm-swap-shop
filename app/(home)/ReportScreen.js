@@ -48,7 +48,7 @@ export default function ReportScreen() {
                 router.push("PostReportedScreen");
             })
             .catch((error) => {
-                console.error("Email send error:", error);
+                console.error("ERROR --> Failed to send report email: ", error);
             });
     };
 

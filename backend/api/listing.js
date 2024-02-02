@@ -31,12 +31,9 @@ export async function createListing(userId, title, description, price, category,
         images: [], // Initialize with an empty array for images
     };
 
-    // console.log(listingData);
-
     // Set the listing data
     await set(newListingReference, listingData);
 
-    // console.log(images);
     // If an image is provided, upload it and update the listing
     if (images) {
         const imagesRef = ref(database, `dorm_swap_shop/listings/${listingId}/images`);
@@ -64,14 +61,9 @@ async function uploadImageAsync(uri, imagesRef) {
 
         const storageRef = sRef(storage, "test/" + new Date().getTime());
         await uploadBytesResumable(storageRef, blob);
-
         blob.close();
-
         const downloadURL = await getDownloadURL(storageRef);
-      
-        // console.log(downloadURL);
-        // console.log(imagesRef);
-   
+
         return downloadURL;
     } catch (error) {
         console.error("Error in uploadImageAsync: ", error);
@@ -81,7 +73,6 @@ async function uploadImageAsync(uri, imagesRef) {
 
 // Gets all listings in the database for home screen 
 export async function getAllListings() {
-    // const db = getDatabase();
     const listingsReference = ref(database, "dorm_swap_shop/listings/");
 
     return get(listingsReference)
@@ -103,7 +94,6 @@ export async function getAllListings() {
 
 // Gets listings posted by user
 export function getUserListings() {
-    // const db = getDatabase();
     const listingsReference = ref(database, "dorm_swap_shop/listings/");
     userId = getUserID();
     

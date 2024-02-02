@@ -75,7 +75,6 @@ export default function ListingPopup({ listing }) {
     useEffect(() => {
         fetchUser();
         checkIfFavorited();
-        console.log("*** IN APP - ListingPopup.js*** " + listing.description);
     }, []);
 
     const timestamp = new Date(listing.timestamp).toLocaleDateString("en-US");

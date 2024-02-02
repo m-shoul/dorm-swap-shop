@@ -44,7 +44,6 @@ export default function HomeScreen() {
                 const listingsData = await getAllListings();
                 setFullData(listingsData);
                 setListingsData(listingsData);
-                console.log("***IN APP - Home.js*** Got all listings.");
                 setRefreshing(false);
                 setIsLoading(false);
             } catch (error) {
@@ -69,9 +68,6 @@ export default function HomeScreen() {
         () => Object.values(listingsData),
         [listingsData]
     );
-
-    console.log("***IN APP - Home.js*** - Printing out listings.");
-    console.log(memoizedListingsData);
 
     const handleSearch = async (query) => {
         if (typeof fullData !== "object") {

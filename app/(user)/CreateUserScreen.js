@@ -71,7 +71,6 @@ export default function CreateUserScreen() {
 
     let validate = 0;
     useEffect(() => {
-        // console.log("Reached useEffect");
         // Trigger form validation when name, email, or password changes
         if (validate == 1) {
             validateForm();
@@ -79,7 +78,6 @@ export default function CreateUserScreen() {
     }, [firstName, lastName, username, email, password, passwordCheck]);
 
     const handleValidation = () => {
-        // console.log("Reached handleValidation");
         validateForm();
         validate = 1;
     };
@@ -87,8 +85,6 @@ export default function CreateUserScreen() {
     const validateForm = async () => {
         let errorCount = 0;
         let emptyFields = 0;
-        // console.log("Reached validateForm");
-        // console.log(validate);
         // Validate first name field
         if (!firstName) {
             setErrorMessageFirst("First name is required.");
@@ -224,7 +220,7 @@ export default function CreateUserScreen() {
                 // Do something with the user ID
                 return userId;
             } catch (error) {
-                console.log("Got error: ", error.message);
+                console.error("ERROR --> Failed to register user account: ", error.message);
             }
         }
     };
