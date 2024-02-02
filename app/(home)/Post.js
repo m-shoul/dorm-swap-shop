@@ -71,7 +71,7 @@ export default function CreatePostScreen() {
             );
             console.log("Post created successfully");
         } catch (error) {
-            console.log(error);
+            console.error("ERROR --> Failed to create post: ", error);
         }
 
         router.push("Home");
@@ -101,8 +101,6 @@ export default function CreatePostScreen() {
 
     let validate = 0;
     useEffect(() => {
-        // console.log("Reached useEffect");
-
         const unsubscribeBlur = navigation.addListener("blur", () => {
             // You can put any logic you want to execute when the screen is unfocused here
             clearTextInputs();
@@ -119,7 +117,6 @@ export default function CreatePostScreen() {
     }, [title, price, description, navigation]);
 
     const handleValidation = () => {
-        console.log("Reached handleSubmit");
         validateForm();
         validate = 1;
     };
@@ -136,7 +133,6 @@ export default function CreatePostScreen() {
     const validateForm = () => {
         let errorCount = 0;
         let emptyFields = 0;
-        console.log("Reached validateForm");
         console.log(validate);
         // Validate first name field
 
