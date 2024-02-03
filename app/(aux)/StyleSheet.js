@@ -53,6 +53,14 @@ const styles = StyleSheet.create({
         fontSize: buttonText,
         fontWeight: "bold",
     },
+    chatHeader: {
+        // paddingTop: "10%",
+        margin: "15%", 
+        fontWeight: "bold",
+        fontSize: SmallHeadText,
+        alignContent: "center",
+        textAlign: "center",
+    },
     container: {
         marginTop: 50,
         flex: 1,

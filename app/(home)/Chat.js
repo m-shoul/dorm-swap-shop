@@ -56,8 +56,9 @@ export default function ChatScreen() {
         // await addMessage(chatId, "2", "World hello");
         // ////////
 
-        setSelectedChat(chat);
-        router.push("ConversationsScreen");
+
+        // setSelectedChat(chat);
+        router.push({pathname: "ConversationsScreen", params: {chatId: "-No-UTyWWAvH6rZ5BCtt"}}); // { chatId: chat.id });
     }
 
     return (
