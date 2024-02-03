@@ -4,6 +4,7 @@ import {
     TextInput,
     TouchableOpacity,
     SafeAreaView,
+    StatusBar
 } from "react-native";
 import React from "react";
 import { useState } from "react";
@@ -15,6 +16,8 @@ import {
 import styles from "../(aux)/StyleSheet";
 import { router } from "expo-router";
 import { Button } from "../../components/Buttons.js";
+import RoundHeader from "../../components/RoundHeader.js";
+import ResetPasswordIcon from "../../assets/svg/reset_password_icon.js";
 
 export default function ResetPasswordScreen() {
     const [email, setEmail] = useState("");
@@ -48,8 +51,22 @@ export default function ResetPasswordScreen() {
 
     return (
         <SafeAreaView style={styles.background}>
+            <StatusBar barStyle="light-content" />
+            <RoundHeader height="20%" />
+
+            <ResetPasswordIcon style={{
+                marginTop: "10%", shadowColor: "#000",
+                shadowOffset: {
+                    width: 0,
+                    height: 4,
+                },
+                shadowOpacity: 0.8,
+                shadowRadius: 3.84,
+                elevation: 5,
+            }} />
             <View>
-                <Text style={styles.resetHeader}>Reset Password</Text>
+
+                <Text style={styles.loginHeader}>Reset Password</Text>
             </View>
             <View style={styles.dividerLine} />
 

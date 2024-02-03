@@ -31,12 +31,9 @@ export async function createListing(userId, title, description, price, category,
         images: [], // Initialize with an empty array for images
     };
 
-    // console.log(listingData);
-
     // Set the listing data
     await set(newListingReference, listingData);
 
-    // console.log(images);
     // If an image is provided, upload it and update the listing
     if (images) {
         const imagesRef = ref(database, `dorm_swap_shop/listings/${listingId}/images`);
@@ -64,14 +61,9 @@ async function uploadImageAsync(uri, imagesRef) {
 
         const storageRef = sRef(storage, "test/" + new Date().getTime());
         await uploadBytesResumable(storageRef, blob);
-
         blob.close();
-
         const downloadURL = await getDownloadURL(storageRef);
-      
-        // console.log(downloadURL);
-        // console.log(imagesRef);
-   
+
         return downloadURL;
     } catch (error) {
         console.error("Error in uploadImageAsync: ", error);
@@ -81,7 +73,6 @@ async function uploadImageAsync(uri, imagesRef) {
 
 // Gets all listings in the database for home screen 
 export async function getAllListings() {
-    // const db = getDatabase();
     const listingsReference = ref(database, "dorm_swap_shop/listings/");
 
     return get(listingsReference)
@@ -103,9 +94,8 @@ export async function getAllListings() {
 
 // Gets listings posted by user
 export function getUserListings() {
-    // const db = getDatabase();
     const listingsReference = ref(database, "dorm_swap_shop/listings/");
-    userId = getUserID();
+    const userId = getUserID();
     
     return get(listingsReference)
         .then((snapshot) => {
@@ -153,9 +143,7 @@ export function saveListing(listingId) {
         });
 }
 
-
 export function unsaveListing(listingId) {
-    // const db = getDatabase();
     const userId = getUserID();
     const usersRef = ref(database, `dorm_swap_shop/users/`);
 
@@ -203,27 +191,36 @@ export async function isListingFavorited(listingId) {
     });
 }
 
+// Function to update listing
+export function updateListing(listingId, title, description, price, category, condition) {
+    const listingRef = ref(database, `dorm_swap_shop/listings/${listingId}`);
 
-// Function to update a user
-export function updateListing(listingId, listingData) {
-    // Implement the functionality to update a listing.
-    // This will be used when the user wants to update a listing
-    // from their profile.
+    const listingData = {
+        title: title,
+        description: description,
+        price: price,
+        category: category,
+        condition: condition,
+    };
+
+    set(listingRef, listingData, { merge: true });
 }
 
-// Function to delete a user
-export function deleteListing(listingId) {
-    // Implement the functionality to delete a listing.
-    // This will be used when a user wants to delete their listing.
+// Function to delete listing
+export async function deleteListing(listingId) {
+    const userId = getUserID();
+    const listingRef = ref(database, `dorm_swap_shop/listings/${listingId}`);
+        
+    // Check for ownership
+    const snapshot = await get(listingRef);
+    const listingData = snapshot.val();
 
-    // Somewhere we can keep track of the number of reports and then
-    // automatically delete the listing or something. Or if its reported
-    // we can just have it deleted and then we go in and check out the
-    // listing/user who posted it.
+    // Check if the listing belongs to the user
+    if (listingData && listingData.user === userId) {
+        // Delete the listing
+        await remove(listingRef);
+        console.log(`Listing ${listingId} was deleted.`);
+    } else {
+        console.error(`User ${userId} does not own listing ${listingId}.`);
+    }
 }
-
-
-// Can add additional functions in here that deal with the listings
-// and curtail them to our needs.
-
-

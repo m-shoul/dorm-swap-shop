@@ -8,7 +8,10 @@ import {
     KeyboardAvoidingView,
     Keyboard,
     Modal,
+    StatusBar,
+    TouchableWithoutFeedback
 } from "react-native";
+import { Checkbox } from "expo-checkbox";
 import React from "react";
 import styles from "../(aux)/StyleSheet.js";
 import { useState, useEffect, useRef } from "react";
@@ -20,6 +23,8 @@ import { getUserID } from "../../backend/dbFunctions.js";
 import { Button } from "../../components/Buttons.js";
 import termsOfService from "../../assets/termsOfService.js";
 import { set } from "firebase/database";
+import RoundHeader from "../../components/RoundHeader.js";
+import SimpleLogo from "../../assets/svg/simpleLogo_icon.js";
 
 export default function CreateUserScreen() {
     //All of the states that are used to store the actual values of the text inputs
@@ -66,9 +71,10 @@ export default function CreateUserScreen() {
     const passwordInputRef = useRef(null);
     const confirmPasswordInputRef = useRef(null);
 
+    const [isSelected, setSelection] = useState(false);
+
     let validate = 0;
     useEffect(() => {
-        // console.log("Reached useEffect");
         // Trigger form validation when name, email, or password changes
         if (validate == 1) {
             validateForm();
@@ -76,7 +82,6 @@ export default function CreateUserScreen() {
     }, [firstName, lastName, username, email, password, passwordCheck]);
 
     const handleValidation = () => {
-        // console.log("Reached handleValidation");
         validateForm();
         validate = 1;
     };
@@ -84,8 +89,6 @@ export default function CreateUserScreen() {
     const validateForm = async () => {
         let errorCount = 0;
         let emptyFields = 0;
-        // console.log("Reached validateForm");
-        // console.log(validate);
         // Validate first name field
         if (!firstName) {
             setErrorMessageFirst("First name is required.");
@@ -221,7 +224,7 @@ export default function CreateUserScreen() {
                 // Do something with the user ID
                 return userId;
             } catch (error) {
-                console.log("Got error: ", error.message);
+                console.error("ERROR --> Failed to register user account: ", error.message);
             }
         }
     };
@@ -230,220 +233,233 @@ export default function CreateUserScreen() {
     // Firebase auth, write the data to Realtime db, and direct user to login
 
     return (
-        <SafeAreaView style={styles.background}>
-            <View>
-                <Text style={styles.registerHeader}> Register </Text>
-            </View>
-            <View style={styles.dividerLine} />
-            {errorMessage && (
-                <Text
-                    style={{
-                        color: "red",
-                        paddingBottom: 10,
-                        marginTop: -15,
-                    }}>
-                    {errorMessage}
-                </Text>
-            )}
-            <KeyboardAvoidingView
-                style={{
-                    flex: 0.8,
-                    width: "100%",
-                    // marginBottom: 0,
-                    //paddingBottom: 0,
-                    justifyContent: "center",
-                    alignItems: "center",
-                }}
-                behavior={Platform.OS === "ios" ? "padding" : "height"}>
-                <ScrollView
-                    style={{
-                        KeyboardAvoidingView: "position",
-                        flex: 1,
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+            <SafeAreaView style={styles.background}>
+                <StatusBar barStyle={"light-content"} />
+                <RoundHeader height={"20%"} />
 
+                <SimpleLogo width="50%" height="15%" style={{ marginTop: "10%", width: 50 }} />
+
+                <Text style={styles.registerHeader}> Register </Text>
+
+                <View style={styles.dividerLine} />
+                {errorMessage && (
+                    <Text
+                        style={{
+                            color: "red",
+                            paddingBottom: 10,
+                            marginTop: -15,
+                        }}>
+                        {errorMessage}
+                    </Text>
+                )}
+                <KeyboardAvoidingView
+                    style={{
+                        flex: 0.8,
                         width: "100%",
                         // marginBottom: 0,
                         //paddingBottom: 0,
-                    }}
-                    keyboardShouldPersistTaps="handled"
-                    contentContainerStyle={{
-                        flexGrow: 1,
                         justifyContent: "center",
-                        width: "100%",
                         alignItems: "center",
+                    }}
+                    behavior={Platform.OS === "ios" ? "padding" : "height"}>
+                    <ScrollView
+                        style={{
+                            KeyboardAvoidingView: "position",
+                            flex: 1,
+
+                            width: "100%",
+                            // marginBottom: 0,
+                            //paddingBottom: 0,
+                        }}
+                        keyboardShouldPersistTaps="handled"
+                        contentContainerStyle={{
+                            flexGrow: 1,
+                            justifyContent: "center",
+                            width: "100%",
+                            alignItems: "center",
+                        }}>
+                        <View style={styles.forms}>
+                            <TextInput
+                                onSubmitEditing={() => {
+                                    lastNameInputRef.current.focus();
+                                }}
+                                maxLength={50}
+                                ref={firstNameInputRef}
+                                blurOnSubmit={false}
+                                style={firstNameStyle}
+                                placeholder="First Name"
+                                value={firstName}
+                                onChangeText={(value) => setFirstName(value)}
+                            />
+                            {errorMessageFirst && (
+                                <Text
+                                    style={{
+                                        color: "red",
+                                        paddingBottom: 10,
+                                        marginTop: -15,
+                                    }}>
+                                    {errorMessageFirst}
+                                </Text>
+                            )}
+                            <TextInput
+                                onSubmitEditing={() => {
+                                    userNameInputRef.current.focus();
+                                }}
+                                maxLength={50}
+                                ref={lastNameInputRef}
+                                blurOnSubmit={false}
+                                style={lastNameStyle}
+                                placeholder="Last Name"
+                                value={lastName}
+                                onChangeText={(value) => setLastName(value)}
+                            />
+                            {errorMessageLast && (
+                                <Text style={{ color: "red", paddingBottom: 10 }}>
+                                    {errorMessageLast}
+                                </Text>
+                            )}
+                            <TextInput
+                                onSubmitEditing={() => {
+                                    emailInputRef.current.focus();
+                                }}
+                                maxLength={50}
+                                ref={userNameInputRef}
+                                blurOnSubmit={false}
+                                style={usernameStyle}
+                                placeholder="Username"
+                                value={username}
+                                onChangeText={(value) => setUsername(value)}
+                            />
+                            {errorMessageUsername && (
+                                <Text style={{ color: "red", paddingBottom: 10 }}>
+                                    {errorMessageUsername}
+                                </Text>
+                            )}
+                            <TextInput
+                                onSubmitEditing={() => {
+                                    passwordInputRef.current.focus();
+                                }}
+                                maxLength={254}
+                                ref={emailInputRef}
+                                blurOnSubmit={false}
+                                style={emailStyle}
+                                placeholder="Email"
+                                value={email}
+                                onChangeText={(value) => setEmail(value)}
+                            />
+                            {errorMessageEmail && (
+                                <Text style={{ color: "red", paddingBottom: 10 }}>
+                                    {errorMessageEmail}
+                                </Text>
+                            )}
+                            <TextInput
+                                onSubmitEditing={() => {
+                                    confirmPasswordInputRef.current.focus();
+                                }}
+                                maxLength={254}
+                                ref={passwordInputRef}
+                                blurOnSubmit={false}
+                                style={passwordStyle}
+                                secureTextEntry={true}
+                                placeholder="Password"
+                                value={password}
+                                onChangeText={(value) => setPassword(value)}
+                            />
+                            {errorMessagePassword && (
+                                <Text style={{ color: "red", paddingBottom: 10 }}>
+                                    {errorMessagePassword}
+                                </Text>
+                            )}
+                            <TextInput
+                                onSubmitEditing={() => {
+                                    Keyboard.dismiss();
+                                }}
+                                maxLength={254}
+                                ref={confirmPasswordInputRef}
+                                blurOnSubmit={false}
+                                style={passwordCheckStyle}
+                                secureTextEntry={true}
+                                placeholder={"Confirm Password"}
+                                value={passwordCheck}
+                                onChangeText={(value) => setPasswordCheck(value)}
+                            />
+                            {errorMessageConfirm && (
+                                <Text style={{ color: "red", paddingBottom: 0 }}>
+                                    {errorMessageConfirm}
+                                </Text>
+                            )}
+                        </View>
+                    </ScrollView>
+                </KeyboardAvoidingView>
+                {errorMessageTermsOfService && (
+                    <Text style={{ color: "red", paddingBottom: 0 }}>
+                        {errorMessageTermsOfService}
+                    </Text>
+                )}
+                <TouchableOpacity
+                    onPress={() => {
+                        setModalVisible(true);
                     }}>
-                    <View style={styles.forms}>
-                        <TextInput
-                            onSubmitEditing={() => {
-                                lastNameInputRef.current.focus();
-                            }}
-                            maxLength={50}
-                            ref={firstNameInputRef}
-                            blurOnSubmit={false}
-                            style={firstNameStyle}
-                            placeholder="First Name"
-                            value={firstName}
-                            onChangeText={(value) => setFirstName(value)}
+                    <View style={{ flexDirection: "row", alignItems: "center" }}>
+                        <Text style={{ marginRight: "5%" }}>Terms of Service</Text>
+                        <Checkbox
+                            value={isSelected}
+                            onValueChange={setSelection}
+                            disabled={true}
                         />
-                        {errorMessageFirst && (
+                    </View>
+                </TouchableOpacity>
+
+                <Modal
+                    animationType="slide"
+                    transparent={false}
+                    visible={modalVisible}
+                    onRequestClose={() => {
+                        setModalVisible(!modalVisible);
+                    }}>
+                    <View style={{ flex: 1 }}>
+                        <ScrollView>
                             <Text
                                 style={{
-                                    color: "red",
-                                    paddingBottom: 10,
-                                    marginTop: -15,
+                                    margin: "10%",
+                                    marginTop: "20%",
                                 }}>
-                                {errorMessageFirst}
+                                {termsOfService}
                             </Text>
-                        )}
-                        <TextInput
-                            onSubmitEditing={() => {
-                                userNameInputRef.current.focus();
-                            }}
-                            maxLength={50}
-                            ref={lastNameInputRef}
-                            blurOnSubmit={false}
-                            style={lastNameStyle}
-                            placeholder="Last Name"
-                            value={lastName}
-                            onChangeText={(value) => setLastName(value)}
-                        />
-                        {errorMessageLast && (
-                            <Text style={{ color: "red", paddingBottom: 10 }}>
-                                {errorMessageLast}
-                            </Text>
-                        )}
-                        <TextInput
-                            onSubmitEditing={() => {
-                                emailInputRef.current.focus();
-                            }}
-                            maxLength={50}
-                            ref={userNameInputRef}
-                            blurOnSubmit={false}
-                            style={usernameStyle}
-                            placeholder="Username"
-                            value={username}
-                            onChangeText={(value) => setUsername(value)}
-                        />
-                        {errorMessageUsername && (
-                            <Text style={{ color: "red", paddingBottom: 10 }}>
-                                {errorMessageUsername}
-                            </Text>
-                        )}
-                        <TextInput
-                            onSubmitEditing={() => {
-                                passwordInputRef.current.focus();
-                            }}
-                            maxLength={254}
-                            ref={emailInputRef}
-                            blurOnSubmit={false}
-                            style={emailStyle}
-                            placeholder="Email"
-                            value={email}
-                            onChangeText={(value) => setEmail(value)}
-                        />
-                        {errorMessageEmail && (
-                            <Text style={{ color: "red", paddingBottom: 10 }}>
-                                {errorMessageEmail}
-                            </Text>
-                        )}
-                        <TextInput
-                            onSubmitEditing={() => {
-                                confirmPasswordInputRef.current.focus();
-                            }}
-                            maxLength={254}
-                            ref={passwordInputRef}
-                            blurOnSubmit={false}
-                            style={passwordStyle}
-                            secureTextEntry={true}
-                            placeholder="Password"
-                            value={password}
-                            onChangeText={(value) => setPassword(value)}
-                        />
-                        {errorMessagePassword && (
-                            <Text style={{ color: "red", paddingBottom: 10 }}>
-                                {errorMessagePassword}
-                            </Text>
-                        )}
-                        <TextInput
-                            onSubmitEditing={() => {
-                                Keyboard.dismiss();
-                            }}
-                            maxLength={254}
-                            ref={confirmPasswordInputRef}
-                            blurOnSubmit={false}
-                            style={passwordCheckStyle}
-                            secureTextEntry={true}
-                            placeholder={"Confirm Password"}
-                            value={passwordCheck}
-                            onChangeText={(value) => setPasswordCheck(value)}
-                        />
-                        {errorMessageConfirm && (
-                            <Text style={{ color: "red", paddingBottom: 0 }}>
-                                {errorMessageConfirm}
-                            </Text>
-                        )}
-                    </View>
-                </ScrollView>
-            </KeyboardAvoidingView>
-            {errorMessageTermsOfService && (
-                <Text style={{ color: "red", paddingBottom: 0 }}>
-                    {errorMessageTermsOfService}
-                </Text>
-            )}
-            <TouchableOpacity
-                onPress={() => {
-                    setModalVisible(true);
-                }}>
-                <Text>Terms of Service</Text>
-            </TouchableOpacity>
-
-            <Modal
-                animationType="slide"
-                transparent={false}
-                visible={modalVisible}
-                onRequestClose={() => {
-                    setModalVisible(!modalVisible);
-                }}>
-                <View style={{ flex: 1 }}>
-                    <ScrollView>
-                        <Text
+                        </ScrollView>
+                        <TouchableOpacity
                             style={{
-                                margin: "10%",
-                                marginTop: "20%",
+                                position: "absolute",
+                                top: "8%",
+                                right: "5%",
+                                padding: 10,
+                                backgroundColor: "lightgray",
+                                borderRadius: 5,
+                            }}
+                            onPress={() => setModalVisible(false)}>
+                            <Text>Close</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={[
+                                styles.loginBtn,
+                                {
+                                    marginBottom: "10%",
+                                    marginRight: "20%",
+                                    marginLeft: "10%",
+                                    marginTop: "5%",
+                                },
+                            ]}
+                            onPress={() => {
+                                setModalVisible(false);
+                                setAgreeTermsOfService(true);
+                                setSelection(true);
                             }}>
-                            {termsOfService}
-                        </Text>
-                    </ScrollView>
-                    <TouchableOpacity
-                        style={{
-                            position: "absolute",
-                            top: "8%",
-                            right: "5%",
-                            padding: 10,
-                            backgroundColor: "lightgray",
-                            borderRadius: 5,
-                        }}
-                        onPress={() => setModalVisible(false)}>
-                        <Text>Close</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={[
-                            styles.loginBtn,
-                            {
-                                marginBottom: "10%",
-                                marginRight: "20%",
-                                marginLeft: "10%",
-                                marginTop: "5%",
-                            },
-                        ]}
-                        onPress={() => {
-                            setModalVisible(false);
-                            setAgreeTermsOfService(true);
-                        }}>
-                        <Text style={styles.buttonText}>I agree</Text>
-                    </TouchableOpacity>
-                </View>
-            </Modal>
-            {/* <TouchableOpacity
+                            <Text style={styles.buttonText}>I agree</Text>
+                        </TouchableOpacity>
+                    </View>
+                </Modal>
+                {/* <TouchableOpacity
                 style={{
                     width: "80%",
                     borderRadius: 25,
@@ -456,41 +472,42 @@ export default function CreateUserScreen() {
                 onPress={handleValidation}>
                 <Text style={styles.buttonText}>Create an Account</Text>
             </TouchableOpacity> */}
-            <Button
-                width="80%"
-                height="7%"
-                backgroundColor="#3F72AF"
-                title="Create an Account"
-                alignItems="center"
-                justifyContent="center"
-                marginTop="5%"
-                borderRadius="25%"
-                press={handleValidation}
-                titleStyle={styles.buttonText}
-            />
+                <Button
+                    width="80%"
+                    height="7%"
+                    backgroundColor="#3F72AF"
+                    title="Create an Account"
+                    alignItems="center"
+                    justifyContent="center"
+                    marginTop="5%"
+                    borderRadius="25%"
+                    press={handleValidation}
+                    titleStyle={styles.buttonText}
+                />
 
-            <TouchableOpacity
-                onPress={() => router.push("/")}
-                style={[styles.accountButtons, {}]}>
-                <Text
-                    style={[
-                        styles.notUserButtonText,
-                        {
-                            paddingBottom: "5%",
-                            textAlign: "center",
-                            marginTop: "10%",
-                        },
-                    ]}>
-                    Already have an account?
-                </Text>
-                <Text
-                    style={[
-                        styles.notUserButtonText,
-                        { textAlign: "center", marginBottom: "-20%" },
-                    ]}>
-                    Login
-                </Text>
-            </TouchableOpacity>
-        </SafeAreaView>
+                <TouchableOpacity
+                    onPress={() => router.push("/")}
+                    style={[styles.accountButtons, {}]}>
+                    <Text
+                        style={[
+                            styles.notUserButtonText,
+                            {
+                                paddingBottom: "5%",
+                                textAlign: "center",
+                                marginTop: "10%",
+                            },
+                        ]}>
+                        Already have an account?
+                    </Text>
+                    <Text
+                        style={[
+                            styles.notUserButtonText,
+                            { textAlign: "center", marginBottom: "-20%" },
+                        ]}>
+                        Login
+                    </Text>
+                </TouchableOpacity>
+            </SafeAreaView>
+        </TouchableWithoutFeedback>
     );
 }

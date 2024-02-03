@@ -3,6 +3,7 @@ import { get, child, ref, set, push, getDatabase, remove } from 'firebase/databa
 import { getUserID } from '../dbFunctions';
 import { getAuth } from 'firebase/auth';
 import { getStorage, ref as sRef, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { getAllListings } from './listing';
 
 // ^^ Import whatever we need for this...
 // NOTE************ add additional parameters when needed!!! This is just a baseline.
@@ -113,27 +114,32 @@ export async function getUsernameByID(userId) {
 }
 
 // Get the users saved listings. // TODO
-export function getUserSavedListings() {
-    const db = getDatabase();
+export async function getUserSavedListings() {
     const userId = getUserID();
-    const usersRef = ref(db, "dorm_swap_shop/users/");
+    const usersRef = ref(database, "dorm_swap_shop/users/");
 
-    return get(usersRef).then((snapshot) => {
+    return get(usersRef).then(async (snapshot) => {
         let userData;
         snapshot.forEach((childSnapshot) => {
+            // Get the user data for the current user
             const data = childSnapshot.val();
             if (data.private.userId === userId) {
                 userData = data;
             }
         });
         if (userData && userData.private.savedListings) {
-            const savedListingsRef = ref(db, "dorm_swap_shop/listings/");
-            const savedListingsPromises = userData.private.savedListings.map((listingId) => {
-                return get(child(savedListingsRef, listingId));
-            });
-            return Promise.all(savedListingsPromises).then((savedListings) => {
-                return savedListings.filter(listing => listing !== undefined);
-            });
+            const savedListingsIds = userData.private.savedListings || [];
+            const userSavedListings = [];
+
+            for (const element of savedListingsIds) {
+                const listingSnapshot = await get(ref(database, `dorm_swap_shop/listings/${element}`));
+                const listingData = listingSnapshot.val();
+                if (listingData) {
+                    userSavedListings.push(listingData);
+                }
+            }
+    
+            return userSavedListings;
         } else {
             console.log("DATABASE: User has no listings saved to their account.");
         }
@@ -206,12 +212,17 @@ export async function deleteUserFromRealtimeDatabase(userId) {
 }
 
 // Function to update a user
-export function updateUser(userId, userData) {
-    // Implement the functionality to update user data.
-    // This will be used when the user wants to edit their profile.
+export function updateUser(username, userId, bio) {
+    const userReference = ref(database, `dorm_swap_shop/users/${userId}/public`);
+
+    // Add more data as needed
+    const updatedInfo = {
+        username: username,
+    };
+
+    set(userReference, updatedInfo);
 }
 
-// TODO: Finish working through this
 export async function uploadProfileImage(uri) {
     try {
         const blob = await new Promise((resolve, reject) => {
