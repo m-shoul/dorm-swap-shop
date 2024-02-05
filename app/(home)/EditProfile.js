@@ -6,32 +6,37 @@ import {
     SafeAreaView,
     StyleSheet,
 } from "react-native";
+import { Image } from "expo-image";
 import React, { useState, useEffect } from "react";
 import styles from "../(aux)/StyleSheet.js";
 import { router } from "expo-router";
 import RoundHeader from "../../components/RoundHeader";
 import ListImagesComponent from "../../assets/svg/list_images.js";
-import { getAllUserDataForProfile, uploadProfileImage } from "../../backend/api/user.js";
+import { getAllUserDataForProfile, uploadProfileImage, updateUser } from "../../backend/api/user.js";
 import CachedImage from "expo-cached-image";
 import { Button } from "../../components/Buttons.js";
+import { ScrollView } from "react-native-gesture-handler";
+import * as ImagePicker from "expo-image-picker";
 
-export default function EditListings() {
+export default function EditProfile() {
     const [user, setUser] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [username, setUsername] = useState("");
+    const [fname, setFname] = useState("");
+    const [lname, setLname] = useState("");
+    // const [email, setEmail] = useState("");
+    // const [password, setPassword] = useState("");
 
     const fetchUserData = async () => {
         try {
             const user = await getAllUserDataForProfile();
-            console.log("***IN APP - Profile.js*** - Got user data for user: " + user.public.fname + " " + user.public.lname);
             setUser(user);
             setIsLoading(false);
         } catch (error) {
-            console.error("***IN APP - Profile.js*** - Could not get user data: ", error);
             setIsLoading(false);
         }
     }
 
-    // Profile image stuff
     const [profileImage, setProfileImage] = useState(null);
     const pickProfileImage = async () => {
         console.log("Picking profile image.");
@@ -50,13 +55,22 @@ export default function EditListings() {
         }
     };
 
+    useEffect(() => {
+        fetchUserData().then(() => {
+            setUsername(user?.public?.username);
+            setFname(user?.public?.fname);
+            setLname(user?.public?.lname);
+            setIsLoading(false);
+        });
+    }, []);
+
     const profileImageUrl = user?.public?.profileImage;
 
-    var shortHash = require('short-hash');
 
-    useEffect(() => {
-        fetchUserData();
-    }, []);
+    // console.log(user);
+    console.log("on user page");
+
+
     return (
         <SafeAreaView style={styles.background}>
             <RoundHeader height="37%" />
@@ -88,9 +102,9 @@ export default function EditListings() {
                             backgroundColor: "white",
                         }}>
                         {profileImageUrl ? (
-                            <CachedImage
+                            <Image
                                 source={{ uri: profileImageUrl }}
-                                cacheKey={`user-${user.id}-profileImage`}
+                                // cacheKey={`user-${user.id}-profileImage`}
                                 // cacheKey={shortHash(user.id)} // this might be user.userId
                                 style={{
                                     width: "100%",
@@ -116,23 +130,48 @@ export default function EditListings() {
             <View style={{ width: "100%", alignItems: "center" }}>
                 <Text>Change Picture</Text>
             </View>
-
-            <View>
+            
+            <ScrollView>
                 <View>
-                    <Text style={styles.boldtext}>Username</Text>
+                    <Text style={styles.boldtext}>First Name</Text>
                     <TextInput
                         style={styles.createUserInput}
-                        //value={email}
-                        onChangeText={(value) => setEmail(value)}
-                        placeholder="Username"
-                        onSubmitEditing={() => {
-                            // Focus on the password input when the user submits the email input
-                            passwordInputRef.current.focus();
-                        }}
+                        onChangeText={(value) => setFname(value)}
+                        placeholder={"First name"}
+                        // onSubmitEditing={() => {
+                        //     // Focus on the password input when the user submits the email input
+                        //     passwordInputRef.current.focus();
+                        // }}
                         blurOnSubmit={false}
                     />
                 </View>
                 <View>
+                    <Text style={styles.boldtext}>Last Name</Text>
+                    <TextInput
+                        style={styles.createUserInput}
+                        onChangeText={(value) => setLname(value)}
+                        placeholder={"Last name"}
+                        // onSubmitEditing={() => {
+                        //     // Focus on the password input when the user submits the email input
+                        //     passwordInputRef.current.focus();
+                        // }}
+                        blurOnSubmit={false}
+                    />
+                </View>
+                <View>
+                    <Text style={styles.boldtext}>Username</Text>
+                    <TextInput
+                        style={styles.createUserInput}
+                        onChangeText={(value) => setUsername(value)}
+                        placeholder={"Username"}
+                        // onSubmitEditing={() => {
+                        //     // Focus on the password input when the user submits the email input
+                        //     passwordInputRef.current.focus();
+                        // }}
+                        blurOnSubmit={false}
+                    />
+                </View>
+                {/* <View>
                     <Text style={styles.boldtext}>Email</Text>
                     <TextInput
                         style={styles.createUserInput}
@@ -145,8 +184,8 @@ export default function EditListings() {
                         }}
                         blurOnSubmit={false}
                     />
-                </View>
-                <View>
+                </View> */}
+                {/* <View>
                     <Text style={styles.boldtext}>Password</Text>
                     <TextInput
                         style={styles.createUserInput}
@@ -159,21 +198,11 @@ export default function EditListings() {
                         }}
                         blurOnSubmit={false}
                     />
-                </View>
+                </View> */}
                 <View
                     style={{
                         flexDirection: "row",
                         justifyContent: "space-between",
-                        //paddingHorizontal: 2,
-                        // backgroundColor: "transparent",
-                        // shadowColor: "#000",
-                        // shadowOffset: {
-                        //     width: 0,
-                        //     height: 4,
-                        // },
-                        // shadowOpacity: 0.8,
-                        // shadowRadius: 3.84,
-                        // elevation: 5,
                     }}>
 
                     <Button
@@ -189,7 +218,6 @@ export default function EditListings() {
                         titleStyle={[styles.boldtext, { color: "white" }]}
                     />
 
-
                     <Button
                         width="50%"
                         height="40%"
@@ -198,11 +226,13 @@ export default function EditListings() {
                         alignItems="center"
                         justifyContent="center"
                         borderRadius="25%"
-                        href="Chat"
+                        href="Profile"
+                        press={() => updateUser(profileImage, username, fname, lname)}
                         titleStyle={[styles.boldtext, { color: "white" }]}
                     />
                 </View>
-            </View>
+            </ScrollView>
+            
         </SafeAreaView>
     );
 }

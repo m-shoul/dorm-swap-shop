@@ -238,7 +238,15 @@ export default function CreateUserScreen() {
                 <StatusBar barStyle={"light-content"} />
                 <RoundHeader height={"20%"} />
 
-                <SimpleLogo width="50%" height="15%" style={{ marginTop: "10%", width: 50 }} />
+                <SimpleLogo width="50%" height="15%" style={{ marginTop: "10%", width: 50,
+                    shadowColor: "#000",
+                    shadowOffset: {
+                        width: 0,
+                        height: 4,
+                    },
+                    shadowOpacity: 0.8,
+                    shadowRadius: 3.84,
+                    elevation: 5,}} />
 
                 <Text style={styles.registerHeader}> Register </Text>
 

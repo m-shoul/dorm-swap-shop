@@ -64,7 +64,7 @@ export default function ChatScreen() {
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "#F9F7F7" }}>
             <SquareHeader height={"8%"} />
-            <View style={{ backgroundColor: "#112D4E" }}>
+            <View style={{ backgroundColor: "#112D4E", paddingHorizontal: "2%" }}>
                 <SearchBarHeader
                     animHeaderValue={scrollOffsetY}
                     handleSearch={handleSearch}

@@ -25,7 +25,6 @@ export default function FilterPopup({ handleFiltering }) {
         }
     }, [modalVisible]);
 
-
     return (
         <SafeAreaView>
             <TouchableOpacity onPress={() => setModalVisible(true)}>

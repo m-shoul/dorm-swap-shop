@@ -8,7 +8,7 @@ import {
     RefreshControl,
 } from "react-native";
 import React, { useState, useEffect } from "react";
-import { getUserSavedListings } from "../../backend/api/user.js";
+import { getUserSavedListings, getAllUserDataForProfile } from "../../backend/api/user.js";
 import ListingPopup from "../../components/ListingPopup.js";
 import ProfileHeader from "../../components/ProfileHeader.js";
 
@@ -30,9 +30,20 @@ export default function ProfileScreen() {
         }
     };
 
+    const fetchUserData = async () => {
+        try {
+            const user = await getAllUserDataForProfile();
+            setUser(user);
+            setIsLoading(false);
+        } catch (error) {
+            console.error("ERROR: Could not get user data: ", error);
+            setIsLoading(false);
+        }
+    }
+
     useEffect(() => {
         fetchSavedListings();
-        //fetchUserData();
+        fetchUserData();
     }, []);
 
     const handleItemPress = (listing) => {
@@ -41,8 +52,10 @@ export default function ProfileScreen() {
 
     const handleRefresh = () => {
         fetchSavedListings();
-        //fetchUserData();
+        fetchUserData();
     }
+
+    console.log(user);
 
     const noSavedListings = () => (
         <Text style={{ textAlign: 'center' }}>No saved listings</Text>
@@ -98,11 +111,11 @@ export default function ProfileScreen() {
                             refreshing={refreshing}
                             onRefresh={handleRefresh}
                             tintColor={"#F9F7F7"}
-                            stye={{ backgroundColor: "blue" }}
                         />
                     }
                     ListEmptyComponent={noSavedListings}
-                    ListHeaderComponent={<ProfileHeader />}
+                    ListHeaderComponent={<ProfileHeader user={user}/>}
+                    style={{height: "100%"}}
                 />
             )}
         </SafeAreaView>

@@ -84,10 +84,26 @@ export async function getAllUserDataForProfile() {
     });
 }
 
+export async function getUserProfileImage(userId) {
+    const usersRef = ref(database, "dorm_swap_shop/users/");
+
+    return get(usersRef).then((snapshot) => {
+        let userProfileImage;
+        snapshot.forEach((childSnapshot) => {
+            const data = childSnapshot.val();
+            if (data.private.userId === userId) {
+                userProfileImage = data.public.profileImage;
+            }
+        });
+        return userProfileImage;
+    }).catch((error) => {
+        console.error(error);
+    });
+}
+
 export async function getUserPushIdFromFirebaseRealtime() {
-    const db = getDatabase();
     const userId = getUserID();
-    const usersRef = ref(db, "dorm_swap_shop/users/");
+    const usersRef = ref(database, "dorm_swap_shop/users/");
 
     return get(usersRef).then((snapshot) => {
         let pushId;
@@ -212,15 +228,28 @@ export async function deleteUserFromRealtimeDatabase(userId) {
 }
 
 // Function to update a user
-export function updateUser(username, userId, bio) {
+// TODO: Pass additional parameters in as needed
+// and create views for the data in the edit profile
+export async function updateUser(profileImageUrl, username, fname, lname) {
+    console.log("getting user id");
+    const userId = await getUserPushIdFromFirebaseRealtime();
     const userReference = ref(database, `dorm_swap_shop/users/${userId}/public`);
 
     // Add more data as needed
     const updatedInfo = {
+        profileImage: profileImageUrl,
         username: username,
+        fname: fname,
+        lname: lname
     };
 
-    set(userReference, updatedInfo);
+    set(userReference, updatedInfo)
+        .then(() => {
+            console.log("Updated user information testing");
+        })
+        .catch((error) => {
+            console.error("Failed to update user information: ", error);
+        });
 }
 
 export async function uploadProfileImage(uri) {

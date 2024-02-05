@@ -22,7 +22,7 @@ import SavedListingIcon from "../assets/svg/savedListing_icon.js";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { saveListing, unsaveListing } from "../backend/api/listing.js";
 import { Button } from "./Buttons.js";
-import { getUsernameByID } from "../backend/api/user.js";
+import { getUser, getUserProfileImage, getUsernameByID } from "../backend/api/user.js";
 import { isListingFavorited } from "../backend/api/listing.js";
 import CachedImage from "expo-cached-image";
 
@@ -33,6 +33,7 @@ export default function ListingPopup({ listing }) {
     const [isFavorited, setIsFavorited] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [username, setUsername] = useState("");
+    const [profileImage, setProfileImage] = useState("");
 
     const router = useRouter();
 
@@ -67,6 +68,8 @@ export default function ListingPopup({ listing }) {
     const fetchUser = async () => {
         const username = await getUsernameByID(listing.user);
         setUsername(username);
+        const profileImage = await getUserProfileImage(listing.user);
+        setProfileImage(profileImage);
     };
 
     const checkIfFavorited = async () => {
@@ -334,12 +337,11 @@ export default function ListingPopup({ listing }) {
                                         borderWidth: 1,
                                         borderColor: "#B3B3B3",
                                     }}>
-                                    {profileImageUrl ? (
-                                        <CachedImage
+                                    {profileImage ? (
+                                        <Image
                                             source={{
-                                                uri: profileImageUrl,
+                                                uri: profileImage,
                                             }}
-                                            cacheKey={`user-${user.id}-profileImage`}
                                             style={{
                                                 width: "100%",
                                                 height: "100%",

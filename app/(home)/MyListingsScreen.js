@@ -115,7 +115,7 @@ const MyListingsScreen = ({ navigation }) => {
                         right: 0,
                         backgroundColor: "#112D4E",
                     }}>
-                    <TouchableOpacity onPress={() => router.back()}>
+                    <TouchableOpacity onPress={() => router.push("Profile")}>
                         <BackButtonComponent></BackButtonComponent>
                     </TouchableOpacity>
                     <View style={{ justifyContent: "center", width: "90%" }}>

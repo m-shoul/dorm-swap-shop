@@ -124,6 +124,7 @@ export default function ListingForm({ header, buttonTitle, imageText }) {
     };
 
     const clearTextInputs = () => {
+        router.push("Home");
         setTitle("");
         setPrice("");
         setDescription("");
