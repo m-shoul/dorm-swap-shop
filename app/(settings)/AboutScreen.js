@@ -17,11 +17,14 @@ import SimpleLogo from "../../assets/svg/simpleLogo_icon.js";
 import { Button } from "../../components/Buttons.js";
 import HeadShot from "../../components/HeadShot.js";
 import EmailComponent from "../../assets/svg/email_icon.js";
+import SquareHeader from "../../components/SquareHeader.js";
 
 export default function About() {
     const [modalVisible, setModalVisible] = useState(false);
 
     return (
+        <>
+        <SquareHeader height={"5%"}/>
         <ScrollView>
             <StatusBar barStyle={"light-content"} />
             <RoundHeader height={"19%"} />
@@ -32,8 +35,9 @@ export default function About() {
                     width: "100%",
                     marginBottom: "10%",
                     marginTop: "15%",
+                    justifyContent: "center"
                 }}>
-                <TouchableOpacity onPress={() => router.back()}>
+                <TouchableOpacity onPress={() => router.back()} style={{marginLeft: "-6.5%"}}>
                     <BackButtonComponent></BackButtonComponent>
                 </TouchableOpacity>
 
@@ -43,7 +47,7 @@ export default function About() {
                 </View>
             </View>
 
-            <View style={{ paddingHorizontal: "3%" }}>
+            <View style={{ paddingHorizontal: "10%" }}>
                 <View style={{ marginBottom: "5%" }}>
                     <Text style={[styles.boldtext, { marginBottom: "2%" }]}>
                         Our Story
@@ -115,7 +119,7 @@ export default function About() {
 
                 </View>
 
-                <View style={{ marginBottom: "2%" }}>
+                <View style={{ marginBottom: "10%" }}>
                     <Text style={[styles.boldtext, { marginBottom: "2%" }]}>
                         Contact Us
                     </Text>
@@ -128,23 +132,22 @@ export default function About() {
 
                 </View>
             </View>
-            <View style={{ paddingHorizontal: "3%", paddingBottom: "15%" }}>
+            <View style={{ paddingHorizontal: "10%", paddingBottom: "15%" }}>
                 <Text style={[styles.boldtext, { marginBottom: "5%" }]}>Terms and Conditions</Text>
-                <Button
-                    width="100%"
-                    height="20%"
-                    backgroundColor="#3F72AF"
-                    title="Terms and Conditions"
-                    alignItems="center"
-                    justifyContent="center"
-                    borderRadius="25%"
-                    press={() => setModalVisible(true)}
-                    titleStyle={[styles.boldtext, { color: "white" }]}
-                />
+                <View style={{ width: "100%", alignItems: "center", height: 50}}>
+                    <Button
+                        width="75%"
+                        height="100%"
+                        backgroundColor="#3F72AF"
+                        title="Terms and Conditions"
+                        alignItems="center"
+                        justifyContent="center"
+                        borderRadius="25%"
+                        press={() => setModalVisible(true)}
+                        titleStyle={[styles.boldtext, { color: "white" }]}
+                    />
+                </View>
             </View>
-
-
-
 
             <Modal
                 animationType="slide"
@@ -178,5 +181,6 @@ export default function About() {
                 </View>
             </Modal>
         </ScrollView>
+        </>
     );
 }

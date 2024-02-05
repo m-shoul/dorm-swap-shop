@@ -2,7 +2,8 @@ import {
     Text,
     View,
     TouchableOpacity,
-    StyleSheet
+    StyleSheet,
+    RefreshControl
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { Image } from 'expo-image';
@@ -15,50 +16,51 @@ import CachedImage from "expo-cached-image";
 import RoundHeader from "./RoundHeader.js";
 import { router } from "expo-router";
 
-export default function ProfileHeader() {
-    const [user, setUser] = useState(null);
+export default function ProfileHeader({ user }) {
     const [isLoading, setIsLoading] = useState(true);
 
-    const fetchUserData = async () => {
-        try {
-            const user = await getAllUserDataForProfile();
-            setUser(user);
-            setIsLoading(false);
-        } catch (error) {
-            console.error("ERROR: Could not get user data: ", error);
-            setIsLoading(false);
-        }
-    }
+    // const fetchUserData = async () => {
+    //     try {
+    //         const user = await getAllUserDataForProfile();
+    //         setUser(user);
+    //         setIsLoading(false);
+    //     } catch (error) {
+    //         console.error("ERROR: Could not get user data: ", error);
+    //         setIsLoading(false);
+    //     }
+    // }
 
-    // Profile image stuff
-    const [profileImage, setProfileImage] = useState(null);
-    const pickProfileImage = async () => {
-        console.log("Picking profile image.");
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            allowsEditing: true,
-            selectionLimit: 1,
-            aspect: [1, 1],
-            quality: 0.1
-        });
+    // const [profileImage, setProfileImage] = useState(null);
+    // const pickProfileImage = async () => {
+    //     console.log("Picking profile image.");
+    //     let result = await ImagePicker.launchImageLibraryAsync({
+    //         mediaTypes: ImagePicker.MediaTypeOptions.Images,
+    //         allowsEditing: true,
+    //         selectionLimit: 1,
+    //         aspect: [1, 1],
+    //         quality: 0.1
+    //     });
 
-        if (result.assets && result.assets.length > 0) {
-            const selectedProfileImage = result.assets[0];
-            setProfileImage(selectedProfileImage.uri);
-            uploadProfileImage(selectedProfileImage.uri);
-        }
-    };
+    //     if (result.assets && result.assets.length > 0) {
+    //         const selectedProfileImage = result.assets[0];
+    //         setProfileImage(selectedProfileImage.uri);
+    //         uploadProfileImage(selectedProfileImage.uri);
+    //     }
+    // };
 
     const profileImageUrl = user?.public?.profileImage;
 
-    var shortHash = require('short-hash');
-
-    useEffect(() => {
-        fetchUserData();
-    }, []);
+    // useEffect(() => {
+    //     fetchUserData();
+    // }, []);
 
     return (
         <View style={{ flex: 1, marginBottom: "10%" }}>
+            {/* <RefreshControl
+                refreshing={isLoading}
+                onRefresh={fetchUserData}
+            /> */}
+            
             <RoundHeader height="45%" />
             {/* <View style={{ marginBottom: "5%", alignItems: "center" }}> */}
             <TouchableOpacity
@@ -74,7 +76,7 @@ export default function ProfileHeader() {
                 </Text>
             </TouchableOpacity>
             <View style={{ width: "100%", marginBottom: "5%", alignItems: "center" }}>
-                <TouchableOpacity onPress={pickProfileImage} style={{
+                <TouchableOpacity /*onPress={pickProfileImage}*/ style={{
                     backgroundColor: "transparent",
                     shadowColor: "#000",
                     shadowOffset: {
@@ -96,9 +98,9 @@ export default function ProfileHeader() {
                             backgroundColor: "white",
                         }}>
                         {profileImageUrl ? (
-                            <CachedImage
+                            <Image
                                 source={{ uri: profileImageUrl }}
-                                cacheKey={`user-${user.id}-profileImage`}
+                                // cacheKey={`user-${user.id}-profileImage`}
                                 // cacheKey={shortHash(user.id)} // this might be user.userId
                                 style={{
                                     width: "100%",

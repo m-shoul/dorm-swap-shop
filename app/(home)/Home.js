@@ -160,9 +160,12 @@ export default function HomeScreen() {
     };
 
     const noListingsFromSearchOrFilter = () => (
-        <Text style={{ textAlign: "center"}}>
-            Oops! No listings match that criteria. Refresh to clear results.
-        </Text>
+        <View style={{ marginTop: "60%", justifyContent: "center", alignItems: "center", paddingHorizontal: "15%" }}>
+            <Text style={[styles.boldtext, { textAlign: "center"}]}>
+                Oops! No listings match that criteria. Refresh to clear results.
+            </Text>
+        </View>
+
     );
 
     if (isLoading) {
