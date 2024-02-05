@@ -42,7 +42,7 @@ export default function DeleteAccount() {
             <TouchableOpacity
                 onPress={() => {
                     deleteUser();
-                    router.push("index.js");
+                    router.push("/");
                     alert("Account Deleted");
                 }}
                 style={styles.deleteBtn}>
