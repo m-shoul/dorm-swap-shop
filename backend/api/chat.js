@@ -1,25 +1,142 @@
-import { database } from './config/firebaseConfig';
-import { get, child, ref, set, push, getDatabase } from 'firebase/database';
-
-// ^^ Import whatever we need for this...
-// NOTE************ add additional parameters when needed!!! This is just a baseline.
+import { database } from '../config/firebaseConfig';
+import { get, child, ref, set, push } from 'firebase/database';
+import { getUsernameByID } from './user';
 
 // Function to create a new user
-export function createChat(chatData) {
-    // Implement the functionality to create a chat between users in the db.
-    // Think about this and how EACH user will have a different list of
-    // chats depending on who they reply to.
-
+export async function createChatThread(userId_1, userId_2) {
     // The "Reply", button will most likely call this method and then
     // navigate to the chat screen.
+
+    const chatReference = ref(database, 'dorm_swap_shop/chats');
+
+    const newChatReference = push(chatReference);
+
+    const chatId = newChatReference.key;
+    console.log("*API - createChatThread* Chat ID created: " + chatId);
+    console.log("*API - createChatThread* User 1: " + userId_1);
+    console.log("*API - createChatThread* User 2: " + userId_2);
+
+    const participants = {
+        userId_1: userId_1,
+        userId_2: userId_2
+    };
+
+    const chatData = {
+        chatId: chatId,
+        participants: participants,
+        reported: false, 
+        messages: []
+    };
+
+    await set(newChatReference, chatData); 
+
+    console.log("*API - createChatThread* Chat created with id: " + chatId);
+
+    return chatId;
+}
+
+export async function getChatThreadId(uid1, uid2) {
+    try {
+        const chatReference = ref(database, 'dorm_swap_shop/chats');
+        const snapshot = await get(chatReference);
+
+        if (snapshot.exists()) {
+            const chats = snapshot.val();
+            for (const chatId in chats) {
+                if (chats[chatId]) {
+                    const participants = chats[chatId].participants;
+                    if (participants && participants.userId_1 === uid1 && participants.userId_2 === uid2) {
+                        console.log("*API - getChatThreadId* Chat thread ID found: " + chatId);
+                        return chatId;
+                    }
+                }
+            }
+        }
+        console.log("*API - getChatThreadId* Chat thread ID not found.");
+        return null;
+    } catch (error) {
+        console.error('*API - getChatThreadId* Error retrieving chat thread ID:', error);
+        throw error;
+    }
+}
+
+export async function addMessage(chatId, messageData, messageReference) {
+    try {
+        if (typeof(chatId) != "string" || !chatId) {
+            throw new Error('Chat ID is required.');
+        }
+        const chatRef = ref(database, `dorm_swap_shop/chats/${chatId}`);
+        const snapshot = await get(chatRef);
+
+        if (!snapshot.exists()) {
+            // await createChatThread(userId, userId_2);
+            throw new Error('Chat does not exist.');
+        }
+
+        // const messagesRef = ref(database, `dorm_swap_shop/chats/${chatId}/messages`);
+        // const newMessageReference = push(messagesRef);
+
+        // const messageData = {
+        //     id: newMessageReference.key,
+        //     message: message,
+        //     timestamp: new Date().toISOString(),
+        //     user: {_id: userId, name: getUsernameByID(userId)}
+        // };
+
+        await set(messageReference, messageData);
+
+        console.log("Message added to chat: " + chatId + ": " + messageData.text);
+
+        return messageReference.key;
+    } catch (error) {
+        console.error('Error adding message:', error);
+        throw error;
+    }
 }
 
 // Function to read user data
-export function readChat(chatId) {
-    // Implement the functionality to display chats.
-    // we can change the name but for CRUD purposes I just had it readChat.
-}
+export async function readChat(chatId) {
+    console.log("*API - readChat* Reading chat: " + chatId);
 
+    const chatRef = ref(database, `dorm_swap_shop/chats/${chatId}`);
+    
+    // Return the Promise created by get(chatRef).then(...)
+    return get(chatRef).then((snapshot) => {
+        if (snapshot.exists()) {
+            const chatData = snapshot.val();
+            // const participants = chatData.participants;
+            const messages = [];
+
+            // Loop through the messages and add them to the messages array
+            for (const messageId in chatData.messages) {
+                const message = chatData.messages[messageId];
+                let userId = message.user._id;
+                let name = getUsernameByID(userId);
+                if (typeof(name) != "string") {
+                    name = "Unknown";
+                }
+                messages.push({
+                    _id: message._id,
+                    text: message.text,
+                    createdAt: new Date(message.createdAt),
+                    user: 
+                    {
+                        _id: userId,
+                        name: name
+                    }
+                });
+            }
+
+            // Return the messages
+            return { messages: messages.reverse() };
+        } else {
+            throw new Error('*API - readChat* Chat does not exist.');
+        }
+    }).catch((error) => {
+        console.error('*API - readChat* Error reading chat:', error);
+        throw error;
+    });
+}
 // Function to update a user
 export function updateChat(chatId, chatData) {
     // We might not actually need this... I just had it here for CRUD consistency.

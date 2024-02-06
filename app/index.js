@@ -14,6 +14,7 @@ import { getAuth } from "firebase/auth";
 import { router } from "expo-router";
 import { getUserID } from "../backend/dbFunctions";
 import { Button } from "../components/Buttons";
+import LogoV2 from "../assets/svg/logoV2";
 
 export default function LoginScreen() {
     const [email, setEmail] = useState("");
@@ -63,14 +64,17 @@ export default function LoginScreen() {
     // Figure out what saves the userId when I go to the register screen
     // we can use this to sage the state of the user and automatically log in
     // so user doesnt have to log in every time.
-    console.log(getUserID());
+    console.log("*** IN APP - Login Screen " + getUserID());
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
             <SafeAreaView style={styles.background}>
-                <View style={{ paddingTop: "45%" }}>
+                <LogoV2 />
+
+                {/* <View>
+                    paddingTop: "45%"
                     <Text style={styles.loginHeader}> Login </Text>
-                </View>
+                </View> */}
 
                 <View style={styles.dividerLine} />
 
@@ -135,6 +139,7 @@ export default function LoginScreen() {
                     alignItems="center"
                     justifyContent="center"
                     marginTop="6%"
+                    marginBottom="6%"
                     borderRadius="25%"
                     press={handleLogin}
                     titleStyle={styles.buttonText}

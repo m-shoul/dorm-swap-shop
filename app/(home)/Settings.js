@@ -18,6 +18,7 @@ import AboutComponent from "../../assets/svg/about_icon.js";
 import LogoutComponent from "../../assets/svg/logout_icon.js";
 import DeleteComponent from "../../assets/svg/delete_icon.js";
 import SearchBarHeader from "../../components/SearchBar";
+import RoundHeader from "../../components/RoundHeader";
 
 export default function SettingsScreen() {
     const animHeaderValue = new Animated.Value(0);
@@ -25,15 +26,16 @@ export default function SettingsScreen() {
     const handleSearch = () => { null }
     return (
         <SafeAreaView style={styles.background}>
-            <View style={{ marginTop: "30%" }}>
-                <Text style={styles.postListingHeader}>Settings</Text>
+            <RoundHeader height={"25%"} />
+            <View style={{ marginTop: "10%", marginBottom: "20%" }}>
+                <Text style={[styles.postListingHeader, { color: "#F9F7F7" }]}>Settings</Text>
             </View>
             <View
                 style={{
                     marginTop: "5%",
                     height: "5%",
                     width: "100%",
-                    marginBottom: "5%",
+                    marginBottom: "15%",
                 }}>
                 <SearchBarHeader animHeaderValue={animHeaderValue} handleSearch={handleSearch} />
             </View>
@@ -41,7 +43,7 @@ export default function SettingsScreen() {
             <View style={{ width: "100%" }}>
                 <View style={{ flexDirection: "row", marginLeft: "5%" }}>
                     <TouchableOpacity
-                        onPress={() => router.push("(settings)/DeleteAccountScreen")}
+                        //onPress={() => router.push("(settings)/DeleteAccountScreen")}
                         style={{
                             marginBottom: "5%",
                             marginTop: "3%",

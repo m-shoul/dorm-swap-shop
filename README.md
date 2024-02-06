@@ -4,13 +4,13 @@
 | Version    | Date | Description
 | -------- | ------- | -------
 | 1.0.00  | 2023-08-31 | Initial deployment.
-| 1.0.01  | 2023-09-08 | Set up tech stack.
-| 1.0.02  | 2023-09-29 | User registration and login.
-| 1.0.03  | 2023-10-23 | Listing an item.
-| 1.0.04  | 2023-11-10 | App Navigation and view listings.
+| 1.0.00  | 2023-09-08 | Set up tech stack.
+| 1.0.01  | 2023-09-29 | User registration and login.
+| 1.0.02  | 2023-10-23 | Listing an item.
+| 1.0.03  | 2023-11-10 | App Navigation and view listings.
+| 1.0.04  | 2023-11-01 | Searching and saving listings.
 
-
-## Table of Contents
+## Contents
 * [Releases](https://github.com/m-shoul/dorm-swap-shop#releases)
 * [Introduction](https://github.com/m-shoul/dorm-swap-shop#introduction)
 * [Problem Statement](https://github.com/m-shoul/dorm-swap-shop#problem-statement)
@@ -52,12 +52,18 @@ To develop and run this front-end locally, you will need to have Expo CLI and No
 5. Start the development server: `npx expo start --tunnel` or `npm start`.
 6. Follow the Expo CLI instructions to run the app on an emulator, device, or web browser.
 
-
 ## Demo
-> This could be a git or something of how to use the app (when it's built and not just spinning up locally). 
+> This could be a gif or something of how to use the app (when it's built and not just spinning up locally). 
+
+## Contributing
+If you would like to contribute to this project, please take a look at the [CONTRIBUTING.md](./CONTRIBUTING.md) file for more information.
+Pull requests are welcome! For major changes, please open an issue first to discuss what you would like to change.
 
 ## Contributors
 * [m-shoul](https://github.com/m-shoul) - Mike Shoul  
 * [jp1478](https://github.com/jp1478) - Josh Phillips  
 * [BenOfTheOneRing](https://github.com/BenOfTheOneRing) - Ben Clarke  
 * [jm1959](https://github.com/jm1959) - Joe McGillen
+
+## Contact Us
+Any questions, comments, or concerns can be sent to our email: <dormswapandshop@gmail.com>.

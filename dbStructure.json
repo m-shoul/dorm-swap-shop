@@ -58,27 +58,33 @@
         "chats": [
             {
                 "chatId": "chatId_1",
-                "participants": {
-                    "userId_1": {
-                        "messages": [
-                            {
-                                "message": "Heyyy",
-                                "timestamp": 1234567892
-                            }
-                        ]   
+                "messages": [
+                    {
+                        "_id": "messageId_1",
+                        "createdAt": 1234567892,
+                        "user": 
+                        {
+                            "_id": "userId_1",
+                            "name": "First Last"
+                        },
+                        "text": "Heyyy"
                     },
-                    "userId_2": {
-                        "messages": [
-                            {
-                                "message": "Hi.",
-                                "timestamp": 1234567892
-                            }
-                        ]   
+                    {
+                        "_id": "messageId_1",
+                        "createdAt": 1234567892,
+                        "user": 
+                        {
+                            "_id": "userId_2",
+                            "name": "User Name"
+                        },
+                        "text": "Hi"
                     }
+                ],
+                "participants": {
+                    "userId_1": "userId_1",
+                    "userId_2": "userId_2"
                 },
-                "reported": {
-                    "reportId": true
-                }
+                "reported": true
             }
         ],
         "reports": [

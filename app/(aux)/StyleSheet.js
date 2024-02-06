@@ -18,6 +18,7 @@ SmallHeadText = width / SmallerHeaderFontSize;
 const styles = StyleSheet.create({
     boldtext: { fontSize: normalText, fontWeight: "bold" },
     normaltext: { fontSize: normalText },
+    SmallerHeaderFontSize: { fontSize: SmallHeadText, color: "#F9F7F7" },
     background: {
         flex: 1,
         alignItems: "center",
@@ -43,16 +44,28 @@ const styles = StyleSheet.create({
         height: "7%", //was 50
         alignItems: "center",
         justifyContent: "center",
-        marginTop: "12%", //was 40
+
         backgroundColor: "#F30000",
+        marginBottom: "50%",
     },
     buttonText: {
-        color: "white",
+        color: "#F9F7F7",
         fontSize: buttonText,
         fontWeight: "bold",
     },
+    chatHeader: {
+        // paddingTop: "10%",
+        margin: "15%", 
+        fontWeight: "bold",
+        fontSize: SmallHeadText,
+        alignContent: "center",
+        textAlign: "center",
+    },
     container: {
         marginTop: 50,
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
     },
     createUserInput: {
         marginBottom: "6%", //was 20
@@ -144,8 +157,7 @@ const styles = StyleSheet.create({
         textAlign: "center",
     },
     registerHeader: {
-        paddingTop: "15%",
-        margin: "10%", //was 20
+        marginBottom: "2%", //was 20
         fontWeight: "bold",
         fontSize: headerText,
         alignContent: "center",
@@ -179,14 +191,9 @@ const styles = StyleSheet.create({
     },
 
     searchContainer: {
-        position: "absolute",
-        top: 0,
-        left: 0,
-        right: 0,
         backgroundColor: "transparent",
         borderBottomColor: "transparent",
         borderTopColor: "transparent",
-        width: "100%",
         justifyContent: "center",
     },
 });

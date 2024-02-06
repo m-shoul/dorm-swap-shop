@@ -4,33 +4,25 @@ import {
     TouchableOpacity,
     FlatList,
     SafeAreaView,
-    Image,
     Animated,
     RefreshControl,
-    ActivityIndicator
+    ActivityIndicator,
+    TouchableWithoutFeedback,
+    Modal,
+    Pressable,
 } from "react-native";
-import React, { useState, useEffect, useRef } from "react";
+import { Image } from "expo-image";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import { getAllListings } from "../../backend/api/listing";
 import styles from "../(aux)/StyleSheet";
-//import { getAuth, signOut } from "firebase/auth";
 import ListingPopup from "../../components/ListingPopup";
-import { ScrollView } from "react-native-web";
-//import styles from "../styleSheets/StyleSheet.js";
-//import { HeaderComponent } from "../components/headerComponent.js";
-import filter from "lodash.filter";
-import typescript from "react-native-svg";
-import { get, child, ref, set, push, getDatabase } from "firebase/database";
 import SearchBarHeader from "../../components/SearchBar";
+import { getUsernameByID } from "../../backend/api/user";
+import FilterPopup from "../../components/FilterPopup";
+import SquareHeader from "../../components/SquareHeader";
 
 export default function HomeScreen() {
     const scrollOffsetY = useRef(new Animated.Value(0)).current;
-    //const scrollOffsetY = new Animated.Value(0);
-    // const scrollY = new Animated.Value(0);
-    // const diffClamp = Animated.diffClamp(scrollY, 0, 40);
-    // const translateYAxis = diffClamp.interpolate({
-    //     inputRange: [0, 1],
-    //     outputRange: [0, -1],
-    // });
 
     const [isLoading, setIsLoading] = useState(false); // State to track if the listings are loading
     const [listingsData, setListingsData] = useState([]); // State to store listings data
@@ -40,55 +32,146 @@ export default function HomeScreen() {
     const [selectedListing, setSelectedListing] = useState(null); // State to store the selected listing
     const [refreshing, setRefreshing] = useState(false);
 
+    let timerId;
+
     const fetchListings = async () => {
-        setRefreshing(true);
-        try {
-            const listingsData = await getAllListings();
-            setFullData(listingsData);
-            setListingsData(listingsData);
-            console.log("Got all listings.");
-            setRefreshing(false);
-            setIsLoading(false);
-        } catch (error) {
-            setError(error);
-            console.error('Error:', error);
-            setRefreshing(false);
-            setIsLoading(false);
-        }
-    }
+        clearTimeout(timerId);
+        timerId = setTimeout(async () => {
+            setRefreshing(true);
+            try {
+                const listingsData = await getAllListings();
+                setFullData(listingsData);
+                setListingsData(listingsData);
+                setRefreshing(false);
+                setIsLoading(false);
+            } catch (error) {
+                setError(error);
+                console.error("Error:", error);
+                setRefreshing(false);
+                setIsLoading(false);
+            }
+        }, 1000); // Delay of 1 second
+    };
 
     useEffect(() => {
         // Fetch listings data from Firebase when the component mounts
         setIsLoading(true);
         fetchListings();
+        return () => {
+            clearTimeout(timerId);
+        };
     }, []);
 
-    const handleSearch = (query) => {
-        const formattedQuery = query.toLowerCase();
-        const filteredData = filter(fullData, (listing) => {
-            return contains(listing, formattedQuery);
-        });
-        setListingsData(filteredData);
-    }
+    const memoizedListingsData = useMemo(
+        () => Object.values(listingsData),
+        [listingsData]
+    );
 
-    const contains = ({ title, description, condition }, query) => {
+    const handleSearch = async (query) => {
+        if (typeof fullData !== "object") {
+            console.error("fullData is not an object:", fullData);
+            return;
+        }
+        const formattedQuery = query.toLowerCase();
+        const filteredData = await Promise.all(
+            Object.values(fullData).map(async (listing) => {
+                const username = await getUsernameByID(listing.user);
+                if (
+                    username &&
+                    contains(listing, formattedQuery, username.toLowerCase())
+                ) {
+                    return listing;
+                }
+            })
+        );
+        setListingsData(filteredData.filter(Boolean)); // Remove undefined values
+    };
+
+    const contains = (
+        { title, description, condition, category },
+        query,
+        username
+    ) => {
         title = title.toLowerCase();
         description = description.toLowerCase();
+        category = category.toLowerCase();
 
-        if (title.includes(query) || description.includes(query) || condition.includes(query)) {
+        if (
+            title.includes(query) ||
+            description.includes(query) ||
+            condition.includes(query) ||
+            username.includes(query) ||
+            category.includes(query)
+        ) {
             return true;
         }
         return false;
-    }
+    };
+
+    const handleFiltering = async (category, condition, activePrice) => {
+        if (typeof fullData !== "object") {
+            console.error("fullData is not an object:", fullData);
+            return;
+        }
+        const filteredData = await Promise.all(
+            Object.values(fullData).map(async (listing) => {
+                if (containsFiltering(listing, category, condition, activePrice)) {
+                    return listing;
+                }
+            })
+        );
+        setListingsData(filteredData.filter(Boolean));
+    };
+
+    const containsFiltering = (
+        { condition, category, price },
+        filteredCategory,
+        filteredCondition,
+        filteredPrice
+    ) => {
+        category = category.toLowerCase();
+        condition = condition.toLowerCase();
+
+        let priceMatch = true;
+        switch (filteredPrice) {
+            case "$":
+                priceMatch = parseFloat(price) < 10;
+                break;
+            case "$$":
+                priceMatch = parseFloat(price) >= 10 && parseFloat(price) <= 100;
+                break;
+            case "$$$":
+                priceMatch = parseFloat(price) > 100;
+                break;
+        }
+
+        if ((!filteredCategory || category === filteredCategory) &&
+            (!filteredCondition || condition === filteredCondition) &&
+            priceMatch) {
+
+            return true;
+        }
+
+        return false;
+    };
 
     const handleItemPress = (listing) => {
         setSelectedListing(listing);
     };
 
+    const noListingsFromSearchOrFilter = () => (
+        <View style={{ marginTop: "60%", justifyContent: "center", alignItems: "center", paddingHorizontal: "15%" }}>
+            <Text style={[styles.boldtext, { textAlign: "center"}]}>
+                Oops! No listings match that criteria. Refresh to clear results.
+            </Text>
+        </View>
+
+    );
+
     if (isLoading) {
         return (
             <View style={styles.container}>
-                <ActivityIndicator size="large" color="#5500dc" />
+                <ActivityIndicator size="large" color="#112d4e" />
             </View>
         );
     }
@@ -104,23 +187,75 @@ export default function HomeScreen() {
         );
     }
 
+    const minScroll = 300;
+
+    const animHeaderValue = scrollOffsetY;
+
+    const headerHeight = 120;
+    const activeRange = 200;
+
+    const diffClamp = Animated.diffClamp(
+        animHeaderValue,
+        -minScroll,
+        activeRange + minScroll
+    );
+    const animatedHeaderHeight = diffClamp.interpolate({
+        inputRange: [0, activeRange],
+        outputRange: [0, -headerHeight],
+        extrapolate: "clamp",
+    });
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "#F9F7F7" }}>
-            <SearchBarHeader animHeaderValue={scrollOffsetY} handleSearch={handleSearch} />
+            <SquareHeader height={"8%"} />
+            <Animated.View
+                style={{
+                    zIndex: 1,
+                    transform: [{ translateY: animatedHeaderHeight }],
+                }}>
+                <View
+                    style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        width: "100%",
+                        paddingHorizontal: "2%",
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        backgroundColor: "#112D4E",
+                    }}>
+                    <View style={{ justifyContent: "center", width: "90%" }}>
+                        <SearchBarHeader handleSearch={handleSearch} />
+                    </View>
+                    <View style={{ width: "10%" }}>
+                        <FilterPopup handleFiltering={handleFiltering} />
+                    </View>
+                </View>
+            </Animated.View>
+
             {/* Scrollable view displaying all the listings */}
             <FlatList
-                data={Object.values(listingsData)}
+                data={Object.values(memoizedListingsData)}
                 keyExtractor={(item) => item.listingId}
                 renderItem={({ item }) => (
-                    <View style={{ width: "50%", height: 230, padding: "1%" }}>
+                    <View
+                        style={{
+                            width: "50%",
+                            height: 230,
+                            padding: "1%",
+                        }}>
                         <ListingPopup
                             listing={item}
-                        //navigation={router}
+                            //navigation={router}
                         />
                     </View>
                 )}
                 numColumns={2}
-                // keyExtractor={(item, index) => item.id + index.toString()}
+                contentContainerStyle={{
+                    paddingBottom: "15%",
+                    paddingTop: "3%", // Add this line
+                }}
                 style={{
                     flex: 1,
                     backgroundColor: "#F9F7F7",
@@ -137,6 +272,7 @@ export default function HomeScreen() {
                         onRefresh={fetchListings}
                     />
                 }
+                ListEmptyComponent={noListingsFromSearchOrFilter}
                 scrollEventThrottle={10}
             />
         </SafeAreaView>
