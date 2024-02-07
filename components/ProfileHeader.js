@@ -166,7 +166,7 @@ export default function ProfileHeader({ user }) {
                     alignItems="center"
                     justifyContent="center"
                     marginRight="5%"
-                    borderRadius="25%"
+                    borderRadius={25}
                     href="MyListingsScreen"
                     titleStyle={[styles.boldtext, { color: "white" }]}
                     shadowColor="#000"
@@ -188,7 +188,7 @@ export default function ProfileHeader({ user }) {
                     title="Chat"
                     alignItems="center"
                     justifyContent="center"
-                    borderRadius="25%"
+                    borderRadius={25}
                     href="Chat"
                     titleStyle={[styles.boldtext, { color: "white" }]}
                     shadowColor="#000"

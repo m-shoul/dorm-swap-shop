@@ -130,7 +130,7 @@ export default function EditProfile() {
             <View style={{ width: "100%", alignItems: "center" }}>
                 <Text>Change Picture</Text>
             </View>
-            
+
             <ScrollView>
                 <View>
                     <Text style={styles.boldtext}>First Name</Text>
@@ -213,7 +213,7 @@ export default function EditProfile() {
                         alignItems="center"
                         justifyContent="center"
                         marginRight="5%"
-                        borderRadius="25%"
+                        borderRadius={25}
                         href="Profile"
                         titleStyle={[styles.boldtext, { color: "white" }]}
                     />
@@ -225,14 +225,14 @@ export default function EditProfile() {
                         title="Save"
                         alignItems="center"
                         justifyContent="center"
-                        borderRadius="25%"
+                        borderRadius={25}
                         href="Profile"
                         press={() => updateUser(profileImage, username, fname, lname)}
                         titleStyle={[styles.boldtext, { color: "white" }]}
                     />
                 </View>
             </ScrollView>
-            
+
         </SafeAreaView>
     );
 }

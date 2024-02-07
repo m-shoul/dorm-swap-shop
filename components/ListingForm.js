@@ -492,7 +492,7 @@ export default function ListingForm({ header, buttonTitle, imageText }) {
                                 title="Cancel"
                                 alignItems="center"
                                 justifyContent="center"
-                                borderRadius="25%"
+                                borderRadius={25}
                                 press={clearTextInputs}
                                 marginRight="5%"
                                 titleStyle={styles.buttonText}
@@ -505,7 +505,7 @@ export default function ListingForm({ header, buttonTitle, imageText }) {
                                 alignItems="center"
                                 flex="1"
                                 justifyContent="center"
-                                borderRadius="25%"
+                                borderRadius={25}
                                 press={handleValidation}
                                 titleStyle={styles.buttonText}
                             />

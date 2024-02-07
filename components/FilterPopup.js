@@ -116,7 +116,7 @@ export default function FilterPopup({ handleFiltering }) {
                                 title="$"
                                 alignItems="center"
                                 justifyContent="center"
-                                borderRadius="25%"
+                                borderRadius={25}
                                 press={() => setActivePrice('$')}
                                 titleStyle={styles.buttonText}
                             />
@@ -126,7 +126,7 @@ export default function FilterPopup({ handleFiltering }) {
                                 title="$$"
                                 alignItems="center"
                                 justifyContent="center"
-                                borderRadius="25%"
+                                borderRadius={25}
                                 press={() => setActivePrice('$$')}
                                 titleStyle={styles.buttonText}
                             />
@@ -136,7 +136,7 @@ export default function FilterPopup({ handleFiltering }) {
                                 title="$$$"
                                 alignItems="center"
                                 justifyContent="center"
-                                borderRadius="25%"
+                                borderRadius={25}
                                 press={() => setActivePrice('$$$')}
                                 titleStyle={styles.buttonText}
                             />
@@ -196,7 +196,7 @@ export default function FilterPopup({ handleFiltering }) {
                                 title="Cancel"
                                 alignItems="center"
                                 justifyContent="center"
-                                borderRadius="25%"
+                                borderRadius={25}
                                 press={() => [setModalVisible(!modalVisible), setActivePrice(null), setCategory(null), setCondition(null)]}
                                 titleStyle={styles.buttonText}
                             />
@@ -206,11 +206,11 @@ export default function FilterPopup({ handleFiltering }) {
                                 title="Apply"
                                 alignItems="center"
                                 justifyContent="center"
-                                borderRadius="25%"
                                 press={() => {
                                     setModalVisible(!modalVisible)
-                                    handleFiltering(category, condition, activePrice);     
+                                    handleFiltering(category, condition, activePrice);
                                 }}
+                                borderRadius={25}
                                 titleStyle={styles.buttonText}
                             />
                         </View>

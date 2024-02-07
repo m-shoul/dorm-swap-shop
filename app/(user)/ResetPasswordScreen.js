@@ -103,7 +103,7 @@ export default function ResetPasswordScreen() {
                 alignItems="center"
                 justifyContent="center"
                 marginTop="6%"
-                borderRadius="25%"
+                borderRadius={25}
                 press={handleReset}
                 titleStyle={styles.buttonText}
             />

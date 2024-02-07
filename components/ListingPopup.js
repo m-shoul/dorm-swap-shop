@@ -170,10 +170,7 @@ export default function ListingPopup({ listing }) {
                             style={{ flex: 0 }}
                             onPress={() => {
                                 setListingModalVisible(false);
-                                router.push({
-                                    pathname: "ReportScreen",
-                                    params: { image: listing.images, title: listing.title },
-                                });
+                                router.push({ pathname: "ReportScreen", params: { image: listing.images, title: listing.title } });
                             }}>
                             <ReportComponent
                                 style={{
@@ -384,7 +381,7 @@ export default function ListingPopup({ listing }) {
                             title="Reply"
                             alignItems="center"
                             justifyContent="center"
-                            borderRadius="25%"
+                            borderRadius={25}
                             width="80%"
                             height="35%"
                             marginTop="12%"

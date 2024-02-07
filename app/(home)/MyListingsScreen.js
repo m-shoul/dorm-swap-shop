@@ -1,6 +1,7 @@
 import {
     Text,
     View,
+    TouchableWithoutFeedback,
     TouchableOpacity,
     FlatList,
     SafeAreaView,
@@ -20,6 +21,9 @@ import ProfileScreen from "./Profile.js";
 import SearchBarHeader from "../../components/SearchBar.js";
 import { getUserListings } from "../../backend/api/listing.js";
 import filter from "lodash.filter";
+import { SwipeListView } from "react-native-swipe-list-view";
+import ReportComponent from "../../assets/svg/report_icon.js";
+import TrashButtonComponent from "../../assets/svg/trash_button.js";
 
 //This is now the my listings screen
 const MyListingsScreen = ({ navigation }) => {
@@ -141,7 +145,7 @@ const MyListingsScreen = ({ navigation }) => {
                     />
                 </View>
             </View> */}
-            <FlatList
+            <SwipeListView
                 data={listingsData}
                 onScroll={Animated.event(
                     [{ nativeEvent: { contentOffset: { y: scrollOffsetY } } }],
@@ -155,7 +159,7 @@ const MyListingsScreen = ({ navigation }) => {
                             : item.description;
 
                     return (
-                        <TouchableOpacity
+                        <TouchableWithoutFeedback
                             style={{
                                 width: 400,
                                 marginTop: 20,
@@ -209,9 +213,52 @@ const MyListingsScreen = ({ navigation }) => {
                                     marginBottom: -20,
                                 }}
                             />
-                        </TouchableOpacity>
+                        </TouchableWithoutFeedback>
                     );
                 }}
+                renderHiddenItem={({ item }) => (
+                    <View
+                        style={{
+                            flex: 1,
+                            flexDirection: "row",
+                            justifyContent: "flex-end",
+                            marginBottom: "6%",
+                            marginTop: "1%",
+                            marginRight: "4%",
+                        }}>
+                        <TouchableOpacity
+                            style={{
+                                width: 75,
+                                backgroundColor: "#FF9900",
+                                alignItems: "center",
+                                justifyContent: "center",
+                            }}
+                            onPress={() => {
+                                // Handle the "Report" action
+                                router.push({
+                                    pathname: "ReportScreen",
+                                    params: { image: item.images },
+                                });
+                            }}>
+                            <ReportComponent width="50%" height="50%" />
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={{
+                                width: 75,
+                                backgroundColor: "#F30000",
+                                alignItems: "center",
+                                justifyContent: "center",
+                            }}
+                            onPress={() => {
+                                // Handle the "Delete" action
+                                alert("Chat will be deleted");
+                            }}>
+                            <TrashButtonComponent width="40%" height="40%" />
+                        </TouchableOpacity>
+                    </View>
+                )}
+                disableRightSwipe={true}
+                rightOpenValue={-150}
                 //numColumns={2}
                 keyExtractor={(item) => item.listingId}
                 contentContainerStyle={{
@@ -224,10 +271,10 @@ const MyListingsScreen = ({ navigation }) => {
                     marginTop: 10,
                     paddingTop: "15%",
                 }}
-                //kept causing errors, so turned it off
-                // onScroll={(e) => {
-                //     scrollY.setValue(e.nativeEvent.contentOffset.y);
-                // }}
+            //kept causing errors, so turned it off
+            // onScroll={(e) => {
+            //     scrollY.setValue(e.nativeEvent.contentOffset.y);
+            // }}
             />
         </SafeAreaView>
     );

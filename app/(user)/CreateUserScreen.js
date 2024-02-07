@@ -488,7 +488,7 @@ export default function CreateUserScreen() {
                     alignItems="center"
                     justifyContent="center"
                     marginTop="5%"
-                    borderRadius="25%"
+                    borderRadius={25}
                     press={handleValidation}
                     titleStyle={styles.buttonText}
                 />

@@ -133,7 +133,7 @@ export default function ReportScreen() {
                     title="Report"
                     alignItems="center"
                     justifyContent="center"
-                    borderRadius="25%"
+                    borderRadius={25}
                     width="60%"
                     height="7%"
                     marginTop="5%"
