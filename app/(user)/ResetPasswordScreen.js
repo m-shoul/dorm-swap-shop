@@ -3,9 +3,9 @@ import {
     View,
     TextInput,
     TouchableOpacity,
-    SafeAreaView,
     StatusBar
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import React from "react";
 import { useState } from "react";
 import {

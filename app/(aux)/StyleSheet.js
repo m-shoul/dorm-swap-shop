@@ -1,6 +1,6 @@
 import { StyleSheet, Dimensions } from "react-native";
 import * as Font from "expo-font";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 
 const { width } = Dimensions.get("window");
 const ButtonFontSize = 16;
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     },
     chatHeader: {
         // paddingTop: "10%",
-        margin: "15%", 
+        margin: "15%",
         fontWeight: "bold",
         fontSize: SmallHeadText,
         alignContent: "center",
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     createUserInput: {
         marginBottom: "6%", //was 20
         borderWidth: 1, //was 1
-        borderRadius: 20,
+        borderRadius: 10,
         fontSize: normalText,
         //was 7
         paddingTop: "2%", //was 7
@@ -105,10 +105,8 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         borderWidth: 1,
         borderColor: "#B3B3B3",
-        paddingTop: "2%", //was 7
-        paddingBottom: "2%", //was 7
-        paddingLeft: "6%",
         marginBottom: "6%",
+        height: 40,
     },
     postListingDescription: {
         height: "20%",

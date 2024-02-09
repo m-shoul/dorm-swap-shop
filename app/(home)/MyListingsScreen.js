@@ -4,12 +4,11 @@ import {
     TouchableWithoutFeedback,
     TouchableOpacity,
     FlatList,
-    SafeAreaView,
     StyleSheet,
     Modal,
     Animated,
 } from "react-native";
-
+import { SafeAreaView } from "react-native-safe-area-context";
 import SquareHeader from "../../components/SquareHeader.js";
 import { Image } from "expo-image";
 import { router } from "expo-router";

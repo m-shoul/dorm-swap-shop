@@ -3,7 +3,6 @@ import {
     View,
     TouchableOpacity,
     FlatList,
-    SafeAreaView,
     Animated,
     RefreshControl,
     ActivityIndicator,
@@ -11,6 +10,7 @@ import {
     Modal,
     Pressable,
 } from "react-native";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { Image } from "expo-image";
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import { getAllListings } from "../../backend/api/listing";
@@ -161,7 +161,7 @@ export default function HomeScreen() {
 
     const noListingsFromSearchOrFilter = () => (
         <View style={{ marginTop: "60%", justifyContent: "center", alignItems: "center", paddingHorizontal: "15%" }}>
-            <Text style={[styles.boldtext, { textAlign: "center"}]}>
+            <Text style={[styles.boldtext, { textAlign: "center" }]}>
                 Oops! No listings match that criteria. Refresh to clear results.
             </Text>
         </View>
@@ -187,7 +187,7 @@ export default function HomeScreen() {
         );
     }
 
-    const minScroll = 300;
+    const minScroll = 200;
 
     const animHeaderValue = scrollOffsetY;
 
@@ -204,9 +204,10 @@ export default function HomeScreen() {
         outputRange: [0, -headerHeight],
         extrapolate: "clamp",
     });
+    const insets = useSafeAreaInsets();
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: "#F9F7F7" }}>
+        <View style={{ flex: 1, backgroundColor: "#F9F7F7", paddingTop: insets.top }}>
             <SquareHeader height={"8%"} />
             <Animated.View
                 style={{
@@ -216,7 +217,8 @@ export default function HomeScreen() {
                 <View
                     style={{
                         flexDirection: "row",
-                        alignItems: "center",
+                        //alignItems: "center",
+                        justifyContent: "center",
                         width: "100%",
                         paddingHorizontal: "2%",
                         position: "absolute",
@@ -228,9 +230,7 @@ export default function HomeScreen() {
                     <View style={{ justifyContent: "center", width: "90%" }}>
                         <SearchBarHeader handleSearch={handleSearch} />
                     </View>
-                    <View style={{ width: "10%" }}>
-                        <FilterPopup handleFiltering={handleFiltering} />
-                    </View>
+                    <FilterPopup handleFiltering={handleFiltering} />
                 </View>
             </Animated.View>
 
@@ -243,11 +243,12 @@ export default function HomeScreen() {
                         style={{
                             width: "50%",
                             height: 230,
-                            padding: "1%",
+                            paddingHorizontal: "1%",
+                            marginBottom: "1%"
                         }}>
                         <ListingPopup
                             listing={item}
-                            //navigation={router}
+                        //navigation={router}
                         />
                     </View>
                 )}
@@ -259,7 +260,7 @@ export default function HomeScreen() {
                 style={{
                     flex: 1,
                     backgroundColor: "#F9F7F7",
-                    paddingTop: "15%",
+                    paddingTop: "10%",
                 }}
                 onScroll={Animated.event(
                     [{ nativeEvent: { contentOffset: { y: scrollOffsetY } } }],
@@ -275,6 +276,6 @@ export default function HomeScreen() {
                 ListEmptyComponent={noListingsFromSearchOrFilter}
                 scrollEventThrottle={10}
             />
-        </SafeAreaView>
+        </View>
     );
 }

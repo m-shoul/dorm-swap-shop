@@ -4,10 +4,10 @@ import {
     TouchableOpacity,
     //Image,
     TextInput,
-    SafeAreaView,
     TouchableWithoutFeedback,
     Keyboard,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import styles from "../(aux)/StyleSheet";
 import { Image } from 'expo-image';
 // Imports for pulling the image from firebase...

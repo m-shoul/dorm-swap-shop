@@ -4,12 +4,12 @@ import {
     TextInput,
     View,
     TouchableOpacity,
-    SafeAreaView,
     ScrollView,
     KeyboardAvoidingView,
     //Image,
     Dimensions,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "expo-image";
 import React, { useState, useEffect, useRef } from "react";
 import styles from "../app/(aux)/StyleSheet.js";
@@ -107,6 +107,7 @@ export default function ListingForm({ header, buttonTitle, imageText }) {
             // You can put any logic you want to execute when the screen is unfocused here
             clearTextInputs();
         });
+
 
         // Trigger form validation when name, email, or password changes
         if (validate == 1) {
@@ -293,7 +294,7 @@ export default function ListingForm({ header, buttonTitle, imageText }) {
                                         },
                                         shadowOpacity: 0.8,
                                         shadowRadius: 3.84,
-                                        elevation: 5,
+                                        //elevation: 5,
                                     }}
                                 />
                             )}
@@ -374,12 +375,16 @@ export default function ListingForm({ header, buttonTitle, imageText }) {
                                 ref={categoryInputRef}
                                 style={{
                                     inputIOS: {
+                                        paddingTop: "2%", //was 7
+                                        paddingLeft: "5%",
                                         fontSize: normalText, // Change this to your desired font size
                                     },
                                     inputAndroid: {
+                                        marginTop: -8,
                                         fontSize: normalText, // Change this to your desired font size
                                     },
                                     iconContainer: {
+                                        top: 5,
                                         right: "3%",
                                     }
                                 }}
@@ -428,12 +433,16 @@ export default function ListingForm({ header, buttonTitle, imageText }) {
                                 items={conditions}
                                 style={{
                                     inputIOS: {
+                                        paddingTop: "2%", //was 7
+                                        paddingLeft: "5%",
                                         fontSize: normalText, // Change this to your desired font size
                                     },
                                     inputAndroid: {
+                                        marginTop: -8,
                                         fontSize: normalText, // Change this to your desired font size
                                     },
                                     iconContainer: {
+                                        top: 5,
                                         right: "3%",
                                     }
                                 }}
@@ -503,7 +512,7 @@ export default function ListingForm({ header, buttonTitle, imageText }) {
                                 backgroundColor="#3F72AF"
                                 title={buttonTitle}
                                 alignItems="center"
-                                flex="1"
+                                width="60%"
                                 justifyContent="center"
                                 borderRadius={25}
                                 press={handleValidation}

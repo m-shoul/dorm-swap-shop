@@ -55,12 +55,13 @@ export default function ProfileHeader({ user }) {
     // }, []);
 
     return (
-        <View style={{ flex: 1, marginBottom: "10%" }}>
+        //flex: 1, marginBottom: "10%"
+        <View style={{ flex: 1 }}>
             {/* <RefreshControl
                 refreshing={isLoading}
                 onRefresh={fetchUserData}
             /> */}
-            
+
             <RoundHeader height="45%" />
             {/* <View style={{ marginBottom: "5%", alignItems: "center" }}> */}
             <TouchableOpacity
@@ -75,51 +76,51 @@ export default function ProfileHeader({ user }) {
                     Edit
                 </Text>
             </TouchableOpacity>
-            <View style={{ width: "100%", marginBottom: "5%", alignItems: "center" }}>
-                <TouchableOpacity /*onPress={pickProfileImage}*/ style={{
-                    backgroundColor: "transparent",
-                    shadowColor: "#000",
-                    shadowOffset: {
-                        width: 0,
-                        height: 4,
-                    },
-                    shadowOpacity: 0.8,
-                    shadowRadius: 3.84,
-                    elevation: 5,
-                }}>
-                    <View
-                        style={{
-                            width: 190,
-                            height: 190,
-                            borderRadius: 200,
-                            overflow: "hidden",
-                            //borderWidth: 1,
-                            justifyContent: "center",
-                            backgroundColor: "white",
-                        }}>
-                        {profileImageUrl ? (
-                            <Image
-                                source={{ uri: profileImageUrl }}
-                                // cacheKey={`user-${user.id}-profileImage`}
-                                // cacheKey={shortHash(user.id)} // this might be user.userId
-                                style={{
-                                    width: "100%",
-                                    height: "100%",
-                                }}
-                            />
-                        ) : (
-                            <ListImagesComponent
-                                source={require("../assets/svg/list_images.js")}
-                                style={{
-                                    width: "100%",
-                                    height: "100%",
-                                    stroke: "black",
-                                    strokeWidth: 0.25,
-                                }}
-                            />
-                        )}
-                    </View>
-                </TouchableOpacity>
+            <View style={{
+                //width: "100%",
+                backgroundColor: "transparent",
+                marginBottom: "5%",
+                alignItems: "center",
+                shadowColor: "#000",
+                shadowOffset: {
+                    width: 0,
+                    height: 4,
+                },
+                shadowOpacity: 0.8,
+                shadowRadius: 3.84,
+            }}>
+                <View
+                    style={{
+                        width: 190,
+                        height: 190,
+                        borderRadius: 200,
+                        overflow: "hidden",
+                        //borderWidth: 1,
+                        justifyContent: "center",
+                        backgroundColor: "white",
+                    }}>
+                    {profileImageUrl ? (
+                        <Image
+                            source={{ uri: profileImageUrl }}
+                            // cacheKey={`user-${user.id}-profileImage`}
+                            // cacheKey={shortHash(user.id)} // this might be user.userId
+                            style={{
+                                width: "100%",
+                                height: "100%",
+                            }}
+                        />
+                    ) : (
+                        <ListImagesComponent
+                            source={require("../assets/svg/list_images.js")}
+                            style={{
+                                width: "100%",
+                                height: "100%",
+                                stroke: "black",
+                                strokeWidth: 0.25,
+                            }}
+                        />
+                    )}
+                </View>
             </View >
 
 
@@ -147,15 +148,6 @@ export default function ProfileHeader({ user }) {
                     marginBottom: "-5%",
                     justifyContent: "center",
                     paddingHorizontal: 20,
-                    // backgroundColor: "transparent",
-                    // shadowColor: "#000",
-                    // shadowOffset: {
-                    //     width: 0,
-                    //     height: 4,
-                    // },
-                    // shadowOpacity: 0.8,
-                    // shadowRadius: 3.84,
-                    // elevation: 5,
                 }}>
                 {/* Goes to saved listings */}
                 <Button
@@ -169,15 +161,13 @@ export default function ProfileHeader({ user }) {
                     borderRadius={25}
                     href="MyListingsScreen"
                     titleStyle={[styles.boldtext, { color: "white" }]}
-                    shadowColor="#000"
-                    shadowOffset={{
-                        width: 0,
-                        height: 4
-                    }}
-                    shadowOpacity="0.8"
-                    shadowRadius="3.84"
-                    elevation=" 5"
-
+                // shadowColor="#000"
+                // shadowOffset={{
+                //     width: 0,
+                //     height: 4
+                // }}
+                // shadowOpacity="0.4"
+                // shadowRadius="3.84"
                 />
 
                 {/* Goes to chats */}
@@ -191,14 +181,13 @@ export default function ProfileHeader({ user }) {
                     borderRadius={25}
                     href="Chat"
                     titleStyle={[styles.boldtext, { color: "white" }]}
-                    shadowColor="#000"
-                    shadowOffset={{
-                        width: 0,
-                        height: 4
-                    }}
-                    shadowOpacity="0.8"
-                    shadowRadius="3.84"
-                    elevation=" 5"
+                // shadowColor="#000"
+                // shadowOffset={{
+                //     width: 0,
+                //     height: 4
+                // }}
+                // shadowOpacity="0.4"
+                // shadowRadius="3.84"
                 />
             </View>
             <View

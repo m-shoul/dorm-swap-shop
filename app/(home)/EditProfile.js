@@ -3,9 +3,9 @@ import {
     View,
     TouchableOpacity,
     TextInput,
-    SafeAreaView,
     StyleSheet,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "expo-image";
 import React, { useState, useEffect } from "react";
 import styles from "../(aux)/StyleSheet.js";

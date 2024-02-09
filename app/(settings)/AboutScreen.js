@@ -2,11 +2,11 @@ import {
     Text,
     View,
     TouchableOpacity,
-    SafeAreaView,
     Modal,
     ScrollView,
     StatusBar
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useState } from "react";
 import styles from "../(aux)/StyleSheet";
 import { router } from "expo-router";

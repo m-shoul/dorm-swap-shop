@@ -3,9 +3,9 @@ import {
     View,
     TouchableWithoutFeedback,
     TouchableOpacity,
-    SafeAreaView,
     /*Image,*/ Animated,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "expo-image";
 import React, { useState, useEffect, useRef } from "react";
 import styles from "../(aux)/StyleSheet";
@@ -58,7 +58,7 @@ export default function ChatScreen() {
 
 
         // setSelectedChat(chat);
-        router.push({pathname: "ConversationsScreen", params: {chatId: "-No-UTyWWAvH6rZ5BCtt"}}); // { chatId: chat.id });
+        router.push({ pathname: "ConversationsScreen", params: { chatId: "-No-UTyWWAvH6rZ5BCtt" } }); // { chatId: chat.id });
     }
 
     return (

@@ -2,8 +2,8 @@ import {
     Text,
     View,
     TouchableOpacity,
-    SafeAreaView,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import styles from "../(aux)/StyleSheet.js";
 import BackButtonComponent from "../../assets/svg/back_button.js";
 import { router } from "expo-router";

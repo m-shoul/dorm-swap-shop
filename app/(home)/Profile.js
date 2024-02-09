@@ -2,11 +2,11 @@ import {
     Text,
     View,
     FlatList,
-    SafeAreaView,
     //Image,
     ActivityIndicator,
     RefreshControl,
 } from "react-native";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import React, { useState, useEffect } from "react";
 import { getUserSavedListings, getAllUserDataForProfile } from "../../backend/api/user.js";
 import ListingPopup from "../../components/ListingPopup.js";
@@ -81,9 +81,10 @@ export default function ProfileScreen() {
     // };
 
     // const profileImageUrl = user?.public?.profileImage;
+    const insets = useSafeAreaInsets();
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: '#112D4E' }}>
+        <View style={{ flex: 1, backgroundColor: '#112D4E', paddingTop: insets.top }}>
 
             {isLoading ? (
                 <ActivityIndicator size="large" color="#112d4e" />
@@ -98,9 +99,7 @@ export default function ProfileScreen() {
                     )}
                     numColumns={2}
                     contentContainerStyle={{
-                        //flex: 1,
                         backgroundColor: "#F9F7F7",
-                        //paddingTop: "2%",
                     }}
                     onScroll={(e) => {
                         // scrollY.setValue(e.nativeEvent.contentOffset.y);
@@ -114,10 +113,9 @@ export default function ProfileScreen() {
                         />
                     }
                     ListEmptyComponent={noSavedListings}
-                    ListHeaderComponent={<ProfileHeader user={user}/>}
-                    style={{height: "100%"}}
+                    ListHeaderComponent={<ProfileHeader user={user} />}
                 />
             )}
-        </SafeAreaView>
+        </View>
     );
 }

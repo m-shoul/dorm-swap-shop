@@ -2,7 +2,6 @@ import {
     Text,
     View,
     TextInput,
-    SafeAreaView,
     TouchableOpacity,
     ScrollView,
     KeyboardAvoidingView,
@@ -11,6 +10,7 @@ import {
     StatusBar,
     TouchableWithoutFeedback
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Checkbox } from "expo-checkbox";
 import React from "react";
 import styles from "../(aux)/StyleSheet.js";
@@ -238,7 +238,8 @@ export default function CreateUserScreen() {
                 <StatusBar barStyle={"light-content"} />
                 <RoundHeader height={"20%"} />
 
-                <SimpleLogo width="50%" height="15%" style={{ marginTop: "10%", width: 50,
+                <SimpleLogo width="50%" height="15%" style={{
+                    marginTop: "10%", width: 50,
                     shadowColor: "#000",
                     shadowOffset: {
                         width: 0,
@@ -246,7 +247,8 @@ export default function CreateUserScreen() {
                     },
                     shadowOpacity: 0.8,
                     shadowRadius: 3.84,
-                    elevation: 5,}} />
+                    elevation: 5,
+                }} />
 
                 <Text style={styles.registerHeader}> Register </Text>
 

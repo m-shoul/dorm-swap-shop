@@ -2,8 +2,8 @@ import {
     Text,
     View,
     TouchableOpacity,
-    SafeAreaView,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import styles from "../(aux)/StyleSheet.js";
 import { router, useLocalSearchParams } from "expo-router";
 import { database } from "../../backend/config/firebaseConfig";
@@ -21,8 +21,8 @@ export default function Conversations() {
     const [theirUsername, setTheirUsername] = useState("");
     const yourID = getUserID();
     const theirID = "otherUserIDPlaceholder";
-    
-    
+
+
     useEffect(() => {
         const fetchChatId = async () => {
             const id = await getChatThreadId(yourID, theirID);
@@ -32,7 +32,7 @@ export default function Conversations() {
             setTheirUsername(theirUid);
 
             console.log("*useEffect* Chat thread ID found: " + id);
-            if (typeof(id) != "string" || !id) {
+            if (typeof (id) != "string" || !id) {
                 console.log("*useEffect* Chat thread ID not found. Creating new chat thread.");
                 const newId = await createChatThread(yourID, theirID);
                 console.log("*useEffect* Chat thread ID created: " + newId);
@@ -41,10 +41,10 @@ export default function Conversations() {
                 setChatId(id);
             }
         };
-        
+
         fetchChatId();
     }, []);
-    
+
     useEffect(() => {
         if (chatId) {
             readChat(chatId).then(chatData => {
@@ -69,7 +69,7 @@ export default function Conversations() {
 
     const onSend = useCallback((messages = []) => {
 
-        if(!chatId || typeof(chatId) != "string"){
+        if (!chatId || typeof (chatId) != "string") {
             console.log("*onSend* Chat ID not found. Cannot send message.");
             return;
         }
@@ -96,21 +96,21 @@ export default function Conversations() {
     }, [chatId])
 
     return (
-        <SafeAreaView style={{flex:1, backgroundColor: "#fff"}}>
-        <View>
-        <TouchableOpacity onPress={() => router.push("(home)/Home")}>
-            <Text>&lt; Home</Text>
-        </TouchableOpacity>
-        <Text style={styles.chatHeader}>Name</Text>
-        </View>
-        <GiftedChat
-            messages={messages}
-            onSend={messages => onSend(messages)}
-            user={{
-            _id: yourID,
-            name: yourUsername,
-            }}
-        />
+        <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
+            <View>
+                <TouchableOpacity onPress={() => router.push("(home)/Home")}>
+                    <Text>&lt; Home</Text>
+                </TouchableOpacity>
+                <Text style={styles.chatHeader}>Name</Text>
+            </View>
+            <GiftedChat
+                messages={messages}
+                onSend={messages => onSend(messages)}
+                user={{
+                    _id: yourID,
+                    name: yourUsername,
+                }}
+            />
         </SafeAreaView>
     )
 }

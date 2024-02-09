@@ -2,11 +2,11 @@ import {
     Text,
     TextInput,
     View,
-    SafeAreaView,
     TouchableOpacity,
     TouchableWithoutFeedback,
     Keyboard,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import React, { useState, useRef } from "react";
 import styles from "./(aux)/StyleSheet";
 import { signInWithEmailAndPassword } from "firebase/auth";
