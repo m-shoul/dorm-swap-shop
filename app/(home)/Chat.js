@@ -61,13 +61,13 @@ export default function ChatScreen() {
 
 
         // setSelectedChat(chat);
-        router.push({pathname: "ConversationsScreen", params: {chatId: "-No-UTyWWAvH6rZ5BCtt"}}); // { chatId: chat.id });
+        router.push({ pathname: "ConversationsScreen", params: { chatId: "-No-UTyWWAvH6rZ5BCtt" } }); // { chatId: chat.id });
     }
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: styles.colors.lightColor }}>
             <SquareHeader height={"8%"} />
-            <View style={{ backgroundColor: styles.colors.lightColor, paddingHorizontal: "2%" }}>
+            <View style={{ backgroundColor: styles.colors.darkColor, paddingHorizontal: "2%" }}>
                 <SearchBarHeader
                     animHeaderValue={scrollOffsetY}
                     handleSearch={handleSearch}
