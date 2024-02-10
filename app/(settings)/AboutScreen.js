@@ -104,7 +104,7 @@ export default function About() {
                                     marginRight: "5%",
                                 }}>
                                 <HeadShot
-                                    source={require("../../assets/pfps/IMG_6676.jpg")}
+                                    source={{ uri: mikeHeadshot }}
                                 />
                                 <Text
                                     style={[
@@ -124,7 +124,7 @@ export default function About() {
 
                             <View style={{ alignItems: "center" }}>
                                 <HeadShot
-                                    source={require("../../assets/pfps/IMG_2162.jpg")}
+                                    source={{ uri: joshHeadshot }}
                                 />
                                 <Text
                                     style={[
@@ -153,7 +153,7 @@ export default function About() {
                                     marginRight: "5%",
                                 }}>
                                 <HeadShot
-                                    source={require("../../assets/pfps/Screenshot.jpg")}
+                                    source={{ uri: joeHeadshot }}
                                 />
                                 <Text
                                     style={[
@@ -172,7 +172,7 @@ export default function About() {
                             </View>
                             <View style={{ alignItems: "center" }}>
                                 <HeadShot
-                                    source={require("../../assets/pfps/headshot.jpg")}
+                                    source={{ uri: benHeadshot }}
                                 />
                                 <Text
                                     style={[
