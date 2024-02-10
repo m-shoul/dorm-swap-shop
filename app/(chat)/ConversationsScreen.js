@@ -5,7 +5,7 @@ import {
     SafeAreaView,
 } from "react-native";
 import styles from "../(aux)/StyleSheet.js";
-import { router, useLocalSearchParams } from "expo-router";
+import { router } from "expo-router";
 import { database } from "../../backend/config/firebaseConfig";
 import React, { useState, useCallback, useEffect } from 'react';
 import { GiftedChat } from 'react-native-gifted-chat';

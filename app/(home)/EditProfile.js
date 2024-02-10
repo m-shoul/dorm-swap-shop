@@ -11,7 +11,6 @@ import {
 import { Image } from "expo-image";
 import React, { useState, useEffect } from "react";
 import styles from "../(aux)/StyleSheet.js";
-import { router } from "expo-router";
 import RoundHeader from "../../components/RoundHeader";
 import ListImagesComponent from "../../assets/svg/list_images.js";
 import {
