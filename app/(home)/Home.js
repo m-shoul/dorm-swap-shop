@@ -35,21 +35,19 @@ export default function HomeScreen() {
 
     const fetchListings = async () => {
         clearTimeout(timerId);
-        timerId = setTimeout(async () => {
-            setRefreshing(true);
-            try {
-                const listingsData = await getAllListings();
-                setFullData(listingsData);
-                setListingsData(listingsData);
-                setRefreshing(false);
-                setIsLoading(false);
-            } catch (error) {
-                setError(error);
-                console.error("Error:", error);
-                setRefreshing(false);
-                setIsLoading(false);
-            }
-        }, 1000); // Delay of 1 second
+        setRefreshing(true);
+        try {
+            const listingsData = await getAllListings();
+            setFullData(listingsData);
+            setListingsData(listingsData);
+            setRefreshing(false);
+            setIsLoading(false);
+        } catch (error) {
+            setError(error);
+            console.error("Error:", error);
+            setRefreshing(false);
+            setIsLoading(false);
+        }
     };
 
     useEffect(() => {

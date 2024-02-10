@@ -20,6 +20,10 @@ import SearchBarHeader from "../../components/SearchBar.js";
 import { getUserListings } from "../../backend/api/listing.js";
 import filter from "lodash.filter";
 
+// New icons
+import { Ionicons } from '@expo/vector-icons';
+
+
 //This is now the my listings screen
 const MyListingsScreen = ({ navigation }) => {
     const [search, setSearch] = useState("");
@@ -115,7 +119,8 @@ const MyListingsScreen = ({ navigation }) => {
                         backgroundColor: styles.colors.darkColor,
                     }}>
                     <TouchableOpacity onPress={() => router.push("Profile")}>
-                        <BackButtonComponent></BackButtonComponent>
+                        {/* <BackButtonComponent></BackButtonComponent> */}
+                        <Ionicons name="chevron-back" size={32} color="white" />
                     </TouchableOpacity>
                     <View style={{ justifyContent: "center", width: "90%" }}>
                         <SearchBarHeader handleSearch={handleSearch} />

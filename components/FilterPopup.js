@@ -28,7 +28,8 @@ export default function FilterPopup({ handleFiltering }) {
     return (
         <SafeAreaView>
             <TouchableOpacity onPress={() => setModalVisible(true)}>
-                <FilterComponent />
+                <FilterComponent /> 
+                {/* Might look into how we can get this to be thinner */}
             </TouchableOpacity>
             <Modal
                 animationType="slide"

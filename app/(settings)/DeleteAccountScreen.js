@@ -10,6 +10,8 @@ import { router } from "expo-router";
 import { Button } from '../../components/Buttons.js';
 import { deleteUser } from "../../backend/api/user.js";
 import RoundHeader from "../../components/RoundHeader.js";
+// New icons
+import { Ionicons } from '@expo/vector-icons';
 
 console.log("******************** On delete screen *******************");
 
@@ -19,7 +21,8 @@ export default function DeleteAccount() {
             <RoundHeader height={"25%"} />
             <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <TouchableOpacity onPress={() => router.back()}>
-                    <BackButtonComponent></BackButtonComponent>
+                    {/* <BackButtonComponent></BackButtonComponent> */}
+                    <Ionicons name="chevron-back" size={32} color="white" />
                 </TouchableOpacity>
 
                 <View>

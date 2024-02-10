@@ -21,6 +21,9 @@ import { router } from "expo-router";
 import { createChatThread, addMessage } from "../../backend/api/chat.js";
 import SquareHeader from "../../components/SquareHeader.js";
 
+// New icons
+import { Ionicons } from '@expo/vector-icons';
+
 //import styles from "../styleSheets/StyleSheet.js";
 //import { HeaderComponent } from "../components/headerComponent.js";
 
@@ -143,7 +146,8 @@ export default function ChatScreen() {
                                     params: { image: item.images },
                                 });
                             }}>
-                            <ReportComponent width="50%" height="50%" />
+                            {/* <ReportComponent width="50%" height="50%" /> */}
+                            <Ionicons name="alert-circle-outline" size={32} color="black" />
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={{
@@ -156,7 +160,8 @@ export default function ChatScreen() {
                                 // Handle the "Delete" action
                                 alert("Chat will be deleted");
                             }}>
-                            <TrashButtonComponent width="40%" height="40%" />
+                            {/* <TrashButtonComponent width="40%" height="40%" /> */}
+                            <Ionicons name="trash-outline" size={32} color="black" />
                         </TouchableOpacity>
                     </View>
                 )}

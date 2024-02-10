@@ -17,6 +17,9 @@ import { useLocalSearchParams, router } from "expo-router";
 import { Button } from "../../components/Buttons.js";
 import RoundHeader from "../../components/RoundHeader.js";
 
+// New icons
+import { Ionicons } from '@expo/vector-icons';
+
 //import { useRoute } from '@react-navigation/native';
 
 // Imports for the email service. EmailJS...
@@ -64,7 +67,9 @@ export default function ReportScreen() {
                     {/* Need to add in the back arrow and the 
                         functionality of going back on click. */}
                     <TouchableOpacity onPress={() => router.back()}>
-                        <BackButtonComponent />
+                        {/* <BackButtonComponent /> */}
+                        <Ionicons name="chevron-back" size={32} color="white" />
+
                     </TouchableOpacity>
 
                     {/* Title of page */}
