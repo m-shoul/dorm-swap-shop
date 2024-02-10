@@ -5,6 +5,8 @@ import {
     TextInput,
     SafeAreaView,
     StyleSheet,
+    TouchableWithoutFeedback,
+    Keyboard,
 } from "react-native";
 import { Image } from "expo-image";
 import React, { useState, useEffect } from "react";
@@ -12,7 +14,11 @@ import styles from "../(aux)/StyleSheet.js";
 import { router } from "expo-router";
 import RoundHeader from "../../components/RoundHeader";
 import ListImagesComponent from "../../assets/svg/list_images.js";
-import { getAllUserDataForProfile, uploadProfileImage, updateUser } from "../../backend/api/user.js";
+import {
+    getAllUserDataForProfile,
+    uploadProfileImage,
+    updateUser,
+} from "../../backend/api/user.js";
 import CachedImage from "expo-cached-image";
 import { Button } from "../../components/Buttons.js";
 import { ScrollView } from "react-native-gesture-handler";
@@ -35,7 +41,7 @@ export default function EditProfile() {
         } catch (error) {
             setIsLoading(false);
         }
-    }
+    };
 
     const [profileImage, setProfileImage] = useState(null);
     const pickProfileImage = async () => {
@@ -45,7 +51,7 @@ export default function EditProfile() {
             allowsEditing: true,
             selectionLimit: 1,
             aspect: [1, 1],
-            quality: 0.1
+            quality: 0.1,
         });
 
         if (result.assets && result.assets.length > 0) {
@@ -66,112 +72,127 @@ export default function EditProfile() {
 
     const profileImageUrl = user?.public?.profileImage;
 
-
     // console.log(user);
     console.log("on user page");
 
-
     return (
-        <SafeAreaView style={styles.background}>
-            <RoundHeader height="37%" />
-            <View style={{ marginBottom: "5%", alignItems: "center", width: "100%" }}>
-                <Text style={[styles.loginHeader, { color: "#F9F7F7" }]}>
-                    Edit Profile
-                </Text>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+            <SafeAreaView style={styles.background}>
+                <RoundHeader height="37%" />
+                <View
+                    style={{
+                        marginBottom: "5%",
+                        alignItems: "center",
+                        width: "100%",
+                    }}>
+                    <Text style={[styles.loginHeader, { color: "#F9F7F7" }]}>
+                        Edit Profile
+                    </Text>
 
-                <View style={[styles.dividerLine, { backgroundColor: "white" }]} />
-
-                <TouchableOpacity onPress={pickProfileImage} style={{
-                    shadowColor: "#000",
-                    shadowOffset: {
-                        width: 0,
-                        height: 4,
-                    },
-                    shadowOpacity: 0.8,
-                    shadowRadius: 3.84,
-                    elevation: 5,
-                }}>
                     <View
+                        style={[
+                            styles.dividerLine,
+                            { backgroundColor: "white" },
+                        ]}
+                    />
+
+                    <TouchableOpacity
+                        onPress={pickProfileImage}
                         style={{
-                            width: 190,
-                            height: 190,
-                            borderRadius: 200,
-                            overflow: "hidden",
-                            //borderWidth: 2,
-                            justifyContent: "center",
-                            backgroundColor: "white",
+                            shadowColor: "#000",
+                            shadowOffset: {
+                                width: 0,
+                                height: 4,
+                            },
+                            shadowOpacity: 0.8,
+                            shadowRadius: 3.84,
+                            elevation: 5,
                         }}>
-                        {profileImageUrl ? (
-                            <Image
-                                source={{ uri: profileImageUrl }}
-                                // cacheKey={`user-${user.id}-profileImage`}
-                                // cacheKey={shortHash(user.id)} // this might be user.userId
-                                style={{
-                                    width: "100%",
-                                    height: "100%",
-                                }}
-                            />
-                        ) : (
-                            <ListImagesComponent
-                                source={require("../../assets/svg/list_images.js")}
-                                style={{
-                                    width: "100%",
-                                    height: "100%",
-                                    stroke: "black",
-                                    strokeWidth: 0.25,
-                                }}
-                            />
-                        )}
+                        <View
+                            style={{
+                                width: 190,
+                                height: 190,
+                                borderRadius: 200,
+                                overflow: "hidden",
+                                //borderWidth: 2,
+                                justifyContent: "center",
+                                backgroundColor: "white",
+                            }}>
+                            {profileImageUrl ? (
+                                <Image
+                                    source={{ uri: profileImageUrl }}
+                                    // cacheKey={`user-${user.id}-profileImage`}
+                                    // cacheKey={shortHash(user.id)} // this might be user.userId
+                                    style={{
+                                        width: "100%",
+                                        height: "100%",
+                                    }}
+                                />
+                            ) : (
+                                <ListImagesComponent
+                                    source={require("../../assets/svg/list_images.js")}
+                                    style={{
+                                        width: "100%",
+                                        height: "100%",
+                                        stroke: "black",
+                                        strokeWidth: 0.25,
+                                    }}
+                                />
+                            )}
+                        </View>
+                    </TouchableOpacity>
+                </View>
+
+                <View style={{ width: "100%", alignItems: "center" }}>
+                    <Text>Change Picture</Text>
+                </View>
+
+                <ScrollView
+                    automaticallyAdjustKeyboardInsets={true}
+                    style={{
+                        KeyboardAvoidingView: "enabled",
+                    }}
+                    keyboardShouldPersistTaps="handled">
+                    <View>
+                        <Text style={styles.boldtext}>First Name</Text>
+                        <TextInput
+                            style={styles.createUserInput}
+                            onChangeText={(value) => setFname(value)}
+                            placeholder={"First name"}
+                            // onSubmitEditing={() => {
+                            //     // Focus on the password input when the user submits the email input
+                            //     passwordInputRef.current.focus();
+                            // }}
+                            blurOnSubmit={false}
+                        />
                     </View>
-                </TouchableOpacity>
-            </View>
-
-
-            <View style={{ width: "100%", alignItems: "center" }}>
-                <Text>Change Picture</Text>
-            </View>
-            
-            <ScrollView>
-                <View>
-                    <Text style={styles.boldtext}>First Name</Text>
-                    <TextInput
-                        style={styles.createUserInput}
-                        onChangeText={(value) => setFname(value)}
-                        placeholder={"First name"}
-                        // onSubmitEditing={() => {
-                        //     // Focus on the password input when the user submits the email input
-                        //     passwordInputRef.current.focus();
-                        // }}
-                        blurOnSubmit={false}
-                    />
-                </View>
-                <View>
-                    <Text style={styles.boldtext}>Last Name</Text>
-                    <TextInput
-                        style={styles.createUserInput}
-                        onChangeText={(value) => setLname(value)}
-                        placeholder={"Last name"}
-                        // onSubmitEditing={() => {
-                        //     // Focus on the password input when the user submits the email input
-                        //     passwordInputRef.current.focus();
-                        // }}
-                        blurOnSubmit={false}
-                    />
-                </View>
-                <View>
-                    <Text style={styles.boldtext}>Username</Text>
-                    <TextInput
-                        style={styles.createUserInput}
-                        onChangeText={(value) => setUsername(value)}
-                        placeholder={"Username"}
-                        // onSubmitEditing={() => {
-                        //     // Focus on the password input when the user submits the email input
-                        //     passwordInputRef.current.focus();
-                        // }}
-                        blurOnSubmit={false}
-                    />
-                </View>
-                {/* <View>
+                    <View>
+                        <Text style={styles.boldtext}>Last Name</Text>
+                        <TextInput
+                            style={styles.createUserInput}
+                            onChangeText={(value) => setLname(value)}
+                            placeholder={"Last name"}
+                            // onSubmitEditing={() => {
+                            //     // Focus on the password input when the user submits the email input
+                            //     passwordInputRef.current.focus();
+                            // }}
+                            blurOnSubmit={false}
+                        />
+                    </View>
+                    <View>
+                        <Text style={styles.boldtext}>Username</Text>
+                        <TextInput
+                            style={styles.createUserInput}
+                            onChangeText={(value) => setUsername(value)}
+                            placeholder={"Username"}
+                            // onSubmitEditing={() => {
+                            //     // Focus on the password input when the user submits the email input
+                            //     passwordInputRef.current.focus();
+                            // }}
+                            blurOnSubmit={false}
+                        />
+                    </View>
+                    {/* <View>
                     <Text style={styles.boldtext}>Email</Text>
                     <TextInput
                         style={styles.createUserInput}
@@ -185,7 +206,7 @@ export default function EditProfile() {
                         blurOnSubmit={false}
                     />
                 </View> */}
-                {/* <View>
+                    {/* <View>
                     <Text style={styles.boldtext}>Password</Text>
                     <TextInput
                         style={styles.createUserInput}
@@ -199,40 +220,41 @@ export default function EditProfile() {
                         blurOnSubmit={false}
                     />
                 </View> */}
-                <View
-                    style={{
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                    }}>
+                    <View
+                        style={{
+                            flexDirection: "row",
+                            justifyContent: "space-between",
+                        }}>
+                        <Button
+                            width="35%"
+                            height="50%"
+                            backgroundColor="#B3B3B3"
+                            title="Cancel"
+                            alignItems="center"
+                            justifyContent="center"
+                            marginRight="5%"
+                            borderRadius="25%"
+                            href="Profile"
+                            titleStyle={[styles.boldtext, { color: "white" }]}
+                        />
 
-                    <Button
-                        width="35%"
-                        height="40%"
-                        backgroundColor="#B3B3B3"
-                        title="Cancel"
-                        alignItems="center"
-                        justifyContent="center"
-                        marginRight="5%"
-                        borderRadius="25%"
-                        href="Profile"
-                        titleStyle={[styles.boldtext, { color: "white" }]}
-                    />
-
-                    <Button
-                        width="50%"
-                        height="40%"
-                        backgroundColor="#3F72AF"
-                        title="Save"
-                        alignItems="center"
-                        justifyContent="center"
-                        borderRadius="25%"
-                        href="Profile"
-                        press={() => updateUser(profileImage, username, fname, lname)}
-                        titleStyle={[styles.boldtext, { color: "white" }]}
-                    />
-                </View>
-            </ScrollView>
-            
-        </SafeAreaView>
+                        <Button
+                            width="50%"
+                            height="50%"
+                            backgroundColor="#3F72AF"
+                            title="Save"
+                            alignItems="center"
+                            justifyContent="center"
+                            borderRadius="25%"
+                            href="Profile"
+                            press={() =>
+                                updateUser(profileImage, username, fname, lname)
+                            }
+                            titleStyle={[styles.boldtext, { color: "white" }]}
+                        />
+                    </View>
+                </ScrollView>
+            </SafeAreaView>
+        </TouchableWithoutFeedback>
     );
 }
