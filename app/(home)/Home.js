@@ -1,17 +1,12 @@
 import {
     Text,
     View,
-    TouchableOpacity,
     FlatList,
     Animated,
     RefreshControl,
     ActivityIndicator,
-    TouchableWithoutFeedback,
-    Modal,
-    Pressable,
 } from "react-native";
-import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
-import { Image } from "expo-image";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import { getAllListings } from "../../backend/api/listing";
 import styles from "../(aux)/StyleSheet";

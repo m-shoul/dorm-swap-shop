@@ -4,7 +4,7 @@ import {
     TouchableOpacity,
     Modal,
     ScrollView,
-    StatusBar
+    StatusBar,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useState } from "react";
@@ -22,29 +22,41 @@ import SquareHeader from "../../components/SquareHeader.js";
 export default function About() {
     const [modalVisible, setModalVisible] = useState(false);
 
+    const benHeadshot = process.env.BEN_HEADSHOT;
+    const mikeHeadshot = process.env.MIKE_HEADSHOT;
+    const joeHeadshot = process.env.JOE_HEADSHOT;
+    const joshHeadshot = process.env.JOSH_HEADSHOT;
+
     return (
-        <View>
-            <SquareHeader height={"5%"} />
+        <SafeAreaView>
+            <SquareHeader height={"6.4%"} />
             <ScrollView>
                 <StatusBar barStyle={"light-content"} />
                 <RoundHeader height={"19%"} />
                 <View
                     style={{
                         flexDirection: "row",
-                        paddingHorizontal: "2%",
+                        paddingHorizontal: "5%",
                         width: "100%",
                         marginBottom: "10%",
                         marginTop: "15%",
                         justifyContent: "center",
-                        zIndex: 0
                     }}>
-                    <TouchableOpacity onPress={() => router.back()} style={{ marginLeft: "-6.5%" }}>
+                    <TouchableOpacity
+                        onPress={() => router.back()}
+                        style={{ marginLeft: "-6.5%" }}>
                         <BackButtonComponent></BackButtonComponent>
                     </TouchableOpacity>
 
-                    <View style={{ alignItems: "center", width: "80%", }}>
+                    <View style={{ alignItems: "center", width: "80%" }}>
                         <SimpleLogo />
-                        <Text style={[styles.SmallerHeaderFontSize, { textAlign: "center" }]}>The one-stop shop for all your college needs</Text>
+                        <Text
+                            style={[
+                                styles.SmallerHeaderFontSize,
+                                { textAlign: "center" },
+                            ]}>
+                            The one-stop shop for all your college needs
+                        </Text>
                     </View>
                 </View>
 
@@ -54,9 +66,11 @@ export default function About() {
                             Our Story
                         </Text>
                         <Text style={styles.normaltext}>
-                            Dorm Swap and Shop was created to make it easier for college students to get rid of unwanted
-                            goods for members of the campus community. We believe everyone should be able to find what
-                            they need with ease, which is why we created this one-stop shop.
+                            Dorm Swap and Shop was created to make it easier for
+                            college students to get rid of unwanted goods for
+                            members of the campus community. We believe everyone
+                            should be able to find what they need with ease,
+                            which is why we created this one-stop shop.
                         </Text>
                     </View>
 
@@ -64,11 +78,14 @@ export default function About() {
                         <Text style={[styles.boldtext, { marginBottom: "2%" }]}>
                             Unique
                         </Text>
-                        <Text style={[styles.normaltext, { marginBottom: "5%" }]}>
-                            Our app is specific to colleges and universities to keep out unwanted buyers and sellers.
+                        <Text
+                            style={[styles.normaltext, { marginBottom: "5%" }]}>
+                            Our app is specific to colleges and universities to
+                            keep out unwanted buyers and sellers.
                         </Text>
                         <Text style={styles.normaltext}>
-                            We only facilitate the communication between buyers and sellers, and do not handle in-app transactions.
+                            We only facilitate the communication between buyers
+                            and sellers, and do not handle in-app transactions.
                         </Text>
                     </View>
 
@@ -76,48 +93,103 @@ export default function About() {
                         <Text style={[styles.boldtext, { marginBottom: "5%" }]}>
                             Meet the Team:
                         </Text>
-                        <View style={{ flexDirection: "row", marginBottom: "5%" }}>
-                            <View style={{ alignItems: "center", marginRight: "5%" }}>
-                                <HeadShot source={require("../../assets/pfps/IMG_6676.jpg")} />
-                                <Text style={[styles.boldtext, { textAlign: "center" }]}>
+                        <View
+                            style={{
+                                flexDirection: "row",
+                                marginBottom: "5%",
+                            }}>
+                            <View
+                                style={{
+                                    alignItems: "center",
+                                    marginRight: "5%",
+                                }}>
+                                <HeadShot
+                                    source={{ uri: mikeHeadshot }}
+                                />
+                                <Text
+                                    style={[
+                                        styles.boldtext,
+                                        { textAlign: "center" },
+                                    ]}>
                                     Mike Shoul
                                 </Text>
-                                <Text style={[styles.normaltext, { textAlign: "center" }]}>
+                                <Text
+                                    style={[
+                                        styles.normaltext,
+                                        { textAlign: "center" },
+                                    ]}>
                                     Project Owner & {"\n"} Backend Developer
                                 </Text>
                             </View>
 
                             <View style={{ alignItems: "center" }}>
-                                <HeadShot source={require("../../assets/pfps/IMG_2162.jpg")} />
-                                <Text style={[styles.boldtext, { textAlign: "center" }]}>
+                                <HeadShot
+                                    source={{ uri: joshHeadshot }}
+                                />
+                                <Text
+                                    style={[
+                                        styles.boldtext,
+                                        { textAlign: "center" },
+                                    ]}>
                                     Josh Phillips
                                 </Text>
-                                <Text style={[styles.normaltext, { textAlign: "center" }]}>
+                                <Text
+                                    style={[
+                                        styles.normaltext,
+                                        { textAlign: "center" },
+                                    ]}>
                                     Backend Developer
                                 </Text>
                             </View>
                         </View>
-                        <View style={{ flexDirection: "row", marginBottom: "5%" }}>
-                            <View style={{ alignItems: "center", marginRight: "5%" }}>
-                                <HeadShot source={require("../../assets/pfps/Screenshot.jpg")} />
-                                <Text style={[styles.boldtext, { textAlign: "center" }]}>
+                        <View
+                            style={{
+                                flexDirection: "row",
+                                marginBottom: "5%",
+                            }}>
+                            <View
+                                style={{
+                                    alignItems: "center",
+                                    marginRight: "5%",
+                                }}>
+                                <HeadShot
+                                    source={{ uri: joeHeadshot }}
+                                />
+                                <Text
+                                    style={[
+                                        styles.boldtext,
+                                        { textAlign: "center" },
+                                    ]}>
                                     Joseph McGillen
                                 </Text>
-                                <Text style={[styles.normaltext, { textAlign: "center" }]}>
+                                <Text
+                                    style={[
+                                        styles.normaltext,
+                                        { textAlign: "center" },
+                                    ]}>
                                     Frontend Developer
                                 </Text>
                             </View>
                             <View style={{ alignItems: "center" }}>
-                                <HeadShot source={require("../../assets/pfps/headshot.jpg")} />
-                                <Text style={[styles.boldtext, { textAlign: "center" }]}>
+                                <HeadShot
+                                    source={{ uri: benHeadshot }}
+                                />
+                                <Text
+                                    style={[
+                                        styles.boldtext,
+                                        { textAlign: "center" },
+                                    ]}>
                                     Ben Clarke
                                 </Text>
-                                <Text style={[styles.normaltext, { textAlign: "center" }]}>
+                                <Text
+                                    style={[
+                                        styles.normaltext,
+                                        { textAlign: "center" },
+                                    ]}>
                                     Frontend Developer {"\n"} & Security Expert
                                 </Text>
                             </View>
                         </View>
-
                     </View>
 
                     <View style={{ marginBottom: "10%" }}>
@@ -126,26 +198,39 @@ export default function About() {
                         </Text>
                         <View style={{ flexDirection: "row" }}>
                             <EmailComponent />
-                            <Text style={[styles.normaltext, { marginLeft: "2%" }]}>
+                            <Text
+                                style={[
+                                    styles.normaltext,
+                                    { marginLeft: "2%" },
+                                ]}>
                                 dormswapnshop@gmail.com
                             </Text>
                         </View>
-
                     </View>
                 </View>
-                <View style={{ paddingHorizontal: "10%", paddingBottom: "15%" }}>
-                    <Text style={[styles.boldtext, { marginBottom: "5%" }]}>Terms and Conditions</Text>
-                    <Button
-                        width="100%"
-                        height="20%"
-                        backgroundColor="#3F72AF"
-                        title="Terms and Conditions"
-                        alignItems="center"
-                        justifyContent="center"
-                        borderRadius={25}
-                        press={() => setModalVisible(true)}
-                        titleStyle={[styles.boldtext, { color: "white" }]}
-                    />
+                <View
+                    style={{ paddingHorizontal: "10%", paddingBottom: "15%" }}>
+                    <Text style={[styles.boldtext, { marginBottom: "5%" }]}>
+                        Terms and Conditions
+                    </Text>
+                    <View
+                        style={{
+                            width: "100%",
+                            alignItems: "center",
+                            height: 50,
+                        }}>
+                        <Button
+                            width="75%"
+                            height="100%"
+                            backgroundColor="#3F72AF"
+                            title="Terms and Conditions"
+                            alignItems="center"
+                            justifyContent="center"
+                            borderRadius="25%"
+                            press={() => setModalVisible(true)}
+                            titleStyle={[styles.boldtext, { color: "white" }]}
+                        />
+                    </View>
                 </View>
 
                 <Modal
@@ -180,6 +265,6 @@ export default function About() {
                     </View>
                 </Modal>
             </ScrollView>
-        </View>
+        </SafeAreaView>
     );
 }
