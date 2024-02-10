@@ -26,7 +26,7 @@ export default function SettingsScreen() {
         <SafeAreaView style={styles.background}>
             <RoundHeader height={"25%"} />
             <View style={{ marginTop: "10%", marginBottom: "20%" }}>
-                <Text style={[styles.postListingHeader, { color: "#F9F7F7" }]}>Settings</Text>
+                <Text style={[styles.postListingHeader, { color: styles.colors.lightColor }]}>Settings</Text>
             </View>
             <View
                 style={{

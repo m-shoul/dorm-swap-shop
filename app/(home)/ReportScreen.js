@@ -69,7 +69,7 @@ export default function ReportScreen() {
 
                     {/* Title of page */}
 
-                    <Text style={[styles.loginHeader, { color: "#F9F7F7" }]}>Report Listing</Text>
+                    <Text style={[styles.loginHeader, { color: styles.colors.lightColor }]}>Report Listing</Text>
                 </View>
 
                 <View style={{
@@ -129,7 +129,7 @@ export default function ReportScreen() {
                 {/* 2.) Flags the listing as reported... (not yet implemented) */}
 
                 <Button
-                    backgroundColor="#3F72AF"
+                    backgroundColor={styles.colors.darkAccentColor}
                     title="Report"
                     alignItems="center"
                     justifyContent="center"

@@ -10,6 +10,8 @@ import React, { useState, useEffect } from "react";
 import { getUserSavedListings, getAllUserDataForProfile } from "../../backend/api/user.js";
 import ListingPopup from "../../components/ListingPopup.js";
 import ProfileHeader from "../../components/ProfileHeader.js";
+import styles from "../(aux)/StyleSheet";
+
 
 export default function ProfileScreen() {
     const [savedListings, setSavedListings] = useState([]);
@@ -85,7 +87,7 @@ export default function ProfileScreen() {
         <SafeAreaView style={{ flex: 1, backgroundColor: '#112D4E' }}>
 
             {isLoading ? (
-                <ActivityIndicator size="large" color="#112d4e" />
+                <ActivityIndicator size="large" color={styles.colors.darkColor} />
             ) : (
                 <FlatList
                     data={savedListings || []}
@@ -98,7 +100,7 @@ export default function ProfileScreen() {
                     numColumns={2}
                     contentContainerStyle={{
                         //flex: 1,
-                        backgroundColor: "#F9F7F7",
+                        backgroundColor: styles.colors.lightColor,
                         //paddingTop: "2%",
                     }}
                     onScroll={(e) => {
@@ -109,7 +111,7 @@ export default function ProfileScreen() {
                         <RefreshControl
                             refreshing={refreshing}
                             onRefresh={handleRefresh}
-                            tintColor={"#F9F7F7"}
+                            tintColor={styles.colors.lightColor}
                         />
                     }
                     ListEmptyComponent={noSavedListings}

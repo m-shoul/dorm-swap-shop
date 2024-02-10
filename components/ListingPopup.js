@@ -149,7 +149,7 @@ export default function ListingPopup({ listing }) {
                             justifyContent: "space-between",
                             paddingHorizontal: 20,
                             height: "5%",
-                            backgroundColor: "#112D4E",
+                            backgroundColor: styles.colors.darkColor,
                             paddingTop: "-8%",
                         }}>
                         <TouchableOpacity
@@ -380,7 +380,7 @@ export default function ListingPopup({ listing }) {
                             height: "20%",
                         }}>
                         <Button
-                            backgroundColor="#3F72AF"
+                            backgroundColor={styles.colors.darkAccentColor}
                             title="Reply"
                             alignItems="center"
                             justifyContent="center"

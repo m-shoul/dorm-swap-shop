@@ -14,6 +14,13 @@ SmallHeadText = width / SmallerHeaderFontSize;
 //let insets = useSafeAreaInsets();
 
 const styles = StyleSheet.create({
+    // Colors go from lightest to darkest
+    colors: {
+        lightColor: "#F9F7F7",
+        lightAccentColor: "#DBE2EF",
+        darkAccentColor: "#3F72AF",
+        darkColor: "#112D4E",
+    },
     boldtext: { fontSize: normalText, fontWeight: "bold" },
     normaltext: { fontSize: normalText },
     SmallerHeaderFontSize: { fontSize: SmallHeadText, color: "#F9F7F7" },

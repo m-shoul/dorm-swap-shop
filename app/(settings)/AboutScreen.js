@@ -222,7 +222,7 @@ export default function About() {
                         <Button
                             width="75%"
                             height="100%"
-                            backgroundColor="#3F72AF"
+                            backgroundColor={styles.colors.darkAccentColor}
                             title="Terms and Conditions"
                             alignItems="center"
                             justifyContent="center"

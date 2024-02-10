@@ -71,7 +71,7 @@ export default function ProfileHeader({ user }) {
                 }}
                 onPress={() => router.push("EditProfile")}
             >
-                <Text style={[styles.boldtext, { textAlign: "right", color: "#F9F7F7" }]}>
+                <Text style={[styles.boldtext, { textAlign: "right", color: styles.colors.lightColor }]}>
                     Edit
                 </Text>
             </TouchableOpacity>
@@ -161,7 +161,7 @@ export default function ProfileHeader({ user }) {
                 <Button
                     width="45%"
                     height="40%"
-                    backgroundColor="#3F72AF"
+                    backgroundColor={styles.colors.darkAccentColor}
                     title="My Listings"
                     alignItems="center"
                     justifyContent="center"
@@ -184,7 +184,7 @@ export default function ProfileHeader({ user }) {
                 <Button
                     width="45%"
                     height="40%"
-                    backgroundColor="#3F72AF"
+                    backgroundColor={styles.colors.darkAccentColor}
                     title="Chat"
                     alignItems="center"
                     justifyContent="center"

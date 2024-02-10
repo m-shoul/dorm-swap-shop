@@ -23,7 +23,7 @@ export default function DeleteAccount() {
                 </TouchableOpacity>
 
                 <View>
-                    <Text style={[styles.loginHeader, { color: "#F9F7F7" }]}>Delete Account</Text>
+                    <Text style={[styles.loginHeader, { color: styles.colors.lightColor }]}>Delete Account</Text>
                 </View>
             </View>
             <View style={{ flex: 1, justifyContent: "center", alignItems: "center", width: "80%" }}>

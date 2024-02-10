@@ -1,5 +1,6 @@
 import { View } from "react-native";
 import React from "react";
+import styles from "../app/(aux)/StyleSheet.js";
 
 export default function SquareHeader({ height }) {
     return (
@@ -11,7 +12,7 @@ export default function SquareHeader({ height }) {
                 right: 0,
                 height: height,
 
-                backgroundColor: "#112D4E",
+                backgroundColor: styles.colors.darkColor,
                 // shadowColor: "#000",
                 // shadowOffset: {
                 //     width: 0,
