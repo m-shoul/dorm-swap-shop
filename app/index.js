@@ -71,11 +71,6 @@ export default function LoginScreen() {
             <SafeAreaView style={styles.background}>
                 <LogoV2 />
 
-                {/* <View>
-                    paddingTop: "45%"
-                    <Text style={styles.loginHeader}> Login </Text>
-                </View> */}
-
                 <View style={styles.dividerLine} />
 
                 <View style={styles.forms}>
@@ -133,7 +128,7 @@ export default function LoginScreen() {
                 </TouchableOpacity> */}
                 <Button
                     width="80%"
-                    height="7%"
+                    height={40}
                     backgroundColor="#3F72AF"
                     title="Login"
                     alignItems="center"

@@ -10,7 +10,6 @@ export default function SquareHeader({ height }) {
                 left: 0,
                 right: 0,
                 height: height,
-
                 backgroundColor: "#112D4E",
                 // shadowColor: "#000",
                 // shadowOffset: {

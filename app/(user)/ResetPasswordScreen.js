@@ -52,17 +52,10 @@ export default function ResetPasswordScreen() {
     return (
         <SafeAreaView style={styles.background}>
             <StatusBar barStyle="light-content" />
-            <RoundHeader height="20%" />
+            <RoundHeader height={150} />
 
             <ResetPasswordIcon style={{
-                marginTop: "10%", shadowColor: "#000",
-                shadowOffset: {
-                    width: 0,
-                    height: 4,
-                },
-                shadowOpacity: 0.8,
-                shadowRadius: 3.84,
-                elevation: 5,
+                marginTop: "10%",
             }} />
             <View>
 
@@ -97,7 +90,7 @@ export default function ResetPasswordScreen() {
             </TouchableOpacity> */}
             <Button
                 width="80%"
-                height="7%"
+                height={40}
                 backgroundColor="#3F72AF"
                 title="Reset Password"
                 alignItems="center"

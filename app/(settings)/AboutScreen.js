@@ -23,7 +23,7 @@ export default function About() {
     const [modalVisible, setModalVisible] = useState(false);
 
     return (
-        <>
+        <View>
             <SquareHeader height={"5%"} />
             <ScrollView>
                 <StatusBar barStyle={"light-content"} />
@@ -35,7 +35,8 @@ export default function About() {
                         width: "100%",
                         marginBottom: "10%",
                         marginTop: "15%",
-                        justifyContent: "center"
+                        justifyContent: "center",
+                        zIndex: 0
                     }}>
                     <TouchableOpacity onPress={() => router.back()} style={{ marginLeft: "-6.5%" }}>
                         <BackButtonComponent></BackButtonComponent>
@@ -179,6 +180,6 @@ export default function About() {
                     </View>
                 </Modal>
             </ScrollView>
-        </>
+        </View>
     );
 }

@@ -19,25 +19,27 @@ const styles = StyleSheet.create({
     boldtext: { fontSize: normalText, fontWeight: "bold" },
     normaltext: { fontSize: normalText },
     SmallerHeaderFontSize: { fontSize: SmallHeadText, color: "#F9F7F7" },
+
     background: {
         flex: 1,
         alignItems: "center",
-        //justifyContent: 'center',
         backgroundColor: "#F9F7F7",
-        //paddingTop: insets.top,
     },
+
     forms: {
         width: "80%",
     },
-    loginBtn: {
-        width: "80%",
-        borderRadius: 25, //was 25
-        height: "7%", //was 50
-        alignItems: "center",
-        justifyContent: "center",
-        marginTop: "12%", //was 40
-        backgroundColor: "#3F72AF",
-    },
+
+    // loginBtn: {
+    //     width: "80%",
+    //     borderRadius: 25, //was 25
+    //     height: "7%", //was 50
+    //     alignItems: "center",
+    //     justifyContent: "center",
+    //     marginTop: "12%", //was 40
+    //     backgroundColor: "#3F72AF",
+    // },
+
     deleteBtn: {
         width: "80%",
         borderRadius: 25, //was 25
