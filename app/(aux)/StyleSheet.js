@@ -1,6 +1,4 @@
 import { StyleSheet, Dimensions } from "react-native";
-import * as Font from "expo-font";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const { width } = Dimensions.get("window");
 const ButtonFontSize = 16;

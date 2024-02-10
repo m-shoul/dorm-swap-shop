@@ -3,7 +3,6 @@ import {
     View,
     FlatList,
     SafeAreaView,
-    //Image,
     ActivityIndicator,
     RefreshControl,
 } from "react-native";

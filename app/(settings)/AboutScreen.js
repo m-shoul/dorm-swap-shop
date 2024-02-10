@@ -22,6 +22,11 @@ import SquareHeader from "../../components/SquareHeader.js";
 export default function About() {
     const [modalVisible, setModalVisible] = useState(false);
 
+    const benHeadshot = process.env.BEN_HEADSHOT;
+    const mikeHeadshot = process.env.MIKE_HEADSHOT;
+    const joeHeadshot = process.env.JOE_HEADSHOT;
+    const joshHeadshot = process.env.JOSH_HEADSHOT;
+
     return (
         <>
         <SquareHeader height={"5%"}/>
@@ -77,7 +82,9 @@ export default function About() {
                     </Text>
                     <View style={{ flexDirection: "row", marginBottom: "5%" }}>
                         <View style={{ alignItems: "center", marginRight: "5%" }}>
-                            <HeadShot source={require("../../assets/pfps/IMG_6676.jpg")} />
+                            <HeadShot source={{uri: mikeHeadshot}} />
+
+                            {/* <HeadShot source={require("../../assets/pfps/IMG_6676.jpg")} /> */}
                             <Text style={[styles.boldtext, { textAlign: "center" }]}>
                                 Mike Shoul
                             </Text>
@@ -87,7 +94,7 @@ export default function About() {
                         </View>
 
                         <View style={{ alignItems: "center" }}>
-                            <HeadShot source={require("../../assets/pfps/IMG_2162.jpg")} />
+                            <HeadShot source={{uri: joshHeadshot}} />
                             <Text style={[styles.boldtext, { textAlign: "center" }]}>
                                 Josh Phillips
                             </Text>
@@ -98,7 +105,7 @@ export default function About() {
                     </View>
                     <View style={{ flexDirection: "row", marginBottom: "5%" }}>
                         <View style={{ alignItems: "center", marginRight: "5%" }}>
-                            <HeadShot source={require("../../assets/pfps/Screenshot.jpg")} />
+                            <HeadShot source={{uri: joeHeadshot}} />
                             <Text style={[styles.boldtext, { textAlign: "center" }]}>
                                 Joseph McGillen
                             </Text>
@@ -107,7 +114,7 @@ export default function About() {
                             </Text>
                         </View>
                         <View style={{ alignItems: "center" }}>
-                            <HeadShot source={require("../../assets/pfps/headshot.jpg")} />
+                            <HeadShot source={{uri: benHeadshot}} />
                             <Text style={[styles.boldtext, { textAlign: "center" }]}>
                                 Ben Clarke
                             </Text>

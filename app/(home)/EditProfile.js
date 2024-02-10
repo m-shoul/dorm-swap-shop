@@ -9,11 +9,10 @@ import {
 import { Image } from "expo-image";
 import React, { useState, useEffect } from "react";
 import styles from "../(aux)/StyleSheet.js";
-import { router } from "expo-router";
 import RoundHeader from "../../components/RoundHeader";
 import ListImagesComponent from "../../assets/svg/list_images.js";
 import { getAllUserDataForProfile, uploadProfileImage, updateUser } from "../../backend/api/user.js";
-import CachedImage from "expo-cached-image";
+import CachedImage from "expo-cached-image"; // Don't delete this
 import { Button } from "../../components/Buttons.js";
 import { ScrollView } from "react-native-gesture-handler";
 import * as ImagePicker from "expo-image-picker";

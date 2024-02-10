@@ -11,7 +11,6 @@ import {
     Modal,
     Pressable,
 } from "react-native";
-import { Image } from "expo-image";
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import { getAllListings } from "../../backend/api/listing";
 import styles from "../(aux)/StyleSheet";
