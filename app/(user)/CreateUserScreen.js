@@ -475,7 +475,7 @@ export default function CreateUserScreen() {
                     alignItems: "center",
                     justifyContent: "center",
                     marginTop: "3%",
-                    backgroundColor: "#3F72AF",
+                    backgroundColor: styles.colors.darkAccentColor,
                 }}
                 onPress={handleValidation}>
                 <Text style={styles.buttonText}>Create an Account</Text>
@@ -483,7 +483,7 @@ export default function CreateUserScreen() {
                 <Button
                     width="80%"
                     height="7%"
-                    backgroundColor="#3F72AF"
+                    backgroundColor={styles.colors.darkAccentColor}
                     title="Create an Account"
                     alignItems="center"
                     justifyContent="center"

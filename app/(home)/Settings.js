@@ -18,6 +18,11 @@ import DeleteComponent from "../../assets/svg/delete_icon.js";
 import SearchBarHeader from "../../components/SearchBar";
 import RoundHeader from "../../components/RoundHeader";
 
+// New icons
+import { Ionicons } from '@expo/vector-icons';
+import { SimpleLineIcons } from '@expo/vector-icons';
+
+
 export default function SettingsScreen() {
     const animHeaderValue = new Animated.Value(0);
     const [search, setSearch] = useState("");
@@ -26,7 +31,7 @@ export default function SettingsScreen() {
         <SafeAreaView style={styles.background}>
             <RoundHeader height={"25%"} />
             <View style={{ marginTop: "10%", marginBottom: "20%" }}>
-                <Text style={[styles.postListingHeader, { color: "#F9F7F7" }]}>Settings</Text>
+                <Text style={[styles.postListingHeader, { color: styles.colors.lightColor }]}>Settings</Text>
             </View>
             <View
                 style={{
@@ -47,13 +52,13 @@ export default function SettingsScreen() {
                             marginTop: "3%",
                             flexDirection: "row",
                         }}>
-                        <NotificationComponent
+                        {/* <NotificationComponent
                             style={{
                                 stroke: "black",
                                 strokeWidth: 0.25,
                             }}
-                        />
-
+                        /> */}
+                        <Ionicons name="notifications-outline" size={32} color="black" />
                         <Text
                             style={[
                                 styles.normaltext,
@@ -77,13 +82,13 @@ export default function SettingsScreen() {
                             marginTop: "-3%",
                             flexDirection: "row",
                         }}>
-                        <AboutComponent
+                        {/* <AboutComponent
                             style={{
                                 stroke: "black",
                                 strokeWidth: 0.25,
                             }}
-                        />
-
+                        /> */}
+                        <Ionicons name="information-circle-outline" size={32} color="black" />
                         <Text
                             style={[
                                 styles.normaltext,
@@ -107,14 +112,14 @@ export default function SettingsScreen() {
                             marginTop: "-3%",
                             flexDirection: "row",
                         }}>
-                        <LogoutComponent
+                        {/* <LogoutComponent
                             style={{
                                 stroke: "black",
                                 strokeWidth: 0.25,
                                 paddingRight: 10,
                             }}
-                        />
-
+                        /> */}
+                        <Ionicons name="log-out-outline" size={32} color="black" />
                         <Text
                             style={[
                                 styles.normaltext,
@@ -139,12 +144,14 @@ export default function SettingsScreen() {
                             marginTop: "-3%",
                             flexDirection: "row",
                         }}>
-                        <DeleteComponent
+                        {/* <DeleteComponent
                             style={{
                                 stroke: "black",
                                 strokeWidth: 0.25,
                             }}
-                        />
+                        /> */}
+                        {/* Can change this to trashcan lol */}
+                        <Ionicons name="skull-outline" size={32} color="red" />
 
                         <Text
                             style={[

@@ -21,6 +21,9 @@ import { router } from "expo-router";
 import { createChatThread, addMessage } from "../../backend/api/chat.js";
 import SquareHeader from "../../components/SquareHeader.js";
 
+// New icons
+import { Ionicons } from '@expo/vector-icons';
+
 //import styles from "../styleSheets/StyleSheet.js";
 //import { HeaderComponent } from "../components/headerComponent.js";
 
@@ -58,13 +61,13 @@ export default function ChatScreen() {
 
 
         // setSelectedChat(chat);
-        router.push({pathname: "ConversationsScreen", params: {chatId: "-No-UTyWWAvH6rZ5BCtt"}}); // { chatId: chat.id });
+        router.push({ pathname: "ConversationsScreen", params: { chatId: "-No-UTyWWAvH6rZ5BCtt" } }); // { chatId: chat.id });
     }
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: "#F9F7F7" }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: styles.colors.lightColor }}>
             <SquareHeader height={"8%"} />
-            <View style={{ backgroundColor: "#112D4E", paddingHorizontal: "2%" }}>
+            <View style={{ backgroundColor: styles.colors.darkColor, paddingHorizontal: "2%" }}>
                 <SearchBarHeader
                     animHeaderValue={scrollOffsetY}
                     handleSearch={handleSearch}
@@ -143,7 +146,8 @@ export default function ChatScreen() {
                                     params: { image: item.images },
                                 });
                             }}>
-                            <ReportComponent width="50%" height="50%" />
+                            {/* <ReportComponent width="50%" height="50%" /> */}
+                            <Ionicons name="alert-circle-outline" size={32} color="black" />
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={{
@@ -156,7 +160,8 @@ export default function ChatScreen() {
                                 // Handle the "Delete" action
                                 alert("Chat will be deleted");
                             }}>
-                            <TrashButtonComponent width="40%" height="40%" />
+                            {/* <TrashButtonComponent width="40%" height="40%" /> */}
+                            <Ionicons name="trash-outline" size={32} color="black" />
                         </TouchableOpacity>
                     </View>
                 )}
@@ -165,7 +170,7 @@ export default function ChatScreen() {
                 keyExtractor={(item) => item.id}
                 style={{
                     flex: 1,
-                    backgroundColor: "#F9F7F7",
+                    backgroundColor: styles.colors.lightColor,
                     paddingTop: "15%",
                 }}
                 onScroll={Animated.event(

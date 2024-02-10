@@ -15,7 +15,7 @@ export default function FilterPopup({ handleFiltering }) {
     const conditionInputRef = useRef(null);
     const categoryInputRef = useRef(null);
     const defaultColor = "#B3B3B3";
-    const activeColor = "#3F72AF";
+    const activeColor = styles.colors.darkAccentColor;
 
     useEffect(() => {
         if (modalVisible) {
@@ -28,7 +28,8 @@ export default function FilterPopup({ handleFiltering }) {
     return (
         <SafeAreaView>
             <TouchableOpacity onPress={() => setModalVisible(true)}>
-                <FilterComponent />
+                <FilterComponent /> 
+                {/* Might look into how we can get this to be thinner */}
             </TouchableOpacity>
             <Modal
                 animationType="slide"
@@ -202,7 +203,7 @@ export default function FilterPopup({ handleFiltering }) {
                             />
                             <Button
                                 width="50%"
-                                backgroundColor="#3F72AF"
+                                backgroundColor={styles.colors.darkAccentColor}
                                 title="Apply"
                                 alignItems="center"
                                 justifyContent="center"
