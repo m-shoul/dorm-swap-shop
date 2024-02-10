@@ -6,7 +6,7 @@ import {
     RefreshControl,
     ActivityIndicator,
 } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import { getAllListings } from "../../backend/api/listing";
 import styles from "../(aux)/StyleSheet";
@@ -31,21 +31,19 @@ export default function HomeScreen() {
 
     const fetchListings = async () => {
         clearTimeout(timerId);
-        timerId = setTimeout(async () => {
-            setRefreshing(true);
-            try {
-                const listingsData = await getAllListings();
-                setFullData(listingsData);
-                setListingsData(listingsData);
-                setRefreshing(false);
-                setIsLoading(false);
-            } catch (error) {
-                setError(error);
-                console.error("Error:", error);
-                setRefreshing(false);
-                setIsLoading(false);
-            }
-        }, 1000); // Delay of 1 second
+        setRefreshing(true);
+        try {
+            const listingsData = await getAllListings();
+            setFullData(listingsData);
+            setListingsData(listingsData);
+            setRefreshing(false);
+            setIsLoading(false);
+        } catch (error) {
+            setError(error);
+            console.error("Error:", error);
+            setRefreshing(false);
+            setIsLoading(false);
+        }
     };
 
     useEffect(() => {
@@ -166,7 +164,7 @@ export default function HomeScreen() {
     if (isLoading) {
         return (
             <View style={styles.container}>
-                <ActivityIndicator size="large" color="#112d4e" />
+                <ActivityIndicator size="large" color={styles.colors.darkColor} />
             </View>
         );
     }
@@ -202,7 +200,8 @@ export default function HomeScreen() {
     const insets = useSafeAreaInsets();
 
     return (
-        <View style={{ flex: 1, backgroundColor: "#F9F7F7", paddingTop: insets.top }}>
+        // <View style={{ flex: 1, backgroundColor: "#F9F7F7", paddingTop: insets.top }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: styles.colors.lightColor }}>
             <SquareHeader height={"8%"} />
             <Animated.View
                 style={{
@@ -220,7 +219,7 @@ export default function HomeScreen() {
                         top: 0,
                         left: 0,
                         right: 0,
-                        backgroundColor: "#112D4E",
+                        backgroundColor: styles.colors.darkColor,
                     }}>
                     <View style={{ justifyContent: "center", width: "90%" }}>
                         <SearchBarHeader handleSearch={handleSearch} />
@@ -254,8 +253,8 @@ export default function HomeScreen() {
                 }}
                 style={{
                     flex: 1,
-                    backgroundColor: "#F9F7F7",
-                    paddingTop: "10%",
+                    backgroundColor: styles.colors.lightColor,
+                    paddingTop: "15%",
                 }}
                 onScroll={Animated.event(
                     [{ nativeEvent: { contentOffset: { y: scrollOffsetY } } }],
@@ -271,6 +270,6 @@ export default function HomeScreen() {
                 ListEmptyComponent={noListingsFromSearchOrFilter}
                 scrollEventThrottle={10}
             />
-        </View>
+        </SafeAreaView>
     );
 }

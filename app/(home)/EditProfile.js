@@ -84,7 +84,7 @@ export default function EditProfile() {
                         alignItems: "center",
                         width: "100%",
                     }}>
-                    <Text style={[styles.loginHeader, { color: "#F9F7F7" }]}>
+                    <Text style={[styles.loginHeader, { color: styles.colors.lightColor }]}>
                         Edit Profile
                     </Text>
 
@@ -240,7 +240,7 @@ export default function EditProfile() {
                         <Button
                             width="50%"
                             height="50%"
-                            backgroundColor="#3F72AF"
+                            backgroundColor={styles.colors.darkAccentColor}
                             title="Save"
                             alignItems="center"
                             justifyContent="center"

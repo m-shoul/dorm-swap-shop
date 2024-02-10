@@ -230,7 +230,7 @@ export default function CreatePostScreen() {
         //                 width: "100%",
         //                 alignItems: "center",
         //             }}>
-        //             <Text style={[styles.postListingHeader, { marginBottom: "7%", color: "#F9F7F7" }]}>Create Listing</Text>
+        //             <Text style={[styles.postListingHeader, { marginBottom: "7%", color: styles.colors.lightColor }]}>Create Listing</Text>
         //             <View style={styles.dividerLine} />
         //         </View>
 
@@ -500,7 +500,7 @@ export default function CreatePostScreen() {
 
         //                         {/* Post Button */}
         //                         <Button
-        //                             backgroundColor="#3F72AF"
+        //                             backgroundColor=styles.colors.darkAccentColor
         //                             title="Post"
         //                             alignItems="center"
         //                             flex="1"

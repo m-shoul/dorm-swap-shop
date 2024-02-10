@@ -19,6 +19,9 @@ import HeadShot from "../../components/HeadShot.js";
 import EmailComponent from "../../assets/svg/email_icon.js";
 import SquareHeader from "../../components/SquareHeader.js";
 
+// New icons
+import { Ionicons } from '@expo/vector-icons';
+
 export default function About() {
     const [modalVisible, setModalVisible] = useState(false);
 
@@ -45,7 +48,8 @@ export default function About() {
                     <TouchableOpacity
                         onPress={() => router.back()}
                         style={{ marginLeft: "-6.5%" }}>
-                        <BackButtonComponent></BackButtonComponent>
+                        {/* <BackButtonComponent></BackButtonComponent> */}
+                        <Ionicons name="chevron-back" size={32} color="white" />
                     </TouchableOpacity>
 
                     <View style={{ alignItems: "center", width: "80%" }}>
@@ -197,11 +201,12 @@ export default function About() {
                             Contact Us
                         </Text>
                         <View style={{ flexDirection: "row" }}>
-                            <EmailComponent />
+                            {/* <EmailComponent /> */}
+                            <Ionicons name="mail-outline" size={32} color="black" />
                             <Text
                                 style={[
                                     styles.normaltext,
-                                    { marginLeft: "2%" },
+                                    { marginLeft: "2%", marginTop: "1%" },
                                 ]}>
                                 dormswapnshop@gmail.com
                             </Text>
@@ -222,7 +227,7 @@ export default function About() {
                         <Button
                             width="75%"
                             height="100%"
-                            backgroundColor="#3F72AF"
+                            backgroundColor={styles.colors.darkAccentColor}
                             title="Terms and Conditions"
                             alignItems="center"
                             justifyContent="center"

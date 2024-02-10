@@ -26,6 +26,12 @@ import { getUser, getUserProfileImage, getUsernameByID } from "../backend/api/us
 import { isListingFavorited } from "../backend/api/listing.js";
 import CachedImage from "expo-cached-image";
 
+// New icons
+import { Ionicons } from '@expo/vector-icons';
+// Use this in place of the <FavouriteIcon /> component
+// or something like it
+// <Ionicons name="star-outline" size={24} color="black" />
+
 export default function ListingPopup({ listing }) {
     const [selectedImage, setSelectedImage] = useState(null);
     const { width, height } = Dimensions.get("window");
@@ -154,13 +160,13 @@ export default function ListingPopup({ listing }) {
                             justifyContent: "space-between",
                             paddingHorizontal: 20,
                             height: "5%",
-                            backgroundColor: "#112D4E",
+                            backgroundColor: styles.colors.darkColor,
                             paddingTop: "-8%",
                         }}>
                         <TouchableOpacity
                             style={{ flex: 1 }}
                             onPress={() => setListingModalVisible(false)}>
-                            <Xmark
+                            {/* <Xmark
                                 source={require("../assets/svg/xmark.js")}
                                 style={{
                                     width: 200,
@@ -168,7 +174,8 @@ export default function ListingPopup({ listing }) {
                                     stroke: "white",
                                     strokeWidth: 0.25,
                                 }}
-                            />
+                            /> */}
+                            <Ionicons name="close" size={32} color="white" />
                         </TouchableOpacity>
 
                         <TouchableOpacity
@@ -177,14 +184,15 @@ export default function ListingPopup({ listing }) {
                                 setListingModalVisible(false);
                                 router.push({ pathname: "ReportScreen", params: { image: listing.images, title: listing.title } });
                             }}>
-                            <ReportComponent
+                            {/* <ReportComponent
                                 style={{
                                     width: 15,
                                     height: 15,
                                     stroke: "white",
                                     strokeWidth: 0.25,
                                 }}
-                            />
+                            /> */}
+                            <Ionicons name="alert-circle-outline" size={32} color="white" />
                         </TouchableOpacity>
                     </View>
                     {/* IMAGE */}
@@ -382,7 +390,7 @@ export default function ListingPopup({ listing }) {
                             height: "20%",
                         }}>
                         <Button
-                            backgroundColor="#3F72AF"
+                            backgroundColor={styles.colors.darkAccentColor}
                             title="Reply"
                             alignItems="center"
                             justifyContent="center"

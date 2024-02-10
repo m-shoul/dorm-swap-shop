@@ -91,7 +91,7 @@ export default function ResetPasswordScreen() {
             <Button
                 width="80%"
                 height={40}
-                backgroundColor="#3F72AF"
+                backgroundColor={styles.colors.darkAccentColor}
                 title="Reset Password"
                 alignItems="center"
                 justifyContent="center"

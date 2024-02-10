@@ -23,6 +23,10 @@ import { SwipeListView } from "react-native-swipe-list-view";
 import ReportComponent from "../../assets/svg/report_icon.js";
 import TrashButtonComponent from "../../assets/svg/trash_button.js";
 
+// New icons
+import { Ionicons } from '@expo/vector-icons';
+
+
 //This is now the my listings screen
 const MyListingsScreen = ({ navigation }) => {
     const [search, setSearch] = useState("");
@@ -97,7 +101,7 @@ const MyListingsScreen = ({ navigation }) => {
     //         : description;
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: "#F9F7F7" }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: styles.colors.lightColor }}>
             {/* Search bar was taken from homescreen, so will not have functionality. */}
             <SquareHeader height={"8%"} />
             <Animated.View
@@ -115,10 +119,11 @@ const MyListingsScreen = ({ navigation }) => {
                         top: 0,
                         left: 0,
                         right: 0,
-                        backgroundColor: "#112D4E",
+                        backgroundColor: styles.colors.darkColor,
                     }}>
                     <TouchableOpacity onPress={() => router.push("Profile")}>
-                        <BackButtonComponent></BackButtonComponent>
+                        {/* <BackButtonComponent></BackButtonComponent> */}
+                        <Ionicons name="chevron-back" size={32} color="white" />
                     </TouchableOpacity>
                     <View style={{ justifyContent: "center", width: "90%" }}>
                         <SearchBarHeader handleSearch={handleSearch} />
@@ -130,7 +135,7 @@ const MyListingsScreen = ({ navigation }) => {
                     flexDirection: "row",
                     alignItems: "center",
                     width: "100%",
-                    backgroundColor: "#112D4E",
+                    backgroundColor: styles.colors.darkColor,
                     paddingHorizontal: "5%",
                 }}>
                 <TouchableOpacity onPress={() => router.back()}>
@@ -169,7 +174,7 @@ const MyListingsScreen = ({ navigation }) => {
                             key={item.id}>
                             <View
                                 style={{
-                                    backgroundColor: "#F9F7F7",
+                                    backgroundColor: styles.colors.lightColor,
                                     flex: 1,
                                     flexDirection: "row",
                                     padding: 2,
@@ -265,7 +270,7 @@ const MyListingsScreen = ({ navigation }) => {
                 scrollEventThrottle={10}
                 style={{
                     flex: 1,
-                    backgroundColor: "#F9F7F7",
+                    backgroundColor: styles.colors.lightColor,
                     marginTop: 10,
                     paddingTop: "15%",
                 }}

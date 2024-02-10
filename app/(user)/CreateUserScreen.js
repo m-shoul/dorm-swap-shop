@@ -452,11 +452,10 @@ export default function CreateUserScreen() {
                         />
                     </View>
                 </Modal>
-
                 <Button
                     width="80%"
                     height={40}
-                    backgroundColor="#3F72AF"
+                    backgroundColor={styles.colors.darkAccentColor}
                     title="Create an Account"
                     alignItems="center"
                     justifyContent="center"

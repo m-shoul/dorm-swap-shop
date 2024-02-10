@@ -129,7 +129,7 @@ export default function LoginScreen() {
                 <Button
                     width="80%"
                     height={40}
-                    backgroundColor="#3F72AF"
+                    backgroundColor={styles.colors.darkAccentColor}
                     title="Login"
                     alignItems="center"
                     justifyContent="center"

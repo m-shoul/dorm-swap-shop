@@ -229,7 +229,7 @@ export default function ListingForm({ header, buttonTitle, imageText }) {
                     width: "100%",
                     alignItems: "center",
                 }}>
-                <Text style={[styles.postListingHeader, { marginBottom: "7%", color: "#F9F7F7" }]}>{header}</Text>
+                <Text style={[styles.postListingHeader, { marginBottom: "7%", color: styles.colors.lightColor }]}>{header}</Text>
                 <View style={styles.dividerLine} />
             </View>
 
@@ -509,7 +509,7 @@ export default function ListingForm({ header, buttonTitle, imageText }) {
 
                             {/* Post Button */}
                             <Button
-                                backgroundColor="#3F72AF"
+                                backgroundColor={styles.colors.darkAccentColor}
                                 title={buttonTitle}
                                 alignItems="center"
                                 width="60%"
