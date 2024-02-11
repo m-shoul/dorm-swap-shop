@@ -204,6 +204,7 @@ const MyListingsScreen = ({ navigation }) => {
 
                                 {/* For now this is commented out since the listing popup is broken */}
                                 {/* <ListingPopup listing={item} navigation={navigation} /> */}
+                                {/* Hopefully this fixes the issue */}
                                 <View
                                     style={{
                                         backgroundColor: "#B3B3B3",
