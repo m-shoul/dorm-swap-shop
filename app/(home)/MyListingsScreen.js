@@ -205,7 +205,7 @@ const MyListingsScreen = ({ navigation }) => {
                                 {/* For now this is commented out since the listing popup is broken */}
                                 {/* <ListingPopup listing={item} navigation={navigation} /> */}
                                 {/* Hopefully this fixes the issue */}
-                                <View
+                                {/* <View
                                     style={{
                                         backgroundColor: "#B3B3B3",
                                         height: 1,
@@ -214,7 +214,7 @@ const MyListingsScreen = ({ navigation }) => {
                                         marginRight: 20,
                                         marginBottom: -20,
                                     }}
-                                />
+                                /> */}
                             </View>
                         </TouchableWithoutFeedback>
                     );
