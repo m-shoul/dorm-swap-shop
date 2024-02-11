@@ -1,14 +1,14 @@
 import {
     Text,
     View,
+    TouchableWithoutFeedback,
     TouchableOpacity,
     FlatList,
-    SafeAreaView,
     StyleSheet,
     Modal,
     Animated,
 } from "react-native";
-
+import { SafeAreaView } from "react-native-safe-area-context";
 import SquareHeader from "../../components/SquareHeader.js";
 import { Image } from "expo-image";
 import { router } from "expo-router";
@@ -19,6 +19,9 @@ import ProfileScreen from "./Profile.js";
 import SearchBarHeader from "../../components/SearchBar.js";
 import { getUserListings } from "../../backend/api/listing.js";
 import filter from "lodash.filter";
+import { SwipeListView } from "react-native-swipe-list-view";
+import ReportComponent from "../../assets/svg/report_icon.js";
+import TrashButtonComponent from "../../assets/svg/trash_button.js";
 
 // New icons
 import { Ionicons } from '@expo/vector-icons';
@@ -96,11 +99,15 @@ const MyListingsScreen = ({ navigation }) => {
     //     description.length > 22
     //         ? description.substring(0, 14) + "..."
     //         : description;
+    const truncatedDescription =
+        listingsData.description && listingsData.description.length > 10
+            ? listingsData.description.substring(0, 35) + "..."
+            : listingsData.description;
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: styles.colors.lightColor }}>
             {/* Search bar was taken from homescreen, so will not have functionality. */}
-            <SquareHeader height={"8%"} />
+            <SquareHeader height={80} />
             <Animated.View
                 style={{
                     zIndex: 1,
@@ -145,7 +152,7 @@ const MyListingsScreen = ({ navigation }) => {
                     />
                 </View>
             </View> */}
-            <FlatList
+            <SwipeListView
                 data={listingsData}
                 onScroll={Animated.event(
                     [{ nativeEvent: { contentOffset: { y: scrollOffsetY } } }],
@@ -153,13 +160,8 @@ const MyListingsScreen = ({ navigation }) => {
                 )}
                 bounces={true}
                 renderItem={({ item }) => {
-                    const truncatedDescription =
-                        item.description && item.description.length > 10
-                            ? item.description.substring(0, 35) + "..."
-                            : item.description;
-
                     return (
-                        <TouchableOpacity
+                        <TouchableWithoutFeedback
                             style={{
                                 width: 400,
                                 marginTop: 20,
@@ -199,23 +201,67 @@ const MyListingsScreen = ({ navigation }) => {
                                     <Text>{item.condition}</Text>
                                     <Text>{truncatedDescription}</Text>
                                 </View>
-                            </View>
 
-                            {/* For now this is commented out since the listing popup is broken */}
-                            {/* <ListingPopup listing={item} navigation={navigation} /> */}
-                            <View
-                                style={{
-                                    backgroundColor: "#B3B3B3",
-                                    height: 1,
-                                    marginTop: 20,
-                                    marginLeft: 10,
-                                    marginRight: 20,
-                                    marginBottom: -20,
-                                }}
-                            />
-                        </TouchableOpacity>
+                                {/* For now this is commented out since the listing popup is broken */}
+                                {/* <ListingPopup listing={item} navigation={navigation} /> */}
+                                {/* Hopefully this fixes the issue */}
+                                {/* <View
+                                    style={{
+                                        backgroundColor: "#B3B3B3",
+                                        height: 1,
+                                        marginTop: 20,
+                                        marginLeft: 10,
+                                        marginRight: 20,
+                                        marginBottom: -20,
+                                    }}
+                                /> */}
+                            </View>
+                        </TouchableWithoutFeedback>
                     );
                 }}
+                renderHiddenItem={({ item }) => (
+                    <View
+                        style={{
+                            flex: 1,
+                            flexDirection: "row",
+                            justifyContent: "flex-end",
+                            marginBottom: "6%",
+                            marginTop: "1%",
+                            marginRight: "4%",
+                        }}>
+                        <TouchableOpacity
+                            style={{
+                                width: 75,
+                                backgroundColor: "#FF9900",
+                                alignItems: "center",
+                                justifyContent: "center",
+                            }}
+                            onPress={() => {
+                                // Handle the "Report" action
+                                router.push({
+                                    pathname: "ReportScreen",
+                                    params: { image: item.images },
+                                });
+                            }}>
+                            <ReportComponent width="50%" height="50%" />
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={{
+                                width: 75,
+                                backgroundColor: "#F30000",
+                                alignItems: "center",
+                                justifyContent: "center",
+                            }}
+                            onPress={() => {
+                                // Handle the "Delete" action
+                                alert("Chat will be deleted");
+                            }}>
+                            <TrashButtonComponent width="40%" height="40%" />
+                        </TouchableOpacity>
+                    </View>
+                )}
+                disableRightSwipe={true}
+                rightOpenValue={-150}
                 //numColumns={2}
                 keyExtractor={(item) => item.listingId}
                 contentContainerStyle={{
@@ -228,10 +274,10 @@ const MyListingsScreen = ({ navigation }) => {
                     marginTop: 10,
                     paddingTop: "15%",
                 }}
-                //kept causing errors, so turned it off
-                // onScroll={(e) => {
-                //     scrollY.setValue(e.nativeEvent.contentOffset.y);
-                // }}
+            //kept causing errors, so turned it off
+            // onScroll={(e) => {
+            //     scrollY.setValue(e.nativeEvent.contentOffset.y);
+            // }}
             />
         </SafeAreaView>
     );

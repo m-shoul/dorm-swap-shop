@@ -1,4 +1,5 @@
-import { View, Text, Pressable, Modal, SafeAreaView, TouchableOpacity, Dimensions } from "react-native";
+import { View, Text, Pressable, Modal, TouchableOpacity, Dimensions, Platform } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import FilterComponent from "../assets/svg/filter_icon";
 import ExpandComponent from "../assets/svg/expand_icon";
 import styles from "../app/(aux)/StyleSheet";
@@ -6,6 +7,7 @@ import { Button } from "../components/Buttons";
 import RNPickerSelect from "react-native-picker-select";
 import { categories, conditions } from "./Enums";
 import React, { useState, useRef, useEffect } from "react";
+import { normalizeText } from "@rneui/base";
 
 export default function FilterPopup({ handleFiltering }) {
     const [modalVisible, setModalVisible] = useState(false);
@@ -25,10 +27,13 @@ export default function FilterPopup({ handleFiltering }) {
         }
     }, [modalVisible]);
 
+    const insets = useSafeAreaInsets();
+
+
     return (
-        <SafeAreaView>
+        <View style={{ justifyContent: "center" }}>
             <TouchableOpacity onPress={() => setModalVisible(true)}>
-                <FilterComponent /> 
+                <FilterComponent />
                 {/* Might look into how we can get this to be thinner */}
             </TouchableOpacity>
             <Modal
@@ -58,12 +63,12 @@ export default function FilterPopup({ handleFiltering }) {
                         shadowRadius: 4,
                         elevation: 5,
                         width: "90%",
-                        height: "50%",
+                        height: 450,
                     }}>
                         <View>
                             <Text style={styles.postListingHeader}>Filter</Text>
                         </View>
-                        <View style={{ marginTop: "6%" }}>
+                        <View style={{ marginTop: 12 }}>
                             <Text style={[styles.normaltext, { marginBottom: "2%" }]}>Category</Text>
                             <View style={styles.dropdownlists}>
                                 <RNPickerSelect
@@ -86,19 +91,25 @@ export default function FilterPopup({ handleFiltering }) {
                                     ref={categoryInputRef}
                                     style={{
                                         inputIOS: {
+                                            paddingTop: "2%", //was 7
+                                            paddingLeft: "5%",
                                             fontSize: normalText, // Change this to your desired font size
                                         },
                                         inputAndroid: {
+                                            marginTop: -8,
                                             fontSize: normalText, // Change this to your desired font size
                                         },
                                         iconContainer: {
+                                            top: 5,
                                             right: "3%",
                                         }
                                     }}
                                     Icon={() => {
-                                        return (
-                                            <ExpandComponent />
-                                        )
+                                        if (Platform.OS === "ios") {
+                                            return (
+                                                <ExpandComponent />
+                                            )
+                                        }
                                     }}
                                 />
                             </View>
@@ -108,7 +119,6 @@ export default function FilterPopup({ handleFiltering }) {
                         <View style={{
                             flexDirection: "row",
                             justifyContent: "space-evenly",
-                            height: "12%",
                             marginBottom: "6%"
                         }}>
                             <Button
@@ -117,7 +127,7 @@ export default function FilterPopup({ handleFiltering }) {
                                 title="$"
                                 alignItems="center"
                                 justifyContent="center"
-                                borderRadius="25%"
+                                borderRadius={25}
                                 press={() => setActivePrice('$')}
                                 titleStyle={styles.buttonText}
                             />
@@ -127,7 +137,7 @@ export default function FilterPopup({ handleFiltering }) {
                                 title="$$"
                                 alignItems="center"
                                 justifyContent="center"
-                                borderRadius="25%"
+                                borderRadius={25}
                                 press={() => setActivePrice('$$')}
                                 titleStyle={styles.buttonText}
                             />
@@ -137,7 +147,7 @@ export default function FilterPopup({ handleFiltering }) {
                                 title="$$$"
                                 alignItems="center"
                                 justifyContent="center"
-                                borderRadius="25%"
+                                borderRadius={25}
                                 press={() => setActivePrice('$$$')}
                                 titleStyle={styles.buttonText}
                             />
@@ -173,31 +183,37 @@ export default function FilterPopup({ handleFiltering }) {
                                 items={conditions}
                                 style={{
                                     inputIOS: {
+                                        paddingTop: "2%",
+                                        paddingLeft: "4%",
                                         fontSize: normalText, // Change this to your desired font size
                                     },
                                     inputAndroid: {
+                                        marginTop: -8,
                                         fontSize: normalText, // Change this to your desired font size
                                     },
                                     iconContainer: {
-                                        right: "3%",
+                                        top: 5,
+                                        right: "4%",
                                     }
                                 }}
                                 Icon={() => {
-                                    return (
-                                        <ExpandComponent />
-                                    )
+                                    if (Platform.OS === "ios") {
+                                        return (
+                                            <ExpandComponent />
+                                        )
+                                    }
                                 }}
                             />
                         </View>
 
-                        <View style={{ flexDirection: "row", justifyContent: "space-between", height: "12%" }}>
+                        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                             <Button
                                 width="40%"
                                 backgroundColor="#B3B3B3"
                                 title="Cancel"
                                 alignItems="center"
                                 justifyContent="center"
-                                borderRadius="25%"
+                                borderRadius={25}
                                 press={() => [setModalVisible(!modalVisible), setActivePrice(null), setCategory(null), setCondition(null)]}
                                 titleStyle={styles.buttonText}
                             />
@@ -207,17 +223,17 @@ export default function FilterPopup({ handleFiltering }) {
                                 title="Apply"
                                 alignItems="center"
                                 justifyContent="center"
-                                borderRadius="25%"
                                 press={() => {
                                     setModalVisible(!modalVisible)
-                                    handleFiltering(category, condition, activePrice);     
+                                    handleFiltering(category, condition, activePrice);
                                 }}
+                                borderRadius={25}
                                 titleStyle={styles.buttonText}
                             />
                         </View>
                     </View>
                 </View>
             </Modal>
-        </SafeAreaView>
+        </View>
     );
 }

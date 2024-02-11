@@ -2,7 +2,6 @@ import {
     Text,
     View,
     TextInput,
-    SafeAreaView,
     TouchableOpacity,
     ScrollView,
     KeyboardAvoidingView,
@@ -11,6 +10,7 @@ import {
     StatusBar,
     TouchableWithoutFeedback
 } from "react-native";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { Checkbox } from "expo-checkbox";
 import React from "react";
 import styles from "../(aux)/StyleSheet.js";
@@ -228,25 +228,18 @@ export default function CreateUserScreen() {
             }
         }
     };
+    const insets = useSafeAreaInsets();
 
     // Called when 'registration' button is pressed to create the user into
     // Firebase auth, write the data to Realtime db, and direct user to login
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-            <SafeAreaView style={styles.background}>
+            <View style={[styles.background, { paddingTop: insets.top }]}>
                 <StatusBar barStyle={"light-content"} />
-                <RoundHeader height={"20%"} />
+                <RoundHeader height={150} />
 
-                <SimpleLogo width="50%" height="15%" style={{ marginTop: "10%", width: 50,
-                    shadowColor: "#000",
-                    shadowOffset: {
-                        width: 0,
-                        height: 4,
-                    },
-                    shadowOpacity: 0.8,
-                    shadowRadius: 3.84,
-                    elevation: 5,}} />
+                <SimpleLogo width="50%" height={120} style={{ marginTop: "10%", }} />
 
                 <Text style={styles.registerHeader}> Register </Text>
 
@@ -263,28 +256,17 @@ export default function CreateUserScreen() {
                 )}
                 <KeyboardAvoidingView
                     style={{
-                        flex: 0.8,
                         width: "100%",
-                        // marginBottom: 0,
-                        //paddingBottom: 0,
-                        justifyContent: "center",
-                        alignItems: "center",
                     }}
-                    behavior={Platform.OS === "ios" ? "padding" : "height"}>
+                    behavior={Platform.OS === "ios" ? "padding" : "height"}
+                >
                     <ScrollView
                         style={{
                             KeyboardAvoidingView: "position",
-                            flex: 1,
-
                             width: "100%",
-                            // marginBottom: 0,
-                            //paddingBottom: 0,
                         }}
                         keyboardShouldPersistTaps="handled"
                         contentContainerStyle={{
-                            flexGrow: 1,
-                            justifyContent: "center",
-                            width: "100%",
                             alignItems: "center",
                         }}>
                         <View style={styles.forms}>
@@ -408,8 +390,9 @@ export default function CreateUserScreen() {
                 <TouchableOpacity
                     onPress={() => {
                         setModalVisible(true);
-                    }}>
-                    <View style={{ flexDirection: "row", alignItems: "center" }}>
+                    }}
+                >
+                    <View style={{ flexDirection: "row", alignItems: "center", }}>
                         <Text style={{ marginRight: "5%" }}>Terms of Service</Text>
                         <Checkbox
                             value={isSelected}
@@ -448,74 +431,50 @@ export default function CreateUserScreen() {
                             onPress={() => setModalVisible(false)}>
                             <Text>Close</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity
-                            style={[
-                                styles.loginBtn,
-                                {
-                                    marginBottom: "10%",
-                                    marginRight: "20%",
-                                    marginLeft: "10%",
-                                    marginTop: "5%",
-                                },
-                            ]}
-                            onPress={() => {
+                        <Button
+                            width="80%"
+                            borderRadius={25} //was 25
+                            alignItems="center"
+                            justifyContent="center"
+                            marginTop="5%" //was 40
+                            marginBottom="10%"
+                            marginRight="20%"
+                            marginLeft="10%"
+                            backgroundColor="#3F72AF"
+                            press={() => {
                                 setModalVisible(false);
                                 setAgreeTermsOfService(true);
                                 setSelection(true);
-                            }}>
-                            <Text style={styles.buttonText}>I agree</Text>
-                        </TouchableOpacity>
+                            }}
+                            title="I agree"
+                            titleStyle={styles.buttonText}
+                        />
                     </View>
                 </Modal>
-                {/* <TouchableOpacity
-                style={{
-                    width: "80%",
-                    borderRadius: 25,
-                    height: 50,
-                    alignItems: "center",
-                    justifyContent: "center",
-                    marginTop: "3%",
-                    backgroundColor: styles.colors.darkAccentColor,
-                }}
-                onPress={handleValidation}>
-                <Text style={styles.buttonText}>Create an Account</Text>
-            </TouchableOpacity> */}
                 <Button
                     width="80%"
-                    height="7%"
                     backgroundColor={styles.colors.darkAccentColor}
                     title="Create an Account"
                     alignItems="center"
                     justifyContent="center"
                     marginTop="5%"
-                    borderRadius="25%"
+                    borderRadius={25}
                     press={handleValidation}
                     titleStyle={styles.buttonText}
+                    marginBottom={10}
                 />
 
                 <TouchableOpacity
-                    onPress={() => router.push("/")}
-                    style={[styles.accountButtons, {}]}>
+                    onPress={() => router.push("/")}>
                     <Text
-                        style={[
-                            styles.notUserButtonText,
-                            {
-                                paddingBottom: "5%",
-                                textAlign: "center",
-                                marginTop: "10%",
-                            },
-                        ]}>
+                        style={[styles.notUserButtonText, { textAlign: "center" }]}>
                         Already have an account?
                     </Text>
-                    <Text
-                        style={[
-                            styles.notUserButtonText,
-                            { textAlign: "center", marginBottom: "-20%" },
-                        ]}>
+                    <Text style={[styles.notUserButtonText, { textAlign: "center" }]}>
                         Login
                     </Text>
                 </TouchableOpacity>
-            </SafeAreaView>
+            </View>
         </TouchableWithoutFeedback>
     );
 }

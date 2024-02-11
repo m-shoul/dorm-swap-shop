@@ -1,10 +1,10 @@
 import { Tabs } from 'expo-router/tabs';
 import { StatusBar } from 'react-native';
-import HomeComponent from "../../assets/svg/home_icon.js";
-import ChatComponent from "../../assets/svg/chat_icon.js";
-import PostComponent from "../../assets/svg/post_icon.js";
-import ProfileComponent from "../../assets/svg/profile_icon.js";
-import SettingsComponent from "../../assets/svg/settings_icon.js";
+// import HomeComponent from "../../assets/svg/home_icon.js";
+// import ChatComponent from "../../assets/svg/chat_icon.js";
+// import PostComponent from "../../assets/svg/post_icon.js";
+// import ProfileComponent from "../../assets/svg/profile_icon.js";
+// import SettingsComponent from "../../assets/svg/settings_icon.js";
 import styles from "../(aux)/StyleSheet";
 
 // New icons

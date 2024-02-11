@@ -4,12 +4,12 @@ import {
     Modal,
     Text,
     View,
-    SafeAreaView,
     TouchableOpacity,
     //Image,
     Dimensions,
     Alert,
 } from "react-native";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import ListImagesComponent from "../assets/svg/list_images.js";
 import SquareHeader from "./SquareHeader.js";
 import { Image } from "expo-image";
@@ -95,16 +95,19 @@ export default function ListingPopup({ listing }) {
 
     var shortHash = require("short-hash");
 
+    const insets = useSafeAreaInsets();
+
+
     return (
-        <SafeAreaView>
+        <View>
             <TouchableOpacity onPress={openModal}>
-                <View style={{ backgroundColor: "white" }}>
+                <View style={{ backgroundColor: "white", borderRadius: 20 }}>
                     <TouchableOpacity
                         style={{
                             flex: 0,
                             position: "absolute",
-                            right: "1%",
-                            top: "1%",
+                            right: "2%",
+                            top: "2%",
                             zIndex: 1,
                         }}
                         onPress={simpleAlert}>
@@ -123,14 +126,14 @@ export default function ListingPopup({ listing }) {
                     {Array.isArray(listing.images) ? (
                         <Image
                             source={{ uri: listing.images[0] }}
-                            style={{ width: "100%", height: 200 }}
+                            style={{ width: "100%", height: 200, borderTopLeftRadius: 20, borderTopRightRadius: 20 }}
                         />
                     ) : (
                         <CachedImage
                             source={{ uri: listing.images }}
                             cacheKey={`listing-${listing.id}-image`}
                             // cacheKey={shortHash(listing.id)} // listing.listingId
-                            style={{ width: "100%", height: 200 }}
+                            style={{ width: "100%", height: 200, borderTopLeftRadius: 20, borderTopRightRadius: 20 }}
                         />
                     )}
                     <View
@@ -138,6 +141,7 @@ export default function ListingPopup({ listing }) {
                             backgroundColor: "#B3B3B3",
                             height: 1,
                             width: "100%",
+                            marginTop: "2%",
                             marginBottom: "2%",
                         }}
                     />
@@ -146,17 +150,16 @@ export default function ListingPopup({ listing }) {
             </TouchableOpacity>
 
             <Modal visible={listingModalVisible}>
-                <SafeAreaView style={styles.background}>
-                    <SquareHeader height={"15%"} />
+                <View style={[styles.background, { paddingTop: insets.top }]}>
+                    <SquareHeader height={51} />
                     <View
                         style={{
                             flexDirection: "row",
                             marginTop: "1%",
                             justifyContent: "space-between",
                             paddingHorizontal: 20,
-                            height: "5%",
                             backgroundColor: styles.colors.darkColor,
-                            paddingTop: "-8%",
+                            //paddingTop: "-8%",
                         }}>
                         <TouchableOpacity
                             style={{ flex: 1 }}
@@ -177,10 +180,7 @@ export default function ListingPopup({ listing }) {
                             style={{ flex: 0 }}
                             onPress={() => {
                                 setListingModalVisible(false);
-                                router.push({
-                                    pathname: "ReportScreen",
-                                    params: { image: listing.images, title: listing.title },
-                                });
+                                router.push({ pathname: "ReportScreen", params: { image: listing.images, title: listing.title } });
                             }}>
                             {/* <ReportComponent
                                 style={{
@@ -194,7 +194,7 @@ export default function ListingPopup({ listing }) {
                         </TouchableOpacity>
                     </View>
                     {/* IMAGE */}
-                    <View style={{ height: "50%" }}>
+                    <View style={{ height: 380 }}>
                         {Array.isArray(listing.images) ? (
                             <TouchableOpacity
                                 delayPressIn={100}
@@ -263,7 +263,7 @@ export default function ListingPopup({ listing }) {
                             </ScrollView>
                         </TouchableOpacity>
                     </Modal>
-                    <View style={{ width: "100%", height: "25%" }}>
+                    <View style={{ width: "100%" }}>
                         <View
                             style={{
                                 flexDirection: "row",
@@ -385,23 +385,21 @@ export default function ListingPopup({ listing }) {
                             justifyContent: "center",
                             padding: 0,
                             width: "80%",
-                            height: "20%",
                         }}>
                         <Button
                             backgroundColor={styles.colors.darkAccentColor}
                             title="Reply"
                             alignItems="center"
                             justifyContent="center"
-                            borderRadius="25%"
+                            borderRadius={25}
                             width="80%"
-                            height="35%"
                             marginTop="12%"
                             press={closeModal}
                             titleStyle={styles.buttonText}
                         />
                     </View>
-                </SafeAreaView>
+                </View>
             </Modal>
-        </SafeAreaView>
+        </View>
     );
 }
