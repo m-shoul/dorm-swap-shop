@@ -77,7 +77,7 @@ export default function EditProfile() {
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
             <SafeAreaView style={styles.background}>
-                <RoundHeader height="37%" />
+                <RoundHeader height={275} />
                 <View
                     style={{
                         marginBottom: "5%",
@@ -95,18 +95,7 @@ export default function EditProfile() {
                         ]}
                     />
 
-                    <TouchableOpacity
-                        onPress={pickProfileImage}
-                        style={{
-                            shadowColor: "#000",
-                            shadowOffset: {
-                                width: 0,
-                                height: 4,
-                            },
-                            shadowOpacity: 0.8,
-                            shadowRadius: 3.84,
-                            elevation: 5,
-                        }}>
+                    <TouchableOpacity onPress={pickProfileImage}>
                         <View
                             style={{
                                 width: 190,
@@ -226,25 +215,23 @@ export default function EditProfile() {
                         }}>
                         <Button
                             width="35%"
-                            height="50%"
                             backgroundColor="#B3B3B3"
                             title="Cancel"
                             alignItems="center"
                             justifyContent="center"
                             marginRight="5%"
-                            borderRadius="25%"
+                            borderRadius={40}
                             href="Profile"
                             titleStyle={[styles.boldtext, { color: "white" }]}
                         />
 
                         <Button
                             width="50%"
-                            height="50%"
                             backgroundColor={styles.colors.darkAccentColor}
                             title="Save"
                             alignItems="center"
                             justifyContent="center"
-                            borderRadius="25%"
+                            borderRadius={40}
                             href="Profile"
                             press={() =>
                                 updateUser(profileImage, username, fname, lname)

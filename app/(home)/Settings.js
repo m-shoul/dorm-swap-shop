@@ -2,8 +2,6 @@ import {
     Text,
     View,
     TouchableOpacity,
-    FlatList,
-    StyleSheet,
     Animated
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -29,11 +27,12 @@ export default function SettingsScreen() {
     const handleSearch = () => { null }
     return (
         <SafeAreaView style={styles.background}>
-            <RoundHeader height={"25%"} />
+            <RoundHeader height={200} />
             <View style={{ marginTop: "10%", marginBottom: "20%" }}>
                 <Text style={[styles.postListingHeader, { color: styles.colors.lightColor }]}>Settings</Text>
             </View>
-            <View
+
+            {/* <View
                 style={{
                     marginTop: "5%",
                     height: "5%",
@@ -41,7 +40,7 @@ export default function SettingsScreen() {
                     marginBottom: "15%",
                 }}>
                 <SearchBarHeader animHeaderValue={animHeaderValue} handleSearch={handleSearch} />
-            </View>
+            </View> */}
 
             <View style={{ width: "100%" }}>
                 <View style={{ flexDirection: "row", marginLeft: "5%" }}>

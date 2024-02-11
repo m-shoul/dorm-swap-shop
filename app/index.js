@@ -128,7 +128,6 @@ export default function LoginScreen() {
                 </TouchableOpacity> */}
                 <Button
                     width="80%"
-                    height={40}
                     backgroundColor={styles.colors.darkAccentColor}
                     title="Login"
                     alignItems="center"

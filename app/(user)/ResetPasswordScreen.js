@@ -90,7 +90,6 @@ export default function ResetPasswordScreen() {
             </TouchableOpacity> */}
             <Button
                 width="80%"
-                height={40}
                 backgroundColor={styles.colors.darkAccentColor}
                 title="Reset Password"
                 alignItems="center"

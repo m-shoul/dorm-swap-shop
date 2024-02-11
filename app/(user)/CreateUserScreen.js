@@ -239,7 +239,7 @@ export default function CreateUserScreen() {
                 <StatusBar barStyle={"light-content"} />
                 <RoundHeader height={150} />
 
-                <SimpleLogo width="50%" height="15%" style={{ marginTop: "10%", }} />
+                <SimpleLogo width="50%" height={120} style={{ marginTop: "10%", }} />
 
                 <Text style={styles.registerHeader}> Register </Text>
 
@@ -434,7 +434,6 @@ export default function CreateUserScreen() {
                         <Button
                             width="80%"
                             borderRadius={25} //was 25
-                            height={40} //was 50
                             alignItems="center"
                             justifyContent="center"
                             marginTop="5%" //was 40
@@ -454,7 +453,6 @@ export default function CreateUserScreen() {
                 </Modal>
                 <Button
                     width="80%"
-                    height={40}
                     backgroundColor={styles.colors.darkAccentColor}
                     title="Create an Account"
                     alignItems="center"

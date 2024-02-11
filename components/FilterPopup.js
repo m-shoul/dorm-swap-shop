@@ -33,7 +33,7 @@ export default function FilterPopup({ handleFiltering }) {
     return (
         <View style={{ justifyContent: "center" }}>
             <TouchableOpacity onPress={() => setModalVisible(true)}>
-                <FilterComponent /> 
+                <FilterComponent />
                 {/* Might look into how we can get this to be thinner */}
             </TouchableOpacity>
             <Modal
@@ -119,7 +119,6 @@ export default function FilterPopup({ handleFiltering }) {
                         <View style={{
                             flexDirection: "row",
                             justifyContent: "space-evenly",
-                            height: "12%",
                             marginBottom: "6%"
                         }}>
                             <Button
@@ -207,7 +206,7 @@ export default function FilterPopup({ handleFiltering }) {
                             />
                         </View>
 
-                        <View style={{ flexDirection: "row", justifyContent: "space-between", height: "12%" }}>
+                        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                             <Button
                                 width="40%"
                                 backgroundColor="#B3B3B3"

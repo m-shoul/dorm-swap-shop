@@ -6,7 +6,7 @@ import {
     ScrollView,
     StatusBar,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { useState } from "react";
 import styles from "../(aux)/StyleSheet";
 import { router } from "expo-router";
@@ -30,19 +30,21 @@ export default function About() {
     const joeHeadshot = process.env.JOE_HEADSHOT;
     const joshHeadshot = process.env.JOSH_HEADSHOT;
 
+    const insets = useSafeAreaInsets();
+
     return (
-        <SafeAreaView>
-            <SquareHeader height={"6.4%"} />
+        <View style={{ paddingTop: insets.top }}>
+            <SquareHeader height={50} />
             <ScrollView>
                 <StatusBar barStyle={"light-content"} />
-                <RoundHeader height={"19%"} />
+                <RoundHeader height={220} />
                 <View
                     style={{
                         flexDirection: "row",
                         paddingHorizontal: "5%",
                         width: "100%",
                         marginBottom: "10%",
-                        marginTop: "15%",
+                        marginTop: "10%",
                         justifyContent: "center",
                     }}>
                     <TouchableOpacity
@@ -226,12 +228,11 @@ export default function About() {
                         }}>
                         <Button
                             width="75%"
-                            height="100%"
                             backgroundColor={styles.colors.darkAccentColor}
                             title="Terms and Conditions"
                             alignItems="center"
                             justifyContent="center"
-                            borderRadius="25%"
+                            borderRadius={25}
                             press={() => setModalVisible(true)}
                             titleStyle={[styles.boldtext, { color: "white" }]}
                         />
@@ -270,6 +271,6 @@ export default function About() {
                     </View>
                 </Modal>
             </ScrollView>
-        </SafeAreaView>
+        </View>
     );
 }

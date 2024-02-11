@@ -56,13 +56,12 @@ export default function ProfileHeader({ user }) {
 
     return (
         //flex: 1, marginBottom: "10%"
-        <View style={{ flex: 1 }}>
+        <View>
             {/* <RefreshControl
                 refreshing={isLoading}
                 onRefresh={fetchUserData}
             /> */}
-
-            <RoundHeader height="45%" />
+            <RoundHeader height={140} />
             {/* <View style={{ marginBottom: "5%", alignItems: "center" }}> */}
             <TouchableOpacity
                 style={{
@@ -77,17 +76,8 @@ export default function ProfileHeader({ user }) {
                 </Text>
             </TouchableOpacity>
             <View style={{
-                //width: "100%",
-                backgroundColor: "transparent",
                 marginBottom: "5%",
                 alignItems: "center",
-                shadowColor: "#000",
-                shadowOffset: {
-                    width: 0,
-                    height: 4,
-                },
-                shadowOpacity: 0.8,
-                shadowRadius: 3.84,
             }}>
                 <View
                     style={{
@@ -95,7 +85,6 @@ export default function ProfileHeader({ user }) {
                         height: 190,
                         borderRadius: 200,
                         overflow: "hidden",
-                        //borderWidth: 1,
                         justifyContent: "center",
                         backgroundColor: "white",
                     }}>
@@ -145,14 +134,13 @@ export default function ProfileHeader({ user }) {
                 style={{
                     paddingTop: "5%",
                     flexDirection: "row",
-                    marginBottom: "-5%",
+                    marginBottom: "5%",
                     justifyContent: "center",
                     paddingHorizontal: 20,
                 }}>
                 {/* Goes to saved listings */}
                 <Button
                     width="45%"
-                    height="40%"
                     backgroundColor={styles.colors.darkAccentColor}
                     title="My Listings"
                     alignItems="center"
@@ -161,19 +149,11 @@ export default function ProfileHeader({ user }) {
                     borderRadius={25}
                     href="MyListingsScreen"
                     titleStyle={[styles.boldtext, { color: "white" }]}
-                // shadowColor="#000"
-                // shadowOffset={{
-                //     width: 0,
-                //     height: 4
-                // }}
-                // shadowOpacity="0.4"
-                // shadowRadius="3.84"
                 />
 
                 {/* Goes to chats */}
                 <Button
                     width="45%"
-                    height="40%"
                     backgroundColor={styles.colors.darkAccentColor}
                     title="Chat"
                     alignItems="center"
@@ -181,15 +161,9 @@ export default function ProfileHeader({ user }) {
                     borderRadius={25}
                     href="Chat"
                     titleStyle={[styles.boldtext, { color: "white" }]}
-                // shadowColor="#000"
-                // shadowOffset={{
-                //     width: 0,
-                //     height: 4
-                // }}
-                // shadowOpacity="0.4"
-                // shadowRadius="3.84"
                 />
             </View>
+
             <View
                 style={{
                     alignSelf: "stretch",

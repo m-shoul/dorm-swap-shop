@@ -200,9 +200,8 @@ export default function HomeScreen() {
     const insets = useSafeAreaInsets();
 
     return (
-        // <View style={{ flex: 1, backgroundColor: "#F9F7F7", paddingTop: insets.top }}>
-        <SafeAreaView style={{ flex: 1, backgroundColor: styles.colors.lightColor }}>
-            <SquareHeader height={"8%"} />
+        <View style={{ flex: 1, backgroundColor: styles.colors.lightColor, paddingTop: insets.top }}>
+            <SquareHeader height={80} />
             <Animated.View
                 style={{
                     zIndex: 1,
@@ -242,19 +241,18 @@ export default function HomeScreen() {
                         }}>
                         <ListingPopup
                             listing={item}
-                        //navigation={router}
                         />
                     </View>
                 )}
                 numColumns={2}
                 contentContainerStyle={{
                     paddingBottom: "15%",
-                    paddingTop: "3%", // Add this line
+                    paddingTop: 85, // Add this line
                 }}
                 style={{
                     flex: 1,
                     backgroundColor: styles.colors.lightColor,
-                    paddingTop: "15%",
+                    //paddingTop: "15%",
                 }}
                 onScroll={Animated.event(
                     [{ nativeEvent: { contentOffset: { y: scrollOffsetY } } }],
@@ -270,6 +268,6 @@ export default function HomeScreen() {
                 ListEmptyComponent={noListingsFromSearchOrFilter}
                 scrollEventThrottle={10}
             />
-        </SafeAreaView>
+        </View>
     );
 }

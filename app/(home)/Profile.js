@@ -6,7 +6,7 @@ import {
     ActivityIndicator,
     RefreshControl,
 } from "react-native";
-import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import React, { useState, useEffect } from "react";
 import { getUserSavedListings, getAllUserDataForProfile } from "../../backend/api/user.js";
 import ListingPopup from "../../components/ListingPopup.js";
@@ -86,27 +86,74 @@ export default function ProfileScreen() {
     const insets = useSafeAreaInsets();
 
     return (
-        <View style={{ flex: 1, backgroundColor: '#112D4E', paddingTop: insets.top }}>
-
+        <View style={{ flex: 1, backgroundColor: styles.colors.darkColor, paddingTop: insets.top }}>
             {isLoading ? (
                 <ActivityIndicator size="large" color={styles.colors.darkColor} />
             ) : (
+                // <FlatList
+                //     data={savedListings || []}
+                //     keyExtractor={(item) => item.listingId}
+                //     renderItem={({ item }) => (
+                //         <View
+                //             style={{
+                //                 width: "50%",
+                //                 height: 230,
+                //                 paddingHorizontal: "1%",
+                //                 marginBottom: "1%"
+                //             }}>
+                //             <ListingPopup
+                //                 listing={item}
+                //             //navigation={router}
+                //             />
+                //         </View>
+                //         // <View style={{ width: "50%", padding: "1%" }}>
+                //         //     <ListingPopup listing={item} />
+                //         // </View>
+                //     )}
+                //     numColumns={2}
+                //     contentContainerStyle={{
+                //         backgroundColor: "red"
+                //         //backgroundColor: styles.colors.lightColor,
+                //     }}
+                //     style={{ flex: 1 }}
+                //     onScroll={(e) => {
+                //         // scrollY.setValue(e.nativeEvent.contentOffset.y);
+                //     }}
+                //     bounces={true}
+                //     refreshControl={
+                //         <RefreshControl
+                //             refreshing={refreshing}
+                //             onRefresh={handleRefresh}
+                //             tintColor={styles.colors.lightColor}
+                //         />
+                //     }
+                //     ListEmptyComponent={noSavedListings}
+                //     ListHeaderComponent={<ProfileHeader user={user} />}
+                // />
                 <FlatList
                     data={savedListings || []}
                     keyExtractor={(item) => item.listingId}
                     renderItem={({ item }) => (
-                        <View style={{ width: "50%", padding: "1%" }}>
-                            <ListingPopup listing={item} />
+                        <View
+                            style={{
+                                width: "50%",
+                                height: 230,
+                                paddingHorizontal: "1%",
+                                marginBottom: "1%"
+                            }}>
+                            <ListingPopup
+                                listing={item}
+                            />
                         </View>
                     )}
                     numColumns={2}
                     contentContainerStyle={{
-                        //flex: 1,
+                        flex: 1,
                         backgroundColor: styles.colors.lightColor,
-                        //paddingTop: "2%",
                     }}
-                    onScroll={(e) => {
-                        // scrollY.setValue(e.nativeEvent.contentOffset.y);
+                    style={{
+                        flex: 1,
+                        backgroundColor: styles.colors.darkColor,
                     }}
                     bounces={true}
                     refreshControl={
@@ -118,6 +165,7 @@ export default function ProfileScreen() {
                     }
                     ListEmptyComponent={noSavedListings}
                     ListHeaderComponent={<ProfileHeader user={user} />}
+                    scrollEventThrottle={10}
                 />
             )}
         </View>

@@ -35,20 +35,10 @@ const styles = StyleSheet.create({
         width: "80%",
     },
 
-    // loginBtn: {
-    //     width: "80%",
-    //     borderRadius: 25, //was 25
-    //     height: "7%", //was 50
-    //     alignItems: "center",
-    //     justifyContent: "center",
-    //     marginTop: "12%", //was 40
-    //     backgroundColor: "#3F72AF",
-    // },
-
     deleteBtn: {
         width: "80%",
         borderRadius: 25, //was 25
-        height: "7%", //was 50
+        height: 40, //was 50
         alignItems: "center",
         justifyContent: "center",
 
@@ -115,9 +105,9 @@ const styles = StyleSheet.create({
         marginBottom: "6%",
         height: 40,
     },
+
     postListingDescription: {
-        height: "20%",
-        //was 20
+        height: 75,
         borderWidth: 1, //was 1
         borderRadius: 20,
         fontSize: normalText,
@@ -129,9 +119,9 @@ const styles = StyleSheet.create({
         borderColor: "#B3B3B3",
         marginBottom: "-3%",
     },
+
     postListingDescriptionError: {
-        height: "20%",
-        //was 20
+        height: 75,
         paddingRight: "6%",
         paddingLeft: "6%",
         borderWidth: 1, //was 1
@@ -188,6 +178,7 @@ const styles = StyleSheet.create({
         fontSize: hintText,
     },
     dividerLine: {
+        justifyContent: "center",
         backgroundColor: "#B3B3B3",
         height: 1,
         width: "90%",

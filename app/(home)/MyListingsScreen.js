@@ -103,7 +103,7 @@ const MyListingsScreen = ({ navigation }) => {
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: styles.colors.lightColor }}>
             {/* Search bar was taken from homescreen, so will not have functionality. */}
-            <SquareHeader height={"8%"} />
+            <SquareHeader height={80} />
             <Animated.View
                 style={{
                     zIndex: 1,

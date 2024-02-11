@@ -99,7 +99,7 @@ export default function ListingPopup({ listing }) {
 
 
     return (
-        <SafeAreaView>
+        <View>
             <TouchableOpacity onPress={openModal}>
                 <View style={{ backgroundColor: "white", borderRadius: 20 }}>
                     <TouchableOpacity
@@ -109,7 +109,6 @@ export default function ListingPopup({ listing }) {
                             right: "2%",
                             top: "2%",
                             zIndex: 1,
-
                         }}
                         onPress={simpleAlert}>
                         {!isFavorited ? (
@@ -159,9 +158,8 @@ export default function ListingPopup({ listing }) {
                             marginTop: "1%",
                             justifyContent: "space-between",
                             paddingHorizontal: 20,
-                            height: "5%",
                             backgroundColor: styles.colors.darkColor,
-                            paddingTop: "-8%",
+                            //paddingTop: "-8%",
                         }}>
                         <TouchableOpacity
                             style={{ flex: 1 }}
@@ -196,7 +194,7 @@ export default function ListingPopup({ listing }) {
                         </TouchableOpacity>
                     </View>
                     {/* IMAGE */}
-                    <View style={{ height: "50%" }}>
+                    <View style={{ height: 380 }}>
                         {Array.isArray(listing.images) ? (
                             <TouchableOpacity
                                 delayPressIn={100}
@@ -265,7 +263,7 @@ export default function ListingPopup({ listing }) {
                             </ScrollView>
                         </TouchableOpacity>
                     </Modal>
-                    <View style={{ width: "100%", height: "25%" }}>
+                    <View style={{ width: "100%" }}>
                         <View
                             style={{
                                 flexDirection: "row",
@@ -387,7 +385,6 @@ export default function ListingPopup({ listing }) {
                             justifyContent: "center",
                             padding: 0,
                             width: "80%",
-                            height: "20%",
                         }}>
                         <Button
                             backgroundColor={styles.colors.darkAccentColor}
@@ -396,7 +393,6 @@ export default function ListingPopup({ listing }) {
                             justifyContent="center"
                             borderRadius={25}
                             width="80%"
-                            height="35%"
                             marginTop="12%"
                             press={closeModal}
                             titleStyle={styles.buttonText}
@@ -404,6 +400,6 @@ export default function ListingPopup({ listing }) {
                     </View>
                 </View>
             </Modal>
-        </SafeAreaView>
+        </View>
     );
 }

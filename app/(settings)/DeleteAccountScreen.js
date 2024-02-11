@@ -18,7 +18,7 @@ console.log("******************** On delete screen *******************");
 export default function DeleteAccount() {
     return (
         <SafeAreaView style={styles.background}>
-            <RoundHeader height={"25%"} />
+            <RoundHeader height={230} />
             <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <TouchableOpacity onPress={() => router.back()}>
                     {/* <BackButtonComponent></BackButtonComponent> */}

@@ -66,7 +66,7 @@ export default function ChatScreen() {
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: styles.colors.lightColor }}>
-            <SquareHeader height={"8%"} />
+            <SquareHeader height={80} />
             <View style={{ backgroundColor: styles.colors.darkColor, paddingHorizontal: "2%" }}>
                 <SearchBarHeader
                     animHeaderValue={scrollOffsetY}
@@ -96,7 +96,7 @@ export default function ChatScreen() {
                                 {/* Source might be something like source={{uri: item.images}} */}
                                 <Image
                                     source={{ uri: item.images }}
-                                    style={{ width: "30%", height: "100%" }}
+                                    style={{ width: "30%" }}
                                 />
                                 <View
                                     style={{
@@ -110,15 +110,9 @@ export default function ChatScreen() {
                                     <Text>{item.message}</Text>
                                 </View>
                             </View>
-                            <View
-                                style={{
-                                    backgroundColor: "#B3B3B3",
-                                    height: 1,
-                                    marginBottom: "5%",
-                                    marginLeft: "7%",
-                                    marginRight: "7%",
-                                }}
-                            />
+                            <View style={{ alignItems: "center" }}>
+                                <View style={styles.dividerLine} />
+                            </View>
                         </View>
                     </TouchableWithoutFeedback>
                 )}
@@ -128,9 +122,9 @@ export default function ChatScreen() {
                             flex: 1,
                             flexDirection: "row",
                             justifyContent: "flex-end",
-                            marginBottom: "6%",
+                            marginBottom: "6.3%",
                             marginTop: "1%",
-                            marginRight: "4%",
+                            marginRight: "3%",
                         }}>
                         <TouchableOpacity
                             style={{
@@ -171,7 +165,7 @@ export default function ChatScreen() {
                 style={{
                     flex: 1,
                     backgroundColor: styles.colors.lightColor,
-                    paddingTop: "15%",
+                    paddingTop: "3%",
                 }}
                 onScroll={Animated.event(
                     [{ nativeEvent: { contentOffset: { y: scrollOffsetY } } }],

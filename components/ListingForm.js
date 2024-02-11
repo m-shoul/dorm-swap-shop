@@ -9,7 +9,7 @@ import {
     //Image,
     Dimensions,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { Image } from "expo-image";
 import React, { useState, useEffect, useRef } from "react";
 import styles from "../app/(aux)/StyleSheet.js";
@@ -100,6 +100,7 @@ export default function ListingForm({ header, buttonTitle, imageText }) {
     const descriptionInputRef = useRef(null);
     const categoryInputRef = useRef(null);
     const conditionInputRef = useRef(null);
+    const insets = useSafeAreaInsets();
 
     let validate = 0;
     useEffect(() => {
@@ -218,17 +219,9 @@ export default function ListingForm({ header, buttonTitle, imageText }) {
     };
 
     return (
-        <SafeAreaView style={styles.background}>
-            <RoundHeader height="35%" />
-            <View
-                style={{
-                    height: "15%",
-                    paddingTop: "5%",
-                    //margin: 0,
-                    marginBottom: -10,
-                    width: "100%",
-                    alignItems: "center",
-                }}>
+        <View style={[styles.background, { paddingTop: insets.top }]}>
+            <RoundHeader height={260} />
+            <View style={{ paddingTop: "5%", width: "100%", alignItems: "center" }}>
                 <Text style={[styles.postListingHeader, { marginBottom: "7%", color: styles.colors.lightColor }]}>{header}</Text>
                 <View style={styles.dividerLine} />
             </View>
@@ -249,8 +242,6 @@ export default function ListingForm({ header, buttonTitle, imageText }) {
                     width: "100%",
                     justifyContent: "center",
                     alignItems: "center",
-                    marginTop: "-10%",
-                    //zIndex: -1,
                 }}
                 behavior={Platform.OS === "ios" ? "padding" : "height"}>
                 <ScrollView
@@ -262,7 +253,6 @@ export default function ListingForm({ header, buttonTitle, imageText }) {
                     }}
                     contentContainerStyle={{
                         flexGrow: 1,
-                        justifyContent: "center",
                         alignItems: "center",
                     }}
                     keyboardShouldPersistTaps="handled">
@@ -280,21 +270,9 @@ export default function ListingForm({ header, buttonTitle, imageText }) {
                                 />
                             ) : (
                                 <ListImagesComponent
-                                    //source={require("../../assets/svg/list_images.js")}
                                     style={{
                                         width: 200,
                                         height: 28,
-                                        // stroke: "black",
-                                        // strokeWidth: 0.25,
-                                        marginBottom: "2%",
-                                        shadowColor: "#000",
-                                        shadowOffset: {
-                                            width: 0,
-                                            height: 4,
-                                        },
-                                        shadowOpacity: 0.8,
-                                        shadowRadius: 3.84,
-                                        //elevation: 5,
                                     }}
                                 />
                             )}
@@ -302,7 +280,7 @@ export default function ListingForm({ header, buttonTitle, imageText }) {
                         <Text style={{ textAlign: "center" }}>{imageText}</Text>
                     </View>
 
-                    <View style={[styles.forms, { height: "50%" }]}>
+                    <View style={styles.forms}>
                         <TextInput
                             maxLength={25}
                             style={titleStyle}
@@ -492,7 +470,6 @@ export default function ListingForm({ header, buttonTitle, imageText }) {
                                 flexDirection: "row",
                                 marginTop: "10%",
                                 justifyContent: "space-between",
-                                height: "12%",
                             }}>
                             {/* Cancel Button */}
                             <Button
@@ -524,6 +501,6 @@ export default function ListingForm({ header, buttonTitle, imageText }) {
                 </ScrollView>
             </KeyboardAvoidingView>
 
-        </SafeAreaView>
+        </View>
     );
 }
