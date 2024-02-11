@@ -99,6 +99,10 @@ const MyListingsScreen = ({ navigation }) => {
     //     description.length > 22
     //         ? description.substring(0, 14) + "..."
     //         : description;
+    const truncatedDescription =
+        listingsData.description && listingsData.description.length > 10
+            ? listingsData.description.substring(0, 35) + "..."
+            : listingsData.description;
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: styles.colors.lightColor }}>
@@ -156,11 +160,6 @@ const MyListingsScreen = ({ navigation }) => {
                 )}
                 bounces={true}
                 renderItem={({ item }) => {
-                    const truncatedDescription =
-                        item.description && item.description.length > 10
-                            ? item.description.substring(0, 35) + "..."
-                            : item.description;
-
                     return (
                         <TouchableWithoutFeedback
                             style={{
@@ -202,20 +201,20 @@ const MyListingsScreen = ({ navigation }) => {
                                     <Text>{item.condition}</Text>
                                     <Text>{truncatedDescription}</Text>
                                 </View>
-                            </View>
 
-                            {/* For now this is commented out since the listing popup is broken */}
-                            {/* <ListingPopup listing={item} navigation={navigation} /> */}
-                            <View
-                                style={{
-                                    backgroundColor: "#B3B3B3",
-                                    height: 1,
-                                    marginTop: 20,
-                                    marginLeft: 10,
-                                    marginRight: 20,
-                                    marginBottom: -20,
-                                }}
-                            />
+                                {/* For now this is commented out since the listing popup is broken */}
+                                {/* <ListingPopup listing={item} navigation={navigation} /> */}
+                                <View
+                                    style={{
+                                        backgroundColor: "#B3B3B3",
+                                        height: 1,
+                                        marginTop: 20,
+                                        marginLeft: 10,
+                                        marginRight: 20,
+                                        marginBottom: -20,
+                                    }}
+                                />
+                            </View>
                         </TouchableWithoutFeedback>
                     );
                 }}
