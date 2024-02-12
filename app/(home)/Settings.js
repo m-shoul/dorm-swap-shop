@@ -121,12 +121,6 @@ export default function SettingsScreen() {
                             marginTop: "-3%",
                             flexDirection: "row",
                         }}>
-                        {/* <AboutComponent
-                            style={{
-                                stroke: "black",
-                                strokeWidth: 0.25,
-                            }}
-                        /> */}
                         <Ionicons name="mail-outline" size={32} color="black" />
                         <Text
                             style={[
