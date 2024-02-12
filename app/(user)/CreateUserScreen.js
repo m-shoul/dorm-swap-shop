@@ -8,9 +8,12 @@ import {
     Keyboard,
     Modal,
     StatusBar,
-    TouchableWithoutFeedback
+    TouchableWithoutFeedback,
 } from "react-native";
-import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
+import {
+    SafeAreaView,
+    useSafeAreaInsets,
+} from "react-native-safe-area-context";
 import { Checkbox } from "expo-checkbox";
 import React from "react";
 import styles from "../(aux)/StyleSheet.js";
@@ -224,7 +227,10 @@ export default function CreateUserScreen() {
                 // Do something with the user ID
                 return userId;
             } catch (error) {
-                console.error("ERROR --> Failed to register user account: ", error.message);
+                console.error(
+                    "ERROR --> Failed to register user account: ",
+                    error.message
+                );
             }
         }
     };
@@ -239,7 +245,11 @@ export default function CreateUserScreen() {
                 <StatusBar barStyle={"light-content"} />
                 <RoundHeader height={150} />
 
-                <SimpleLogo width="50%" height={120} style={{ marginTop: "10%", }} />
+                <SimpleLogo
+                    width="50%"
+                    height={120}
+                    style={{ marginTop: "10%" }}
+                />
 
                 <Text style={styles.registerHeader}> Register </Text>
 
@@ -258,8 +268,7 @@ export default function CreateUserScreen() {
                     style={{
                         width: "100%",
                     }}
-                    behavior={Platform.OS === "ios" ? "padding" : "height"}
-                >
+                    behavior={Platform.OS === "ios" ? "padding" : "height"}>
                     <ScrollView
                         style={{
                             KeyboardAvoidingView: "position",
@@ -274,7 +283,7 @@ export default function CreateUserScreen() {
                                 onSubmitEditing={() => {
                                     lastNameInputRef.current.focus();
                                 }}
-                                maxLength={50}
+                                maxLength={25}
                                 ref={firstNameInputRef}
                                 blurOnSubmit={false}
                                 style={firstNameStyle}
@@ -296,7 +305,7 @@ export default function CreateUserScreen() {
                                 onSubmitEditing={() => {
                                     userNameInputRef.current.focus();
                                 }}
-                                maxLength={50}
+                                maxLength={25}
                                 ref={lastNameInputRef}
                                 blurOnSubmit={false}
                                 style={lastNameStyle}
@@ -305,7 +314,8 @@ export default function CreateUserScreen() {
                                 onChangeText={(value) => setLastName(value)}
                             />
                             {errorMessageLast && (
-                                <Text style={{ color: "red", paddingBottom: 10 }}>
+                                <Text
+                                    style={{ color: "red", paddingBottom: 10 }}>
                                     {errorMessageLast}
                                 </Text>
                             )}
@@ -313,7 +323,7 @@ export default function CreateUserScreen() {
                                 onSubmitEditing={() => {
                                     emailInputRef.current.focus();
                                 }}
-                                maxLength={50}
+                                maxLength={25}
                                 ref={userNameInputRef}
                                 blurOnSubmit={false}
                                 style={usernameStyle}
@@ -322,7 +332,8 @@ export default function CreateUserScreen() {
                                 onChangeText={(value) => setUsername(value)}
                             />
                             {errorMessageUsername && (
-                                <Text style={{ color: "red", paddingBottom: 10 }}>
+                                <Text
+                                    style={{ color: "red", paddingBottom: 10 }}>
                                     {errorMessageUsername}
                                 </Text>
                             )}
@@ -330,7 +341,7 @@ export default function CreateUserScreen() {
                                 onSubmitEditing={() => {
                                     passwordInputRef.current.focus();
                                 }}
-                                maxLength={254}
+                                maxLength={100}
                                 ref={emailInputRef}
                                 blurOnSubmit={false}
                                 style={emailStyle}
@@ -339,7 +350,8 @@ export default function CreateUserScreen() {
                                 onChangeText={(value) => setEmail(value)}
                             />
                             {errorMessageEmail && (
-                                <Text style={{ color: "red", paddingBottom: 10 }}>
+                                <Text
+                                    style={{ color: "red", paddingBottom: 10 }}>
                                     {errorMessageEmail}
                                 </Text>
                             )}
@@ -357,7 +369,8 @@ export default function CreateUserScreen() {
                                 onChangeText={(value) => setPassword(value)}
                             />
                             {errorMessagePassword && (
-                                <Text style={{ color: "red", paddingBottom: 10 }}>
+                                <Text
+                                    style={{ color: "red", paddingBottom: 10 }}>
                                     {errorMessagePassword}
                                 </Text>
                             )}
@@ -372,10 +385,13 @@ export default function CreateUserScreen() {
                                 secureTextEntry={true}
                                 placeholder={"Confirm Password"}
                                 value={passwordCheck}
-                                onChangeText={(value) => setPasswordCheck(value)}
+                                onChangeText={(value) =>
+                                    setPasswordCheck(value)
+                                }
                             />
                             {errorMessageConfirm && (
-                                <Text style={{ color: "red", paddingBottom: 0 }}>
+                                <Text
+                                    style={{ color: "red", paddingBottom: 0 }}>
                                     {errorMessageConfirm}
                                 </Text>
                             )}
@@ -390,10 +406,12 @@ export default function CreateUserScreen() {
                 <TouchableOpacity
                     onPress={() => {
                         setModalVisible(true);
-                    }}
-                >
-                    <View style={{ flexDirection: "row", alignItems: "center", }}>
-                        <Text style={{ marginRight: "5%" }}>Terms of Service</Text>
+                    }}>
+                    <View
+                        style={{ flexDirection: "row", alignItems: "center" }}>
+                        <Text style={{ marginRight: "5%" }}>
+                            Terms of Service
+                        </Text>
                         <Checkbox
                             value={isSelected}
                             onValueChange={setSelection}
@@ -464,13 +482,19 @@ export default function CreateUserScreen() {
                     marginBottom={10}
                 />
 
-                <TouchableOpacity
-                    onPress={() => router.push("/")}>
+                <TouchableOpacity onPress={() => router.push("/")}>
                     <Text
-                        style={[styles.notUserButtonText, { textAlign: "center" }]}>
+                        style={[
+                            styles.notUserButtonText,
+                            { textAlign: "center" },
+                        ]}>
                         Already have an account?
                     </Text>
-                    <Text style={[styles.notUserButtonText, { textAlign: "center" }]}>
+                    <Text
+                        style={[
+                            styles.notUserButtonText,
+                            { textAlign: "center" },
+                        ]}>
                         Login
                     </Text>
                 </TouchableOpacity>
