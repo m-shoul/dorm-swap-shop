@@ -9,7 +9,10 @@ import {
     //Image,
     Dimensions,
 } from "react-native";
-import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
+import {
+    SafeAreaView,
+    useSafeAreaInsets,
+} from "react-native-safe-area-context";
 import { Image } from "expo-image";
 import React, { useState, useEffect, useRef } from "react";
 import styles from "../app/(aux)/StyleSheet.js";
@@ -20,7 +23,7 @@ import ListImagesComponent from "../assets/svg/list_images.js";
 import RNPickerSelect from "react-native-picker-select";
 import { createListing } from "../backend/api/listing.js";
 import { router, useNavigation } from "expo-router";
-import { Button } from '../components/Buttons.js';
+import { Button } from "../components/Buttons.js";
 import RoundHeader from "../components/RoundHeader.js";
 import ExpandComponent from "../assets/svg/expand_icon.js";
 
@@ -108,7 +111,6 @@ export default function ListingForm({ header, buttonTitle, imageText }) {
             // You can put any logic you want to execute when the screen is unfocused here
             clearTextInputs();
         });
-
 
         // Trigger form validation when name, email, or password changes
         if (validate == 1) {
@@ -221,8 +223,19 @@ export default function ListingForm({ header, buttonTitle, imageText }) {
     return (
         <View style={[styles.background, { paddingTop: insets.top }]}>
             <RoundHeader height={260} />
-            <View style={{ paddingTop: "5%", width: "100%", alignItems: "center" }}>
-                <Text style={[styles.postListingHeader, { marginBottom: "7%", color: styles.colors.lightColor }]}>{header}</Text>
+            <View
+                style={{
+                    paddingTop: "5%",
+                    width: "100%",
+                    alignItems: "center",
+                }}>
+                <Text
+                    style={[
+                        styles.postListingHeader,
+                        { marginBottom: "7%", color: styles.colors.lightColor },
+                    ]}>
+                    {header}
+                </Text>
                 <View style={styles.dividerLine} />
             </View>
 
@@ -265,7 +278,7 @@ export default function ListingForm({ header, buttonTitle, imageText }) {
                                         width: 200,
                                         height: 200,
                                         marginBottom: "2%",
-                                        borderRadius: 20
+                                        borderRadius: 20,
                                     }}
                                 />
                             ) : (
@@ -305,9 +318,38 @@ export default function ListingForm({ header, buttonTitle, imageText }) {
                         )}
                         <TextInput
                             style={priceStyle}
-                            maxLength={5}
                             blurOnSubmit={false}
-                            onChangeText={(value) => setPrice(value)}
+                            onChangeText={(value) => {
+                                // Define the regular expression for the required format
+                                let regex = /^\d{1,5}(\.\d{0,2})?$/;
+
+                                // Check if the input value matches the required format
+                                if (!regex.test(value)) {
+                                    // If not, correct it
+
+                                    // Remove extra periods
+                                    value = value.replace(/\.+/g, ".");
+
+                                    // Split the value into the part before the period and the part after the period
+                                    let parts = value.split(".");
+
+                                    // Limit the part before the period to 5 characters
+                                    if (parts[0].length > 5) {
+                                        parts[0] = parts[0].substring(0, 5);
+                                    }
+
+                                    // If there is a part after the period, limit it to 2 characters
+                                    if (parts[1] && parts[1].length > 2) {
+                                        parts[1] = parts[1].substring(0, 2);
+                                    }
+
+                                    // Combine the parts back into the corrected value
+                                    value = parts.join(".");
+                                }
+
+                                // Update the price state
+                                setPrice(value);
+                            }}
                             value={price}
                             returnKeyType="done"
                             placeholder="Price"
@@ -364,12 +406,10 @@ export default function ListingForm({ header, buttonTitle, imageText }) {
                                     iconContainer: {
                                         top: 5,
                                         right: "3%",
-                                    }
+                                    },
                                 }}
                                 Icon={() => {
-                                    return (
-                                        <ExpandComponent />
-                                    )
+                                    return <ExpandComponent />;
                                 }}
                             />
                         </View>
@@ -422,12 +462,10 @@ export default function ListingForm({ header, buttonTitle, imageText }) {
                                     iconContainer: {
                                         top: 5,
                                         right: "3%",
-                                    }
+                                    },
                                 }}
                                 Icon={() => {
-                                    return (
-                                        <ExpandComponent />
-                                    )
+                                    return <ExpandComponent />;
                                 }}
                             />
                         </View>
@@ -500,7 +538,6 @@ export default function ListingForm({ header, buttonTitle, imageText }) {
                     </View>
                 </ScrollView>
             </KeyboardAvoidingView>
-
         </View>
     );
 }
