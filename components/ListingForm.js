@@ -327,8 +327,21 @@ export default function ListingForm({ header, buttonTitle, imageText }) {
                                 if (!regex.test(value)) {
                                     // If not, correct it
 
-                                    // Remove extra periods
-                                    value = value.replace(/\.+/g, ".");
+                                    // Check if the input value contains more than one period
+                                    let periodCount = (value.match(/\./g) || [])
+                                        .length;
+                                    if (periodCount > 1) {
+                                        // If it does, remove the extra periods
+                                        let firstPeriodIndex =
+                                            value.indexOf(".");
+                                        value = value.replace(
+                                            /\./g,
+                                            (match, index) =>
+                                                index === firstPeriodIndex
+                                                    ? "."
+                                                    : ""
+                                        );
+                                    }
 
                                     // Split the value into the part before the period and the part after the period
                                     let parts = value.split(".");
