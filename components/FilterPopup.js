@@ -19,22 +19,12 @@ export default function FilterPopup({ handleFiltering }) {
     const defaultColor = "#B3B3B3";
     const activeColor = styles.colors.darkAccentColor;
 
-    useEffect(() => {
-        if (modalVisible) {
-            setCategory(null);
-            setCondition(null);
-            setActivePrice(null);
-        }
-    }, [modalVisible]);
-
     const insets = useSafeAreaInsets();
-
 
     return (
         <View style={{ justifyContent: "center" }}>
             <TouchableOpacity onPress={() => setModalVisible(true)}>
                 <FilterComponent />
-                {/* Might look into how we can get this to be thinner */}
             </TouchableOpacity>
             <Modal
                 animationType="slide"
@@ -53,7 +43,6 @@ export default function FilterPopup({ handleFiltering }) {
                         backgroundColor: '#F9F7F7',
                         borderRadius: 20,
                         padding: 20,
-                        //alignItems: 'center',
                         shadowColor: '#000',
                         shadowOffset: {
                             width: 0,
@@ -72,32 +61,27 @@ export default function FilterPopup({ handleFiltering }) {
                             <Text style={[styles.normaltext, { marginBottom: "2%" }]}>Category</Text>
                             <View style={styles.dropdownlists}>
                                 <RNPickerSelect
+                                    value={category}
                                     returnKeyType="done"
                                     blurOnSubmit={false}
                                     onValueChange={(value) => {
                                         setCategory(value);
                                     }}
-                                    // onDonePress={() => {
-                                    //     conditionInputRef.current.togglePicker();
-                                    // }}
                                     placeholder={{
-                                        label: "Select a Category",
+                                        label:"Select a Category",
                                         value: null,
                                     }}
-                                    // onSubmitEditing={() => {
-                                    //     Keyboard.dismiss();
-                                    // }}
                                     items={categories}
                                     ref={categoryInputRef}
                                     style={{
                                         inputIOS: {
-                                            paddingTop: "2%", //was 7
+                                            paddingTop: "2%",
                                             paddingLeft: "5%",
-                                            fontSize: normalText, // Change this to your desired font size
+                                            fontSize: normalText,
                                         },
                                         inputAndroid: {
                                             marginTop: -8,
-                                            fontSize: normalText, // Change this to your desired font size
+                                            fontSize: normalText,
                                         },
                                         iconContainer: {
                                             top: 5,
@@ -157,6 +141,7 @@ export default function FilterPopup({ handleFiltering }) {
                         <Text style={[styles.normaltext, { marginBottom: "2%" }]}>Condition</Text>
                         <View style={styles.dropdownlists}>
                             <RNPickerSelect
+                                value={condition}
                                 returnKeyType="done"
                                 blurOnSubmit={false}
                                 placeholder={{
@@ -166,30 +151,20 @@ export default function FilterPopup({ handleFiltering }) {
                                 onBlur={() => {
                                     Keyboard.dismiss();
                                 }}
-                                // onDonePress={() => {
-                                //     Keyboard.dismiss();
-                                //     setTimeout(() => {
-                                //         descriptionInputRef.current.focus();
-                                //     }, 100);
-                                // }}
                                 onValueChange={(value) => {
-                                    //Keyboard.dismiss();
                                     setCondition(value);
                                 }}
-                                // onSubmitEditing={() => {
-                                //     Keyboard.dismiss();
-                                // }}
                                 ref={conditionInputRef}
                                 items={conditions}
                                 style={{
                                     inputIOS: {
                                         paddingTop: "2%",
                                         paddingLeft: "4%",
-                                        fontSize: normalText, // Change this to your desired font size
+                                        fontSize: normalText,
                                     },
                                     inputAndroid: {
                                         marginTop: -8,
-                                        fontSize: normalText, // Change this to your desired font size
+                                        fontSize: normalText,
                                     },
                                     iconContainer: {
                                         top: 5,

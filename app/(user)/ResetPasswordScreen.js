@@ -42,7 +42,7 @@ export default function ResetPasswordScreen() {
         sendPasswordResetEmail(auth, email)
             .then(() => {
                 alert("Password reset email sent.");
-                router.push("LoginScreen");
+                router.push("/");
             })
             .catch((error) => {
                 console.log("Failed to send password reset email: ", error);
@@ -95,6 +95,7 @@ export default function ResetPasswordScreen() {
                 alignItems="center"
                 justifyContent="center"
                 marginTop="6%"
+                marginBottom="6%"
                 borderRadius={25}
                 press={handleReset}
                 titleStyle={styles.buttonText}

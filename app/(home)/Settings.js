@@ -43,7 +43,6 @@ export default function SettingsScreen() {
                 }}>
                 <SearchBarHeader animHeaderValue={animHeaderValue} handleSearch={handleSearch} />
             </View> */}
-
             <View style={{ width: "100%" }}>
                 <View style={{ flexDirection: "row", marginLeft: "5%" }}>
                     <TouchableOpacity
