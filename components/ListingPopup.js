@@ -347,16 +347,17 @@ export default function ListingPopup({ listing }) {
                                 marginLeft: "3%",
                             }}>
                             {/* DESCRIPTION */}
-                            <Text style={[styles.normalText, { flex: 1 }]}>
+                            <Text style={{ flex: 1 }}>
                                 {listing.description}
                             </Text>
                         </View>
                         <View
                             style={{
                                 position: "absolute",
+
                                 paddingLeft: "3%",
-                                paddingTop: "3%",
-                                marginTop: "50%",
+                                //paddingTop: "3%",
+                                marginTop: "60%",
                                 flexDirection: "row",
                                 alignItems: "center",
                                 paddingRight: "3%",
@@ -394,17 +395,21 @@ export default function ListingPopup({ listing }) {
                                     )}
                                 </View>
                             </View>
+
                             <Text
                                 style={[
                                     styles.notUserButtonText,
-                                    { width: "55%" },
+                                    { width: "55%", flex: 1 },
                                 ]}>
                                 {username}
                             </Text>
                             <Text
                                 style={[
                                     styles.normaltext,
-                                    { marginLeft: "5%", width: "25%" },
+                                    {
+                                        marginLeft: "5%",
+                                        width: "25%",
+                                    },
                                 ]}>
                                 {timestamp}
                             </Text>
@@ -412,6 +417,8 @@ export default function ListingPopup({ listing }) {
                     </View>
                     <View
                         style={{
+                            position: "absolute",
+                            bottom: "5%",
                             flex: 1,
                             alignItems: "center",
                             justifyContent: "center",
