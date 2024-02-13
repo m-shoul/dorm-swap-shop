@@ -394,13 +394,17 @@ export default function ListingPopup({ listing }) {
                                     )}
                                 </View>
                             </View>
-                            <Text style={[styles.boldtext, { width: "50%" }]}>
+                            <Text
+                                style={[
+                                    styles.notUserButtonText,
+                                    { width: "55%" },
+                                ]}>
                                 {username}
                             </Text>
                             <Text
                                 style={[
                                     styles.normaltext,
-                                    { marginLeft: "10%", width: "30%" },
+                                    { marginLeft: "5%", width: "25%" },
                                 ]}>
                                 {timestamp}
                             </Text>

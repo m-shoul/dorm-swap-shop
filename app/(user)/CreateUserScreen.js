@@ -283,7 +283,7 @@ export default function CreateUserScreen() {
                                 onSubmitEditing={() => {
                                     lastNameInputRef.current.focus();
                                 }}
-                                maxLength={25}
+                                maxLength={15}
                                 ref={firstNameInputRef}
                                 blurOnSubmit={false}
                                 style={firstNameStyle}
@@ -305,7 +305,7 @@ export default function CreateUserScreen() {
                                 onSubmitEditing={() => {
                                     userNameInputRef.current.focus();
                                 }}
-                                maxLength={25}
+                                maxLength={15}
                                 ref={lastNameInputRef}
                                 blurOnSubmit={false}
                                 style={lastNameStyle}
