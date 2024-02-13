@@ -154,7 +154,7 @@ export default function ChatScreen() {
                 }}
                 ItemSeparatorComponent={() => (
                     <View style={{ alignItems: "center" }}>
-                        <View style={styles.dividerLine} />
+                        <View style={[styles.dividerLine, { marginBottom: 10, marginTop: 10 }]} />
                     </View>
                 )}
                 renderHiddenItem={({ item }) => (

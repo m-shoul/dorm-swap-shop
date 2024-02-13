@@ -50,7 +50,11 @@ const MyListingsScreen = ({ navigation }) => {
     }, []);
 
     const handleItemPress = (listing) => {
-        setSelectedListing(listing);
+        //setSelectedListing(listing);
+        router.push({
+            pathname: "EditListingScreen",
+            params: { listingTitle: listing.title },
+        });
     };
 
     if (showProfile) {
@@ -203,7 +207,7 @@ const MyListingsScreen = ({ navigation }) => {
                 }}
                 ItemSeparatorComponent={() => (
                     <View style={{ alignItems: "center" }}>
-                        <View style={styles.dividerLine} />
+                        <View style={[styles.dividerLine, { marginBottom: 10, marginTop: 10 }]} />
                     </View>
                 )}
                 renderHiddenItem={({ item }) => (
