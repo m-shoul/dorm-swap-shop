@@ -51,7 +51,7 @@ export default function ListingPopup({ listing }) {
             Alert.alert("Unsaved");
         } else {
             saveListing(listing.listingId);
-            Alert.alert("Favorited");
+            Alert.alert("Saved");
         }
     };
 
@@ -73,8 +73,8 @@ export default function ListingPopup({ listing }) {
 
     const fetchUser = async () => {
         const username = await getUsernameByID(listing.user);
-        setUsername(username);
         const profileImage = await getUserProfileImage(listing.user);
+        setUsername(username);
         setProfileImage(profileImage);
     };
 
