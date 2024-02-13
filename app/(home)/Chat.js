@@ -11,15 +11,13 @@ import React, { useState, useEffect, useRef } from "react";
 import styles from "../(aux)/StyleSheet";
 //import { getAuth, signOut } from "firebase/auth";
 //import ListingPopup from "../../components/ListingPopup.js";
-import { SearchBar, Header } from "@rneui/themed";
 // import { get, child, ref, set, push, getDatabase } from 'firebase/database';
 import { SwipeListView } from "react-native-swipe-list-view";
-import TrashButtonComponent from "../../assets/svg/trash_button";
-import ReportComponent from "../../assets/svg/report_icon";
 import SearchBarHeader from "../../components/SearchBar";
 import { router } from "expo-router";
 import { createChatThread, addMessage } from "../../backend/api/chat.js";
 import SquareHeader from "../../components/SquareHeader.js";
+import filter from "lodash.filter";
 
 // New icons
 import { Ionicons } from '@expo/vector-icons';
@@ -28,11 +26,6 @@ import { Ionicons } from '@expo/vector-icons';
 //import { HeaderComponent } from "../components/headerComponent.js";
 
 export default function ChatScreen() {
-    const scrollOffsetY = useRef(new Animated.Value(0)).current;
-    const handleSearch = () => {
-        null;
-    };
-
     // Used for test purposes.
     const testData = [
         {
@@ -51,6 +44,9 @@ export default function ChatScreen() {
 
     const [selectedChat, setSelectedChat] = useState("");
     const [search, setSearch] = useState("");
+    const [fullData, setFullData] = useState([]);
+    useEffect(() => { setFullData(testData); }, []);
+
 
     async function handleItemPress(chat) {
         // // Testing
@@ -63,45 +59,85 @@ export default function ChatScreen() {
         // setSelectedChat(chat);
         router.push({ pathname: "ConversationsScreen", params: { chatId: "-No-UTyWWAvH6rZ5BCtt" } }); // { chatId: chat.id });
     }
+    const scrollOffsetY = useRef(new Animated.Value(0)).current;
+    // const handleSearch = (query) => {
+    //     const formattedQuery = query.toLowerCase();
+    //     const filteredData = filter(fullData, (testData) => {
+    //         return contains(testData, formattedQuery);
+    //     });
+    //     setTestData(filteredData);
+    // };
+    const minScroll = 300;
+
+    const animHeaderValue = scrollOffsetY;
+
+    const headerHeight = 120;
+    const activeRange = 200;
+
+    const diffClamp = Animated.diffClamp(
+        animHeaderValue,
+        -minScroll,
+        activeRange + minScroll
+    );
+    const animatedHeaderHeight = diffClamp.interpolate({
+        inputRange: [0, activeRange],
+        outputRange: [0, -headerHeight],
+        extrapolate: "clamp",
+    });
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: styles.colors.lightColor }}>
+            {/* Search bar was taken from homescreen, so will not have functionality. */}
             <SquareHeader height={80} />
-            <View style={{ backgroundColor: styles.colors.darkColor, paddingHorizontal: "2%" }}>
-                <SearchBarHeader
-                    animHeaderValue={scrollOffsetY}
-                    handleSearch={handleSearch}
-                />
-            </View>
-            {/* Scrollable view displaying all the chat messages */}
-
+            <Animated.View
+                style={{
+                    zIndex: 1,
+                    transform: [{ translateY: animatedHeaderHeight }],
+                }}>
+                <View
+                    style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        width: "100%",
+                        paddingHorizontal: "2%",
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        backgroundColor: styles.colors.darkColor,
+                    }}>
+                    <View style={{ justifyContent: "center", width: "100%" }}>
+                        {/* <SearchBarHeader handleSearch={handleSearch} /> */}
+                        <SearchBarHeader />
+                    </View>
+                </View>
+            </Animated.View>
             <SwipeListView
                 data={Object.values(testData)}
-                renderItem={({ item }) => (
-                    <TouchableWithoutFeedback
-                        style={{ width: "100%" }}
-                        onPress={() => handleItemPress(item)}
-                        key={item.id}>
-                        <View>
+                renderItem={({ item }) => {
+                    return (
+                        <TouchableWithoutFeedback
+                            onPress={() => handleItemPress(item)}
+                            key={item.id}>
                             <View
                                 style={{
-                                    backgroundColor: "white",
-                                    flexDirection: "row",
+                                    backgroundColor: styles.colors.lightColor,
                                     flex: 1,
-                                    marginLeft: "3%",
-                                    marginRight: "3%",
-                                    marginTop: "1%",
-                                    height: 100,
+                                    flexDirection: "row",
+                                    padding: 2,
+                                    //paddingRight: "5%",
+                                    //width: 370,
+                                    //justifyContent: "space-between",
                                 }}>
-                                {/* Source might be something like source={{uri: item.images}} */}
                                 <Image
                                     source={{ uri: item.images }}
-                                    style={{ width: "30%" }}
+                                    style={{ width: 100, height: 100 }}
                                 />
                                 <View
                                     style={{
+                                        flex: 1,
                                         justifyContent: "center",
-                                        paddingLeft: "5%",
+                                        paddingLeft: "3%",
                                     }}>
                                     {/* <Text style={{ fontWeight: "bold" }}>{"$" + item.price + " - " + item.title}</Text> */}
                                     <Text style={{ fontWeight: "bold" }}>
@@ -109,12 +145,17 @@ export default function ChatScreen() {
                                     </Text>
                                     <Text>{item.message}</Text>
                                 </View>
+
+                                {/* For now this is commented out since the listing popup is broken */}
+                                {/* <ListingPopup listing={item} navigation={navigation} /> */}
                             </View>
-                            <View style={{ alignItems: "center" }}>
-                                <View style={styles.dividerLine} />
-                            </View>
-                        </View>
-                    </TouchableWithoutFeedback>
+                        </TouchableWithoutFeedback>
+                    );
+                }}
+                ItemSeparatorComponent={() => (
+                    <View style={{ alignItems: "center" }}>
+                        <View style={styles.dividerLine} />
+                    </View>
                 )}
                 renderHiddenItem={({ item }) => (
                     <View
@@ -122,9 +163,9 @@ export default function ChatScreen() {
                             flex: 1,
                             flexDirection: "row",
                             justifyContent: "flex-end",
-                            marginBottom: "6.3%",
-                            marginTop: "1%",
-                            marginRight: "3%",
+                            // marginBottom: "6%",
+                            // marginTop: "1%",
+                            // marginRight: "4%",
                         }}>
                         <TouchableOpacity
                             style={{
@@ -140,8 +181,8 @@ export default function ChatScreen() {
                                     params: { image: item.images },
                                 });
                             }}>
-                            {/* <ReportComponent width="50%" height="50%" /> */}
                             <Ionicons name="alert-circle-outline" size={32} color="black" />
+                            {/* <ReportComponent width="50%" height="50%" /> */}
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={{
@@ -162,16 +203,20 @@ export default function ChatScreen() {
                 disableRightSwipe={true}
                 rightOpenValue={-150}
                 keyExtractor={(item) => item.id}
+                contentContainerStyle={{
+                    paddingBottom: "15%", // Add this line
+                }}
+                scrollEventThrottle={10}
                 style={{
                     flex: 1,
                     backgroundColor: styles.colors.lightColor,
-                    paddingTop: "3%",
+                    paddingTop: 85,
                 }}
                 onScroll={Animated.event(
                     [{ nativeEvent: { contentOffset: { y: scrollOffsetY } } }],
                     { useNativeDriver: false }
                 )}
-                bounces={false}
+                bounces={true}
             />
         </SafeAreaView>
     );

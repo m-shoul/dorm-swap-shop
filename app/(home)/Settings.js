@@ -15,6 +15,7 @@ import LogoutComponent from "../../assets/svg/logout_icon.js";
 import DeleteComponent from "../../assets/svg/delete_icon.js";
 import SearchBarHeader from "../../components/SearchBar";
 import RoundHeader from "../../components/RoundHeader";
+import SettingsLogo from "../../assets/svg/settings_logo.js";
 
 // New icons
 import { Ionicons } from '@expo/vector-icons';
@@ -27,10 +28,11 @@ export default function SettingsScreen() {
     const handleSearch = () => { null }
     return (
         <SafeAreaView style={styles.background}>
-            <RoundHeader height={200} />
-            <View style={{ marginTop: "10%", marginBottom: "20%" }}>
+            <RoundHeader height={220} />
+            <View style={{ marginTop: "10%", marginBottom: "10%" }}>
                 <Text style={[styles.postListingHeader, { color: styles.colors.lightColor }]}>Settings</Text>
             </View>
+            <SettingsLogo />
 
             {/* <View
                 style={{

@@ -162,13 +162,6 @@ const MyListingsScreen = ({ navigation }) => {
                 renderItem={({ item }) => {
                     return (
                         <TouchableWithoutFeedback
-                            style={{
-                                width: 400,
-                                marginTop: 20,
-                                padding: 10,
-                                flex: 1,
-                                margin: 0,
-                            }}
                             onPress={() => handleItemPress(item)}
                             key={item.id}>
                             <View
@@ -177,9 +170,9 @@ const MyListingsScreen = ({ navigation }) => {
                                     flex: 1,
                                     flexDirection: "row",
                                     padding: 2,
-                                    paddingRight: "5%",
-                                    width: 370,
-                                    justifyContent: "space-between",
+                                    //paddingRight: "5%",
+                                    //width: 370,
+                                    //justifyContent: "space-between",
                                 }}>
                                 {Array.isArray(item.images) ? (
                                     <Image
@@ -204,30 +197,24 @@ const MyListingsScreen = ({ navigation }) => {
 
                                 {/* For now this is commented out since the listing popup is broken */}
                                 {/* <ListingPopup listing={item} navigation={navigation} /> */}
-                                {/* Hopefully this fixes the issue */}
-                                {/* <View
-                                    style={{
-                                        backgroundColor: "#B3B3B3",
-                                        height: 1,
-                                        marginTop: 20,
-                                        marginLeft: 10,
-                                        marginRight: 20,
-                                        marginBottom: -20,
-                                    }}
-                                /> */}
                             </View>
                         </TouchableWithoutFeedback>
                     );
                 }}
+                ItemSeparatorComponent={() => (
+                    <View style={{ alignItems: "center" }}>
+                        <View style={styles.dividerLine} />
+                    </View>
+                )}
                 renderHiddenItem={({ item }) => (
                     <View
                         style={{
                             flex: 1,
                             flexDirection: "row",
                             justifyContent: "flex-end",
-                            marginBottom: "6%",
-                            marginTop: "1%",
-                            marginRight: "4%",
+                            // marginBottom: "6%",
+                            // marginTop: "1%",
+                            // marginRight: "4%",
                         }}>
                         <TouchableOpacity
                             style={{
@@ -239,11 +226,12 @@ const MyListingsScreen = ({ navigation }) => {
                             onPress={() => {
                                 // Handle the "Report" action
                                 router.push({
-                                    pathname: "ReportScreen",
+                                    pathname: "EditListingScreen",
                                     params: { image: item.images },
                                 });
                             }}>
-                            <ReportComponent width="50%" height="50%" />
+                            <Ionicons name="pencil" size={24} color="black" />
+                            {/* <ReportComponent width="50%" height="50%" /> */}
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={{
@@ -254,15 +242,15 @@ const MyListingsScreen = ({ navigation }) => {
                             }}
                             onPress={() => {
                                 // Handle the "Delete" action
-                                alert("Chat will be deleted");
+                                alert("Listing will be deleted");
                             }}>
-                            <TrashButtonComponent width="40%" height="40%" />
+                            {/* <TrashButtonComponent width="40%" height="40%" /> */}
+                            <Ionicons name="trash-outline" size={32} color="black" />
                         </TouchableOpacity>
                     </View>
                 )}
                 disableRightSwipe={true}
                 rightOpenValue={-150}
-                //numColumns={2}
                 keyExtractor={(item) => item.listingId}
                 contentContainerStyle={{
                     paddingBottom: "15%", // Add this line
@@ -271,13 +259,8 @@ const MyListingsScreen = ({ navigation }) => {
                 style={{
                     flex: 1,
                     backgroundColor: styles.colors.lightColor,
-                    marginTop: 10,
-                    paddingTop: "15%",
+                    paddingTop: 85,
                 }}
-            //kept causing errors, so turned it off
-            // onScroll={(e) => {
-            //     scrollY.setValue(e.nativeEvent.contentOffset.y);
-            // }}
             />
         </SafeAreaView>
     );
