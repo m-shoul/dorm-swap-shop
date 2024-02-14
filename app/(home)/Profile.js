@@ -12,6 +12,7 @@ import { getUserSavedListings, getAllUserDataForProfile } from "../../backend/ap
 import ListingPopup from "../../components/ListingPopup.js";
 import ProfileHeader from "../../components/ProfileHeader.js";
 import styles from "../(aux)/StyleSheet";
+//import { create } from 'zustand'
 
 
 export default function ProfileScreen() {
@@ -63,26 +64,6 @@ export default function ProfileScreen() {
         <Text style={{ textAlign: 'center' }}>No saved listings</Text>
     );
 
-    // Profile image stuff
-    // const [profileImage, setProfileImage] = useState(null);
-    // const pickProfileImage = async () => {
-    //     console.log("Picking profile image.");
-    //     let result = await ImagePicker.launchImageLibraryAsync({
-    //         mediaTypes: ImagePicker.MediaTypeOptions.Images,
-    //         allowsEditing: true,
-    //         selectionLimit: 1,
-    //         aspect: [1, 1],
-    //         quality: 0.1
-    //     });
-
-    //     if (result.assets && result.assets.length > 0) {
-    //         const selectedProfileImage = result.assets[0];
-    //         setProfileImage(selectedProfileImage.uri);
-    //         uploadProfileImage(selectedProfileImage.uri);
-    //     }
-    // };
-
-    // const profileImageUrl = user?.public?.profileImage;
     const insets = useSafeAreaInsets();
 
     return (
@@ -90,46 +71,6 @@ export default function ProfileScreen() {
             {isLoading ? (
                 <ActivityIndicator size="large" color={styles.colors.darkColor} />
             ) : (
-                // <FlatList
-                //     data={savedListings || []}
-                //     keyExtractor={(item) => item.listingId}
-                //     renderItem={({ item }) => (
-                //         <View
-                //             style={{
-                //                 width: "50%",
-                //                 height: 230,
-                //                 paddingHorizontal: "1%",
-                //                 marginBottom: "1%"
-                //             }}>
-                //             <ListingPopup
-                //                 listing={item}
-                //             //navigation={router}
-                //             />
-                //         </View>
-                //         // <View style={{ width: "50%", padding: "1%" }}>
-                //         //     <ListingPopup listing={item} />
-                //         // </View>
-                //     )}
-                //     numColumns={2}
-                //     contentContainerStyle={{
-                //         backgroundColor: "red"
-                //         //backgroundColor: styles.colors.lightColor,
-                //     }}
-                //     style={{ flex: 1 }}
-                //     onScroll={(e) => {
-                //         // scrollY.setValue(e.nativeEvent.contentOffset.y);
-                //     }}
-                //     bounces={true}
-                //     refreshControl={
-                //         <RefreshControl
-                //             refreshing={refreshing}
-                //             onRefresh={handleRefresh}
-                //             tintColor={styles.colors.lightColor}
-                //         />
-                //     }
-                //     ListEmptyComponent={noSavedListings}
-                //     ListHeaderComponent={<ProfileHeader user={user} />}
-                // />
                 <FlatList
                     data={savedListings || []}
                     keyExtractor={(item) => item.listingId}
@@ -148,13 +89,13 @@ export default function ProfileScreen() {
                     )}
                     numColumns={2}
                     contentContainerStyle={{
-                        flex: 1,
                         backgroundColor: styles.colors.lightColor,
                     }}
                     style={{
                         flex: 1,
                         backgroundColor: styles.colors.darkColor,
                     }}
+
                     bounces={true}
                     refreshControl={
                         <RefreshControl

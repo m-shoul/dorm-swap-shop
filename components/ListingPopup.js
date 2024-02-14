@@ -18,8 +18,6 @@ import SquareHeader from "./SquareHeader.js";
 import { Image } from "expo-image";
 import styles from "../app/(aux)/StyleSheet.js";
 import Swiper from "react-native-swiper";
-import Xmark from "../assets/svg/xmark.js";
-import ReportComponent from "../assets/svg/report_icon.js";
 import FavouriteIcon from "../assets/svg/favourite_icon.js";
 import SavedListingIcon from "../assets/svg/savedListing_icon.js";
 import { useRouter, useLocalSearchParams } from "expo-router";
@@ -32,12 +30,7 @@ import {
 } from "../backend/api/user.js";
 import { isListingFavorited } from "../backend/api/listing.js";
 import CachedImage from "expo-cached-image";
-
-// New icons
-import { Ionicons } from "@expo/vector-icons";
-// Use this in place of the <FavouriteIcon /> component
-// or something like it
-// <Ionicons name="star-outline" size={24} color="black" />
+import { Ionicons } from '@expo/vector-icons';
 
 export default function ListingPopup({ listing }) {
     const [selectedImage, setSelectedImage] = useState(null);
@@ -58,7 +51,7 @@ export default function ListingPopup({ listing }) {
             Alert.alert("Unsaved");
         } else {
             saveListing(listing.listingId);
-            Alert.alert("Favorited");
+            Alert.alert("Saved");
         }
     };
 
@@ -80,8 +73,8 @@ export default function ListingPopup({ listing }) {
 
     const fetchUser = async () => {
         const username = await getUsernameByID(listing.user);
-        setUsername(username);
         const profileImage = await getUserProfileImage(listing.user);
+        setUsername(username);
         setProfileImage(profileImage);
     };
 
@@ -180,15 +173,6 @@ export default function ListingPopup({ listing }) {
                         <TouchableOpacity
                             style={{ flex: 1 }}
                             onPress={() => setListingModalVisible(false)}>
-                            {/* <Xmark
-                                source={require("../assets/svg/xmark.js")}
-                                style={{
-                                    width: 200,
-                                    height: 28,
-                                    stroke: "white",
-                                    strokeWidth: 0.25,
-                                }}
-                            /> */}
                             <Ionicons name="close" size={32} color="white" />
                         </TouchableOpacity>
 
@@ -204,19 +188,7 @@ export default function ListingPopup({ listing }) {
                                     },
                                 });
                             }}>
-                            {/* <ReportComponent
-                                style={{
-                                    width: 15,
-                                    height: 15,
-                                    stroke: "white",
-                                    strokeWidth: 0.25,
-                                }}
-                            /> */}
-                            <Ionicons
-                                name="alert-circle-outline"
-                                size={32}
-                                color="white"
-                            />
+                            <Ionicons name="alert-circle-outline" size={32} color="white" />
                         </TouchableOpacity>
                     </View>
                     {/* IMAGE */}

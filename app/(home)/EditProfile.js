@@ -29,6 +29,7 @@ export default function EditProfile() {
     const [username, setUsername] = useState("");
     const [fname, setFname] = useState("");
     const [lname, setLname] = useState("");
+    const [profileImageUrl, setProfileImageUrl] = useState(null);
     // const [email, setEmail] = useState("");
     // const [password, setPassword] = useState("");
 
@@ -36,6 +37,10 @@ export default function EditProfile() {
         try {
             const user = await getAllUserDataForProfile();
             setUser(user);
+            setUsername(user?.public?.username);
+            setFname(user?.public?.fname);
+            setLname(user?.public?.lname);
+            setProfileImageUrl(user?.public?.profileImage);
             setIsLoading(false);
         } catch (error) {
             setIsLoading(false);
@@ -57,22 +62,18 @@ export default function EditProfile() {
             const selectedProfileImage = result.assets[0];
             setProfileImage(selectedProfileImage.uri);
             uploadProfileImage(selectedProfileImage.uri);
+            setProfileImageUrl(selectedProfileImage.uri);
         }
     };
 
     useEffect(() => {
-        fetchUserData().then(() => {
-            setUsername(user?.public?.username);
-            setFname(user?.public?.fname);
-            setLname(user?.public?.lname);
-            setIsLoading(false);
-        });
+        fetchUserData();
     }, []);
 
-    const profileImageUrl = user?.public?.profileImage;
+    // const profileImageUrl = user?.public?.profileImage;
 
-    // console.log(user);
-    console.log("on user page");
+    console.log(user);
+    console.log("on editing user data page");
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -146,7 +147,7 @@ export default function EditProfile() {
                         <TextInput
                             style={styles.createUserInput}
                             onChangeText={(value) => setFname(value)}
-                            placeholder={"First name"}
+                            placeholder={fname ? fname : "First name"}
                             // onSubmitEditing={() => {
                             //     // Focus on the password input when the user submits the email input
                             //     passwordInputRef.current.focus();
@@ -159,7 +160,7 @@ export default function EditProfile() {
                         <TextInput
                             style={styles.createUserInput}
                             onChangeText={(value) => setLname(value)}
-                            placeholder={"Last name"}
+                            placeholder={lname ? lname : "Last name"}
                             // onSubmitEditing={() => {
                             //     // Focus on the password input when the user submits the email input
                             //     passwordInputRef.current.focus();
@@ -172,7 +173,7 @@ export default function EditProfile() {
                         <TextInput
                             style={styles.createUserInput}
                             onChangeText={(value) => setUsername(value)}
-                            placeholder={"Username"}
+                            placeholder={username ? username : "Username"}
                             // onSubmitEditing={() => {
                             //     // Focus on the password input when the user submits the email input
                             //     passwordInputRef.current.focus();
@@ -233,8 +234,8 @@ export default function EditProfile() {
                             justifyContent="center"
                             borderRadius={40}
                             href="Profile"
-                            press={() =>
-                                updateUser(profileImage, username, fname, lname)
+                            press={async () =>
+                                await updateUser(username, fname, lname)
                             }
                             titleStyle={[styles.boldtext, { color: "white" }]}
                         />

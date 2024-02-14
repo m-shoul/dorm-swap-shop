@@ -14,8 +14,6 @@ import styles from "../(aux)/StyleSheet";
 import { SearchBar, Header } from "@rneui/themed";
 // import { get, child, ref, set, push, getDatabase } from 'firebase/database';
 import { SwipeListView } from "react-native-swipe-list-view";
-import TrashButtonComponent from "../../assets/svg/trash_button";
-import ReportComponent from "../../assets/svg/report_icon";
 import SearchBarHeader from "../../components/SearchBar";
 import { router } from "expo-router";
 import { createChatThread, addMessage } from "../../backend/api/chat.js";

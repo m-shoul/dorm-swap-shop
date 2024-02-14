@@ -14,20 +14,13 @@ import { Image } from "expo-image";
 import { router } from "expo-router";
 import React, { useState, useEffect, useRef } from "react";
 import styles from "../(aux)/StyleSheet.js";
-import BackButtonComponent from "../../assets/svg/back_button.js";
 import ProfileScreen from "./Profile.js";
 import SearchBarHeader from "../../components/SearchBar.js";
 import { getUserListings } from "../../backend/api/listing.js";
 import filter from "lodash.filter";
 import { SwipeListView } from "react-native-swipe-list-view";
-import ReportComponent from "../../assets/svg/report_icon.js";
-import TrashButtonComponent from "../../assets/svg/trash_button.js";
-
-// New icons
 import { Ionicons } from '@expo/vector-icons';
 
-
-//This is now the my listings screen
 const MyListingsScreen = ({ navigation }) => {
     const [search, setSearch] = useState("");
     const [selectedListing, setSelectedListing] = useState(null);
@@ -95,10 +88,6 @@ const MyListingsScreen = ({ navigation }) => {
         return false;
     };
 
-    // const listingDescription =
-    //     description.length > 22
-    //         ? description.substring(0, 14) + "..."
-    //         : description;
     const truncatedDescription =
         listingsData.description && listingsData.description.length > 10
             ? listingsData.description.substring(0, 35) + "..."
@@ -126,7 +115,6 @@ const MyListingsScreen = ({ navigation }) => {
                         backgroundColor: styles.colors.darkColor,
                     }}>
                     <TouchableOpacity onPress={() => router.push("Profile")}>
-                        {/* <BackButtonComponent></BackButtonComponent> */}
                         <Ionicons name="chevron-back" size={32} color="white" />
                     </TouchableOpacity>
                     <View style={{ justifyContent: "center", width: "90%" }}>
@@ -243,7 +231,7 @@ const MyListingsScreen = ({ navigation }) => {
                                     params: { image: item.images },
                                 });
                             }}>
-                            <ReportComponent width="50%" height="50%" />
+                            <Ionicons name="alert-circle-outline" size={32} color="black" />
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={{
@@ -256,7 +244,7 @@ const MyListingsScreen = ({ navigation }) => {
                                 // Handle the "Delete" action
                                 alert("Chat will be deleted");
                             }}>
-                            <TrashButtonComponent width="40%" height="40%" />
+                            <Ionicons name="trash-outline" size={32} color="black" />                            
                         </TouchableOpacity>
                     </View>
                 )}
