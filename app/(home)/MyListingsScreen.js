@@ -16,7 +16,7 @@ import React, { useState, useEffect, useRef } from "react";
 import styles from "../(aux)/StyleSheet.js";
 import ProfileScreen from "./Profile.js";
 import SearchBarHeader from "../../components/SearchBar.js";
-import { getUserListings } from "../../backend/api/listing.js";
+import { getUserListings, deleteListing } from "../../backend/api/listing.js";
 import filter from "lodash.filter";
 import { SwipeListView } from "react-native-swipe-list-view";
 import { Ionicons } from '@expo/vector-icons';
@@ -40,13 +40,20 @@ const MyListingsScreen = ({ navigation }) => {
             }
         };
         fetchListingData();
-    }, []);
+    }, [/*listingsData*/]); // TODO: This works, but it gets stuck in a never ending loop... work on this
+                            // the delete functionality works. Just need to focus on auto refresh.
 
     const handleItemPress = (listing) => {
         //setSelectedListing(listing);
         router.push({
             pathname: "EditListingScreen",
-            params: { listingTitle: listing.title },
+            params: { listingTitle: listing.title, 
+                      listingId: listing.listingId, 
+                      listingPrice: listing.price, 
+                      listingCategory: listing.category, 
+                      listingCondition: listing.condition, 
+                      listingDescription: listing.description
+                    },
         });
     };
 
@@ -227,7 +234,8 @@ const MyListingsScreen = ({ navigation }) => {
                             }}
                             onPress={() => {
                                 // Handle the "Delete" action
-                                alert("Listing will be deleted");
+                                deleteListing(item.listingId);
+                                alert("Deleted");
                             }}>
                             <Ionicons name="trash-outline" size={32} color="black" />
                         </TouchableOpacity>

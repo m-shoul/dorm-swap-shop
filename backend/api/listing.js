@@ -1,5 +1,5 @@
 import { database } from '../config/firebaseConfig';
-import { get, ref, set, push, remove } from 'firebase/database';
+import { get, ref, set, push, remove, update } from 'firebase/database';
 import { getStorage, ref as sRef, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { getUserID } from '../dbFunctions';
 
@@ -192,18 +192,35 @@ export async function isListingFavorited(listingId) {
 }
 
 // Function to update listing
-export function updateListing(listingId, title, description, price, category, condition) {
+export async function updateListing(listingId, title, description, price, category, condition) {
     const listingRef = ref(database, `dorm_swap_shop/listings/${listingId}`);
 
-    const listingData = {
-        title: title,
-        description: description,
-        price: price,
-        category: category,
-        condition: condition,
-    };
+    try {
+        const snapshot = await get(listingRef);
+        // Check if the listing exists
+        const existingListingData = snapshot.val();
 
-    update(listingRef, listingData);
+        if (!existingListingData) {
+            console.error("Listing not found");
+            return;
+        }
+
+        // Merge the new data with the existing data
+        const updatedListingData = {
+            ...existingListingData,
+            title: title !== undefined ? title : existingListingData.title,
+            description: description !== undefined ? description : existingListingData.description,
+            price: price !== undefined ? price : existingListingData.price,
+            category: category !== undefined ? category : existingListingData.category,
+            condition: condition !== undefined ? condition : existingListingData.condition,
+        };
+
+        // Update the listing with the merged data
+        await update(listingRef, updatedListingData);
+        console.log("Listing information updated.");
+    } catch (error) {
+        console.error("Failed to update listing information: ", error);
+    }
 }
 
 // Function to delete listing
