@@ -5,9 +5,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import styles from "../(aux)/StyleSheet.js";
-import BackButtonComponent from "../../assets/svg/back_button.js";
 import { router } from "expo-router";
-import { Button } from '../../components/Buttons.js';
 import { deleteUser } from "../../backend/api/user.js";
 import RoundHeader from "../../components/RoundHeader.js";
 import { Ionicons } from '@expo/vector-icons';

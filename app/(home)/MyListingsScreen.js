@@ -19,8 +19,6 @@ import SearchBarHeader from "../../components/SearchBar.js";
 import { getUserListings } from "../../backend/api/listing.js";
 import filter from "lodash.filter";
 import { SwipeListView } from "react-native-swipe-list-view";
-import ReportComponent from "../../assets/svg/report_icon.js";
-import TrashButtonComponent from "../../assets/svg/trash_button.js";
 import { Ionicons } from '@expo/vector-icons';
 
 const MyListingsScreen = ({ navigation }) => {
@@ -233,7 +231,7 @@ const MyListingsScreen = ({ navigation }) => {
                                     params: { image: item.images },
                                 });
                             }}>
-                            <ReportComponent width="50%" height="50%" />
+                            <Ionicons name="alert-circle-outline" size={32} color="black" />
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={{
@@ -246,7 +244,7 @@ const MyListingsScreen = ({ navigation }) => {
                                 // Handle the "Delete" action
                                 alert("Chat will be deleted");
                             }}>
-                            <TrashButtonComponent width="40%" height="40%" />
+                            <Ionicons name="trash-outline" size={32} color="black" />                            
                         </TouchableOpacity>
                     </View>
                 )}
