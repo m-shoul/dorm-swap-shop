@@ -125,9 +125,6 @@ export default function ChatScreen() {
                                     flex: 1,
                                     flexDirection: "row",
                                     padding: 2,
-                                    //paddingRight: "5%",
-                                    //width: 370,
-                                    //justifyContent: "space-between",
                                 }}>
                                 <Image
                                     source={{ uri: item.images }}
@@ -145,9 +142,6 @@ export default function ChatScreen() {
                                     </Text>
                                     <Text>{item.message}</Text>
                                 </View>
-
-                                {/* For now this is commented out since the listing popup is broken */}
-                                {/* <ListingPopup listing={item} navigation={navigation} /> */}
                             </View>
                         </TouchableWithoutFeedback>
                     );
@@ -163,9 +157,6 @@ export default function ChatScreen() {
                             flex: 1,
                             flexDirection: "row",
                             justifyContent: "flex-end",
-                            // marginBottom: "6%",
-                            // marginTop: "1%",
-                            // marginRight: "4%",
                         }}>
                         <TouchableOpacity
                             style={{
@@ -182,7 +173,6 @@ export default function ChatScreen() {
                                 });
                             }}>
                             <Ionicons name="alert-circle-outline" size={32} color="black" />
-                            {/* <ReportComponent width="50%" height="50%" /> */}
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={{
@@ -195,7 +185,6 @@ export default function ChatScreen() {
                                 // Handle the "Delete" action
                                 alert("Chat will be deleted");
                             }}>
-                            {/* <TrashButtonComponent width="40%" height="40%" /> */}
                             <Ionicons name="trash-outline" size={32} color="black" />
                         </TouchableOpacity>
                     </View>

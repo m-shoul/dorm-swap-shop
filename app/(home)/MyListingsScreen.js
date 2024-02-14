@@ -153,8 +153,7 @@ const MyListingsScreen = ({ navigation }) => {
                 bounces={true}
                 renderItem={({ item }) => {
                     return (
-                        <TouchableWithoutFeedback
-                            onPress={() => handleItemPress(item)}
+                        <View
                             key={item.id}>
                             <View
                                 style={{
@@ -162,9 +161,6 @@ const MyListingsScreen = ({ navigation }) => {
                                     flex: 1,
                                     flexDirection: "row",
                                     padding: 2,
-                                    //paddingRight: "5%",
-                                    //width: 370,
-                                    //justifyContent: "space-between",
                                 }}>
                                 {Array.isArray(item.images) ? (
                                     <Image
@@ -186,11 +182,8 @@ const MyListingsScreen = ({ navigation }) => {
                                     <Text>{item.condition}</Text>
                                     <Text>{truncatedDescription}</Text>
                                 </View>
-
-                                {/* For now this is commented out since the listing popup is broken */}
-                                {/* <ListingPopup listing={item} navigation={navigation} /> */}
                             </View>
-                        </TouchableWithoutFeedback>
+                        </View>
                     );
                 }}
                 ItemSeparatorComponent={() => (
@@ -204,9 +197,6 @@ const MyListingsScreen = ({ navigation }) => {
                             flex: 1,
                             flexDirection: "row",
                             justifyContent: "flex-end",
-                            // marginBottom: "6%",
-                            // marginTop: "1%",
-                            // marginRight: "4%",
                         }}>
                         <TouchableOpacity
                             style={{
@@ -216,14 +206,10 @@ const MyListingsScreen = ({ navigation }) => {
                                 justifyContent: "center",
                             }}
                             onPress={() => {
-                                // Handle the "Report" action
-                                router.push({
-                                    pathname: "EditListingScreen",
-                                    params: { image: item.images },
-                                });
+                                //handle editing the listing
+                                handleItemPress(item)
                             }}>
                             <Ionicons name="pencil" size={24} color="black" />
-                            {/* <ReportComponent width="50%" height="50%" /> */}
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={{
@@ -244,7 +230,7 @@ const MyListingsScreen = ({ navigation }) => {
                 rightOpenValue={-150}
                 keyExtractor={(item) => item.listingId}
                 contentContainerStyle={{
-                    paddingBottom: "15%", // Add this line
+                    paddingBottom: "15%",
                 }}
                 scrollEventThrottle={10}
                 style={{
