@@ -25,12 +25,7 @@ import { Button } from "./Buttons.js";
 import { getUser, getUserProfileImage, getUsernameByID } from "../backend/api/user.js";
 import { isListingFavorited } from "../backend/api/listing.js";
 import CachedImage from "expo-cached-image";
-
-// New icons
 import { Ionicons } from '@expo/vector-icons';
-// Use this in place of the <FavouriteIcon /> component
-// or something like it
-// <Ionicons name="star-outline" size={24} color="black" />
 
 export default function ListingPopup({ listing }) {
     const [selectedImage, setSelectedImage] = useState(null);
@@ -164,15 +159,6 @@ export default function ListingPopup({ listing }) {
                         <TouchableOpacity
                             style={{ flex: 1 }}
                             onPress={() => setListingModalVisible(false)}>
-                            {/* <Xmark
-                                source={require("../assets/svg/xmark.js")}
-                                style={{
-                                    width: 200,
-                                    height: 28,
-                                    stroke: "white",
-                                    strokeWidth: 0.25,
-                                }}
-                            /> */}
                             <Ionicons name="close" size={32} color="white" />
                         </TouchableOpacity>
 
@@ -182,14 +168,6 @@ export default function ListingPopup({ listing }) {
                                 setListingModalVisible(false);
                                 router.push({ pathname: "ReportScreen", params: { image: listing.images, title: listing.title } });
                             }}>
-                            {/* <ReportComponent
-                                style={{
-                                    width: 15,
-                                    height: 15,
-                                    stroke: "white",
-                                    strokeWidth: 0.25,
-                                }}
-                            /> */}
                             <Ionicons name="alert-circle-outline" size={32} color="white" />
                         </TouchableOpacity>
                     </View>

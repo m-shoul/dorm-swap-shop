@@ -203,7 +203,7 @@ export function updateListing(listingId, title, description, price, category, co
         condition: condition,
     };
 
-    set(listingRef, listingData, { merge: true });
+    update(listingRef, listingData);
 }
 
 // Function to delete listing

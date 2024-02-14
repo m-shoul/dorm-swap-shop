@@ -18,8 +18,6 @@ import { Button } from "../../components/Buttons.js";
 import HeadShot from "../../components/HeadShot.js";
 import EmailComponent from "../../assets/svg/email_icon.js";
 import SquareHeader from "../../components/SquareHeader.js";
-
-// New icons
 import { Ionicons } from '@expo/vector-icons';
 
 export default function About() {
@@ -50,7 +48,6 @@ export default function About() {
                     <TouchableOpacity
                         onPress={() => router.back()}
                         style={{ marginLeft: "-6.5%" }}>
-                        {/* <BackButtonComponent></BackButtonComponent> */}
                         <Ionicons name="chevron-back" size={32} color="white" />
                     </TouchableOpacity>
 
