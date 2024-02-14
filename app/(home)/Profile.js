@@ -12,7 +12,7 @@ import { getUserSavedListings, getAllUserDataForProfile } from "../../backend/ap
 import ListingPopup from "../../components/ListingPopup.js";
 import ProfileHeader from "../../components/ProfileHeader.js";
 import styles from "../(aux)/StyleSheet";
-import { create } from 'zustand'
+//import { create } from 'zustand'
 
 
 export default function ProfileScreen() {
@@ -92,7 +92,7 @@ export default function ProfileScreen() {
                         backgroundColor: styles.colors.lightColor,
                     }}
                     style={{
-                        flex: 1, 
+                        flex: 1,
                         backgroundColor: styles.colors.darkColor,
                     }}
 
