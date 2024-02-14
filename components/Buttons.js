@@ -5,7 +5,7 @@ import { router } from 'expo-router';
 
 const Button = (props) => {
     return (
-        <TouchableOpacity style={{ height: 40, ...props }
+        <TouchableOpacity style={{ height: 50, ...props }
         } onPress={() => {
             if (props.press) props.press();
             if (props.href) router.push(props.href);

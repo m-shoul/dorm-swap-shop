@@ -10,16 +10,12 @@ import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context"
 import { useState } from "react";
 import styles from "../(aux)/StyleSheet";
 import { router } from "expo-router";
-import BackButtonComponent from "../../assets/svg/back_button.js";
 import termsOfService from "../../assets/termsOfService.js";
 import RoundHeader from "../../components/RoundHeader.js";
 import SimpleLogo from "../../assets/svg/simpleLogo_icon.js";
 import { Button } from "../../components/Buttons.js";
 import HeadShot from "../../components/HeadShot.js";
-import EmailComponent from "../../assets/svg/email_icon.js";
 import SquareHeader from "../../components/SquareHeader.js";
-
-// New icons
 import { Ionicons } from '@expo/vector-icons';
 
 export default function About() {
@@ -50,7 +46,6 @@ export default function About() {
                     <TouchableOpacity
                         onPress={() => router.back()}
                         style={{ marginLeft: "-6.5%" }}>
-                        {/* <BackButtonComponent></BackButtonComponent> */}
                         <Ionicons name="chevron-back" size={32} color="white" />
                     </TouchableOpacity>
 

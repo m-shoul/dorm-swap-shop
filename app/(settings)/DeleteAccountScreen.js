@@ -5,9 +5,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import styles from "../(aux)/StyleSheet.js";
-import BackButtonComponent from "../../assets/svg/back_button.js";
 import { router } from "expo-router";
-import { Button } from '../../components/Buttons.js';
 import { deleteUser } from "../../backend/api/user.js";
 import RoundHeader from "../../components/RoundHeader.js";
 import DeleteComponent from "../../assets/svg/delete_icon.js";
@@ -22,7 +20,6 @@ export default function DeleteAccount() {
             <RoundHeader height={190} />
             <View style={{ flexDirection: "row", justifyContent: "flex-start", width: "100%", paddingLeft: "5%", marginTop: "2%" }}>
                 <TouchableOpacity onPress={() => router.back()}>
-                    {/* <BackButtonComponent></BackButtonComponent> */}
                     <Ionicons name="chevron-back" size={32} color="white" />
                 </TouchableOpacity>
 
@@ -53,11 +50,6 @@ export default function DeleteAccount() {
                 style={styles.deleteBtn}>
                 <Text style={styles.buttonText}>Delete Account</Text>
             </TouchableOpacity>
-            {/* <Button width="80%" height="7%" backgroundColor="#F30000" title="Delete Account" alignItems="center"
-                justifyContent="center" marginTop="12%" borderRadius={25} href="/" titleStyle={styles.buttonText}
-                onPress={() => {
-                    deleteUser();
-                }} /> */}
         </SafeAreaView >
     );
 };

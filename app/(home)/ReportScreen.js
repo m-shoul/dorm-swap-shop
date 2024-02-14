@@ -10,19 +10,11 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import styles from "../(aux)/StyleSheet";
 import { Image } from 'expo-image';
-// Imports for pulling the image from firebase...
-import BackButtonComponent from "../../assets/svg/back_button.js";
 import React, { useState, useEffect } from "react";
 import { useLocalSearchParams, router } from "expo-router";
 import { Button } from "../../components/Buttons.js";
 import RoundHeader from "../../components/RoundHeader.js";
-
-// New icons
 import { Ionicons } from '@expo/vector-icons';
-
-//import { useRoute } from '@react-navigation/native';
-
-// Imports for the email service. EmailJS...
 import emailjs from "emailjs-com";
 
 export default function ReportScreen() {
@@ -67,13 +59,9 @@ export default function ReportScreen() {
                     {/* Need to add in the back arrow and the 
                         functionality of going back on click. */}
                     <TouchableOpacity onPress={() => router.back()}>
-                        {/* <BackButtonComponent /> */}
                         <Ionicons name="chevron-back" size={32} color="white" />
-
                     </TouchableOpacity>
-
                     {/* Title of page */}
-
                     <Text style={[styles.loginHeader, { color: styles.colors.lightColor }]}>Report Listing</Text>
                 </View>
 

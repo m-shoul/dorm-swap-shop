@@ -9,28 +9,28 @@ import {
     Dimensions,
     Alert,
 } from "react-native";
-import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
+import {
+    SafeAreaView,
+    useSafeAreaInsets,
+} from "react-native-safe-area-context";
 import ListImagesComponent from "../assets/svg/list_images.js";
 import SquareHeader from "./SquareHeader.js";
 import { Image } from "expo-image";
 import styles from "../app/(aux)/StyleSheet.js";
 import Swiper from "react-native-swiper";
-import Xmark from "../assets/svg/xmark.js";
-import ReportComponent from "../assets/svg/report_icon.js";
 import FavouriteIcon from "../assets/svg/favourite_icon.js";
 import SavedListingIcon from "../assets/svg/savedListing_icon.js";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { saveListing, unsaveListing } from "../backend/api/listing.js";
 import { Button } from "./Buttons.js";
-import { getUser, getUserProfileImage, getUsernameByID } from "../backend/api/user.js";
+import {
+    getUser,
+    getUserProfileImage,
+    getUsernameByID,
+} from "../backend/api/user.js";
 import { isListingFavorited } from "../backend/api/listing.js";
 import CachedImage from "expo-cached-image";
-
-// New icons
 import { Ionicons } from '@expo/vector-icons';
-// Use this in place of the <FavouriteIcon /> component
-// or something like it
-// <Ionicons name="star-outline" size={24} color="black" />
 
 export default function ListingPopup({ listing }) {
     const [selectedImage, setSelectedImage] = useState(null);
@@ -51,7 +51,7 @@ export default function ListingPopup({ listing }) {
             Alert.alert("Unsaved");
         } else {
             saveListing(listing.listingId);
-            Alert.alert("Favorited");
+            Alert.alert("Saved");
         }
     };
 
@@ -73,8 +73,8 @@ export default function ListingPopup({ listing }) {
 
     const fetchUser = async () => {
         const username = await getUsernameByID(listing.user);
-        setUsername(username);
         const profileImage = await getUserProfileImage(listing.user);
+        setUsername(username);
         setProfileImage(profileImage);
     };
 
@@ -96,7 +96,6 @@ export default function ListingPopup({ listing }) {
     var shortHash = require("short-hash");
 
     const insets = useSafeAreaInsets();
-
 
     return (
         <View>
@@ -126,14 +125,24 @@ export default function ListingPopup({ listing }) {
                     {Array.isArray(listing.images) ? (
                         <Image
                             source={{ uri: listing.images[0] }}
-                            style={{ width: "100%", height: 200, borderTopLeftRadius: 20, borderTopRightRadius: 20 }}
+                            style={{
+                                width: "100%",
+                                height: 200,
+                                borderTopLeftRadius: 20,
+                                borderTopRightRadius: 20,
+                            }}
                         />
                     ) : (
                         <CachedImage
                             source={{ uri: listing.images }}
                             cacheKey={`listing-${listing.id}-image`}
                             // cacheKey={shortHash(listing.id)} // listing.listingId
-                            style={{ width: "100%", height: 200, borderTopLeftRadius: 20, borderTopRightRadius: 20 }}
+                            style={{
+                                width: "100%",
+                                height: 200,
+                                borderTopLeftRadius: 20,
+                                borderTopRightRadius: 20,
+                            }}
                         />
                     )}
                     <View
@@ -164,15 +173,6 @@ export default function ListingPopup({ listing }) {
                         <TouchableOpacity
                             style={{ flex: 1 }}
                             onPress={() => setListingModalVisible(false)}>
-                            {/* <Xmark
-                                source={require("../assets/svg/xmark.js")}
-                                style={{
-                                    width: 200,
-                                    height: 28,
-                                    stroke: "white",
-                                    strokeWidth: 0.25,
-                                }}
-                            /> */}
                             <Ionicons name="close" size={32} color="white" />
                         </TouchableOpacity>
 
@@ -180,16 +180,14 @@ export default function ListingPopup({ listing }) {
                             style={{ flex: 0 }}
                             onPress={() => {
                                 setListingModalVisible(false);
-                                router.push({ pathname: "ReportScreen", params: { image: listing.images, title: listing.title } });
+                                router.push({
+                                    pathname: "ReportScreen",
+                                    params: {
+                                        image: listing.images,
+                                        title: listing.title,
+                                    },
+                                });
                             }}>
-                            {/* <ReportComponent
-                                style={{
-                                    width: 15,
-                                    height: 15,
-                                    stroke: "white",
-                                    strokeWidth: 0.25,
-                                }}
-                            /> */}
                             <Ionicons name="alert-circle-outline" size={32} color="white" />
                         </TouchableOpacity>
                     </View>
@@ -321,16 +319,17 @@ export default function ListingPopup({ listing }) {
                                 marginLeft: "3%",
                             }}>
                             {/* DESCRIPTION */}
-                            <Text style={[styles.normalText, { flex: 1 }]}>
+                            <Text style={{ flex: 1 }}>
                                 {listing.description}
                             </Text>
                         </View>
                         <View
                             style={{
                                 position: "absolute",
+
                                 paddingLeft: "3%",
-                                paddingTop: "3%",
-                                marginTop: "50%",
+                                //paddingTop: "3%",
+                                marginTop: "60%",
                                 flexDirection: "row",
                                 alignItems: "center",
                                 paddingRight: "3%",
@@ -368,11 +367,21 @@ export default function ListingPopup({ listing }) {
                                     )}
                                 </View>
                             </View>
-                            <Text style={styles.boldtext}>{username}</Text>
+
+                            <Text
+                                style={[
+                                    styles.notUserButtonText,
+                                    { width: "55%", flex: 1 },
+                                ]}>
+                                {username}
+                            </Text>
                             <Text
                                 style={[
                                     styles.normaltext,
-                                    { marginLeft: "40%" },
+                                    {
+                                        marginLeft: "5%",
+                                        width: "25%",
+                                    },
                                 ]}>
                                 {timestamp}
                             </Text>
@@ -380,6 +389,8 @@ export default function ListingPopup({ listing }) {
                     </View>
                     <View
                         style={{
+                            position: "absolute",
+                            bottom: "5%",
                             flex: 1,
                             alignItems: "center",
                             justifyContent: "center",
