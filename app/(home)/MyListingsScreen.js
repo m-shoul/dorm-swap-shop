@@ -92,10 +92,17 @@ const MyListingsScreen = ({ navigation }) => {
         return false;
     };
 
-    const truncatedDescription =
-        listingsData.description && listingsData.description.length > 10
-            ? listingsData.description.substring(0, 35) + "..."
-            : listingsData.description;
+    // const truncatedDescription =
+    //     listingsData.description && listingsData.description.length > 10
+    //         ? listingsData.description.substring(0, 35) + "..."
+    //         : listingsData.description;
+
+    function getTruncatedDescription(item) {
+        if (item && item.description && item.description.length > 10) {
+            return item.description.substring(0, 35) + '...';
+        }
+        return item.description;
+    }
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: styles.colors.lightColor }}>
@@ -180,7 +187,7 @@ const MyListingsScreen = ({ navigation }) => {
                                     </Text>
                                     <Text>{"$" + item.price}</Text>
                                     <Text>{item.condition}</Text>
-                                    <Text>{truncatedDescription}</Text>
+                                    <Text>{getTruncatedDescription(item)}</Text>
                                 </View>
                             </View>
                         </View>
