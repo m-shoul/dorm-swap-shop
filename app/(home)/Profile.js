@@ -148,7 +148,6 @@ export default function ProfileScreen() {
                     )}
                     numColumns={2}
                     contentContainerStyle={{
-                        flex: 1,
                         backgroundColor: styles.colors.lightColor,
                     }}
                     style={{
