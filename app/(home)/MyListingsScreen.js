@@ -43,7 +43,11 @@ const MyListingsScreen = ({ navigation }) => {
     }, []);
 
     const handleItemPress = (listing) => {
-        setSelectedListing(listing);
+        //setSelectedListing(listing);
+        router.push({
+            pathname: "EditListingScreen",
+            params: { listingTitle: listing.title },
+        });
     };
 
     if (showProfile) {
@@ -88,10 +92,17 @@ const MyListingsScreen = ({ navigation }) => {
         return false;
     };
 
-    const truncatedDescription =
-        listingsData.description && listingsData.description.length > 10
-            ? listingsData.description.substring(0, 35) + "..."
-            : listingsData.description;
+    // const truncatedDescription =
+    //     listingsData.description && listingsData.description.length > 10
+    //         ? listingsData.description.substring(0, 35) + "..."
+    //         : listingsData.description;
+
+    function getTruncatedDescription(item) {
+        if (item && item.description && item.description.length > 10) {
+            return item.description.substring(0, 35) + '...';
+        }
+        return item.description;
+    }
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: styles.colors.lightColor }}>
@@ -149,15 +160,7 @@ const MyListingsScreen = ({ navigation }) => {
                 bounces={true}
                 renderItem={({ item }) => {
                     return (
-                        <TouchableWithoutFeedback
-                            style={{
-                                width: 400,
-                                marginTop: 20,
-                                padding: 10,
-                                flex: 1,
-                                margin: 0,
-                            }}
-                            onPress={() => handleItemPress(item)}
+                        <View
                             key={item.id}>
                             <View
                                 style={{
@@ -165,9 +168,6 @@ const MyListingsScreen = ({ navigation }) => {
                                     flex: 1,
                                     flexDirection: "row",
                                     padding: 2,
-                                    paddingRight: "5%",
-                                    width: 370,
-                                    justifyContent: "space-between",
                                 }}>
                                 {Array.isArray(item.images) ? (
                                     <Image
@@ -187,35 +187,23 @@ const MyListingsScreen = ({ navigation }) => {
                                     </Text>
                                     <Text>{"$" + item.price}</Text>
                                     <Text>{item.condition}</Text>
-                                    <Text>{truncatedDescription}</Text>
+                                    <Text>{getTruncatedDescription(item)}</Text>
                                 </View>
-
-                                {/* For now this is commented out since the listing popup is broken */}
-                                {/* <ListingPopup listing={item} navigation={navigation} /> */}
-                                {/* Hopefully this fixes the issue */}
-                                {/* <View
-                                    style={{
-                                        backgroundColor: "#B3B3B3",
-                                        height: 1,
-                                        marginTop: 20,
-                                        marginLeft: 10,
-                                        marginRight: 20,
-                                        marginBottom: -20,
-                                    }}
-                                /> */}
                             </View>
-                        </TouchableWithoutFeedback>
+                        </View>
                     );
                 }}
+                ItemSeparatorComponent={() => (
+                    <View style={{ alignItems: "center" }}>
+                        <View style={[styles.dividerLine, { marginBottom: 10, marginTop: 10 }]} />
+                    </View>
+                )}
                 renderHiddenItem={({ item }) => (
                     <View
                         style={{
                             flex: 1,
                             flexDirection: "row",
                             justifyContent: "flex-end",
-                            marginBottom: "6%",
-                            marginTop: "1%",
-                            marginRight: "4%",
                         }}>
                         <TouchableOpacity
                             style={{
@@ -225,13 +213,10 @@ const MyListingsScreen = ({ navigation }) => {
                                 justifyContent: "center",
                             }}
                             onPress={() => {
-                                // Handle the "Report" action
-                                router.push({
-                                    pathname: "ReportScreen",
-                                    params: { image: item.images },
-                                });
+                                //handle editing the listing
+                                handleItemPress(item)
                             }}>
-                            <Ionicons name="alert-circle-outline" size={32} color="black" />
+                            <Ionicons name="pencil" size={24} color="black" />
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={{
@@ -242,30 +227,24 @@ const MyListingsScreen = ({ navigation }) => {
                             }}
                             onPress={() => {
                                 // Handle the "Delete" action
-                                alert("Chat will be deleted");
+                                alert("Listing will be deleted");
                             }}>
-                            <Ionicons name="trash-outline" size={32} color="black" />                            
+                            <Ionicons name="trash-outline" size={32} color="black" />
                         </TouchableOpacity>
                     </View>
                 )}
                 disableRightSwipe={true}
                 rightOpenValue={-150}
-                //numColumns={2}
                 keyExtractor={(item) => item.listingId}
                 contentContainerStyle={{
-                    paddingBottom: "15%", // Add this line
+                    paddingBottom: "15%",
                 }}
                 scrollEventThrottle={10}
                 style={{
                     flex: 1,
                     backgroundColor: styles.colors.lightColor,
-                    marginTop: 10,
-                    paddingTop: "15%",
+                    paddingTop: 85,
                 }}
-            //kept causing errors, so turned it off
-            // onScroll={(e) => {
-            //     scrollY.setValue(e.nativeEvent.contentOffset.y);
-            // }}
             />
         </SafeAreaView>
     );

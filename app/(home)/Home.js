@@ -252,7 +252,6 @@ export default function HomeScreen() {
                 style={{
                     flex: 1,
                     backgroundColor: styles.colors.lightColor,
-                    //paddingTop: "15%",
                 }}
                 onScroll={Animated.event(
                     [{ nativeEvent: { contentOffset: { y: scrollOffsetY } } }],

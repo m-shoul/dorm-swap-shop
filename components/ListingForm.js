@@ -27,9 +27,10 @@ import { Button } from "../components/Buttons.js";
 import RoundHeader from "../components/RoundHeader.js";
 import ExpandComponent from "../assets/svg/expand_icon.js";
 
-export default function ListingForm({ header, buttonTitle, imageText }) {
+export default function ListingForm({ header, buttonTitle, imageText, listingtitle }) {
+    console.log(listingtitle);
     const navigation = useNavigation();
-    const [title, setTitle] = useState("");
+    const [title, setTitle] = useState(listingtitle ? listingtitle : "");
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState("");
     const [category, setCategory] = useState(null);
@@ -300,7 +301,7 @@ export default function ListingForm({ header, buttonTitle, imageText }) {
                             blurOnSubmit={false}
                             onChangeText={(value) => setTitle(value)}
                             value={title}
-                            placeholder="Title"
+                            placeholder={listingtitle ? listingtitle : "Title"}
                             onSubmitEditing={() => {
                                 priceInputRef.current.focus();
                             }}

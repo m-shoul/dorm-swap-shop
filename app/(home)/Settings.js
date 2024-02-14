@@ -5,6 +5,9 @@ import styles from "../(aux)/StyleSheet.js";
 import { router } from "expo-router";
 import { logoutUser } from "../../backend/dbFunctions.js";
 import RoundHeader from "../../components/RoundHeader";
+import SettingsLogo from "../../assets/svg/settings_logo.js";
+
+// New icons
 import { Ionicons } from "@expo/vector-icons";
 
 export default function SettingsScreen() {
@@ -15,16 +18,11 @@ export default function SettingsScreen() {
     };
     return (
         <SafeAreaView style={styles.background}>
-            <RoundHeader height={200} />
-            <View style={{ marginTop: "10%", marginBottom: "20%" }}>
-                <Text
-                    style={[
-                        styles.postListingHeader,
-                        { color: styles.colors.lightColor },
-                    ]}>
-                    Settings
-                </Text>
+            <RoundHeader height={220} />
+            <View style={{ marginTop: "10%", marginBottom: "10%" }}>
+                <Text style={[styles.postListingHeader, { color: styles.colors.lightColor }]}>Settings</Text>
             </View>
+            <SettingsLogo />
 
             {/* <View
                 style={{

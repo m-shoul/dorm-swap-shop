@@ -8,6 +8,8 @@ import styles from "../(aux)/StyleSheet.js";
 import { router } from "expo-router";
 import { deleteUser } from "../../backend/api/user.js";
 import RoundHeader from "../../components/RoundHeader.js";
+import DeleteComponent from "../../assets/svg/delete_icon.js";
+// New icons
 import { Ionicons } from '@expo/vector-icons';
 
 console.log("******************** On delete screen *******************");
@@ -15,16 +17,17 @@ console.log("******************** On delete screen *******************");
 export default function DeleteAccount() {
     return (
         <SafeAreaView style={styles.background}>
-            <RoundHeader height={230} />
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <RoundHeader height={190} />
+            <View style={{ flexDirection: "row", justifyContent: "flex-start", width: "100%", paddingLeft: "5%", marginTop: "2%" }}>
                 <TouchableOpacity onPress={() => router.back()}>
                     <Ionicons name="chevron-back" size={32} color="white" />
                 </TouchableOpacity>
 
-                <View>
+                {/* <View>
                     <Text style={[styles.loginHeader, { color: styles.colors.lightColor }]}>Delete Account</Text>
-                </View>
+                </View> */}
             </View>
+            <DeleteComponent style={{ marginTop: "10%" }} />
             <View style={{ flex: 1, justifyContent: "center", alignItems: "center", width: "80%" }}>
 
                 <Text style={{ fontWeight: "bold", fontSize: 25, marginBottom: "10%", textAlign: "center" }}>
