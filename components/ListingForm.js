@@ -26,6 +26,7 @@ import { router, useNavigation } from "expo-router";
 import { Button } from "../components/Buttons.js";
 import RoundHeader from "../components/RoundHeader.js";
 import ExpandComponent from "../assets/svg/expand_icon.js";
+import { ShadowedView } from 'react-native-fast-shadow';
 
 export default function ListingForm({ header, buttonTitle, imageText, listingtitle }) {
     console.log(listingtitle);
@@ -271,26 +272,37 @@ export default function ListingForm({ header, buttonTitle, imageText, listingtit
                     }}
                     keyboardShouldPersistTaps="handled">
                     <View style={{ marginBottom: "2%" }}>
-                        <TouchableOpacity onPress={() => pickImage()}>
-                            {image ? (
-                                <Image
-                                    source={{ uri: image[0] }}
-                                    style={{
-                                        width: 200,
-                                        height: 200,
-                                        marginBottom: "2%",
-                                        borderRadius: 20,
-                                    }}
-                                />
-                            ) : (
-                                <ListImagesComponent
-                                    style={{
-                                        width: 200,
-                                        height: 28,
-                                    }}
-                                />
-                            )}
-                        </TouchableOpacity>
+                        <ShadowedView
+                            style={{
+                                shadowOpacity: 0.4,
+                                shadowRadius: 12,
+                                shadowOffset: {
+                                    width: 5,
+                                    height: 3,
+                                },
+                            }}
+                        >
+                            <TouchableOpacity onPress={() => pickImage()}>
+                                {image ? (
+                                    <Image
+                                        source={{ uri: image[0] }}
+                                        style={{
+                                            width: 200,
+                                            height: 200,
+                                            marginBottom: "2%",
+                                            borderRadius: 20,
+                                        }}
+                                    />
+                                ) : (
+                                    <ListImagesComponent
+                                        style={{
+                                            width: 200,
+                                            height: 28,
+                                        }}
+                                    />
+                                )}
+                            </TouchableOpacity>
+                        </ShadowedView>
                         <Text style={{ textAlign: "center" }}>{imageText}</Text>
                     </View>
 

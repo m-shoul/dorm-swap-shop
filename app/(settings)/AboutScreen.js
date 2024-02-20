@@ -17,6 +17,7 @@ import { Button } from "../../components/Buttons.js";
 import HeadShot from "../../components/HeadShot.js";
 import SquareHeader from "../../components/SquareHeader.js";
 import { Ionicons } from '@expo/vector-icons';
+import { ShadowedView } from 'react-native-fast-shadow';
 
 export default function About() {
     const [modalVisible, setModalVisible] = useState(false);
@@ -29,8 +30,8 @@ export default function About() {
     const insets = useSafeAreaInsets();
 
     return (
-        <View style={{ paddingTop: insets.top }}>
-            <SquareHeader height={50} />
+        <View style={{ paddingTop: insets.top, flex: 1, }}>
+            <SquareHeader />
             <ScrollView>
                 <StatusBar barStyle={"light-content"} />
                 <RoundHeader height={220} />
@@ -50,18 +51,40 @@ export default function About() {
                     </TouchableOpacity>
 
                     <View style={{ alignItems: "center", width: "80%" }}>
-                        <SimpleLogo />
+                        <Text
+                            style={[styles.postListingHeader, { color: styles.colors.lightColor }]}>
+                            About
+                        </Text>
+
+                    </View>
+                </View>
+
+                <ShadowedView
+                    style={{
+                        shadowOpacity: 0.8,
+                        shadowRadius: 20,
+                        shadowOffset: {
+                            width: 5,
+                            height: 3,
+                        },
+                    }}
+                >
+                    <SimpleLogo width={133} height={143} marginTop={"5%"} />
+                </ShadowedView>
+
+
+
+                <View style={{ paddingHorizontal: "10%" }}>
+                    <View style={{ marginBottom: "5%" }}>
                         <Text
                             style={[
                                 styles.SmallerHeaderFontSize,
-                                { textAlign: "center" },
+                                { textAlign: "center", color: "black" },
                             ]}>
                             The one-stop shop for all your college needs
                         </Text>
                     </View>
-                </View>
 
-                <View style={{ paddingHorizontal: "10%" }}>
                     <View style={{ marginBottom: "5%" }}>
                         <Text style={[styles.boldtext, { marginBottom: "2%" }]}>
                             Our Story

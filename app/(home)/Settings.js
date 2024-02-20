@@ -6,6 +6,7 @@ import { router } from "expo-router";
 import { logoutUser } from "../../backend/dbFunctions.js";
 import RoundHeader from "../../components/RoundHeader";
 import SettingsLogo from "../../assets/svg/settings_logo.js";
+import { ShadowedView } from 'react-native-fast-shadow';
 
 // New icons
 import { Ionicons } from "@expo/vector-icons";
@@ -22,7 +23,19 @@ export default function SettingsScreen() {
             <View style={{ marginTop: "10%", marginBottom: "10%" }}>
                 <Text style={[styles.postListingHeader, { color: styles.colors.lightColor }]}>Settings</Text>
             </View>
-            <SettingsLogo />
+            <ShadowedView
+                style={{
+                    shadowOpacity: 0.8,
+                    shadowRadius: 20,
+                    shadowOffset: {
+                        width: 5,
+                        height: 3,
+                    },
+                }}
+            >
+                <SettingsLogo />
+            </ShadowedView>
+
 
             {/* <View
                 style={{

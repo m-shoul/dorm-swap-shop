@@ -16,6 +16,7 @@ import { Button } from "../../components/Buttons.js";
 import RoundHeader from "../../components/RoundHeader.js";
 import { Ionicons } from '@expo/vector-icons';
 import emailjs from "emailjs-com";
+import { ShadowedView } from 'react-native-fast-shadow';
 
 export default function ReportScreen() {
     const { image, title } = useLocalSearchParams();
@@ -70,15 +71,26 @@ export default function ReportScreen() {
                     height: 200,
                     marginBottom: "2%",
                 }}>
-                    <Image
-                        source={{ uri: image }}
+                    <ShadowedView
                         style={{
-                            width: "100%",
-                            height: "100%",
-                            borderRadius: 20,
+                            shadowOpacity: 0.8,
+                            shadowRadius: 20,
+                            shadowOffset: {
+                                width: 5,
+                                height: 3,
+                            },
                         }}
-                        key={image}
-                    />
+                    >
+                        <Image
+                            source={{ uri: image }}
+                            style={{
+                                width: "100%",
+                                height: "100%",
+                                borderRadius: 20,
+                            }}
+                            key={image}
+                        />
+                    </ShadowedView>
                 </View>
 
 

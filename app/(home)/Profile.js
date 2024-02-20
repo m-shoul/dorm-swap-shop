@@ -67,9 +67,9 @@ export default function ProfileScreen() {
     const insets = useSafeAreaInsets();
 
     return (
-        <View style={{ flex: 1, backgroundColor: styles.colors.darkColor, paddingTop: insets.top }}>
+        <View style={{ flex: 1, paddingTop: insets.top, backgroundColor: styles.colors.darkColor }}>
             {isLoading ? (
-                <ActivityIndicator size="large" color={styles.colors.darkColor} />
+                <ActivityIndicator size="large" />
             ) : (
                 <FlatList
                     data={savedListings || []}
@@ -92,7 +92,6 @@ export default function ProfileScreen() {
                         backgroundColor: styles.colors.lightColor,
                     }}
                     style={{
-                        flex: 1,
                         backgroundColor: styles.colors.darkColor,
                     }}
 

@@ -28,6 +28,7 @@ import termsOfService from "../../assets/termsOfService.js";
 import { set } from "firebase/database";
 import RoundHeader from "../../components/RoundHeader.js";
 import SimpleLogo from "../../assets/svg/simpleLogo_icon.js";
+import { ShadowedView } from 'react-native-fast-shadow';
 
 export default function CreateUserScreen() {
     //All of the states that are used to store the actual values of the text inputs
@@ -245,11 +246,26 @@ export default function CreateUserScreen() {
                 <StatusBar barStyle={"light-content"} />
                 <RoundHeader height={150} />
 
-                <SimpleLogo
-                    width="50%"
-                    height={120}
-                    style={{ marginTop: "10%" }}
-                />
+                <ShadowedView
+                    style={{
+                        shadowOpacity: 0.4,
+                        shadowRadius: 12,
+                        shadowOffset: {
+                            width: 5,
+                            height: 3,
+                        },
+                    }}
+                >
+                    <SimpleLogo
+                        width={119}
+                        height={119}
+                        borderRadius={20}
+                        style={{
+                            marginTop: "10%",
+                        }}
+                    />
+                </ShadowedView>
+
 
                 <Text style={styles.registerHeader}> Register </Text>
 
