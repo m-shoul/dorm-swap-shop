@@ -2,7 +2,7 @@ import { database } from '../config/firebaseConfig';
 import { get, child, ref, set, push } from 'firebase/database';
 import { getUsernameByID } from './user';
 
-// Function to create a new user
+// Function to create a new chat thread
 export async function createChatThread(userId_1, userId_2) {
     // The "Reply", button will most likely call this method and then
     // navigate to the chat screen.
@@ -12,9 +12,9 @@ export async function createChatThread(userId_1, userId_2) {
     const newChatReference = push(chatReference);
 
     const chatId = newChatReference.key;
-    console.log("*API - createChatThread* Chat ID created: " + chatId);
-    console.log("*API - createChatThread* User 1: " + userId_1);
-    console.log("*API - createChatThread* User 2: " + userId_2);
+    // console.log("*API - createChatThread* Chat ID created: " + chatId);
+    // console.log("*API - createChatThread* User 1: " + userId_1);
+    // console.log("*API - createChatThread* User 2: " + userId_2);
 
     const participants = {
         userId_1: userId_1,
@@ -30,11 +30,12 @@ export async function createChatThread(userId_1, userId_2) {
 
     await set(newChatReference, chatData); 
 
-    console.log("*API - createChatThread* Chat created with id: " + chatId);
+    // console.log("*API - createChatThread* Chat created with id: " + chatId);
 
     return chatId;
 }
 
+// Function to get chat thread ID from two user IDs
 export async function getChatThreadId(uid1, uid2) {
     try {
         const chatReference = ref(database, 'dorm_swap_shop/chats');
@@ -46,7 +47,7 @@ export async function getChatThreadId(uid1, uid2) {
                 if (chats[chatId]) {
                     const participants = chats[chatId].participants;
                     if (participants && participants.userId_1 === uid1 && participants.userId_2 === uid2) {
-                        console.log("*API - getChatThreadId* Chat thread ID found: " + chatId);
+                        // console.log("*API - getChatThreadId* Chat thread ID found: " + chatId);
                         return chatId;
                     }
                 }
@@ -59,6 +60,90 @@ export async function getChatThreadId(uid1, uid2) {
         throw error;
     }
 }
+
+// Function to get chat data from a chat ID
+// export async function getChatData(chatId) {
+//     try {
+//         const chatReference = ref(database, `dorm_swap_shop/chats/${chatId}`);
+//         const snapshot = await get(chatReference);
+
+//         if (snapshot.exists()) {
+//             const chatData = snapshot.val();
+//             console.log("*API - getChatData* Chat data found");
+//             console.log("*API - getChatData* participants: " + chatData.participants.userId_1 + " " + chatData.participants.userId_2);
+//             return chatData;
+//         }
+//         console.log("*API - getChatData* Chat data not found.");
+//         return null;
+//     } catch (error) {
+//         console.error('*API - getChatData* Error retrieving chat data:', error);
+//         throw error;
+//     }
+// }
+
+//get all chat threads for a user
+export async function getChatsByUser(userId) {
+    try {
+        const chatReference = ref(database, 'dorm_swap_shop/chats');
+        const snapshot = await get(chatReference);
+
+        if (snapshot.exists()) {
+            const chats = snapshot.val();
+            let chatThreads = [];
+
+            for (let chatId in chats) {
+                if (!chats[chatId]) {
+                    console.log("*API - getChatsByUser* No chat found for chatId: " + chatId);
+                    continue;
+                }
+                
+                console.log("*API - getChatsByUser* chatId: " + chatId);
+
+                const participants = chats[chatId].participants;
+                if (!participants) {
+                    console.log("*API - getChatsByUser* No participants found for chat: " + chatId);
+                    continue;
+                }
+
+                if (participants.userId_1 === userId || participants.userId_2 === userId) {
+                    chatThreads.push(chats[chatId]);
+                    console.log("*API - getChatsByUser* Chat found for current user: " + chatId + 
+                                " with other user: " + (participants.userId_1 === userId ? participants.userId_2 : participants.userId_1));
+                } 
+                else {
+                    console.log("*API - getChatsByUser* Chat found without current user ");
+                }
+            }
+
+            console.log("*API - getChatsByUser* Chat threads found: " + chatThreads);
+            return chatThreads;
+        }
+        console.log("*API - getChatsByUser* No chat threads found.");
+        return null;
+    } catch (error) {
+        console.error('*API - getChatsByUser* Error retrieving chat threads:', error);
+        throw error;
+    }
+}
+
+// export async function getUsersInChat(chatId) {
+//     try {
+//         const chatReference = ref(database, `dorm_swap_shop/chats/${chatId}`);
+//         const snapshot = await get(chatReference);
+
+//         if (snapshot.exists()) {
+//             const chatData = snapshot.val();
+//             const participants = chatData.participants;
+//             console.log("*API - getUsersInChat* Participants found: " + participants.userId_1 + " " + participants.userId_2);
+//             return participants;
+//         }
+//         console.log("*API - getUsersInChat* Participants not found.");
+//         return null;
+//     } catch (error) {
+//         console.error('*API - getUsersInChat* Error retrieving participants:', error);
+//         throw error;
+//     }
+// }
 
 export async function addMessage(chatId, messageData, messageReference) {
     try {
@@ -85,7 +170,7 @@ export async function addMessage(chatId, messageData, messageReference) {
 
         await set(messageReference, messageData);
 
-        console.log("Message added to chat: " + chatId + ": " + messageData.text);
+        // console.log("Message added to chat: " + chatId + ": " + messageData.text);
 
         return messageReference.key;
     } catch (error) {
@@ -94,9 +179,9 @@ export async function addMessage(chatId, messageData, messageReference) {
     }
 }
 
-// Function to read user data
+// Function to read chat data and return the messages and participants
 export async function readChat(chatId) {
-    console.log("*API - readChat* Reading chat: " + chatId);
+    // console.log("*API - readChat* Reading chat: " + chatId);
 
     const chatRef = ref(database, `dorm_swap_shop/chats/${chatId}`);
     
@@ -104,7 +189,7 @@ export async function readChat(chatId) {
     return get(chatRef).then((snapshot) => {
         if (snapshot.exists()) {
             const chatData = snapshot.val();
-            // const participants = chatData.participants;
+            const participants = chatData.participants;
             const messages = [];
 
             // Loop through the messages and add them to the messages array
@@ -127,8 +212,10 @@ export async function readChat(chatId) {
                 });
             }
 
+            // console.log("*API - readChat* Messages found: " + messages);
+
             // Return the messages
-            return { messages: messages.reverse() };
+            return { messages: messages.reverse(), participants: participants};
         } else {
             throw new Error('*API - readChat* Chat does not exist.');
         }
@@ -137,12 +224,14 @@ export async function readChat(chatId) {
         throw error;
     });
 }
-// Function to update a user
+
+
+// Function to update a chat
 export function updateChat(chatId, chatData) {
     // We might not actually need this... I just had it here for CRUD consistency.
 }
 
-// Function to delete a user
+// Function to delete a chat
 export function deleteChat(chatId) {
     // Implement the functionality to delete a chat. 
     // This will be used when a user wants to delete a chat.
@@ -154,7 +243,3 @@ export function deleteChat(chatId) {
     // amount of time to save storage in the database. This might be a separate
     // function hmm... think about this.
 }
-
-
-// Can add additional functions in here that deal with the listings
-// and curtail them to our needs.

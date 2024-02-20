@@ -24,7 +24,9 @@ import { saveListing, unsaveListing } from "../backend/api/listing.js";
 import { Button } from "./Buttons.js";
 import { getUser, getUserProfileImage, getUsernameByID } from "../backend/api/user.js";
 import { isListingFavorited } from "../backend/api/listing.js";
+import { createChatThread, getChatThreadId } from "../backend/api/chat.js";
 import CachedImage from "expo-cached-image";
+import { getUserID } from "../backend/dbFunctions.js";
 
 export default function ListingPopup({ listing }) {
     const [selectedImage, setSelectedImage] = useState(null);
@@ -53,9 +55,17 @@ export default function ListingPopup({ listing }) {
         setListingModalVisible(true);
     };
 
-    const closeModal = () => {
+    const closeModal = async () => {
         setListingModalVisible(false);
-        router.push("(chat)/ConversationsScreen");
+        let chatId = await getChatThreadId(listing.user, getUserID());
+        if (!chatId) {
+            chatId = await createChatThread(listing.user, getUserID());
+        }
+    
+        if (chatId)
+            router.push({pathname: "(chat)/ConversationsScreen", params: {chatId: chatId}} );
+        else   
+            console.log("Error creating chat thread");
     };
 
     const listingTitle =
