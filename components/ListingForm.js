@@ -26,17 +26,27 @@ import { router, useNavigation } from "expo-router";
 import { Button } from "../components/Buttons.js";
 import RoundHeader from "../components/RoundHeader.js";
 import ExpandComponent from "../assets/svg/expand_icon.js";
-import { ShadowedView } from 'react-native-fast-shadow';
+import { updateListing } from "../backend/api/listing.js";
 
-export default function ListingForm({ header, buttonTitle, imageText, listingtitle }) {
-    console.log(listingtitle);
+export default function ListingForm({ header,
+    buttonTitle, imageText, listingId, listingTitle,
+    listingPrice, listingCategory, listingCondition, listingDescription }) {
+
+    console.log("Props: ", listingId, listingTitle, listingPrice, listingCategory, listingCondition, listingDescription);
+    console.log("listingTitle:", listingTitle); // Add this line to check the value of listingTitle
+
+
     const navigation = useNavigation();
-    const [title, setTitle] = useState(listingtitle ? listingtitle : "");
-    const [description, setDescription] = useState("");
-    const [price, setPrice] = useState("");
-    const [category, setCategory] = useState(null);
-    const [condition, setCondition] = useState(null);
+    const [title, setTitle] = useState(listingTitle ? listingTitle : "");
+    const [description, setDescription] = useState(listingDescription ? listingDescription : "");
+    const [price, setPrice] = useState(listingPrice ? listingPrice : "");
+    const [category, setCategory] = useState(listingCategory ? listingCategory : null);
+    const [condition, setCondition] = useState(listingCondition ? listingCondition : null);
     const [location, setLocation] = useState("");
+
+    console.log("StateTitle: ", title);
+    console.log("StateDescription: ", description);
+
 
     //For pickers so they can get the right text size
     const { width } = Dimensions.get("window");
@@ -63,7 +73,7 @@ export default function ListingForm({ header, buttonTitle, imageText, listingtit
     };
 
     // Function to create a listing
-    const CreatePost = () => {
+    const createPost = () => {
         let userId = getUserID();
         try {
             createListing(
@@ -122,15 +132,28 @@ export default function ListingForm({ header, buttonTitle, imageText, listingtit
         return () => {
             unsubscribeBlur();
         };
-    }, [title, price, description, navigation]);
+    }, [/*title, description, price, category, condition*/]);
+
 
     const handleValidation = () => {
-        validateForm();
-        validate = 1;
+        if (buttonTitle === "Post") {
+            validatePost();
+        } else if (buttonTitle === "Update") {
+            validateUpdate();
+        } else {
+            console.error("Invalid button title");
+        }
+    };
+
+    const validatePost = () => {
+        validateForm(true);
+    };
+
+    const validateUpdate = () => {
+        validateForm(false);
     };
 
     const clearTextInputs = () => {
-        router.push("Home");
         setTitle("");
         setPrice("");
         setDescription("");
@@ -139,72 +162,72 @@ export default function ListingForm({ header, buttonTitle, imageText, listingtit
         setImage(null);
     };
 
-    const validateForm = () => {
+    const validateForm = async (isRequiredAllFields) => {
         let errorCount = 0;
         let emptyFields = 0;
         console.log(validate);
-        // Validate first name field
 
-        //validate last name field
-        if (!title) {
-            setErrorMessageTitle("Title is required.");
-            setTitleStyle(styles.createUserInputError);
-            emptyFields++;
-            errorCount++;
-        } else {
-            setErrorMessageTitle("");
-            setTitleStyle(styles.createUserInput);
+        if (isRequiredAllFields) {
+            //validate last name field
+            if (!title) {
+                setErrorMessageTitle("Title is required.");
+                setTitleStyle(styles.createUserInputError);
+                emptyFields++;
+                errorCount++;
+            } else {
+                setErrorMessageTitle("");
+                setTitleStyle(styles.createUserInput);
+            }
+
+            //validate username field
+            if (!price) {
+                setErrorMessagePrice("Price is required.");
+                setPriceStyle(styles.createUserInputError);
+                emptyFields++;
+                errorCount++;
+            } else {
+                setErrorMessagePrice("");
+                setPriceStyle(styles.createUserInput);
+            }
+
+            if (category === null) {
+                setErrorMessageCategory("Category is required.");
+                setCategoryStyle(styles.dropDownListsError);
+                emptyFields++;
+                errorCount++;
+            } else {
+                setErrorMessageCategory("");
+                setCategoryStyle(styles.dropdownlists);
+            }
+
+            if (condition === null) {
+                setErrorMessageCondition("Condition is required.");
+                setConditionStyle(styles.dropDownListsError);
+                emptyFields++;
+                errorCount++;
+            } else {
+                setErrorMessageCondition("");
+                setConditionStyle(styles.dropdownlists);
+            }
+
+            if (!description) {
+                setErrorMessageDescription("Description is required.");
+                setDescriptionStyle(styles.postListingDescriptionError);
+                emptyFields++;
+                errorCount++;
+            } else if (description.length > 300) {
+                setErrorMessageDescription(
+                    "Description must be less than 300 characters."
+                );
+                setDescriptionStyle(styles.postListingDescriptionError);
+
+                errorCount++;
+            } else {
+                setErrorMessageDescription("");
+                setDescriptionStyle(styles.postListingDescription);
+            }
         }
 
-        //validate username field
-        if (!price) {
-            setErrorMessagePrice("Price is required.");
-            setPriceStyle(styles.createUserInputError);
-            emptyFields++;
-            errorCount++;
-        } else {
-            setErrorMessagePrice("");
-            setPriceStyle(styles.createUserInput);
-        }
-
-        if (category === null) {
-            setErrorMessageCategory("Category is required.");
-            setCategoryStyle(styles.dropDownListsError);
-            emptyFields++;
-            errorCount++;
-        } else {
-            setErrorMessageCategory("");
-            setCategoryStyle(styles.dropdownlists);
-        }
-
-        if (condition === null) {
-            setErrorMessageCondition("Condition is required.");
-            setConditionStyle(styles.dropDownListsError);
-            emptyFields++;
-            errorCount++;
-        } else {
-            setErrorMessageCondition("");
-            setConditionStyle(styles.dropdownlists);
-        }
-
-        if (!description) {
-            setErrorMessageDescription("Description is required.");
-            setDescriptionStyle(styles.postListingDescriptionError);
-            emptyFields++;
-            errorCount++;
-        } else if (description.length > 300) {
-            setErrorMessageDescription(
-                "Description must be less than 300 characters."
-            );
-            setDescriptionStyle(styles.postListingDescriptionError);
-
-            errorCount++;
-        } else {
-            setErrorMessageDescription("");
-            setDescriptionStyle(styles.postListingDescription);
-        }
-
-        // Validate email field
         if (emptyFields > 1) {
             setErrorMessage("Please fill out all fields.");
             setErrorMessageTitle("");
@@ -217,8 +240,17 @@ export default function ListingForm({ header, buttonTitle, imageText, listingtit
         }
 
         if (errorCount === 0) {
-            CreatePost();
-            console.log("Post created successfully");
+            if (buttonTitle === "Post") {
+                createPost();
+                console.log("Post created successfully");
+            } else if (buttonTitle === "Update") {
+                await updateListing(listingId, title, description, price, category, condition);
+
+                router.back();
+                console.log("Post updated successfully");
+            } else {
+                console.error("Invalid button title");
+            }
         }
     };
 
@@ -313,7 +345,7 @@ export default function ListingForm({ header, buttonTitle, imageText, listingtit
                             blurOnSubmit={false}
                             onChangeText={(value) => setTitle(value)}
                             value={title}
-                            placeholder={listingtitle ? listingtitle : "Title"}
+                            placeholder={listingTitle ? listingTitle : "Title"}
                             onSubmitEditing={() => {
                                 priceInputRef.current.focus();
                             }}
@@ -378,7 +410,7 @@ export default function ListingForm({ header, buttonTitle, imageText, listingtit
                             }}
                             value={price}
                             returnKeyType="done"
-                            placeholder="Price"
+                            placeholder={listingPrice ? listingPrice : "Price"}
                             inputMode="decimal"
                             ref={priceInputRef}
                             onBlur={() => {
@@ -401,6 +433,7 @@ export default function ListingForm({ header, buttonTitle, imageText, listingtit
                         )}
                         <View style={categoryStyle}>
                             <RNPickerSelect
+                                // value={listingCategory ? listingCategory : null}
                                 returnKeyType="done"
                                 blurOnSubmit={false}
                                 onValueChange={(value) => {
@@ -451,6 +484,7 @@ export default function ListingForm({ header, buttonTitle, imageText, listingtit
                         )}
                         <View style={conditionStyle}>
                             <RNPickerSelect
+                                // value={listingCondition ? listingCondition : null}
                                 returnKeyType="done"
                                 blurOnSubmit={false}
                                 placeholder={{
@@ -513,7 +547,7 @@ export default function ListingForm({ header, buttonTitle, imageText, listingtit
                             multiline={true}
                             value={description}
                             maxLength={250}
-                            placeholder="Description"
+                            placeholder={listingDescription ? listingDescription : "Description"}
                             style={descriptionStyle}
                             ref={descriptionInputRef}
                         />

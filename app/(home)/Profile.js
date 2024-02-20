@@ -58,7 +58,7 @@ export default function ProfileScreen() {
         fetchUserData();
     }
 
-    console.log(user);
+    // console.log(user);
 
     const noSavedListings = () => (
         <Text style={{ textAlign: 'center' }}>No saved listings</Text>
