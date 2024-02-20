@@ -192,7 +192,7 @@ export async function isListingFavorited(listingId) {
 }
 
 // Function to update listing
-export async function updateListing(listingId, title, description, price, category, condition) {
+export async function updateListing(listingId, title, description, price, category, condition, image) {
     const listingRef = ref(database, `dorm_swap_shop/listings/${listingId}`);
 
     try {
@@ -213,6 +213,7 @@ export async function updateListing(listingId, title, description, price, catego
             price: price !== undefined ? price : existingListingData.price,
             category: category !== undefined ? category : existingListingData.category,
             condition: condition !== undefined ? condition : existingListingData.condition,
+            images: image !== undefined ? image : existingListingData.image,
         };
 
         // Update the listing with the merged data
@@ -220,6 +221,23 @@ export async function updateListing(listingId, title, description, price, catego
         console.log("Listing information updated.");
     } catch (error) {
         console.error("Failed to update listing information: ", error);
+    }
+}
+
+export async function getIndividualListing(listingId) {
+    const userId = getUserID();
+    const listingRef = ref(database, `dorm_swap_shop/listings/${listingId}`);
+        
+    // Check for ownership
+    const snapshot = await get(listingRef);
+    const listingData = snapshot.val();
+
+    // Check if the listing belongs to the user
+    if (listingData && listingData.user === userId) {
+        // Return the listing
+        return listingData;
+    } else {
+        console.error(`User ${userId} does not own listing ${listingId}.`);
     }
 }
 

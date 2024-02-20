@@ -28,7 +28,14 @@ import RoundHeader from "../components/RoundHeader.js";
 import ExpandComponent from "../assets/svg/expand_icon.js";
 import { updateListing } from "../backend/api/listing.js";
 
-export default function ListingForm({ header, buttonTitle, imageText, listingId, listingTitle, listingPrice, listingCategory, listingCondition, listingDescription}) {
+export default function ListingForm({ header, 
+    buttonTitle, imageText, listingId, listingTitle, 
+    listingPrice, listingCategory, listingCondition, listingDescription}) {
+
+    console.log("Props: ", listingId, listingTitle, listingPrice, listingCategory, listingCondition, listingDescription);
+    console.log("listingTitle:", listingTitle); // Add this line to check the value of listingTitle
+    
+
     const navigation = useNavigation();
     const [title, setTitle] = useState(listingTitle ? listingTitle : "");
     const [description, setDescription] = useState(listingDescription ? listingDescription : "");
@@ -37,6 +44,9 @@ export default function ListingForm({ header, buttonTitle, imageText, listingId,
     const [condition, setCondition] = useState(listingCondition ? listingCondition : null);
     const [location, setLocation] = useState("");
 
+    console.log("StateTitle: ", title);
+    console.log("StateDescription: ", description);
+    
 
     //For pickers so they can get the right text size
     const { width } = Dimensions.get("window");
@@ -122,7 +132,7 @@ export default function ListingForm({ header, buttonTitle, imageText, listingId,
         return () => {
             unsubscribeBlur();
         };
-    }, [title, description, price, category, condition]);
+    }, [/*title, description, price, category, condition*/]);
 
 
     const handleValidation = () => {
@@ -235,6 +245,7 @@ export default function ListingForm({ header, buttonTitle, imageText, listingId,
                 console.log("Post created successfully");
             } else if (buttonTitle === "Update") {
                 await updateListing(listingId, title, description, price, category, condition);
+
                 router.back();
                 console.log("Post updated successfully");
             } else {

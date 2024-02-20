@@ -7,6 +7,7 @@ import {
     StyleSheet,
     Modal,
     Animated,
+    RefreshControl
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import SquareHeader from "../../components/SquareHeader.js";
@@ -27,33 +28,30 @@ const MyListingsScreen = ({ navigation }) => {
     const [showProfile, setShowProfile] = useState(false);
     const [listingsData, setListingsData] = useState([]);
     const [fullData, setFullData] = useState([]);
+    const [refreshing, setRefreshing] = useState(false);
+
+    const fetchListingData = async () => {
+        try {
+            const listingsData = await getUserListings();
+            setFullData(listingsData);
+            setListingsData(listingsData);
+            console.log("Got user listings.");
+        } catch (error) {
+            console.error("ERROR: Could not get user listings: ", error);
+        }
+    };
 
     useEffect(() => {
-        const fetchListingData = async () => {
-            try {
-                const listingsData = await getUserListings();
-                setFullData(listingsData);
-                setListingsData(listingsData);
-                console.log("Got user listings.");
-            } catch (error) {
-                console.error("ERROR: Could not get user listings: ", error);
-            }
-        };
         fetchListingData();
     }, [/*listingsData*/]); // TODO: This works, but it gets stuck in a never ending loop... work on this
                             // the delete functionality works. Just need to focus on auto refresh.
 
     const handleItemPress = (listing) => {
         //setSelectedListing(listing);
+        console.log(listing.listingId);
         router.push({
             pathname: "EditListingScreen",
-            params: { listingTitle: listing.title, 
-                      listingId: listing.listingId, 
-                      listingPrice: listing.price, 
-                      listingCategory: listing.category, 
-                      listingCondition: listing.condition, 
-                      listingDescription: listing.description
-                    },
+            params: { listingId: listing.listingId },
         });
     };
 
@@ -99,11 +97,10 @@ const MyListingsScreen = ({ navigation }) => {
         return false;
     };
 
-    // const truncatedDescription =
-    //     listingsData.description && listingsData.description.length > 10
-    //         ? listingsData.description.substring(0, 35) + "..."
-    //         : listingsData.description;
-
+    const handleRefresh = () => {
+        fetchListingData();
+    }
+    
     function getTruncatedDescription(item) {
         if (item && item.description && item.description.length > 10) {
             return item.description.substring(0, 35) + '...';
@@ -200,6 +197,12 @@ const MyListingsScreen = ({ navigation }) => {
                         </View>
                     );
                 }}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={handleRefresh} // Handle refresh event
+                    />
+                }
                 ItemSeparatorComponent={() => (
                     <View style={{ alignItems: "center" }}>
                         <View style={[styles.dividerLine, { marginBottom: 10, marginTop: 10 }]} />
