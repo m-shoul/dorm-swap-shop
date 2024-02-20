@@ -4,12 +4,15 @@ import {
     TextInput,
     View,
     TouchableOpacity,
-    SafeAreaView,
     ScrollView,
     KeyboardAvoidingView,
     //Image,
     Dimensions,
 } from "react-native";
+import {
+    SafeAreaView,
+    useSafeAreaInsets,
+} from "react-native-safe-area-context";
 import { Image } from "expo-image";
 import React, { useState, useEffect, useRef } from "react";
 import styles from "../app/(aux)/StyleSheet.js";
@@ -20,18 +23,30 @@ import ListImagesComponent from "../assets/svg/list_images.js";
 import RNPickerSelect from "react-native-picker-select";
 import { createListing } from "../backend/api/listing.js";
 import { router, useNavigation } from "expo-router";
-import { Button } from '../components/Buttons.js';
+import { Button } from "../components/Buttons.js";
 import RoundHeader from "../components/RoundHeader.js";
 import ExpandComponent from "../assets/svg/expand_icon.js";
+import { updateListing } from "../backend/api/listing.js";
 
-export default function ListingForm({ header, buttonTitle, imageText }) {
+export default function ListingForm({ header, 
+    buttonTitle, imageText, listingId, listingTitle, 
+    listingPrice, listingCategory, listingCondition, listingDescription}) {
+
+    console.log("Props: ", listingId, listingTitle, listingPrice, listingCategory, listingCondition, listingDescription);
+    console.log("listingTitle:", listingTitle); // Add this line to check the value of listingTitle
+    
+
     const navigation = useNavigation();
-    const [title, setTitle] = useState("");
-    const [description, setDescription] = useState("");
-    const [price, setPrice] = useState("");
-    const [category, setCategory] = useState(null);
-    const [condition, setCondition] = useState(null);
+    const [title, setTitle] = useState(listingTitle ? listingTitle : "");
+    const [description, setDescription] = useState(listingDescription ? listingDescription : "");
+    const [price, setPrice] = useState(listingPrice ? listingPrice : "");
+    const [category, setCategory] = useState(listingCategory ? listingCategory : null);
+    const [condition, setCondition] = useState(listingCondition ? listingCondition : null);
     const [location, setLocation] = useState("");
+
+    console.log("StateTitle: ", title);
+    console.log("StateDescription: ", description);
+    
 
     //For pickers so they can get the right text size
     const { width } = Dimensions.get("window");
@@ -58,7 +73,7 @@ export default function ListingForm({ header, buttonTitle, imageText }) {
     };
 
     // Function to create a listing
-    const CreatePost = () => {
+    const createPost = () => {
         let userId = getUserID();
         try {
             createListing(
@@ -100,6 +115,7 @@ export default function ListingForm({ header, buttonTitle, imageText }) {
     const descriptionInputRef = useRef(null);
     const categoryInputRef = useRef(null);
     const conditionInputRef = useRef(null);
+    const insets = useSafeAreaInsets();
 
     let validate = 0;
     useEffect(() => {
@@ -116,15 +132,28 @@ export default function ListingForm({ header, buttonTitle, imageText }) {
         return () => {
             unsubscribeBlur();
         };
-    }, [title, price, description, navigation]);
+    }, [/*title, description, price, category, condition*/]);
+
 
     const handleValidation = () => {
-        validateForm();
-        validate = 1;
+        if (buttonTitle === "Post") {
+            validatePost();
+        } else if (buttonTitle === "Update") {
+            validateUpdate();
+        } else {
+            console.error("Invalid button title");
+        }
+    };
+
+    const validatePost = () => {
+        validateForm(true);
+    };
+
+    const validateUpdate = () => {
+        validateForm(false);
     };
 
     const clearTextInputs = () => {
-        router.push("Home");
         setTitle("");
         setPrice("");
         setDescription("");
@@ -133,72 +162,72 @@ export default function ListingForm({ header, buttonTitle, imageText }) {
         setImage(null);
     };
 
-    const validateForm = () => {
+    const validateForm = async (isRequiredAllFields) => {
         let errorCount = 0;
         let emptyFields = 0;
         console.log(validate);
-        // Validate first name field
 
-        //validate last name field
-        if (!title) {
-            setErrorMessageTitle("Title is required.");
-            setTitleStyle(styles.createUserInputError);
-            emptyFields++;
-            errorCount++;
-        } else {
-            setErrorMessageTitle("");
-            setTitleStyle(styles.createUserInput);
+        if (isRequiredAllFields) {
+            //validate last name field
+            if (!title) {
+                setErrorMessageTitle("Title is required.");
+                setTitleStyle(styles.createUserInputError);
+                emptyFields++;
+                errorCount++;
+            } else {
+                setErrorMessageTitle("");
+                setTitleStyle(styles.createUserInput);
+            }
+
+            //validate username field
+            if (!price) {
+                setErrorMessagePrice("Price is required.");
+                setPriceStyle(styles.createUserInputError);
+                emptyFields++;
+                errorCount++;
+            } else {
+                setErrorMessagePrice("");
+                setPriceStyle(styles.createUserInput);
+            }
+
+            if (category === null) {
+                setErrorMessageCategory("Category is required.");
+                setCategoryStyle(styles.dropDownListsError);
+                emptyFields++;
+                errorCount++;
+            } else {
+                setErrorMessageCategory("");
+                setCategoryStyle(styles.dropdownlists);
+            }
+
+            if (condition === null) {
+                setErrorMessageCondition("Condition is required.");
+                setConditionStyle(styles.dropDownListsError);
+                emptyFields++;
+                errorCount++;
+            } else {
+                setErrorMessageCondition("");
+                setConditionStyle(styles.dropdownlists);
+            }
+
+            if (!description) {
+                setErrorMessageDescription("Description is required.");
+                setDescriptionStyle(styles.postListingDescriptionError);
+                emptyFields++;
+                errorCount++;
+            } else if (description.length > 300) {
+                setErrorMessageDescription(
+                    "Description must be less than 300 characters."
+                );
+                setDescriptionStyle(styles.postListingDescriptionError);
+
+                errorCount++;
+            } else {
+                setErrorMessageDescription("");
+                setDescriptionStyle(styles.postListingDescription);
+            }
         }
 
-        //validate username field
-        if (!price) {
-            setErrorMessagePrice("Price is required.");
-            setPriceStyle(styles.createUserInputError);
-            emptyFields++;
-            errorCount++;
-        } else {
-            setErrorMessagePrice("");
-            setPriceStyle(styles.createUserInput);
-        }
-
-        if (category === null) {
-            setErrorMessageCategory("Category is required.");
-            setCategoryStyle(styles.dropDownListsError);
-            emptyFields++;
-            errorCount++;
-        } else {
-            setErrorMessageCategory("");
-            setCategoryStyle(styles.dropdownlists);
-        }
-
-        if (condition === null) {
-            setErrorMessageCondition("Condition is required.");
-            setConditionStyle(styles.dropDownListsError);
-            emptyFields++;
-            errorCount++;
-        } else {
-            setErrorMessageCondition("");
-            setConditionStyle(styles.dropdownlists);
-        }
-
-        if (!description) {
-            setErrorMessageDescription("Description is required.");
-            setDescriptionStyle(styles.postListingDescriptionError);
-            emptyFields++;
-            errorCount++;
-        } else if (description.length > 300) {
-            setErrorMessageDescription(
-                "Description must be less than 300 characters."
-            );
-            setDescriptionStyle(styles.postListingDescriptionError);
-
-            errorCount++;
-        } else {
-            setErrorMessageDescription("");
-            setDescriptionStyle(styles.postListingDescription);
-        }
-
-        // Validate email field
         if (emptyFields > 1) {
             setErrorMessage("Please fill out all fields.");
             setErrorMessageTitle("");
@@ -211,24 +240,36 @@ export default function ListingForm({ header, buttonTitle, imageText }) {
         }
 
         if (errorCount === 0) {
-            CreatePost();
-            console.log("Post created successfully");
+            if (buttonTitle === "Post") {
+                createPost();
+                console.log("Post created successfully");
+            } else if (buttonTitle === "Update") {
+                await updateListing(listingId, title, description, price, category, condition);
+
+                router.back();
+                console.log("Post updated successfully");
+            } else {
+                console.error("Invalid button title");
+            }
         }
     };
 
     return (
-        <SafeAreaView style={styles.background}>
-            <RoundHeader height="35%" />
+        <View style={[styles.background, { paddingTop: insets.top }]}>
+            <RoundHeader height={260} />
             <View
                 style={{
-                    height: "15%",
                     paddingTop: "5%",
-                    //margin: 0,
-                    marginBottom: -10,
                     width: "100%",
                     alignItems: "center",
                 }}>
-                <Text style={[styles.postListingHeader, { marginBottom: "7%", color: "#F9F7F7" }]}>{header}</Text>
+                <Text
+                    style={[
+                        styles.postListingHeader,
+                        { marginBottom: "7%", color: styles.colors.lightColor },
+                    ]}>
+                    {header}
+                </Text>
                 <View style={styles.dividerLine} />
             </View>
 
@@ -248,8 +289,6 @@ export default function ListingForm({ header, buttonTitle, imageText }) {
                     width: "100%",
                     justifyContent: "center",
                     alignItems: "center",
-                    marginTop: "-10%",
-                    //zIndex: -1,
                 }}
                 behavior={Platform.OS === "ios" ? "padding" : "height"}>
                 <ScrollView
@@ -261,7 +300,6 @@ export default function ListingForm({ header, buttonTitle, imageText }) {
                     }}
                     contentContainerStyle={{
                         flexGrow: 1,
-                        justifyContent: "center",
                         alignItems: "center",
                     }}
                     keyboardShouldPersistTaps="handled">
@@ -274,26 +312,14 @@ export default function ListingForm({ header, buttonTitle, imageText }) {
                                         width: 200,
                                         height: 200,
                                         marginBottom: "2%",
-                                        borderRadius: 20
+                                        borderRadius: 20,
                                     }}
                                 />
                             ) : (
                                 <ListImagesComponent
-                                    //source={require("../../assets/svg/list_images.js")}
                                     style={{
                                         width: 200,
                                         height: 28,
-                                        // stroke: "black",
-                                        // strokeWidth: 0.25,
-                                        marginBottom: "2%",
-                                        shadowColor: "#000",
-                                        shadowOffset: {
-                                            width: 0,
-                                            height: 4,
-                                        },
-                                        shadowOpacity: 0.8,
-                                        shadowRadius: 3.84,
-                                        elevation: 5,
                                     }}
                                 />
                             )}
@@ -301,14 +327,14 @@ export default function ListingForm({ header, buttonTitle, imageText }) {
                         <Text style={{ textAlign: "center" }}>{imageText}</Text>
                     </View>
 
-                    <View style={[styles.forms, { height: "50%" }]}>
+                    <View style={styles.forms}>
                         <TextInput
                             maxLength={25}
                             style={titleStyle}
                             blurOnSubmit={false}
                             onChangeText={(value) => setTitle(value)}
                             value={title}
-                            placeholder="Title"
+                            placeholder={listingTitle ? listingTitle : "Title"}
                             onSubmitEditing={() => {
                                 priceInputRef.current.focus();
                             }}
@@ -326,12 +352,54 @@ export default function ListingForm({ header, buttonTitle, imageText }) {
                         )}
                         <TextInput
                             style={priceStyle}
-                            maxLength={5}
                             blurOnSubmit={false}
-                            onChangeText={(value) => setPrice(value)}
+                            onChangeText={(value) => {
+                                // Define the regular expression for the required format
+                                let regex = /^\d{1,5}(\.\d{0,2})?$/;
+
+                                // Check if the input value matches the required format
+                                if (!regex.test(value)) {
+                                    // If not, correct it
+
+                                    // Check if the input value contains more than one period
+                                    let periodCount = (value.match(/\./g) || [])
+                                        .length;
+                                    if (periodCount > 1) {
+                                        // If it does, remove the extra periods
+                                        let firstPeriodIndex =
+                                            value.indexOf(".");
+                                        value = value.replace(
+                                            /\./g,
+                                            (match, index) =>
+                                                index === firstPeriodIndex
+                                                    ? "."
+                                                    : ""
+                                        );
+                                    }
+
+                                    // Split the value into the part before the period and the part after the period
+                                    let parts = value.split(".");
+
+                                    // Limit the part before the period to 5 characters
+                                    if (parts[0].length > 5) {
+                                        parts[0] = parts[0].substring(0, 5);
+                                    }
+
+                                    // If there is a part after the period, limit it to 2 characters
+                                    if (parts[1] && parts[1].length > 2) {
+                                        parts[1] = parts[1].substring(0, 2);
+                                    }
+
+                                    // Combine the parts back into the corrected value
+                                    value = parts.join(".");
+                                }
+
+                                // Update the price state
+                                setPrice(value);
+                            }}
                             value={price}
                             returnKeyType="done"
-                            placeholder="Price"
+                            placeholder={listingPrice ? listingPrice : "Price"}
                             inputMode="decimal"
                             ref={priceInputRef}
                             onBlur={() => {
@@ -354,6 +422,7 @@ export default function ListingForm({ header, buttonTitle, imageText }) {
                         )}
                         <View style={categoryStyle}>
                             <RNPickerSelect
+                                // value={listingCategory ? listingCategory : null}
                                 returnKeyType="done"
                                 blurOnSubmit={false}
                                 onValueChange={(value) => {
@@ -374,19 +443,21 @@ export default function ListingForm({ header, buttonTitle, imageText }) {
                                 ref={categoryInputRef}
                                 style={{
                                     inputIOS: {
+                                        paddingTop: "2%", //was 7
+                                        paddingLeft: "5%",
                                         fontSize: normalText, // Change this to your desired font size
                                     },
                                     inputAndroid: {
+                                        marginTop: -8,
                                         fontSize: normalText, // Change this to your desired font size
                                     },
                                     iconContainer: {
+                                        top: 5,
                                         right: "3%",
-                                    }
+                                    },
                                 }}
                                 Icon={() => {
-                                    return (
-                                        <ExpandComponent />
-                                    )
+                                    return <ExpandComponent />;
                                 }}
                             />
                         </View>
@@ -402,6 +473,7 @@ export default function ListingForm({ header, buttonTitle, imageText }) {
                         )}
                         <View style={conditionStyle}>
                             <RNPickerSelect
+                                // value={listingCondition ? listingCondition : null}
                                 returnKeyType="done"
                                 blurOnSubmit={false}
                                 placeholder={{
@@ -428,19 +500,21 @@ export default function ListingForm({ header, buttonTitle, imageText }) {
                                 items={conditions}
                                 style={{
                                     inputIOS: {
+                                        paddingTop: "2%", //was 7
+                                        paddingLeft: "5%",
                                         fontSize: normalText, // Change this to your desired font size
                                     },
                                     inputAndroid: {
+                                        marginTop: -8,
                                         fontSize: normalText, // Change this to your desired font size
                                     },
                                     iconContainer: {
+                                        top: 5,
                                         right: "3%",
-                                    }
+                                    },
                                 }}
                                 Icon={() => {
-                                    return (
-                                        <ExpandComponent />
-                                    )
+                                    return <ExpandComponent />;
                                 }}
                             />
                         </View>
@@ -462,7 +536,7 @@ export default function ListingForm({ header, buttonTitle, imageText }) {
                             multiline={true}
                             value={description}
                             maxLength={250}
-                            placeholder="Description"
+                            placeholder={listingDescription ? listingDescription : "Description"}
                             style={descriptionStyle}
                             ref={descriptionInputRef}
                         />
@@ -483,7 +557,6 @@ export default function ListingForm({ header, buttonTitle, imageText }) {
                                 flexDirection: "row",
                                 marginTop: "10%",
                                 justifyContent: "space-between",
-                                height: "12%",
                             }}>
                             {/* Cancel Button */}
                             <Button
@@ -492,7 +565,7 @@ export default function ListingForm({ header, buttonTitle, imageText }) {
                                 title="Cancel"
                                 alignItems="center"
                                 justifyContent="center"
-                                borderRadius="25%"
+                                borderRadius={25}
                                 press={clearTextInputs}
                                 marginRight="5%"
                                 titleStyle={styles.buttonText}
@@ -500,12 +573,12 @@ export default function ListingForm({ header, buttonTitle, imageText }) {
 
                             {/* Post Button */}
                             <Button
-                                backgroundColor="#3F72AF"
+                                backgroundColor={styles.colors.darkAccentColor}
                                 title={buttonTitle}
                                 alignItems="center"
-                                flex="1"
+                                width="60%"
                                 justifyContent="center"
-                                borderRadius="25%"
+                                borderRadius={25}
                                 press={handleValidation}
                                 titleStyle={styles.buttonText}
                             />
@@ -514,7 +587,6 @@ export default function ListingForm({ header, buttonTitle, imageText }) {
                     </View>
                 </ScrollView>
             </KeyboardAvoidingView>
-
-        </SafeAreaView>
+        </View>
     );
 }

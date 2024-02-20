@@ -1,4 +1,5 @@
-import { View, Text, Pressable, Modal, SafeAreaView, TouchableOpacity, Dimensions } from "react-native";
+import { View, Text, Pressable, Modal, TouchableOpacity, Dimensions, Platform } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import FilterComponent from "../assets/svg/filter_icon";
 import ExpandComponent from "../assets/svg/expand_icon";
 import styles from "../app/(aux)/StyleSheet";
@@ -6,6 +7,7 @@ import { Button } from "../components/Buttons";
 import RNPickerSelect from "react-native-picker-select";
 import { categories, conditions } from "./Enums";
 import React, { useState, useRef, useEffect } from "react";
+import { normalizeText } from "@rneui/base";
 
 export default function FilterPopup({ handleFiltering }) {
     const [modalVisible, setModalVisible] = useState(false);
@@ -15,18 +17,12 @@ export default function FilterPopup({ handleFiltering }) {
     const conditionInputRef = useRef(null);
     const categoryInputRef = useRef(null);
     const defaultColor = "#B3B3B3";
-    const activeColor = "#3F72AF";
+    const activeColor = styles.colors.darkAccentColor;
 
-    useEffect(() => {
-        if (modalVisible) {
-            setCategory(null);
-            setCondition(null);
-            setActivePrice(null);
-        }
-    }, [modalVisible]);
+    const insets = useSafeAreaInsets();
 
     return (
-        <SafeAreaView>
+        <View style={{ justifyContent: "center" }}>
             <TouchableOpacity onPress={() => setModalVisible(true)}>
                 <FilterComponent />
             </TouchableOpacity>
@@ -47,7 +43,6 @@ export default function FilterPopup({ handleFiltering }) {
                         backgroundColor: '#F9F7F7',
                         borderRadius: 20,
                         padding: 20,
-                        //alignItems: 'center',
                         shadowColor: '#000',
                         shadowOffset: {
                             width: 0,
@@ -57,47 +52,48 @@ export default function FilterPopup({ handleFiltering }) {
                         shadowRadius: 4,
                         elevation: 5,
                         width: "90%",
-                        height: "50%",
+                        height: 450,
                     }}>
                         <View>
                             <Text style={styles.postListingHeader}>Filter</Text>
                         </View>
-                        <View style={{ marginTop: "6%" }}>
+                        <View style={{ marginTop: 12 }}>
                             <Text style={[styles.normaltext, { marginBottom: "2%" }]}>Category</Text>
                             <View style={styles.dropdownlists}>
                                 <RNPickerSelect
+                                    value={category}
                                     returnKeyType="done"
                                     blurOnSubmit={false}
                                     onValueChange={(value) => {
                                         setCategory(value);
                                     }}
-                                    // onDonePress={() => {
-                                    //     conditionInputRef.current.togglePicker();
-                                    // }}
                                     placeholder={{
-                                        label: "Select a Category",
+                                        label:"Select a Category",
                                         value: null,
                                     }}
-                                    // onSubmitEditing={() => {
-                                    //     Keyboard.dismiss();
-                                    // }}
                                     items={categories}
                                     ref={categoryInputRef}
                                     style={{
                                         inputIOS: {
-                                            fontSize: normalText, // Change this to your desired font size
+                                            paddingTop: "2%",
+                                            paddingLeft: "5%",
+                                            fontSize: normalText,
                                         },
                                         inputAndroid: {
-                                            fontSize: normalText, // Change this to your desired font size
+                                            marginTop: -8,
+                                            fontSize: normalText,
                                         },
                                         iconContainer: {
+                                            top: 5,
                                             right: "3%",
                                         }
                                     }}
                                     Icon={() => {
-                                        return (
-                                            <ExpandComponent />
-                                        )
+                                        if (Platform.OS === "ios") {
+                                            return (
+                                                <ExpandComponent />
+                                            )
+                                        }
                                     }}
                                 />
                             </View>
@@ -107,7 +103,6 @@ export default function FilterPopup({ handleFiltering }) {
                         <View style={{
                             flexDirection: "row",
                             justifyContent: "space-evenly",
-                            height: "12%",
                             marginBottom: "6%"
                         }}>
                             <Button
@@ -116,7 +111,7 @@ export default function FilterPopup({ handleFiltering }) {
                                 title="$"
                                 alignItems="center"
                                 justifyContent="center"
-                                borderRadius="25%"
+                                borderRadius={25}
                                 press={() => setActivePrice('$')}
                                 titleStyle={styles.buttonText}
                             />
@@ -126,7 +121,7 @@ export default function FilterPopup({ handleFiltering }) {
                                 title="$$"
                                 alignItems="center"
                                 justifyContent="center"
-                                borderRadius="25%"
+                                borderRadius={25}
                                 press={() => setActivePrice('$$')}
                                 titleStyle={styles.buttonText}
                             />
@@ -136,7 +131,7 @@ export default function FilterPopup({ handleFiltering }) {
                                 title="$$$"
                                 alignItems="center"
                                 justifyContent="center"
-                                borderRadius="25%"
+                                borderRadius={25}
                                 press={() => setActivePrice('$$$')}
                                 titleStyle={styles.buttonText}
                             />
@@ -146,6 +141,7 @@ export default function FilterPopup({ handleFiltering }) {
                         <Text style={[styles.normaltext, { marginBottom: "2%" }]}>Condition</Text>
                         <View style={styles.dropdownlists}>
                             <RNPickerSelect
+                                value={condition}
                                 returnKeyType="done"
                                 blurOnSubmit={false}
                                 placeholder={{
@@ -155,68 +151,64 @@ export default function FilterPopup({ handleFiltering }) {
                                 onBlur={() => {
                                     Keyboard.dismiss();
                                 }}
-                                // onDonePress={() => {
-                                //     Keyboard.dismiss();
-                                //     setTimeout(() => {
-                                //         descriptionInputRef.current.focus();
-                                //     }, 100);
-                                // }}
                                 onValueChange={(value) => {
-                                    //Keyboard.dismiss();
                                     setCondition(value);
                                 }}
-                                // onSubmitEditing={() => {
-                                //     Keyboard.dismiss();
-                                // }}
                                 ref={conditionInputRef}
                                 items={conditions}
                                 style={{
                                     inputIOS: {
-                                        fontSize: normalText, // Change this to your desired font size
+                                        paddingTop: "2%",
+                                        paddingLeft: "4%",
+                                        fontSize: normalText,
                                     },
                                     inputAndroid: {
-                                        fontSize: normalText, // Change this to your desired font size
+                                        marginTop: -8,
+                                        fontSize: normalText,
                                     },
                                     iconContainer: {
-                                        right: "3%",
+                                        top: 5,
+                                        right: "4%",
                                     }
                                 }}
                                 Icon={() => {
-                                    return (
-                                        <ExpandComponent />
-                                    )
+                                    if (Platform.OS === "ios") {
+                                        return (
+                                            <ExpandComponent />
+                                        )
+                                    }
                                 }}
                             />
                         </View>
 
-                        <View style={{ flexDirection: "row", justifyContent: "space-between", height: "12%" }}>
+                        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                             <Button
                                 width="40%"
                                 backgroundColor="#B3B3B3"
                                 title="Cancel"
                                 alignItems="center"
                                 justifyContent="center"
-                                borderRadius="25%"
+                                borderRadius={25}
                                 press={() => [setModalVisible(!modalVisible), setActivePrice(null), setCategory(null), setCondition(null)]}
                                 titleStyle={styles.buttonText}
                             />
                             <Button
                                 width="50%"
-                                backgroundColor="#3F72AF"
+                                backgroundColor={styles.colors.darkAccentColor}
                                 title="Apply"
                                 alignItems="center"
                                 justifyContent="center"
-                                borderRadius="25%"
                                 press={() => {
                                     setModalVisible(!modalVisible)
-                                    handleFiltering(category, condition, activePrice);     
+                                    handleFiltering(category, condition, activePrice);
                                 }}
+                                borderRadius={25}
                                 titleStyle={styles.buttonText}
                             />
                         </View>
                     </View>
                 </View>
             </Modal>
-        </SafeAreaView>
+        </View>
     );
 }

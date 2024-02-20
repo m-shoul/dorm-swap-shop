@@ -2,11 +2,11 @@ import {
     Text,
     TextInput,
     View,
-    SafeAreaView,
     TouchableOpacity,
     TouchableWithoutFeedback,
     Keyboard,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import React, { useState, useRef } from "react";
 import styles from "./(aux)/StyleSheet";
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -71,11 +71,6 @@ export default function LoginScreen() {
             <SafeAreaView style={styles.background}>
                 <LogoV2 />
 
-                {/* <View>
-                    paddingTop: "45%"
-                    <Text style={styles.loginHeader}> Login </Text>
-                </View> */}
-
                 <View style={styles.dividerLine} />
 
                 <View style={styles.forms}>
@@ -133,14 +128,13 @@ export default function LoginScreen() {
                 </TouchableOpacity> */}
                 <Button
                     width="80%"
-                    height="7%"
-                    backgroundColor="#3F72AF"
+                    backgroundColor={styles.colors.darkAccentColor}
                     title="Login"
                     alignItems="center"
                     justifyContent="center"
                     marginTop="6%"
                     marginBottom="6%"
-                    borderRadius="25%"
+                    borderRadius={25}
                     press={handleLogin}
                     titleStyle={styles.buttonText}
                 />

@@ -1,5 +1,5 @@
 import { database } from '../config/firebaseConfig';
-import { get, child, ref, set, push, getDatabase, remove } from 'firebase/database';
+import { get, child, ref, set, push, getDatabase, remove, update } from 'firebase/database';
 import { getUserID } from '../dbFunctions';
 import { getAuth } from 'firebase/auth';
 import { getStorage, ref as sRef, uploadBytesResumable, getDownloadURL } from "firebase/storage";
@@ -230,20 +230,19 @@ export async function deleteUserFromRealtimeDatabase(userId) {
 // Function to update a user
 // TODO: Pass additional parameters in as needed
 // and create views for the data in the edit profile
-export async function updateUser(profileImageUrl, username, fname, lname) {
+export async function updateUser(username, fname, lname) {
     console.log("getting user id");
     const userId = await getUserPushIdFromFirebaseRealtime();
     const userReference = ref(database, `dorm_swap_shop/users/${userId}/public`);
 
     // Add more data as needed
     const updatedInfo = {
-        profileImage: profileImageUrl,
         username: username,
         fname: fname,
         lname: lname
     };
 
-    set(userReference, updatedInfo)
+    update(userReference, updatedInfo)
         .then(() => {
             console.log("Updated user information testing");
         })

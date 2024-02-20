@@ -2,10 +2,10 @@ import {
     Text,
     View,
     TouchableOpacity,
-    SafeAreaView,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import styles from "../(aux)/StyleSheet.js";
-import { router, useLocalSearchParams } from "expo-router";
+import { router } from "expo-router";
 import { database } from "../../backend/config/firebaseConfig";
 import React, { useState, useCallback, useEffect } from 'react';
 import { GiftedChat } from 'react-native-gifted-chat';
@@ -45,7 +45,7 @@ export default function Conversations() {
 
     const onSend = useCallback((messages = []) => {
 
-        if(!chatId || typeof(chatId) != "string"){
+        if (!chatId || typeof (chatId) != "string") {
             console.log("*onSend* Chat ID not found. Cannot send message.");
             return;
         }
@@ -73,20 +73,20 @@ export default function Conversations() {
 
     return (
         <SafeAreaView style={{flex:1, backgroundColor: "#fff"}}>
-        <View>
-        <TouchableOpacity onPress={() => router.push("(home)/Chat")}>
-            <Text>&lt; Back</Text>
-        </TouchableOpacity>
-        <Text style={styles.chatHeader}>{theirUsername}</Text>
-        </View>
-        <GiftedChat
-            messages={messages}
-            onSend={messages => onSend(messages)}
-            user={{
-            _id: yourID,
-            name: yourUsername,
-            }}
-        />
+            <View>
+                <TouchableOpacity onPress={() => router.push("(home)/Chat")}>
+                    <Text>&lt; Back</Text>
+                </TouchableOpacity>
+                <Text style={styles.chatHeader}>{theirUsername}</Text>
+            </View>
+            <GiftedChat
+                messages={messages}
+                onSend={messages => onSend(messages)}
+                user={{
+                    _id: yourID,
+                    name: yourUsername,
+                }}
+            />
         </SafeAreaView>
     )
 }

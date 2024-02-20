@@ -3,9 +3,9 @@ import {
     View,
     TextInput,
     TouchableOpacity,
-    SafeAreaView,
     StatusBar
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import React from "react";
 import { useState } from "react";
 import {
@@ -42,7 +42,7 @@ export default function ResetPasswordScreen() {
         sendPasswordResetEmail(auth, email)
             .then(() => {
                 alert("Password reset email sent.");
-                router.push("LoginScreen");
+                router.push("/");
             })
             .catch((error) => {
                 console.log("Failed to send password reset email: ", error);
@@ -52,17 +52,10 @@ export default function ResetPasswordScreen() {
     return (
         <SafeAreaView style={styles.background}>
             <StatusBar barStyle="light-content" />
-            <RoundHeader height="20%" />
+            <RoundHeader height={150} />
 
             <ResetPasswordIcon style={{
-                marginTop: "10%", shadowColor: "#000",
-                shadowOffset: {
-                    width: 0,
-                    height: 4,
-                },
-                shadowOpacity: 0.8,
-                shadowRadius: 3.84,
-                elevation: 5,
+                marginTop: "10%",
             }} />
             <View>
 
@@ -97,13 +90,13 @@ export default function ResetPasswordScreen() {
             </TouchableOpacity> */}
             <Button
                 width="80%"
-                height="7%"
-                backgroundColor="#3F72AF"
+                backgroundColor={styles.colors.darkAccentColor}
                 title="Reset Password"
                 alignItems="center"
                 justifyContent="center"
                 marginTop="6%"
-                borderRadius="25%"
+                marginBottom="6%"
+                borderRadius={25}
                 press={handleReset}
                 titleStyle={styles.buttonText}
             />
