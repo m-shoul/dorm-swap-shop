@@ -7,6 +7,7 @@ import {
     StyleSheet,
     Modal,
     Animated,
+    RefreshControl
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import SquareHeader from "../../components/SquareHeader.js";
@@ -16,7 +17,7 @@ import React, { useState, useEffect, useRef } from "react";
 import styles from "../(aux)/StyleSheet.js";
 import ProfileScreen from "./Profile.js";
 import SearchBarHeader from "../../components/SearchBar.js";
-import { getUserListings } from "../../backend/api/listing.js";
+import { getUserListings, deleteListing } from "../../backend/api/listing.js";
 import filter from "lodash.filter";
 import { SwipeListView } from "react-native-swipe-list-view";
 import { Ionicons } from '@expo/vector-icons';
@@ -27,26 +28,30 @@ const MyListingsScreen = ({ navigation }) => {
     const [showProfile, setShowProfile] = useState(false);
     const [listingsData, setListingsData] = useState([]);
     const [fullData, setFullData] = useState([]);
+    const [refreshing, setRefreshing] = useState(false);
+
+    const fetchListingData = async () => {
+        try {
+            const listingsData = await getUserListings();
+            setFullData(listingsData);
+            setListingsData(listingsData);
+            console.log("Got user listings.");
+        } catch (error) {
+            console.error("ERROR: Could not get user listings: ", error);
+        }
+    };
 
     useEffect(() => {
-        const fetchListingData = async () => {
-            try {
-                const listingsData = await getUserListings();
-                setFullData(listingsData);
-                setListingsData(listingsData);
-                console.log("Got user listings.");
-            } catch (error) {
-                console.error("ERROR: Could not get user listings: ", error);
-            }
-        };
         fetchListingData();
-    }, []);
+    }, [/*listingsData*/]); // TODO: This works, but it gets stuck in a never ending loop... work on this
+                            // the delete functionality works. Just need to focus on auto refresh.
 
     const handleItemPress = (listing) => {
         //setSelectedListing(listing);
+        console.log(listing.listingId);
         router.push({
             pathname: "EditListingScreen",
-            params: { listingTitle: listing.title },
+            params: { listingId: listing.listingId },
         });
     };
 
@@ -92,11 +97,10 @@ const MyListingsScreen = ({ navigation }) => {
         return false;
     };
 
-    // const truncatedDescription =
-    //     listingsData.description && listingsData.description.length > 10
-    //         ? listingsData.description.substring(0, 35) + "..."
-    //         : listingsData.description;
-
+    const handleRefresh = () => {
+        fetchListingData();
+    }
+    
     function getTruncatedDescription(item) {
         if (item && item.description && item.description.length > 10) {
             return item.description.substring(0, 35) + '...';
@@ -193,6 +197,12 @@ const MyListingsScreen = ({ navigation }) => {
                         </View>
                     );
                 }}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={handleRefresh} // Handle refresh event
+                    />
+                }
                 ItemSeparatorComponent={() => (
                     <View style={{ alignItems: "center" }}>
                         <View style={[styles.dividerLine, { marginBottom: 10, marginTop: 10 }]} />
@@ -227,7 +237,8 @@ const MyListingsScreen = ({ navigation }) => {
                             }}
                             onPress={() => {
                                 // Handle the "Delete" action
-                                alert("Listing will be deleted");
+                                deleteListing(item.listingId);
+                                alert("Deleted");
                             }}>
                             <Ionicons name="trash-outline" size={32} color="black" />
                         </TouchableOpacity>

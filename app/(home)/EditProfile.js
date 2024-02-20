@@ -148,10 +148,6 @@ export default function EditProfile() {
                             style={styles.createUserInput}
                             onChangeText={(value) => setFname(value)}
                             placeholder={fname ? fname : "First name"}
-                            // onSubmitEditing={() => {
-                            //     // Focus on the password input when the user submits the email input
-                            //     passwordInputRef.current.focus();
-                            // }}
                             blurOnSubmit={false}
                         />
                     </View>
@@ -161,10 +157,6 @@ export default function EditProfile() {
                             style={styles.createUserInput}
                             onChangeText={(value) => setLname(value)}
                             placeholder={lname ? lname : "Last name"}
-                            // onSubmitEditing={() => {
-                            //     // Focus on the password input when the user submits the email input
-                            //     passwordInputRef.current.focus();
-                            // }}
                             blurOnSubmit={false}
                         />
                     </View>
@@ -174,41 +166,9 @@ export default function EditProfile() {
                             style={styles.createUserInput}
                             onChangeText={(value) => setUsername(value)}
                             placeholder={username ? username : "Username"}
-                            // onSubmitEditing={() => {
-                            //     // Focus on the password input when the user submits the email input
-                            //     passwordInputRef.current.focus();
-                            // }}
                             blurOnSubmit={false}
                         />
                     </View>
-                    {/* <View>
-                    <Text style={styles.boldtext}>Email</Text>
-                    <TextInput
-                        style={styles.createUserInput}
-                        //value={email}
-                        onChangeText={(value) => setEmail(value)}
-                        placeholder="Email"
-                        onSubmitEditing={() => {
-                            // Focus on the password input when the user submits the email input
-                            passwordInputRef.current.focus();
-                        }}
-                        blurOnSubmit={false}
-                    />
-                </View> */}
-                    {/* <View>
-                    <Text style={styles.boldtext}>Password</Text>
-                    <TextInput
-                        style={styles.createUserInput}
-                        //value={email}
-                        onChangeText={(value) => setEmail(value)}
-                        placeholder="Password"
-                        onSubmitEditing={() => {
-                            // Focus on the password input when the user submits the email input
-                            passwordInputRef.current.focus();
-                        }}
-                        blurOnSubmit={false}
-                    />
-                </View> */}
                     <View
                         style={{
                             flexDirection: "row",
