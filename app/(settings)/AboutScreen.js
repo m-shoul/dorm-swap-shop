@@ -18,6 +18,7 @@ import HeadShot from "../../components/HeadShot.js";
 import SquareHeader from "../../components/SquareHeader.js";
 import { Ionicons } from '@expo/vector-icons';
 import { ShadowedView } from 'react-native-fast-shadow';
+import symbolicateStackTrace from "react-native/Libraries/Core/Devtools/symbolicateStackTrace";
 
 export default function About() {
     const [modalVisible, setModalVisible] = useState(false);
@@ -30,9 +31,9 @@ export default function About() {
     const insets = useSafeAreaInsets();
 
     return (
-        <View style={{ paddingTop: insets.top, flex: 1, }}>
-            <SquareHeader />
-            <ScrollView>
+        <View style={{ paddingTop: insets.top, flex: 1 }}>
+            <SquareHeader height={50} />
+            <ScrollView bounces={false}>
                 <StatusBar barStyle={"light-content"} />
                 <RoundHeader height={220} />
                 <View
@@ -55,22 +56,29 @@ export default function About() {
                             style={[styles.postListingHeader, { color: styles.colors.lightColor }]}>
                             About
                         </Text>
-
                     </View>
                 </View>
 
-                <ShadowedView
-                    style={{
-                        shadowOpacity: 0.8,
-                        shadowRadius: 20,
-                        shadowOffset: {
-                            width: 5,
-                            height: 3,
-                        },
-                    }}
-                >
-                    <SimpleLogo width={133} height={143} marginTop={"5%"} />
-                </ShadowedView>
+                <View style={{
+                    width: "100%",
+                    justifyContent: "center",
+                    alignItems: "center",
+                }}>
+                    <ShadowedView
+                        style={{
+                            shadowOpacity: 0.8,
+                            shadowRadius: 20,
+                            shadowOffset: {
+                                width: 5,
+                                height: 3,
+                            },
+
+                        }}
+                    >
+                        <SimpleLogo width={133} height={143} marginTop={"5%"} />
+                    </ShadowedView>
+                </View>
+
 
 
 

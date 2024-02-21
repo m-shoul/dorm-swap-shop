@@ -88,6 +88,7 @@ export default function ProfileHeader({ user }) {
                             width: 5,
                             height: 3,
                         },
+                        backgroundColor: "transparent",
                     }}
                 >
                     <View
