@@ -5,66 +5,42 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import styles from "../(aux)/StyleSheet.js";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { database } from "../../backend/config/firebaseConfig";
 import React, { useState, useCallback, useEffect } from 'react';
 import { GiftedChat } from 'react-native-gifted-chat';
-import { addMessage, readChat, createChatThread, getChatThreadId } from "../../backend/api/chat.js";
-import { ref, push } from "firebase/database";
+import { addMessage, readChat, createChatThread, getChatThreadId, getUsersInChat } from "../../backend/api/chat.js";
+import { ref, push, set, get } from "firebase/database";
 import { getUserID } from "../../backend/dbFunctions.js";
 import { getUsernameByID } from "../../backend/api/user.js";
 
 export default function Conversations() {
+    const {chatId} = useLocalSearchParams();
     const [messages, setMessages] = useState([]);
-    const [chatId, setChatId] = useState("");
+    // const [chatId, setChatId] = useState("");
     const [yourUsername, setYourUsername] = useState("");
     const [theirUsername, setTheirUsername] = useState("");
     const yourID = getUserID();
-    const theirID = "otherUserIDPlaceholder";
 
-
+    // This useEffect hook runs whenever chatId changes
     useEffect(() => {
-        const fetchChatId = async () => {
-            const id = await getChatThreadId(yourID, theirID);
-            const yourUid = await getUsernameByID(yourID);
-            const theirUid = await getUsernameByID(theirID);
-            setYourUsername(yourUid);
-            setTheirUsername(theirUid);
-
-            console.log("*useEffect* Chat thread ID found: " + id);
-            if (typeof (id) != "string" || !id) {
-                console.log("*useEffect* Chat thread ID not found. Creating new chat thread.");
-                const newId = await createChatThread(yourID, theirID);
-                console.log("*useEffect* Chat thread ID created: " + newId);
-                setChatId(newId);
-            } else {
-                setChatId(id);
+        const fetchChatData = async () => {
+            if (chatId) {
+                const chatData = await readChat(chatId);
+                // console.log("*Conversations* Chat data: ", chatData);
+                if (chatData && chatData.participants) {
+                    setMessages(chatData.messages);
+                    const participants = chatData.participants;
+                    setYourUsername(await getUsernameByID(yourID));
+                    setTheirUsername(await getUsernameByID(participants.userId_1 === yourID ? participants.userId_2 : participants.userId_1));
+                }
+                else {
+                    console.log("*Conversations* Chat data not found.");
+                }
             }
         };
-
-        fetchChatId();
-    }, []);
-
-    useEffect(() => {
-        if (chatId) {
-            readChat(chatId).then(chatData => {
-                setMessages(chatData.messages);
-            });
-        }
-    }, [chatId]); // This useEffect hook runs whenever chatId changes
-
-
-    //     // Test if the user id matches the current user id
-    // useEffect(() => {
-    //     messages.forEach(message => {
-    //         if (message.user._id === yourID) {
-    //             console.log('ID matches');
-    //         } else {
-    //             console.log('ID does not match: ' + message.user._id + ' ' + yourID);
-    //         }
-    //     });
-    //     /////////////////////////
-    // }, [messages]);
+        fetchChatData();
+    }, [chatId]); 
 
 
     const onSend = useCallback((messages = []) => {
@@ -96,12 +72,12 @@ export default function Conversations() {
     }, [chatId])
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
+        <SafeAreaView style={{flex:1, backgroundColor: "#fff"}}>
             <View>
-                <TouchableOpacity onPress={() => router.push("(home)/Home")}>
-                    <Text>&lt; Home</Text>
+                <TouchableOpacity onPress={() => router.push("(home)/Chat")}>
+                    <Text>&lt; Back</Text>
                 </TouchableOpacity>
-                <Text style={styles.chatHeader}>Name</Text>
+                <Text style={styles.chatHeader}>{theirUsername}</Text>
             </View>
             <GiftedChat
                 messages={messages}
