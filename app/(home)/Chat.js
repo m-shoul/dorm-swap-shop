@@ -9,9 +9,9 @@ import { getChatsByUser, readChat } from "../../backend/api/chat.js";
 import SquareHeader from "../../components/SquareHeader.js";
 import { getUsernameByID } from "../../backend/api/user.js";
 import { getUserID } from "../../backend/dbFunctions.js";
-
-//import styles from "../styleSheets/StyleSheet.js";
-//import { HeaderComponent } from "../components/headerComponent.js";
+import styles from "../(aux)/StyleSheet.js";
+import { Ionicons } from "@expo/vector-icons";
+// import { HeaderComponent } from "../components/headerComponent.js";
 
 export default function ChatScreen() {
     const [chatThreads, setChatThreads] = useState([]);
@@ -67,8 +67,25 @@ export default function ChatScreen() {
         fetchChatThreads();
     }, [chatThreads]);
 
+    const minScroll = 200;
 
     const scrollOffsetY = useRef(new Animated.Value(0)).current;
+    const animHeaderValue = scrollOffsetY;
+
+    const headerHeight = 120;
+    const activeRange = 200;
+
+    const diffClamp = Animated.diffClamp(
+        animHeaderValue,
+        -minScroll,
+        activeRange + minScroll
+    );
+    const animatedHeaderHeight = diffClamp.interpolate({
+        inputRange: [0, activeRange],
+        outputRange: [0, -headerHeight],
+        extrapolate: "clamp",
+    });
+
     const handleSearch = () => {
         null;
     };
