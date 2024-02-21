@@ -28,6 +28,7 @@ import termsOfService from "../../assets/termsOfService.js";
 import { set } from "firebase/database";
 import RoundHeader from "../../components/RoundHeader.js";
 import SimpleLogo from "../../assets/svg/simpleLogo_icon.js";
+import { RegExpMatcher, TextCensor, englishDataset, englishRecommendedTransformers, asteriskCensorStrategy } from "obscenity";
 
 export default function CreateUserScreen() {
     //All of the states that are used to store the actual values of the text inputs
@@ -239,6 +240,38 @@ export default function CreateUserScreen() {
     // Called when 'registration' button is pressed to create the user into
     // Firebase auth, write the data to Realtime db, and direct user to login
 
+    const matcher = new RegExpMatcher({
+        ...englishDataset.build(),
+        ...englishRecommendedTransformers,
+    });
+    const censor = new TextCensor().setStrategy(asteriskCensorStrategy());
+    const filterOutBadWords = (fieldName, value) => {
+        const matches = matcher.getAllMatches(value);
+        const filteredValue = censor.applyTo(value, matches);
+        switch (fieldName) {
+            case "fname":
+                setFirstName(filteredValue);
+                break;
+            case "lname":
+                setLastName(filteredValue);
+                break;
+            case "username":
+                setUsername(filteredValue);
+                break;
+            case "email":
+                setEmail(filteredValue);
+                break;
+            case "password":
+                setPassword(filteredValue);
+                break;
+            case "passwordCheck":
+                setPasswordCheck(filteredValue);
+                break;
+            default:
+                break;
+        }
+    };
+
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
             <View style={[styles.background, { paddingTop: insets.top }]}>
@@ -289,7 +322,14 @@ export default function CreateUserScreen() {
                                 style={firstNameStyle}
                                 placeholder="First Name"
                                 value={firstName}
-                                onChangeText={(value) => setFirstName(value)}
+                                onChangeText={(value) => {
+                                    if (value.trim().length > 0) {
+                                        filterOutBadWords("fname", value);
+                                    } else {
+                                        setFirstName("");
+                                    }
+                                }}
+
                             />
                             {errorMessageFirst && (
                                 <Text
@@ -311,7 +351,13 @@ export default function CreateUserScreen() {
                                 style={lastNameStyle}
                                 placeholder="Last Name"
                                 value={lastName}
-                                onChangeText={(value) => setLastName(value)}
+                                onChangeText={(value) => {
+                                    if (value.trim().length > 0) {
+                                        filterOutBadWords("lname", value);
+                                    } else {
+                                        setLastName("");
+                                    }
+                                }}
                             />
                             {errorMessageLast && (
                                 <Text
@@ -329,7 +375,13 @@ export default function CreateUserScreen() {
                                 style={usernameStyle}
                                 placeholder="Username"
                                 value={username}
-                                onChangeText={(value) => setUsername(value)}
+                                onChangeText={(value) => {
+                                    if (value.trim().length > 0) {
+                                        filterOutBadWords("username", value);
+                                    } else {
+                                        setUsername("");
+                                    }
+                                }}
                             />
                             {errorMessageUsername && (
                                 <Text
@@ -347,7 +399,13 @@ export default function CreateUserScreen() {
                                 style={emailStyle}
                                 placeholder="Email"
                                 value={email}
-                                onChangeText={(value) => setEmail(value)}
+                                onChangeText={(value) => {
+                                    if (value.trim().length > 0) {
+                                        filterOutBadWords("email", value);
+                                    } else {
+                                        setEmail("");
+                                    }
+                                }}
                             />
                             {errorMessageEmail && (
                                 <Text
@@ -366,7 +424,14 @@ export default function CreateUserScreen() {
                                 secureTextEntry={true}
                                 placeholder="Password"
                                 value={password}
-                                onChangeText={(value) => setPassword(value)}
+                                // onChangeText={(value) => setPassword(value)}
+                                onChangeText={(value) => {
+                                    if (value.trim().length > 0) {
+                                        filterOutBadWords("password", value);
+                                    } else {
+                                        setPassword("");
+                                    }
+                                }}
                             />
                             {errorMessagePassword && (
                                 <Text
@@ -385,9 +450,13 @@ export default function CreateUserScreen() {
                                 secureTextEntry={true}
                                 placeholder={"Confirm Password"}
                                 value={passwordCheck}
-                                onChangeText={(value) =>
-                                    setPasswordCheck(value)
-                                }
+                                onChangeText={(value) => {
+                                    if (value.trim().length > 0) {
+                                        filterOutBadWords("passwordCheck", value);
+                                    } else {
+                                        setPasswordCheck("");
+                                    }
+                                }}
                             />
                             {errorMessageConfirm && (
                                 <Text

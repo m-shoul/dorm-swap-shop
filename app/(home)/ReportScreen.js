@@ -16,6 +16,7 @@ import { Button } from "../../components/Buttons.js";
 import RoundHeader from "../../components/RoundHeader.js";
 import { Ionicons } from '@expo/vector-icons';
 import emailjs from "emailjs-com";
+import { RegExpMatcher, TextCensor, englishDataset, englishRecommendedTransformers, asteriskCensorStrategy } from "obscenity";
 
 export default function ReportScreen() {
     const { image, title } = useLocalSearchParams();
@@ -46,6 +47,23 @@ export default function ReportScreen() {
             .catch((error) => {
                 console.error("ERROR --> Failed to send report email: ", error);
             });
+    };
+
+    const matcher = new RegExpMatcher({
+        ...englishDataset.build(),
+        ...englishRecommendedTransformers,
+    });
+    const censor = new TextCensor().setStrategy(asteriskCensorStrategy());
+    const filterOutBadWords = (fieldName, value) => {
+        const matches = matcher.getAllMatches(value);
+        const filteredValue = censor.applyTo(value, matches);
+        switch (fieldName) {
+            case "description":
+                setDescription(filteredValue);
+                break;
+            default:
+                break;
+        }
     };
 
     // For the modal that pops up.
@@ -87,7 +105,7 @@ export default function ReportScreen() {
                 </View>
 
                 <View style={{ width: "80%", marginTop: "2%" }}>
-                    <Text style={{ marginBottom: "5%" }}>
+                    <Text style={{ marginBottom: "5%", textAlign: "center" }}>
                         This listing will be reported to the Dorm Swap and Shop admins.
                         The reported listing will be reviewed and further actions will be
                         taken accordingly. Thank you.
@@ -107,7 +125,13 @@ export default function ReportScreen() {
                         }}
                         multiline={true}
                         value={description}
-                        onChangeText={(value) => setDescription(value)}
+                        onChangeText={(value) => {
+                            if (value.trim().length > 0) {
+                                filterOutBadWords("description", value);
+                            } else {
+                                setDescription("");
+                            }
+                        }}
                         placeholder="Description"
                     />
                 </View>
