@@ -27,7 +27,7 @@ import { Button } from '../../components/Buttons.js';
 import RoundHeader from "../../components/RoundHeader.js";
 import ExpandComponent from "../../assets/svg/expand_icon.js";
 import { useLocalSearchParams } from "expo-router";
-// import ListingForm from "../../components/ListingForm";
+import { RegExpMatcher, TextCensor, englishDataset, englishRecommendedTransformers, asteriskCensorStrategy } from "obscenity";
 
 export default function EditListings() {
     const { listingId } = useLocalSearchParams();
@@ -122,6 +122,27 @@ export default function EditListings() {
         setImage(null);
     };
 
+    // Obscenity - filtering out inappropriate text
+    const matcher = new RegExpMatcher({
+        ...englishDataset.build(),
+        ...englishRecommendedTransformers,
+    });
+    const censor = new TextCensor().setStrategy(asteriskCensorStrategy());
+    const filterOutBadWords = (fieldName, value) => { 
+        const matches = matcher.getAllMatches(value);
+        const filteredValue = censor.applyTo(value, matches);
+        switch (fieldName) {
+            case "title":
+                setTitle(filteredValue);
+                break;
+            case "description":
+                setDescription(filteredValue);
+                break;
+            default:
+                break;
+        }
+    };
+
     return (
         <View style={[styles.background, { paddingTop: insets.top }]}>
             <RoundHeader height={260} />
@@ -189,8 +210,15 @@ export default function EditListings() {
                             maxLength={25}
                             style={titleStyle}
                             blurOnSubmit={false}
-                            onChangeText={(value) => setTitle(value)}
+                            onChangeText={(value) => {
+                                if (value.trim().length > 0) {
+                                    filterOutBadWords("title", value);
+                                } else {
+                                    setTitle("");
+                                }
+                            }}
                             placeholder={title ? title : "Title"}
+                            value={title}
                             onSubmitEditing={() => {
                                 priceInputRef.current.focus();
                             }}
@@ -245,6 +273,7 @@ export default function EditListings() {
                             }}
                             returnKeyType="done"
                             placeholder={price ? price : "Price"}
+                            value={price}
                             inputMode="decimal"
                             ref={priceInputRef}
                             onBlur={() => {
@@ -343,10 +372,17 @@ export default function EditListings() {
                         </View>
                         <TextInput
                             blurOnSubmit={false}
-                            onChangeText={(value) => setDescription(value)}
+                            onChangeText={(value) => {
+                                if (value.trim().length > 0) {
+                                    filterOutBadWords("description", value);
+                                } else {
+                                    setDescription("");
+                                }
+                            }}
                             multiline={true}
                             maxLength={250}
                             placeholder={ description ? description : "Description"}
+                            value={description}
                             style={descriptionStyle}
                             ref={descriptionInputRef}
                         />

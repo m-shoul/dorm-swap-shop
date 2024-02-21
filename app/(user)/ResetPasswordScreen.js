@@ -19,6 +19,7 @@ import { Button } from "../../components/Buttons.js";
 import RoundHeader from "../../components/RoundHeader.js";
 import ResetPasswordIcon from "../../assets/svg/reset_password_icon.js";
 import { ShadowedView } from 'react-native-fast-shadow';
+import { RegExpMatcher, TextCensor, englishDataset, englishRecommendedTransformers, asteriskCensorStrategy } from "obscenity";
 
 export default function ResetPasswordScreen() {
     const [email, setEmail] = useState("");
@@ -48,6 +49,23 @@ export default function ResetPasswordScreen() {
             .catch((error) => {
                 console.log("Failed to send password reset email: ", error);
             });
+    };
+
+    const matcher = new RegExpMatcher({
+        ...englishDataset.build(),
+        ...englishRecommendedTransformers,
+    });
+    const censor = new TextCensor().setStrategy(asteriskCensorStrategy());
+    const filterOutBadWords = (fieldName, value) => {
+        const matches = matcher.getAllMatches(value);
+        const filteredValue = censor.applyTo(value, matches);
+        switch (fieldName) {
+            case "email":
+                setEmail(filteredValue);
+                break;
+            default:
+                break;
+        }
     };
 
     return (
@@ -85,7 +103,13 @@ export default function ResetPasswordScreen() {
                     style={emailStyle}
                     placeholder="Email Address"
                     value={email}
-                    onChangeText={(value) => setEmail(value)}
+                    onChangeText={(value) => {
+                        if (value.trim().length > 0) {
+                            filterOutBadWords("email", value);
+                        } else {
+                            setEmail("");
+                        }
+                    }}
                 />
                 {errorMessageEmail && (
                     <Text

@@ -15,6 +15,8 @@ import { router } from "expo-router";
 import { getUserID } from "../backend/dbFunctions";
 import { Button } from "../components/Buttons";
 import LogoV2 from "../assets/svg/logoV2";
+import { RegExpMatcher, TextCensor, englishDataset, englishRecommendedTransformers, asteriskCensorStrategy } from "obscenity";
+
 
 export default function LoginScreen() {
     const [email, setEmail] = useState("");
@@ -61,6 +63,27 @@ export default function LoginScreen() {
         }
     };
 
+    // Obscenity - filtering out inappropriate text
+    const matcher = new RegExpMatcher({
+        ...englishDataset.build(),
+        ...englishRecommendedTransformers,
+    });
+    const censor = new TextCensor().setStrategy(asteriskCensorStrategy());
+    const filterOutBadWords = (fieldName, value) => {
+        const matches = matcher.getAllMatches(value);
+        const filteredValue = censor.applyTo(value, matches);
+        switch (fieldName) {
+            case "email":
+                setEmail(filteredValue);
+                break;
+            case "password":
+                setPassword(filteredValue);
+                break;
+            default:
+                break;
+        }
+    };
+
     // Figure out what saves the userId when I go to the register screen
     // we can use this to sage the state of the user and automatically log in
     // so user doesnt have to log in every time.
@@ -77,7 +100,13 @@ export default function LoginScreen() {
                     <TextInput
                         style={emailStyle}
                         value={email}
-                        onChangeText={(value) => setEmail(value)}
+                        onChangeText={(value) => {
+                            if (value.trim().length > 0) {
+                                filterOutBadWords("email", value);
+                            } else {
+                                setEmail("");
+                            }
+                        }}
                         placeholder="Email"
                         onSubmitEditing={() => {
                             // Focus on the password input when the user submits the email input
@@ -96,7 +125,13 @@ export default function LoginScreen() {
                         style={passwordStyle}
                         secureTextEntry={true}
                         value={password}
-                        onChangeText={(value) => setPassword(value)}
+                        onChangeText={(value) => {
+                            if (value.trim().length > 0) {
+                                filterOutBadWords("password", value);
+                            } else {
+                                setPassword("");
+                            }
+                        }}
                         placeholder="Password"
                         ref={passwordInputRef}
                         blurOnSubmit={false}
