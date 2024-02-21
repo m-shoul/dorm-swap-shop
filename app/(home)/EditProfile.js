@@ -22,6 +22,7 @@ import CachedImage from "expo-cached-image";
 import { Button } from "../../components/Buttons.js";
 import { ScrollView } from "react-native-gesture-handler";
 import * as ImagePicker from "expo-image-picker";
+import { RegExpMatcher, TextCensor, englishDataset, englishRecommendedTransformers, asteriskCensorStrategy } from "obscenity";
 
 export default function EditProfile() {
     const [user, setUser] = useState(null);
@@ -30,8 +31,6 @@ export default function EditProfile() {
     const [fname, setFname] = useState("");
     const [lname, setLname] = useState("");
     const [profileImageUrl, setProfileImageUrl] = useState(null);
-    // const [email, setEmail] = useState("");
-    // const [password, setPassword] = useState("");
 
     const fetchUserData = async () => {
         try {
@@ -72,8 +71,30 @@ export default function EditProfile() {
 
     // const profileImageUrl = user?.public?.profileImage;
 
-    console.log(user);
-    console.log("on editing user data page");
+    // console.log(user);
+    // console.log("on editing user data page");
+
+    const matcher = new RegExpMatcher({
+        ...englishDataset.build(),
+        ...englishRecommendedTransformers,
+    });
+    const censor = new TextCensor().setStrategy(asteriskCensorStrategy());
+    const filterOutBadWords = (fieldName, value) => { 
+        const matches = matcher.getAllMatches(value);
+        const filteredValue = censor.applyTo(value, matches);
+        switch (fieldName) {
+            case "fname":
+                setFname(filteredValue);
+                break;
+            case "lname":
+                setLname(filteredValue);
+                break;
+            case "username":
+                setUsername(filteredValue);
+            default:
+                break;
+        }
+    };
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -146,8 +167,15 @@ export default function EditProfile() {
                         <Text style={styles.boldtext}>First Name</Text>
                         <TextInput
                             style={styles.createUserInput}
-                            onChangeText={(value) => setFname(value)}
+                            onChangeText={(value) => {
+                                if (value.trim().length > 0) {
+                                    filterOutBadWords("fname", value);
+                                } else {
+                                    setFname("");
+                                }
+                            }}
                             placeholder={fname ? fname : "First name"}
+                            value={fname}
                             blurOnSubmit={false}
                         />
                     </View>
@@ -155,8 +183,15 @@ export default function EditProfile() {
                         <Text style={styles.boldtext}>Last Name</Text>
                         <TextInput
                             style={styles.createUserInput}
-                            onChangeText={(value) => setLname(value)}
+                            onChangeText={(value) => {
+                                if (value.trim().length > 0) {
+                                    filterOutBadWords("lname", value);
+                                } else {
+                                    setLname("");
+                                }
+                            }}
                             placeholder={lname ? lname : "Last name"}
+                            value={lname}
                             blurOnSubmit={false}
                         />
                     </View>
@@ -164,8 +199,15 @@ export default function EditProfile() {
                         <Text style={styles.boldtext}>Username</Text>
                         <TextInput
                             style={styles.createUserInput}
-                            onChangeText={(value) => setUsername(value)}
+                            onChangeText={(value) => {
+                                if (value.trim().length > 0) {
+                                    filterOutBadWords("username", value);
+                                } else {
+                                    setUsername("");
+                                }
+                            }}
                             placeholder={username ? username : "Username"}
+                            value={username}
                             blurOnSubmit={false}
                         />
                     </View>

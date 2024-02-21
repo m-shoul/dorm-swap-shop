@@ -26,7 +26,10 @@ import { router, useNavigation } from "expo-router";
 import { Button } from '../../components/Buttons.js';
 import RoundHeader from "../../components/RoundHeader.js";
 import ExpandComponent from "../../assets/svg/expand_icon.js";
-// import ListingForm from "../../components/ListingForm";
+
+// Obscenity
+import { RegExpMatcher, TextCensor, englishDataset, englishRecommendedTransformers, asteriskCensorStrategy } from "obscenity";
+
 
 export default function CreatePostScreen() {
     const navigation = useNavigation();
@@ -106,6 +109,27 @@ export default function CreatePostScreen() {
     const conditionInputRef = useRef(null);
     const insets = useSafeAreaInsets();
 
+    // Obscenity - filtering out inappropriate text
+    const matcher = new RegExpMatcher({
+        ...englishDataset.build(),
+        ...englishRecommendedTransformers,
+    });
+    const censor = new TextCensor().setStrategy(asteriskCensorStrategy());
+    const filterOutBadWords = (fieldName, value) => { 
+        const matches = matcher.getAllMatches(value);
+        const filteredValue = censor.applyTo(value, matches);
+        switch (fieldName) {
+            case "title":
+                setTitle(filteredValue);
+                break;
+            case "description":
+                setDescription(filteredValue);
+                break;
+            default:
+                break;
+        }
+    };
+
     let validate = 0;
     useEffect(() => {
         const unsubscribeBlur = navigation.addListener("blur", () => {
@@ -121,7 +145,7 @@ export default function CreatePostScreen() {
         return () => {
             unsubscribeBlur();
         };
-    }, [title, price, description, navigation]);
+    }, [/*title, price, description, navigation*/]);
 
     const handleValidation = () => {
         validateForm();
@@ -299,7 +323,13 @@ export default function CreatePostScreen() {
                             maxLength={25}
                             style={titleStyle}
                             blurOnSubmit={false}
-                            onChangeText={(value) => setTitle(value)}
+                            onChangeText={(value) => {
+                                if (value.trim().length > 0) {
+                                    filterOutBadWords("title", value);
+                                } else {
+                                    setTitle("");
+                                }
+                            }}
                             value={title}
                             placeholder="Title"
                             onSubmitEditing={() => {
@@ -497,7 +527,13 @@ export default function CreatePostScreen() {
 
                         <TextInput
                             blurOnSubmit={false}
-                            onChangeText={(value) => setDescription(value)}
+                            onChangeText={(value) => {
+                                if (value.trim().length > 0) {
+                                    filterOutBadWords("description", value);
+                                } else {
+                                    setDescription("");
+                                }
+                            }}
                             multiline={true}
                             value={description}
                             maxLength={250}

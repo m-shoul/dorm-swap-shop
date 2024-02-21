@@ -3,6 +3,13 @@ import { get, ref, set, push, remove, update } from 'firebase/database';
 import { getStorage, ref as sRef, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { getUserID } from '../dbFunctions';
 
+// NSFW content
+// import * as nsfw from 'nsfwjs';
+// import * as tf from '@tensorflow/tfjs';
+// import '@tensorflow/tfjs-react-native';
+
+
+
 // Get a reference to the storage database
 const storage = getStorage();
 
@@ -44,8 +51,16 @@ export async function createListing(userId, title, description, price, category,
     return listingId;
 }
 
-async function uploadImageAsync(uri, imagesRef) {
+
+
+
+async function uploadImageAsync(uri, imagesRef) {  
     try {
+        // let model;
+        // nsfw.load().then((loadedModel) => {
+        //     model = loadedModel;
+        // });
+
         const blob = await new Promise((resolve, reject) => {
             const xhr = new XMLHttpRequest();
             xhr.onload = function () {
@@ -58,6 +73,21 @@ async function uploadImageAsync(uri, imagesRef) {
             xhr.open("GET", uri, true);
             xhr.send(null);
         });
+
+
+        // Convert the image to tensor
+        // const image = await tf.node.decodeImage(await blob.arrayBuffer(), 3);
+        // const predictions = await model.classify(image)
+        // const isUnsafe = predictions.some(prediction => 
+        //     prediction.className === 'Porn' || 
+        //     prediction.className === 'Hentai' ||
+        //     prediction.className === 'Sexy');
+
+
+        // if (isUnsafe) {
+        //     alert("This image contains adult content. Please upload a different image.");
+        //     return;
+        // }
 
         const storageRef = sRef(storage, "test/" + new Date().getTime());
         await uploadBytesResumable(storageRef, blob);
