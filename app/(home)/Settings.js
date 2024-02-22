@@ -1,4 +1,4 @@
-import { Text, View, TouchableOpacity, Animated } from "react-native";
+import { Text, View, TouchableOpacity, } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import React, { useState, useEffect } from "react";
 import styles from "../(aux)/StyleSheet.js";
@@ -7,16 +7,12 @@ import { logoutUser } from "../../backend/dbFunctions.js";
 import RoundHeader from "../../components/RoundHeader";
 import SettingsLogo from "../../assets/svg/settings_logo.js";
 import { ShadowedView } from 'react-native-fast-shadow';
+import ChangeEmail from "../../components/ChangeEmailPopup.js";
 
 // New icons
 import { Ionicons } from "@expo/vector-icons";
 
 export default function SettingsScreen() {
-    const animHeaderValue = new Animated.Value(0);
-    const [search, setSearch] = useState("");
-    const handleSearch = () => {
-        null;
-    };
     return (
         <SafeAreaView style={styles.background}>
             <RoundHeader height={220} />
@@ -104,8 +100,9 @@ export default function SettingsScreen() {
                     ]}
                 />
                 <View style={{ flexDirection: "row", marginLeft: "5%" }}>
-                    <TouchableOpacity
-                        onPress={() => router.push("(settings)/AboutScreen")}
+                    <ChangeEmail />
+                    {/* <TouchableOpacity
+                        onPress={() => setModalVisible(true)}
                         style={{
                             marginBottom: "5%",
                             marginTop: "-3%",
@@ -119,7 +116,7 @@ export default function SettingsScreen() {
                             ]}>
                             Change Email
                         </Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                 </View>
                 <View
                     style={[
