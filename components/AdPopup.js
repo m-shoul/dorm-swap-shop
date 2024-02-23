@@ -78,7 +78,7 @@ export default function AdPopup() {
                             }}>
                             {/* DESCRIPTION */}
                             <Text style={{ flex: 1 }}>
-                                Ad Description
+                                To rent out Ad space contact: dormswapnshop@gmail.com
                             </Text>
                         </View>
                     </View>
