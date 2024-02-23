@@ -63,11 +63,14 @@ export default function About() {
                     width: "100%",
                     justifyContent: "center",
                     alignItems: "center",
+                    marginTop: "12%",
+                    marginBottom: "5%"
                 }}>
                     <ShadowedView
                         style={{
+                            backgroundColor: "white",
                             shadowOpacity: 0.8,
-                            shadowRadius: 20,
+                            shadowRadius: 30,
                             shadowOffset: {
                                 width: 5,
                                 height: 3,
@@ -75,7 +78,7 @@ export default function About() {
 
                         }}
                     >
-                        <SimpleLogo width={133} height={143} marginTop={"5%"} />
+                        <SimpleLogo width={133} height={143} margin={-20} />
                     </ShadowedView>
                 </View>
 

@@ -129,12 +129,13 @@ export default function ChangePassword() {
                             elevation: 5,
                             width: "90%",
                             height: 450,
+                            justifyContent: "center",
                         }}>
                             <View style={{ marginBottom: 20 }}>
                                 <Text style={styles.postListingHeader}>Change Password</Text>
                             </View>
 
-                            <View style={styles.forms}>
+                            <View>
                                 <Text style={[styles.normaltext, { marginBottom: 5 }]}>Current Password: </Text>
                                 <TextInput
                                     style={currentPasswordStyle}

@@ -28,6 +28,7 @@ import RoundHeader from "../../components/RoundHeader.js";
 import ExpandComponent from "../../assets/svg/expand_icon.js";
 import { useLocalSearchParams } from "expo-router";
 import { RegExpMatcher, TextCensor, englishDataset, englishRecommendedTransformers, asteriskCensorStrategy } from "obscenity";
+import { ShadowedView } from 'react-native-fast-shadow';
 
 export default function EditListings() {
     const { listingId } = useLocalSearchParams();
@@ -105,7 +106,7 @@ export default function EditListings() {
         fetchIndividualUserListing();
     }, []);
 
-    const handleUpdate = async () => {   
+    const handleUpdate = async () => {
         await updateListing(listingId, title, description, price, category, condition, image);
         router.back();
         console.log("Post updated successfully");
@@ -128,7 +129,7 @@ export default function EditListings() {
         ...englishRecommendedTransformers,
     });
     const censor = new TextCensor().setStrategy(asteriskCensorStrategy());
-    const filterOutBadWords = (fieldName, value) => { 
+    const filterOutBadWords = (fieldName, value) => {
         const matches = matcher.getAllMatches(value);
         const filteredValue = censor.applyTo(value, matches);
         switch (fieldName) {
@@ -182,26 +183,39 @@ export default function EditListings() {
                     }}
                     keyboardShouldPersistTaps="handled">
                     <View style={{ marginBottom: "2%" }}>
-                        <TouchableOpacity onPress={() => pickImage()}>
-                            {image ? (
-                                <Image
-                                    source={{ uri: image[0] }}
-                                    style={{
-                                        width: 200,
-                                        height: 200,
-                                        marginBottom: "2%",
-                                        borderRadius: 20,
-                                    }}
-                                />
-                            ) : (
-                                <ListImagesComponent
-                                    style={{
-                                        width: 200,
-                                        height: 28,
-                                    }}
-                                />
-                            )}
-                        </TouchableOpacity>
+                        <ShadowedView
+                            style={{
+                                shadowOpacity: 0.8,
+                                shadowRadius: 20,
+                                shadowOffset: {
+                                    width: 5,
+                                    height: 3,
+                                },
+                                backgroundColor: "white",
+                                borderRadius: 20,
+                            }}
+                        >
+                            <TouchableOpacity onPress={() => pickImage()}>
+                                {image ? (
+                                    <Image
+                                        source={{ uri: image[0] }}
+                                        style={{
+                                            width: 200,
+                                            height: 200,
+                                            marginBottom: "2%",
+                                            borderRadius: 20,
+                                        }}
+                                    />
+                                ) : (
+                                    <ListImagesComponent
+                                        style={{
+                                            width: 200,
+                                            height: 28,
+                                        }}
+                                    />
+                                )}
+                            </TouchableOpacity>
+                        </ShadowedView>
                         <Text style={{ textAlign: "center" }}>Change Image</Text>
                     </View>
 
@@ -381,7 +395,7 @@ export default function EditListings() {
                             }}
                             multiline={true}
                             maxLength={250}
-                            placeholder={ description ? description : "Description"}
+                            placeholder={description ? description : "Description"}
                             value={description}
                             style={descriptionStyle}
                             ref={descriptionInputRef}

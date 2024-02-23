@@ -88,7 +88,8 @@ export default function ProfileHeader({ user }) {
                             width: 5,
                             height: 3,
                         },
-                        backgroundColor: "transparent",
+                        backgroundColor: "white",
+                        borderRadius: 200,
                     }}
                 >
                     <View
@@ -117,6 +118,7 @@ export default function ProfileHeader({ user }) {
                                     height: "100%",
                                     stroke: "black",
                                     strokeWidth: 0.25,
+                                    borderBlockColor: "white",
                                 }}
                             />
                         )}

@@ -281,21 +281,21 @@ export default function CreateUserScreen() {
 
                 <ShadowedView
                     style={{
-                        shadowOpacity: 0.4,
-                        shadowRadius: 12,
+                        shadowOpacity: 0.8,
+                        shadowRadius: 20,
                         shadowOffset: {
                             width: 5,
                             height: 3,
                         },
+                        backgroundColor: "white",
+                        marginTop: "10%",
+                        borderRadius: 20
                     }}
                 >
                     <SimpleLogo
                         width={119}
                         height={119}
-                        borderRadius={20}
-                        style={{
-                            marginTop: "10%",
-                        }}
+                        margin={-2.1}
                     />
                 </ShadowedView>
 

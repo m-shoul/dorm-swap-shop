@@ -20,8 +20,11 @@ export default function SettingsScreen() {
             <View style={{ marginTop: "10%", marginBottom: "10%" }}>
                 <Text style={[styles.postListingHeader, { color: styles.colors.lightColor }]}>Settings</Text>
             </View>
+
             <ShadowedView
                 style={{
+                    backgroundColor: "white",
+                    borderRadius: 20,
                     shadowOpacity: 0.8,
                     shadowRadius: 20,
                     shadowOffset: {
@@ -30,8 +33,11 @@ export default function SettingsScreen() {
                     },
                 }}
             >
+
                 <SettingsLogo />
             </ShadowedView>
+
+
 
 
             {/* <View
@@ -102,22 +108,6 @@ export default function SettingsScreen() {
                 />
                 <View style={{ flexDirection: "row", marginLeft: "5%" }}>
                     <ChangeEmail />
-                    {/* <TouchableOpacity
-                        onPress={() => setModalVisible(true)}
-                        style={{
-                            marginBottom: "5%",
-                            marginTop: "-3%",
-                            flexDirection: "row",
-                        }}>
-                        <Ionicons name="mail-outline" size={32} color="black" />
-                        <Text
-                            style={[
-                                styles.normaltext,
-                                { marginTop: 7, paddingLeft: "2%" },
-                            ]}>
-                            Change Email
-                        </Text>
-                    </TouchableOpacity> */}
                 </View>
                 <View
                     style={[
@@ -127,26 +117,6 @@ export default function SettingsScreen() {
                 />
                 <View style={{ flexDirection: "row", marginLeft: "5%" }}>
                     <ChangePassword />
-                    {/* <TouchableOpacity
-                        onPress={() => router.push("(settings)/AboutScreen")}
-                        style={{
-                            marginBottom: "5%",
-                            marginTop: "-3%",
-                            flexDirection: "row",
-                        }}>
-                        <Ionicons
-                            name="lock-closed-outline"
-                            size={32}
-                            color="black"
-                        />
-                        <Text
-                            style={[
-                                styles.normaltext,
-                                { marginTop: 7, paddingLeft: "2%" },
-                            ]}>
-                            Change Password
-                        </Text>
-                    </TouchableOpacity> */}
                 </View>
                 <View
                     style={[

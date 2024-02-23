@@ -86,12 +86,13 @@ export default function ChangeEmail() {
                             elevation: 5,
                             width: "90%",
                             height: 450,
+                            justifyContent: "center",
                         }}>
                             <View style={{ marginBottom: 20 }}>
                                 <Text style={styles.postListingHeader}>Change Email</Text>
                             </View>
 
-                            <View style={styles.forms}>
+                            <View>
                                 <Text style={[styles.normaltext, { marginBottom: 5 }]}>Current Email: </Text>
                                 <TextInput
                                     style={styles.createUserInput}

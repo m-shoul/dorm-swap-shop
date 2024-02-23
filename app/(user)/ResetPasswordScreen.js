@@ -75,17 +75,19 @@ export default function ResetPasswordScreen() {
 
             <ShadowedView
                 style={{
-                    shadowOpacity: 0.4,
-                    shadowRadius: 12,
+                    marginTop: "10%",
+                    shadowOpacity: 0.8,
+                    shadowRadius: 20,
                     shadowOffset: {
                         width: 5,
                         height: 3,
                     },
+                    backgroundColor: "white",
+                    borderRadius: 20,
                 }}
             >
-                <View style={{ marginTop: "10%", borderRadius: 20 }}>
-                    <ResetPasswordIcon />
-                </View>
+                <ResetPasswordIcon />
+
 
             </ShadowedView>
 

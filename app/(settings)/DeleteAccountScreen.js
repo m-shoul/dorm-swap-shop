@@ -31,6 +31,9 @@ export default function DeleteAccount() {
 
             <ShadowedView
                 style={{
+                    marginTop: "10%",
+                    backgroundColor: "white",
+                    borderRadius: 20,
                     shadowOpacity: 0.8,
                     shadowRadius: 20,
                     shadowOffset: {
@@ -39,7 +42,7 @@ export default function DeleteAccount() {
                     },
                 }}
             >
-                <DeleteComponent style={{ marginTop: "10%" }} />
+                <DeleteComponent />
             </ShadowedView>
 
             <View style={{ flex: 1, justifyContent: "center", alignItems: "center", width: "80%" }}>

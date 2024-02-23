@@ -127,6 +127,8 @@ export default function EditProfile() {
                                     width: 5,
                                     height: 3,
                                 },
+                                backgroundColor: "white",
+                                borderRadius: 200,
                             }}
                         >
                             <View

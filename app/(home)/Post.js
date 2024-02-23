@@ -26,6 +26,7 @@ import { router, useNavigation } from "expo-router";
 import { Button } from '../../components/Buttons.js';
 import RoundHeader from "../../components/RoundHeader.js";
 import ExpandComponent from "../../assets/svg/expand_icon.js";
+import { ShadowedView } from 'react-native-fast-shadow';
 
 // Obscenity
 import { RegExpMatcher, TextCensor, englishDataset, englishRecommendedTransformers, asteriskCensorStrategy } from "obscenity";
@@ -115,7 +116,7 @@ export default function CreatePostScreen() {
         ...englishRecommendedTransformers,
     });
     const censor = new TextCensor().setStrategy(asteriskCensorStrategy());
-    const filterOutBadWords = (fieldName, value) => { 
+    const filterOutBadWords = (fieldName, value) => {
         const matches = matcher.getAllMatches(value);
         const filteredValue = censor.applyTo(value, matches);
         switch (fieldName) {
@@ -295,26 +296,39 @@ export default function CreatePostScreen() {
                     }}
                     keyboardShouldPersistTaps="handled">
                     <View style={{ marginBottom: "2%" }}>
-                        <TouchableOpacity onPress={() => pickImage()}>
-                            {image ? (
-                                <Image
-                                    source={{ uri: image[0] }}
-                                    style={{
-                                        width: 200,
-                                        height: 200,
-                                        marginBottom: "2%",
-                                        borderRadius: 20,
-                                    }}
-                                />
-                            ) : (
-                                <ListImagesComponent
-                                    style={{
-                                        width: 200,
-                                        height: 28,
-                                    }}
-                                />
-                            )}
-                        </TouchableOpacity>
+                        <ShadowedView
+                            style={{
+                                shadowOpacity: 0.8,
+                                shadowRadius: 20,
+                                shadowOffset: {
+                                    width: 5,
+                                    height: 3,
+                                },
+                                backgroundColor: "white",
+                                borderRadius: 20,
+                            }}
+                        >
+                            <TouchableOpacity onPress={() => pickImage()}>
+                                {image ? (
+                                    <Image
+                                        source={{ uri: image[0] }}
+                                        style={{
+                                            width: 200,
+                                            height: 200,
+                                            marginBottom: "2%",
+                                            borderRadius: 20,
+                                        }}
+                                    />
+                                ) : (
+                                    <ListImagesComponent
+                                        style={{
+                                            width: 200,
+                                            height: 28,
+                                        }}
+                                    />
+                                )}
+                            </TouchableOpacity>
+                        </ShadowedView>
                         <Text style={{ textAlign: "center" }}>Upload Images</Text>
                     </View>
 

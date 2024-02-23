@@ -97,6 +97,8 @@ export default function ReportScreen() {
                                 width: 5,
                                 height: 3,
                             },
+                            backgroundColor: "white",
+                            borderRadius: 20,
                         }}
                     >
                         <Image
