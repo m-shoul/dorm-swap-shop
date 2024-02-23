@@ -1,7 +1,7 @@
 import { database } from '../config/firebaseConfig';
 import { get, child, ref, set, push, getDatabase, remove, update } from 'firebase/database';
 import { getUserID } from '../dbFunctions';
-import { getAuth, verifyBeforeUpdateEmail } from 'firebase/auth';
+import { getAuth, verifyBeforeUpdateEmail, updatePassword, reauthenticateWithCredential, EmailAuthProvider } from 'firebase/auth';
 import { getStorage, ref as sRef, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { getAllListings } from './listing';
 
@@ -320,3 +320,39 @@ export async function updateOldEmail(email, newEmail) {
         console.error("Error updating email: ", error);
     }
 }
+
+export async function updateOldPassword(newPassword, currentPassword) {
+    console.log("new password: ", newPassword);
+    try {
+        await reauthenticate(currentPassword).then(() => {
+            console.log("user verified ");
+            // Gets current user from auth
+            const user = getAuth().currentUser;
+            if (newPassword !== currentPassword) {
+                updatePassword(user, newPassword).then(() => {
+                    console.log("Updated password");
+                }).catch((error) => {
+                    console.error("Error updating password: ", error);
+                });
+            } else {
+                console.error("Error updating password: ", "Passwords match use different Password");
+            }
+        }).catch((error) => {
+            console.error("Error validating user and updating password: ", error);
+        });
+    } catch (error) {
+        console.error("Error validating user and updating password: ", error);
+    }
+}
+
+export async function reauthenticate(currentPassword) {
+    console.log("current password: ", currentPassword);
+    // Gets current user from auth
+    const user = getAuth().currentUser;
+    console.log("email: ", user.email);
+    // prompts user to re-enter their current password for validation
+    const cred = EmailAuthProvider.credential(user.email, currentPassword);
+
+    reauthenticateWithCredential(user, cred);
+}
+

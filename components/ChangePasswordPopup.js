@@ -12,11 +12,16 @@ import { Button } from "./Buttons";
 import { Ionicons } from "@expo/vector-icons";
 import { RegExpMatcher, TextCensor, englishDataset, englishRecommendedTransformers, asteriskCensorStrategy } from "obscenity";
 import { router } from "expo-router";
+import { updateOldPassword } from "../backend/api/user";
 
 export default function ChangePassword() {
     const [modalVisible, setModalVisible] = useState(false);
     const [newPassword, setNewPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
+    const [currentPassword, setCurrentPassword] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
+    const [errorMessage2, setErrorMessage2] = useState("");
+    const [newPasswordStyle, setNewPasswordStyle] = useState(styles.createUserInput);
+    const [currentPasswordStyle, setCurrentPasswordStyle] = useState(styles.createUserInput);
 
     // Obscenity - filtering out inappropriate text
     const matcher = new RegExpMatcher({
@@ -31,11 +36,46 @@ export default function ChangePassword() {
             case "newPassword":
                 setNewPassword(filteredValue);
                 break;
-            case "confirmPassword":
-                setConfirmPassword(filteredValue);
+            case "currentPassword":
+                setCurrentPassword(filteredValue);
                 break;
             default:
                 break;
+        }
+    };
+
+    const handlePasswordChange = async () => {
+        //Check that user fills out form
+        if (!newPassword && !currentPassword) {
+            setErrorMessage("Form Empty");
+            setErrorMessage2("Form Empty");
+            setNewPasswordStyle(styles.createUserInputError);
+            setCurrentPasswordStyle(styles.createUserInputError);
+        } else if (!newPassword) {
+            setErrorMessage("");
+            setErrorMessage2("New Password Empty");
+            setNewPasswordStyle(styles.createUserInputError);
+            setCurrentPasswordStyle(styles.createUserInput);
+        } else if (!currentPassword) {
+            setErrorMessage("Current Password Empty");
+            setErrorMessage2("");
+            setCurrentPasswordStyle(styles.createUserInputError);
+            setNewPasswordStyle(styles.createUserInput);
+        } else if (newPassword && currentPassword) {
+            try {
+                updateOldPassword(newPassword, currentPassword)
+                router.push("/");
+                setModalVisible(!modalVisible)
+                setErrorMessage("");
+                setErrorMessage2("");
+                setNewPasswordStyle(styles.createUserInput);
+                setCurrentPasswordStyle(styles.createUserInput);
+            } catch (error) {
+                setErrorMessage("Invalid Password");
+                setErrorMessage2("Invalid Password");
+                setNewPasswordStyle(styles.createUserInputError);
+                setCurrentPasswordStyle(styles.createUserInputError);
+            }
         }
     };
 
@@ -95,9 +135,30 @@ export default function ChangePassword() {
                             </View>
 
                             <View style={styles.forms}>
+                                <Text style={[styles.normaltext, { marginBottom: 5 }]}>Current Password: </Text>
+                                <TextInput
+                                    style={currentPasswordStyle}
+                                    secureTextEntry={true}
+                                    value={currentPassword}
+                                    onChangeText={(value) => {
+                                        if (value.trim().length > 0) {
+                                            filterOutBadWords("currentPassword", value);
+                                        } else {
+                                            setCurrentPassword("");
+                                        }
+                                    }}
+                                    placeholder="Enter your current password"
+                                    placeholderTextColor="#585858"
+                                />
+                                {errorMessage && (
+                                    <Text style={{ color: "red", paddingBottom: 20 }}>
+                                        {errorMessage}
+                                    </Text>
+                                )}
                                 <Text style={[styles.normaltext, { marginBottom: 5 }]}>New Password: </Text>
                                 <TextInput
-                                    style={styles.createUserInput}
+                                    style={newPasswordStyle}
+                                    secureTextEntry={true}
                                     value={newPassword}
                                     onChangeText={(value) => {
                                         if (value.trim().length > 0) {
@@ -109,20 +170,11 @@ export default function ChangePassword() {
                                     placeholder="Enter your new password"
                                     placeholderTextColor="#585858"
                                 />
-                                <Text style={[styles.normaltext, { marginBottom: 5 }]}>Confirm Password: </Text>
-                                <TextInput
-                                    style={styles.createUserInput}
-                                    value={confirmPassword}
-                                    onChangeText={(value) => {
-                                        if (value.trim().length > 0) {
-                                            filterOutBadWords("confirmPassword", value);
-                                        } else {
-                                            setConfirmPassword("");
-                                        }
-                                    }}
-                                    placeholder="Re-enter your new password"
-                                    placeholderTextColor="#585858"
-                                />
+                                {errorMessage2 && (
+                                    <Text style={{ color: "red", paddingBottom: 20 }}>
+                                        {errorMessage2}
+                                    </Text>
+                                )}
                             </View>
 
                             <View>
@@ -133,10 +185,7 @@ export default function ChangePassword() {
                                     alignItems="center"
                                     justifyContent="center"
                                     borderRadius={25}
-                                    press={() => {
-                                        setModalVisible(!modalVisible)
-                                        router.push("/");
-                                    }}
+                                    press={handlePasswordChange}
                                     titleStyle={styles.buttonText}
                                 />
                             </View>
