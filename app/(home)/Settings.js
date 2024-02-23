@@ -8,6 +8,7 @@ import RoundHeader from "../../components/RoundHeader";
 import SettingsLogo from "../../assets/svg/settings_logo.js";
 import { ShadowedView } from 'react-native-fast-shadow';
 import ChangeEmail from "../../components/ChangeEmailPopup.js";
+import ChangePassword from "../../components/ChangePasswordPopup.js";
 
 // New icons
 import { Ionicons } from "@expo/vector-icons";
@@ -125,7 +126,8 @@ export default function SettingsScreen() {
                     ]}
                 />
                 <View style={{ flexDirection: "row", marginLeft: "5%" }}>
-                    <TouchableOpacity
+                    <ChangePassword />
+                    {/* <TouchableOpacity
                         onPress={() => router.push("(settings)/AboutScreen")}
                         style={{
                             marginBottom: "5%",
@@ -144,7 +146,7 @@ export default function SettingsScreen() {
                             ]}>
                             Change Password
                         </Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                 </View>
                 <View
                     style={[

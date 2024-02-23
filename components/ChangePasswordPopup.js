@@ -11,13 +11,12 @@ import styles from "../app/(aux)/StyleSheet";
 import { Button } from "./Buttons";
 import { Ionicons } from "@expo/vector-icons";
 import { RegExpMatcher, TextCensor, englishDataset, englishRecommendedTransformers, asteriskCensorStrategy } from "obscenity";
-import { updateOldEmail } from "../backend/api/user.js";
 import { router } from "expo-router";
 
-export default function ChangeEmail() {
+export default function ChangePassword() {
     const [modalVisible, setModalVisible] = useState(false);
-    const [email, setEmail] = useState("");
-    const [newEmail, setNewEmail] = useState("");
+    const [newPassword, setNewPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
 
     // Obscenity - filtering out inappropriate text
     const matcher = new RegExpMatcher({
@@ -29,11 +28,11 @@ export default function ChangeEmail() {
         const matches = matcher.getAllMatches(value);
         const filteredValue = censor.applyTo(value, matches);
         switch (fieldName) {
-            case "email":
-                setEmail(filteredValue);
+            case "newPassword":
+                setNewPassword(filteredValue);
                 break;
-            case "newEmail":
-                setNewEmail(filteredValue);
+            case "confirmPassword":
+                setConfirmPassword(filteredValue);
                 break;
             default:
                 break;
@@ -49,13 +48,17 @@ export default function ChangeEmail() {
                     marginTop: "-3%",
                     flexDirection: "row",
                 }}>
-                <Ionicons name="mail-outline" size={32} color="black" />
+                <Ionicons
+                    name="lock-closed-outline"
+                    size={32}
+                    color="black"
+                />
                 <Text
                     style={[
                         styles.normaltext,
                         { marginTop: 7, paddingLeft: "2%" },
                     ]}>
-                    Change Email
+                    Change Password
                 </Text>
             </TouchableOpacity>
             <Modal
@@ -88,36 +91,36 @@ export default function ChangeEmail() {
                             height: 450,
                         }}>
                             <View style={{ marginBottom: 20 }}>
-                                <Text style={styles.postListingHeader}>Change Email</Text>
+                                <Text style={styles.postListingHeader}>Change Password</Text>
                             </View>
 
                             <View style={styles.forms}>
-                                <Text style={[styles.normaltext, { marginBottom: 5 }]}>Current Email: </Text>
+                                <Text style={[styles.normaltext, { marginBottom: 5 }]}>New Password: </Text>
                                 <TextInput
                                     style={styles.createUserInput}
-                                    value={email}
+                                    value={newPassword}
                                     onChangeText={(value) => {
                                         if (value.trim().length > 0) {
-                                            filterOutBadWords("email", value);
+                                            filterOutBadWords("newPassword", value);
                                         } else {
-                                            setEmail("");
+                                            setNewPassword("");
                                         }
                                     }}
-                                    placeholder="Enter your current email"
+                                    placeholder="Enter your new password"
                                     placeholderTextColor="#585858"
                                 />
-                                <Text style={[styles.normaltext, { marginBottom: 5 }]}>New Email: </Text>
+                                <Text style={[styles.normaltext, { marginBottom: 5 }]}>Confirm Password: </Text>
                                 <TextInput
                                     style={styles.createUserInput}
-                                    value={newEmail}
+                                    value={confirmPassword}
                                     onChangeText={(value) => {
                                         if (value.trim().length > 0) {
-                                            filterOutBadWords("newEmail", value);
+                                            filterOutBadWords("confirmPassword", value);
                                         } else {
-                                            setNewEmail("");
+                                            setConfirmPassword("");
                                         }
                                     }}
-                                    placeholder="Enter your current email"
+                                    placeholder="Re-enter your new password"
                                     placeholderTextColor="#585858"
                                 />
                             </View>
@@ -131,7 +134,6 @@ export default function ChangeEmail() {
                                     justifyContent="center"
                                     borderRadius={25}
                                     press={() => {
-                                        updateOldEmail(email, newEmail);
                                         setModalVisible(!modalVisible)
                                         router.push("/");
                                     }}
