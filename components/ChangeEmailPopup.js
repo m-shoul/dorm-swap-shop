@@ -6,14 +6,40 @@ import {
     TouchableOpacity,
     TouchableWithoutFeedback
 } from "react-native";
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import styles from "../app/(aux)/StyleSheet";
 import { Button } from "./Buttons";
 import { Ionicons } from "@expo/vector-icons";
 import { RegExpMatcher, TextCensor, englishDataset, englishRecommendedTransformers, asteriskCensorStrategy } from "obscenity";
+import { updateOldEmail } from "../backend/api/user.js";
+import { router } from "expo-router";
 
 export default function ChangeEmail() {
     const [modalVisible, setModalVisible] = useState(false);
+    const [email, setEmail] = useState("");
+    const [newEmail, setNewEmail] = useState("");
+
+    // Obscenity - filtering out inappropriate text
+    const matcher = new RegExpMatcher({
+        ...englishDataset.build(),
+        ...englishRecommendedTransformers,
+    });
+    const censor = new TextCensor().setStrategy(asteriskCensorStrategy());
+    const filterOutBadWords = (fieldName, value) => {
+        const matches = matcher.getAllMatches(value);
+        const filteredValue = censor.applyTo(value, matches);
+        switch (fieldName) {
+            case "email":
+                setEmail(filteredValue);
+                break;
+            case "newEmail":
+                setNewEmail(filteredValue);
+                break;
+            default:
+                break;
+        }
+    };
+
     return (
         <View>
             <TouchableOpacity
@@ -47,7 +73,7 @@ export default function ChangeEmail() {
                         alignItems: 'center',
                     }}>
                         <View style={{
-                            backgroundColor: '#F9F7F7',
+                            backgroundColor: "#F9F7F7",
                             borderRadius: 20,
                             padding: 20,
                             shadowColor: '#000',
@@ -69,13 +95,29 @@ export default function ChangeEmail() {
                                 <Text style={[styles.normaltext, { marginBottom: 5 }]}>Current Email: </Text>
                                 <TextInput
                                     style={styles.createUserInput}
+                                    value={email}
+                                    onChangeText={(value) => {
+                                        if (value.trim().length > 0) {
+                                            filterOutBadWords("email", value);
+                                        } else {
+                                            setEmail("");
+                                        }
+                                    }}
                                     placeholder="Enter your current email"
                                     placeholderTextColor="black"
                                 />
                                 <Text style={[styles.normaltext, { marginBottom: 5 }]}>New Email: </Text>
                                 <TextInput
                                     style={styles.createUserInput}
-                                    placeholder="Enter new email"
+                                    value={newEmail}
+                                    onChangeText={(value) => {
+                                        if (value.trim().length > 0) {
+                                            filterOutBadWords("newEmail", value);
+                                        } else {
+                                            setNewEmail("");
+                                        }
+                                    }}
+                                    placeholder="Enter your current email"
                                     placeholderTextColor="black"
                                 />
                             </View>
@@ -88,7 +130,11 @@ export default function ChangeEmail() {
                                     alignItems="center"
                                     justifyContent="center"
                                     borderRadius={25}
-                                    press={() => setModalVisible(!modalVisible)}
+                                    press={() => {
+                                        updateOldEmail(email, newEmail);
+                                        setModalVisible(!modalVisible)
+                                        router.push("/");
+                                    }}
                                     titleStyle={styles.buttonText}
                                 />
                             </View>
