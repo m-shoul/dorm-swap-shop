@@ -12,6 +12,7 @@ import { getUserSavedListings, getAllUserDataForProfile } from "../../backend/ap
 import ListingPopup from "../../components/ListingPopup.js";
 import ProfileHeader from "../../components/ProfileHeader.js";
 import styles from "../(aux)/StyleSheet";
+
 //import { create } from 'zustand'
 
 
@@ -90,6 +91,7 @@ export default function ProfileScreen() {
                     numColumns={2}
                     contentContainerStyle={{
                         backgroundColor: styles.colors.lightColor,
+                        flexGrow: 1
                     }}
                     style={{
                         backgroundColor: styles.colors.darkColor,
@@ -105,7 +107,7 @@ export default function ProfileScreen() {
                     }
                     ListEmptyComponent={noSavedListings}
                     ListHeaderComponent={<ProfileHeader user={user} />}
-                    scrollEventThrottle={10}
+                //scrollEventThrottle={10}
                 />
             )}
         </View>
