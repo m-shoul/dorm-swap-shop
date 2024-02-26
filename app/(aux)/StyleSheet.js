@@ -192,5 +192,13 @@ const styles = StyleSheet.create({
         borderTopColor: "transparent",
         justifyContent: "center",
     },
+    scanningModalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(255, 255, 255, 0.8)',
+        borderRadius: 10,
+        padding: 20,
+    },
 });
 export default styles;

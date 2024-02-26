@@ -261,12 +261,6 @@ export default function CreateUserScreen() {
             case "email":
                 setEmail(filteredValue);
                 break;
-            case "password":
-                setPassword(filteredValue);
-                break;
-            case "passwordCheck":
-                setPasswordCheck(filteredValue);
-                break;
             default:
                 break;
         }
@@ -424,14 +418,7 @@ export default function CreateUserScreen() {
                                 secureTextEntry={true}
                                 placeholder="Password"
                                 value={password}
-                                // onChangeText={(value) => setPassword(value)}
-                                onChangeText={(value) => {
-                                    if (value.trim().length > 0) {
-                                        filterOutBadWords("password", value);
-                                    } else {
-                                        setPassword("");
-                                    }
-                                }}
+                                onChangeText={(value) => setPassword(value)}
                             />
                             {errorMessagePassword && (
                                 <Text
@@ -450,13 +437,7 @@ export default function CreateUserScreen() {
                                 secureTextEntry={true}
                                 placeholder={"Confirm Password"}
                                 value={passwordCheck}
-                                onChangeText={(value) => {
-                                    if (value.trim().length > 0) {
-                                        filterOutBadWords("passwordCheck", value);
-                                    } else {
-                                        setPasswordCheck("");
-                                    }
-                                }}
+                                onChangeText={(value) => setPasswordCheck(value)}
                             />
                             {errorMessageConfirm && (
                                 <Text
