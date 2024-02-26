@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     createUserInputError: {
         marginBottom: "6%", //was 20
         borderWidth: 1, //was 1
-        borderRadius: 20,
+        borderRadius: 10,
         fontSize: normalText,
         paddingTop: "2%", //was 7
         paddingBottom: "2%", //was 7

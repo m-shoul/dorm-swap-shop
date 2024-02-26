@@ -113,7 +113,7 @@ export default function ListingPopup({ listing }) {
                 <View style={{ backgroundColor: "white", borderRadius: 20 }}>
                     <TouchableOpacity
                         style={{
-                            flex: 0,
+                            //flex: 0,
                             position: "absolute",
                             right: "2%",
                             top: "2%",
@@ -170,7 +170,7 @@ export default function ListingPopup({ listing }) {
 
             <Modal visible={listingModalVisible}>
                 <View style={[styles.background, { paddingTop: insets.top }]}>
-                    <SquareHeader height={51} />
+                    <SquareHeader height={55} />
                     <View
                         style={{
                             flexDirection: "row",

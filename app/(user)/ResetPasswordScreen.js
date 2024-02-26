@@ -18,6 +18,7 @@ import { router } from "expo-router";
 import { Button } from "../../components/Buttons.js";
 import RoundHeader from "../../components/RoundHeader.js";
 import ResetPasswordIcon from "../../assets/svg/reset_password_icon.js";
+import { ShadowedView } from 'react-native-fast-shadow';
 import { RegExpMatcher, TextCensor, englishDataset, englishRecommendedTransformers, asteriskCensorStrategy } from "obscenity";
 
 export default function ResetPasswordScreen() {
@@ -72,11 +73,25 @@ export default function ResetPasswordScreen() {
             <StatusBar barStyle="light-content" />
             <RoundHeader height={150} />
 
-            <ResetPasswordIcon style={{
-                marginTop: "10%",
-            }} />
-            <View>
+            <ShadowedView
+                style={{
+                    marginTop: "10%",
+                    shadowOpacity: 0.8,
+                    shadowRadius: 20,
+                    shadowOffset: {
+                        width: 5,
+                        height: 3,
+                    },
+                    backgroundColor: "white",
+                    borderRadius: 20,
+                }}
+            >
+                <ResetPasswordIcon />
 
+
+            </ShadowedView>
+
+            <View>
                 <Text style={styles.loginHeader}>Reset Password</Text>
             </View>
             <View style={styles.dividerLine} />
