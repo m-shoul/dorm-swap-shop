@@ -12,6 +12,7 @@ import { getUserSavedListings, getAllUserDataForProfile } from "../../backend/ap
 import ListingPopup from "../../components/ListingPopup.js";
 import ProfileHeader from "../../components/ProfileHeader.js";
 import styles from "../(aux)/StyleSheet";
+
 //import { create } from 'zustand'
 
 
@@ -67,9 +68,9 @@ export default function ProfileScreen() {
     const insets = useSafeAreaInsets();
 
     return (
-        <View style={{ flex: 1, backgroundColor: styles.colors.darkColor, paddingTop: insets.top }}>
+        <View style={{ flex: 1, paddingTop: insets.top, backgroundColor: styles.colors.darkColor }}>
             {isLoading ? (
-                <ActivityIndicator size="large" color={styles.colors.darkColor} />
+                <ActivityIndicator size="large" />
             ) : (
                 <FlatList
                     data={savedListings || []}
@@ -90,9 +91,9 @@ export default function ProfileScreen() {
                     numColumns={2}
                     contentContainerStyle={{
                         backgroundColor: styles.colors.lightColor,
+                        flexGrow: 1
                     }}
                     style={{
-                        flex: 1,
                         backgroundColor: styles.colors.darkColor,
                     }}
 
@@ -106,7 +107,7 @@ export default function ProfileScreen() {
                     }
                     ListEmptyComponent={noSavedListings}
                     ListHeaderComponent={<ProfileHeader user={user} />}
-                    scrollEventThrottle={10}
+                //scrollEventThrottle={10}
                 />
             )}
         </View>

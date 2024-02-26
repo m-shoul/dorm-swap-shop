@@ -17,6 +17,8 @@ import { Button } from "../../components/Buttons.js";
 import HeadShot from "../../components/HeadShot.js";
 import SquareHeader from "../../components/SquareHeader.js";
 import { Ionicons } from '@expo/vector-icons';
+import { ShadowedView } from 'react-native-fast-shadow';
+import symbolicateStackTrace from "react-native/Libraries/Core/Devtools/symbolicateStackTrace";
 
 export default function About() {
     const [modalVisible, setModalVisible] = useState(false);
@@ -29,9 +31,9 @@ export default function About() {
     const insets = useSafeAreaInsets();
 
     return (
-        <View style={{ paddingTop: insets.top }}>
+        <View style={{ paddingTop: insets.top, flex: 1 }}>
             <SquareHeader height={50} />
-            <ScrollView>
+            <ScrollView bounces={false}>
                 <StatusBar barStyle={"light-content"} />
                 <RoundHeader height={220} />
                 <View
@@ -50,18 +52,50 @@ export default function About() {
                     </TouchableOpacity>
 
                     <View style={{ alignItems: "center", width: "80%" }}>
-                        <SimpleLogo />
                         <Text
-                            style={[
-                                styles.SmallerHeaderFontSize,
-                                { textAlign: "center" },
-                            ]}>
-                            The one-stop shop for all your college needs
+                            style={[styles.postListingHeader, { color: styles.colors.lightColor }]}>
+                            About
                         </Text>
                     </View>
                 </View>
 
+                <View style={{
+                    width: "100%",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginTop: "12%",
+                    marginBottom: "5%"
+                }}>
+                    <ShadowedView
+                        style={{
+                            backgroundColor: "white",
+                            shadowOpacity: 0.8,
+                            shadowRadius: 30,
+                            shadowOffset: {
+                                width: 5,
+                                height: 3,
+                            },
+
+                        }}
+                    >
+                        <SimpleLogo width={133} height={143} margin={-20} />
+                    </ShadowedView>
+                </View>
+
+
+
+
                 <View style={{ paddingHorizontal: "10%" }}>
+                    <View style={{ marginBottom: "5%" }}>
+                        <Text
+                            style={[
+                                styles.SmallerHeaderFontSize,
+                                { textAlign: "center", color: "black" },
+                            ]}>
+                            The one-stop shop for all your college needs
+                        </Text>
+                    </View>
+
                     <View style={{ marginBottom: "5%" }}>
                         <Text style={[styles.boldtext, { marginBottom: "2%" }]}>
                             Our Story

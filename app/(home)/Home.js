@@ -15,6 +15,7 @@ import SearchBarHeader from "../../components/SearchBar";
 import { getUsernameByID } from "../../backend/api/user";
 import FilterPopup from "../../components/FilterPopup";
 import SquareHeader from "../../components/SquareHeader";
+import AdPopup from "../../components/AdPopup";
 
 export default function HomeScreen() {
     const scrollOffsetY = useRef(new Animated.Value(0)).current;
@@ -231,19 +232,36 @@ export default function HomeScreen() {
             <FlatList
                 data={Object.values(memoizedListingsData)}
                 keyExtractor={(item) => item.listingId}
-                renderItem={({ item }) => (
-                    <View
-                        style={{
-                            width: "50%",
-                            height: 230,
-                            paddingHorizontal: "1%",
-                            marginBottom: "1%"
-                        }}>
-                        <ListingPopup
-                            listing={item}
-                        />
-                    </View>
-                )}
+                renderItem={({ item, index }) => {
+                    if ((index + 1) % 6 === 0) {
+                        return (
+                            <View
+                                style={{
+                                    width: "50%",
+                                    height: 230,
+                                    paddingHorizontal: "1%",
+                                    marginBottom: "1%",
+                                    justifyContent: "center",
+                                }}>
+                                <AdPopup />
+                            </View>
+                        );
+                    } else {
+                        return (
+                            <View
+                                style={{
+                                    width: "50%",
+                                    height: 230,
+                                    paddingHorizontal: "1%",
+                                    marginBottom: "1%"
+                                }}>
+                                <ListingPopup
+                                    listing={item}
+                                />
+                            </View>
+                        );
+                    }
+                }}
                 numColumns={2}
                 contentContainerStyle={{
                     paddingBottom: "15%",

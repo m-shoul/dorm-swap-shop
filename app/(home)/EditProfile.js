@@ -22,6 +22,7 @@ import CachedImage from "expo-cached-image";
 import { Button } from "../../components/Buttons.js";
 import { ScrollView } from "react-native-gesture-handler";
 import * as ImagePicker from "expo-image-picker";
+import { ShadowedView } from 'react-native-fast-shadow';
 import { RegExpMatcher, TextCensor, englishDataset, englishRecommendedTransformers, asteriskCensorStrategy } from "obscenity";
 
 export default function EditProfile() {
@@ -79,7 +80,7 @@ export default function EditProfile() {
         ...englishRecommendedTransformers,
     });
     const censor = new TextCensor().setStrategy(asteriskCensorStrategy());
-    const filterOutBadWords = (fieldName, value) => { 
+    const filterOutBadWords = (fieldName, value) => {
         const matches = matcher.getAllMatches(value);
         const filteredValue = censor.applyTo(value, matches);
         switch (fieldName) {
@@ -118,38 +119,51 @@ export default function EditProfile() {
                     />
 
                     <TouchableOpacity onPress={pickProfileImage}>
-                        <View
+                        <ShadowedView
                             style={{
-                                width: 190,
-                                height: 190,
-                                borderRadius: 200,
-                                overflow: "hidden",
-                                //borderWidth: 2,
-                                justifyContent: "center",
+                                shadowOpacity: 0.8,
+                                shadowRadius: 20,
+                                shadowOffset: {
+                                    width: 5,
+                                    height: 3,
+                                },
                                 backgroundColor: "white",
-                            }}>
-                            {profileImageUrl ? (
-                                <Image
-                                    source={{ uri: profileImageUrl }}
-                                    // cacheKey={`user-${user.id}-profileImage`}
-                                    // cacheKey={shortHash(user.id)} // this might be user.userId
-                                    style={{
-                                        width: "100%",
-                                        height: "100%",
-                                    }}
-                                />
-                            ) : (
-                                <ListImagesComponent
-                                    source={require("../../assets/svg/list_images.js")}
-                                    style={{
-                                        width: "100%",
-                                        height: "100%",
-                                        stroke: "black",
-                                        strokeWidth: 0.25,
-                                    }}
-                                />
-                            )}
-                        </View>
+                                borderRadius: 200,
+                            }}
+                        >
+                            <View
+                                style={{
+                                    width: 190,
+                                    height: 190,
+                                    borderRadius: 200,
+                                    overflow: "hidden",
+                                    //borderWidth: 2,
+                                    justifyContent: "center",
+                                    backgroundColor: "white",
+                                }}>
+                                {profileImageUrl ? (
+                                    <Image
+                                        source={{ uri: profileImageUrl }}
+                                        // cacheKey={`user-${user.id}-profileImage`}
+                                        // cacheKey={shortHash(user.id)} // this might be user.userId
+                                        style={{
+                                            width: "100%",
+                                            height: "100%",
+                                        }}
+                                    />
+                                ) : (
+                                    <ListImagesComponent
+                                        source={require("../../assets/svg/list_images.js")}
+                                        style={{
+                                            width: "100%",
+                                            height: "100%",
+                                            stroke: "black",
+                                            strokeWidth: 0.25,
+                                        }}
+                                    />
+                                )}
+                            </View>
+                        </ShadowedView>
                     </TouchableOpacity>
                 </View>
 
