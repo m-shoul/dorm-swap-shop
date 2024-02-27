@@ -2,11 +2,11 @@ import {
     Text,
     TextInput,
     View,
-    SafeAreaView,
     TouchableOpacity,
     TouchableWithoutFeedback,
     Keyboard,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import React, { useState, useRef } from "react";
 import styles from "./(aux)/StyleSheet";
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -15,6 +15,8 @@ import { router } from "expo-router";
 import { getUserID } from "../backend/dbFunctions";
 import { Button } from "../components/Buttons";
 import LogoV2 from "../assets/svg/logoV2";
+import { RegExpMatcher, TextCensor, englishDataset, englishRecommendedTransformers, asteriskCensorStrategy } from "obscenity";
+
 
 export default function LoginScreen() {
     const [email, setEmail] = useState("");
@@ -61,6 +63,24 @@ export default function LoginScreen() {
         }
     };
 
+    // Obscenity - filtering out inappropriate text
+    const matcher = new RegExpMatcher({
+        ...englishDataset.build(),
+        ...englishRecommendedTransformers,
+    });
+    const censor = new TextCensor().setStrategy(asteriskCensorStrategy());
+    const filterOutBadWords = (fieldName, value) => {
+        const matches = matcher.getAllMatches(value);
+        const filteredValue = censor.applyTo(value, matches);
+        switch (fieldName) {
+            case "email":
+                setEmail(filteredValue);
+                break;
+            default:
+                break;
+        }
+    };
+
     // Figure out what saves the userId when I go to the register screen
     // we can use this to sage the state of the user and automatically log in
     // so user doesnt have to log in every time.
@@ -71,18 +91,19 @@ export default function LoginScreen() {
             <SafeAreaView style={styles.background}>
                 <LogoV2 />
 
-                {/* <View>
-                    paddingTop: "45%"
-                    <Text style={styles.loginHeader}> Login </Text>
-                </View> */}
-
                 <View style={styles.dividerLine} />
 
                 <View style={styles.forms}>
                     <TextInput
                         style={emailStyle}
                         value={email}
-                        onChangeText={(value) => setEmail(value)}
+                        onChangeText={(value) => {
+                            if (value.trim().length > 0) {
+                                filterOutBadWords("email", value);
+                            } else {
+                                setEmail("");
+                            }
+                        }}
                         placeholder="Email"
                         onSubmitEditing={() => {
                             // Focus on the password input when the user submits the email input
@@ -133,14 +154,13 @@ export default function LoginScreen() {
                 </TouchableOpacity> */}
                 <Button
                     width="80%"
-                    height="7%"
-                    backgroundColor="#3F72AF"
+                    backgroundColor={styles.colors.darkAccentColor}
                     title="Login"
                     alignItems="center"
                     justifyContent="center"
                     marginTop="6%"
                     marginBottom="6%"
-                    borderRadius="25%"
+                    borderRadius={25}
                     press={handleLogin}
                     titleStyle={styles.buttonText}
                 />

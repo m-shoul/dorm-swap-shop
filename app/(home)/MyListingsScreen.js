@@ -1,50 +1,58 @@
 import {
     Text,
     View,
+    TouchableWithoutFeedback,
     TouchableOpacity,
     FlatList,
-    SafeAreaView,
     StyleSheet,
     Modal,
     Animated,
+    RefreshControl
 } from "react-native";
-
+import { SafeAreaView } from "react-native-safe-area-context";
 import SquareHeader from "../../components/SquareHeader.js";
 import { Image } from "expo-image";
 import { router } from "expo-router";
-import ListingPopup from "../../components/ListingPopup.js";
 import React, { useState, useEffect, useRef } from "react";
 import styles from "../(aux)/StyleSheet.js";
-import BackButtonComponent from "../../assets/svg/back_button.js";
 import ProfileScreen from "./Profile.js";
 import SearchBarHeader from "../../components/SearchBar.js";
-import { getUserListings } from "../../backend/api/listing.js";
+import { getUserListings, deleteListing } from "../../backend/api/listing.js";
 import filter from "lodash.filter";
+import { SwipeListView } from "react-native-swipe-list-view";
+import { Ionicons } from '@expo/vector-icons';
 
-//This is now the my listings screen
 const MyListingsScreen = ({ navigation }) => {
     const [search, setSearch] = useState("");
     const [selectedListing, setSelectedListing] = useState(null);
     const [showProfile, setShowProfile] = useState(false);
     const [listingsData, setListingsData] = useState([]);
     const [fullData, setFullData] = useState([]);
+    const [refreshing, setRefreshing] = useState(false);
+
+    const fetchListingData = async () => {
+        try {
+            const listingsData = await getUserListings();
+            setFullData(listingsData);
+            setListingsData(listingsData);
+            console.log("Got user listings.");
+        } catch (error) {
+            console.error("ERROR: Could not get user listings: ", error);
+        }
+    };
 
     useEffect(() => {
-        const fetchListingData = async () => {
-            try {
-                const listingsData = await getUserListings();
-                setFullData(listingsData);
-                setListingsData(listingsData);
-                console.log("Got user listings.");
-            } catch (error) {
-                console.error("ERROR: Could not get user listings: ", error);
-            }
-        };
         fetchListingData();
-    }, []);
+    }, [/*listingsData*/]); // TODO: This works, but it gets stuck in a never ending loop... work on this
+                            // the delete functionality works. Just need to focus on auto refresh.
 
     const handleItemPress = (listing) => {
-        setSelectedListing(listing);
+        //setSelectedListing(listing);
+        console.log(listing.listingId);
+        router.push({
+            pathname: "EditListingScreen",
+            params: { listingId: listing.listingId },
+        });
     };
 
     if (showProfile) {
@@ -89,15 +97,21 @@ const MyListingsScreen = ({ navigation }) => {
         return false;
     };
 
-    // const listingDescription =
-    //     description.length > 22
-    //         ? description.substring(0, 14) + "..."
-    //         : description;
+    const handleRefresh = () => {
+        fetchListingData();
+    }
+    
+    function getTruncatedDescription(item) {
+        if (item && item.description && item.description.length > 10) {
+            return item.description.substring(0, 35) + '...';
+        }
+        return item.description;
+    }
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: "#F9F7F7" }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: styles.colors.lightColor }}>
             {/* Search bar was taken from homescreen, so will not have functionality. */}
-            <SquareHeader height={"8%"} />
+            <SquareHeader height={80} />
             <Animated.View
                 style={{
                     zIndex: 1,
@@ -113,10 +127,10 @@ const MyListingsScreen = ({ navigation }) => {
                         top: 0,
                         left: 0,
                         right: 0,
-                        backgroundColor: "#112D4E",
+                        backgroundColor: styles.colors.darkColor,
                     }}>
                     <TouchableOpacity onPress={() => router.push("Profile")}>
-                        <BackButtonComponent></BackButtonComponent>
+                        <Ionicons name="chevron-back" size={32} color="white" />
                     </TouchableOpacity>
                     <View style={{ justifyContent: "center", width: "90%" }}>
                         <SearchBarHeader handleSearch={handleSearch} />
@@ -128,7 +142,7 @@ const MyListingsScreen = ({ navigation }) => {
                     flexDirection: "row",
                     alignItems: "center",
                     width: "100%",
-                    backgroundColor: "#112D4E",
+                    backgroundColor: styles.colors.darkColor,
                     paddingHorizontal: "5%",
                 }}>
                 <TouchableOpacity onPress={() => router.back()}>
@@ -141,7 +155,7 @@ const MyListingsScreen = ({ navigation }) => {
                     />
                 </View>
             </View> */}
-            <FlatList
+            <SwipeListView
                 data={listingsData}
                 onScroll={Animated.event(
                     [{ nativeEvent: { contentOffset: { y: scrollOffsetY } } }],
@@ -149,31 +163,15 @@ const MyListingsScreen = ({ navigation }) => {
                 )}
                 bounces={true}
                 renderItem={({ item }) => {
-                    const truncatedDescription =
-                        item.description && item.description.length > 10
-                            ? item.description.substring(0, 35) + "..."
-                            : item.description;
-
                     return (
-                        <TouchableOpacity
-                            style={{
-                                width: 400,
-                                marginTop: 20,
-                                padding: 10,
-                                flex: 1,
-                                margin: 0,
-                            }}
-                            onPress={() => handleItemPress(item)}
+                        <View
                             key={item.id}>
                             <View
                                 style={{
-                                    backgroundColor: "#F9F7F7",
+                                    backgroundColor: styles.colors.lightColor,
                                     flex: 1,
                                     flexDirection: "row",
                                     padding: 2,
-                                    paddingRight: "5%",
-                                    width: 370,
-                                    justifyContent: "space-between",
                                 }}>
                                 {Array.isArray(item.images) ? (
                                     <Image
@@ -193,41 +191,71 @@ const MyListingsScreen = ({ navigation }) => {
                                     </Text>
                                     <Text>{"$" + item.price}</Text>
                                     <Text>{item.condition}</Text>
-                                    <Text>{truncatedDescription}</Text>
+                                    <Text>{getTruncatedDescription(item)}</Text>
                                 </View>
                             </View>
-
-                            {/* For now this is commented out since the listing popup is broken */}
-                            {/* <ListingPopup listing={item} navigation={navigation} /> */}
-                            <View
-                                style={{
-                                    backgroundColor: "#B3B3B3",
-                                    height: 1,
-                                    marginTop: 20,
-                                    marginLeft: 10,
-                                    marginRight: 20,
-                                    marginBottom: -20,
-                                }}
-                            />
-                        </TouchableOpacity>
+                        </View>
                     );
                 }}
-                //numColumns={2}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={handleRefresh} // Handle refresh event
+                    />
+                }
+                ItemSeparatorComponent={() => (
+                    <View style={{ alignItems: "center" }}>
+                        <View style={[styles.dividerLine, { marginBottom: 10, marginTop: 10 }]} />
+                    </View>
+                )}
+                renderHiddenItem={({ item }) => (
+                    <View
+                        style={{
+                            flex: 1,
+                            flexDirection: "row",
+                            justifyContent: "flex-end",
+                        }}>
+                        <TouchableOpacity
+                            style={{
+                                width: 75,
+                                backgroundColor: "#FF9900",
+                                alignItems: "center",
+                                justifyContent: "center",
+                            }}
+                            onPress={() => {
+                                //handle editing the listing
+                                handleItemPress(item)
+                            }}>
+                            <Ionicons name="pencil" size={24} color="black" />
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={{
+                                width: 75,
+                                backgroundColor: "#F30000",
+                                alignItems: "center",
+                                justifyContent: "center",
+                            }}
+                            onPress={() => {
+                                // Handle the "Delete" action
+                                deleteListing(item.listingId);
+                                alert("Deleted");
+                            }}>
+                            <Ionicons name="trash-outline" size={32} color="black" />
+                        </TouchableOpacity>
+                    </View>
+                )}
+                disableRightSwipe={true}
+                rightOpenValue={-150}
                 keyExtractor={(item) => item.listingId}
                 contentContainerStyle={{
-                    paddingBottom: "15%", // Add this line
+                    paddingBottom: "15%",
                 }}
                 scrollEventThrottle={10}
                 style={{
                     flex: 1,
-                    backgroundColor: "#F9F7F7",
-                    marginTop: 10,
-                    paddingTop: "15%",
+                    backgroundColor: styles.colors.lightColor,
+                    paddingTop: 85,
                 }}
-                //kept causing errors, so turned it off
-                // onScroll={(e) => {
-                //     scrollY.setValue(e.nativeEvent.contentOffset.y);
-                // }}
             />
         </SafeAreaView>
     );

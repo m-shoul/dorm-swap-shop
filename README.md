@@ -3,12 +3,17 @@
 ## Releases
 | Version    | Date | Description
 | -------- | ------- | -------
-| 1.0.00  | 2023-08-31 | Initial deployment.
+| 0.0.00  | 2023-08-31 | Initial deployment.
 | 1.0.00  | 2023-09-08 | Set up tech stack.
 | 1.0.01  | 2023-09-29 | User registration and login.
 | 1.0.02  | 2023-10-23 | Listing an item.
 | 1.0.03  | 2023-11-10 | App Navigation and view listings.
-| 1.0.04  | 2023-11-01 | Searching and saving listings.
+| 1.0.04  | 2023-12-01 | Searching and saving listings.
+| 1.0.05  | 2024-02-02 | Design refresh and enhanced backend CRUD functionality.
+| 1.0.06  | 2024-02-23 | Ad integration and content monitoring.
+| 1.0.07  | 2024-03-15 | TBD.
+| 1.0.08  | 2024-04-05 | TBD.
+| 1.0.09  | 2024-04-26 | Final deployment.
 
 ## Contents
 * [Releases](https://github.com/m-shoul/dorm-swap-shop#releases)

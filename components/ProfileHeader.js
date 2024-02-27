@@ -15,6 +15,7 @@ import { getAllUserDataForProfile, uploadProfileImage } from "../backend/api/use
 import CachedImage from "expo-cached-image";
 import RoundHeader from "./RoundHeader.js";
 import { router } from "expo-router";
+import { ShadowedView } from 'react-native-fast-shadow';
 
 export default function ProfileHeader({ user }) {
     const [isLoading, setIsLoading] = useState(true);
@@ -55,13 +56,13 @@ export default function ProfileHeader({ user }) {
     // }, []);
 
     return (
-        <View style={{ flex: 1, marginBottom: "10%" }}>
+        //flex: 1, marginBottom: "10%"
+        <View>
             {/* <RefreshControl
                 refreshing={isLoading}
                 onRefresh={fetchUserData}
             /> */}
-            
-            <RoundHeader height="45%" />
+            <RoundHeader height={140} />
             {/* <View style={{ marginBottom: "5%", alignItems: "center" }}> */}
             <TouchableOpacity
                 style={{
@@ -71,31 +72,33 @@ export default function ProfileHeader({ user }) {
                 }}
                 onPress={() => router.push("EditProfile")}
             >
-                <Text style={[styles.boldtext, { textAlign: "right", color: "#F9F7F7" }]}>
+                <Text style={[styles.boldtext, { textAlign: "right", color: styles.colors.lightColor }]}>
                     Edit
                 </Text>
             </TouchableOpacity>
-            <View style={{ width: "100%", marginBottom: "5%", alignItems: "center" }}>
-                <TouchableOpacity /*onPress={pickProfileImage}*/ style={{
-                    backgroundColor: "transparent",
-                    shadowColor: "#000",
-                    shadowOffset: {
-                        width: 0,
-                        height: 4,
-                    },
-                    shadowOpacity: 0.8,
-                    shadowRadius: 3.84,
-                    elevation: 5,
-                }}>
+            <View style={{
+                marginBottom: "5%",
+                alignItems: "center",
+            }}>
+                <ShadowedView
+                    style={{
+                        shadowOpacity: 0.8,
+                        shadowRadius: 20,
+                        shadowOffset: {
+                            width: 5,
+                            height: 3,
+                        },
+                        backgroundColor: "white",
+                        borderRadius: 200,
+                    }}
+                >
                     <View
                         style={{
                             width: 190,
                             height: 190,
                             borderRadius: 200,
                             overflow: "hidden",
-                            //borderWidth: 1,
                             justifyContent: "center",
-                            backgroundColor: "white",
                         }}>
                         {profileImageUrl ? (
                             <Image
@@ -115,11 +118,12 @@ export default function ProfileHeader({ user }) {
                                     height: "100%",
                                     stroke: "black",
                                     strokeWidth: 0.25,
+                                    borderBlockColor: "white",
                                 }}
                             />
                         )}
                     </View>
-                </TouchableOpacity>
+                </ShadowedView>
             </View >
 
 
@@ -144,63 +148,36 @@ export default function ProfileHeader({ user }) {
                 style={{
                     paddingTop: "5%",
                     flexDirection: "row",
-                    marginBottom: "-5%",
+                    marginBottom: "5%",
                     justifyContent: "center",
                     paddingHorizontal: 20,
-                    // backgroundColor: "transparent",
-                    // shadowColor: "#000",
-                    // shadowOffset: {
-                    //     width: 0,
-                    //     height: 4,
-                    // },
-                    // shadowOpacity: 0.8,
-                    // shadowRadius: 3.84,
-                    // elevation: 5,
                 }}>
                 {/* Goes to saved listings */}
                 <Button
                     width="45%"
-                    height="40%"
-                    backgroundColor="#3F72AF"
+                    backgroundColor={styles.colors.darkAccentColor}
                     title="My Listings"
                     alignItems="center"
                     justifyContent="center"
                     marginRight="5%"
-                    borderRadius="25%"
+                    borderRadius={25}
                     href="MyListingsScreen"
                     titleStyle={[styles.boldtext, { color: "white" }]}
-                    shadowColor="#000"
-                    shadowOffset={{
-                        width: 0,
-                        height: 4
-                    }}
-                    shadowOpacity="0.8"
-                    shadowRadius="3.84"
-                    elevation=" 5"
-
                 />
 
                 {/* Goes to chats */}
                 <Button
                     width="45%"
-                    height="40%"
-                    backgroundColor="#3F72AF"
+                    backgroundColor={styles.colors.darkAccentColor}
                     title="Chat"
                     alignItems="center"
                     justifyContent="center"
-                    borderRadius="25%"
+                    borderRadius={25}
                     href="Chat"
                     titleStyle={[styles.boldtext, { color: "white" }]}
-                    shadowColor="#000"
-                    shadowOffset={{
-                        width: 0,
-                        height: 4
-                    }}
-                    shadowOpacity="0.8"
-                    shadowRadius="3.84"
-                    elevation=" 5"
                 />
             </View>
+
             <View
                 style={{
                     alignSelf: "stretch",

@@ -1,17 +1,12 @@
 import {
     Text,
     View,
-    TouchableOpacity,
     FlatList,
-    SafeAreaView,
     Animated,
     RefreshControl,
     ActivityIndicator,
-    TouchableWithoutFeedback,
-    Modal,
-    Pressable,
 } from "react-native";
-import { Image } from "expo-image";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import { getAllListings } from "../../backend/api/listing";
 import styles from "../(aux)/StyleSheet";
@@ -20,6 +15,7 @@ import SearchBarHeader from "../../components/SearchBar";
 import { getUsernameByID } from "../../backend/api/user";
 import FilterPopup from "../../components/FilterPopup";
 import SquareHeader from "../../components/SquareHeader";
+import AdPopup from "../../components/AdPopup";
 
 export default function HomeScreen() {
     const scrollOffsetY = useRef(new Animated.Value(0)).current;
@@ -36,21 +32,19 @@ export default function HomeScreen() {
 
     const fetchListings = async () => {
         clearTimeout(timerId);
-        timerId = setTimeout(async () => {
-            setRefreshing(true);
-            try {
-                const listingsData = await getAllListings();
-                setFullData(listingsData);
-                setListingsData(listingsData);
-                setRefreshing(false);
-                setIsLoading(false);
-            } catch (error) {
-                setError(error);
-                console.error("Error:", error);
-                setRefreshing(false);
-                setIsLoading(false);
-            }
-        }, 1000); // Delay of 1 second
+        setRefreshing(true);
+        try {
+            const listingsData = await getAllListings();
+            setFullData(listingsData);
+            setListingsData(listingsData);
+            setRefreshing(false);
+            setIsLoading(false);
+        } catch (error) {
+            setError(error);
+            console.error("Error:", error);
+            setRefreshing(false);
+            setIsLoading(false);
+        }
     };
 
     useEffect(() => {
@@ -161,7 +155,7 @@ export default function HomeScreen() {
 
     const noListingsFromSearchOrFilter = () => (
         <View style={{ marginTop: "60%", justifyContent: "center", alignItems: "center", paddingHorizontal: "15%" }}>
-            <Text style={[styles.boldtext, { textAlign: "center"}]}>
+            <Text style={[styles.boldtext, { textAlign: "center" }]}>
                 Oops! No listings match that criteria. Refresh to clear results.
             </Text>
         </View>
@@ -171,7 +165,7 @@ export default function HomeScreen() {
     if (isLoading) {
         return (
             <View style={styles.container}>
-                <ActivityIndicator size="large" color="#112d4e" />
+                <ActivityIndicator size="large" color={styles.colors.darkColor} />
             </View>
         );
     }
@@ -187,7 +181,7 @@ export default function HomeScreen() {
         );
     }
 
-    const minScroll = 300;
+    const minScroll = 200;
 
     const animHeaderValue = scrollOffsetY;
 
@@ -204,10 +198,11 @@ export default function HomeScreen() {
         outputRange: [0, -headerHeight],
         extrapolate: "clamp",
     });
+    const insets = useSafeAreaInsets();
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: "#F9F7F7" }}>
-            <SquareHeader height={"8%"} />
+        <View style={{ flex: 1, backgroundColor: styles.colors.lightColor, paddingTop: insets.top }}>
+            <SquareHeader height={80} />
             <Animated.View
                 style={{
                     zIndex: 1,
@@ -216,21 +211,20 @@ export default function HomeScreen() {
                 <View
                     style={{
                         flexDirection: "row",
-                        alignItems: "center",
+                        //alignItems: "center",
+                        justifyContent: "center",
                         width: "100%",
                         paddingHorizontal: "2%",
                         position: "absolute",
                         top: 0,
                         left: 0,
                         right: 0,
-                        backgroundColor: "#112D4E",
+                        backgroundColor: styles.colors.darkColor,
                     }}>
                     <View style={{ justifyContent: "center", width: "90%" }}>
                         <SearchBarHeader handleSearch={handleSearch} />
                     </View>
-                    <View style={{ width: "10%" }}>
-                        <FilterPopup handleFiltering={handleFiltering} />
-                    </View>
+                    <FilterPopup handleFiltering={handleFiltering} />
                 </View>
             </Animated.View>
 
@@ -238,28 +232,44 @@ export default function HomeScreen() {
             <FlatList
                 data={Object.values(memoizedListingsData)}
                 keyExtractor={(item) => item.listingId}
-                renderItem={({ item }) => (
-                    <View
-                        style={{
-                            width: "50%",
-                            height: 230,
-                            padding: "1%",
-                        }}>
-                        <ListingPopup
-                            listing={item}
-                            //navigation={router}
-                        />
-                    </View>
-                )}
+                renderItem={({ item, index }) => {
+                    if ((index + 1) % 6 === 0) {
+                        return (
+                            <View
+                                style={{
+                                    width: "50%",
+                                    height: 230,
+                                    paddingHorizontal: "1%",
+                                    marginBottom: "1%",
+                                    justifyContent: "center",
+                                }}>
+                                <AdPopup />
+                            </View>
+                        );
+                    } else {
+                        return (
+                            <View
+                                style={{
+                                    width: "50%",
+                                    height: 230,
+                                    paddingHorizontal: "1%",
+                                    marginBottom: "1%"
+                                }}>
+                                <ListingPopup
+                                    listing={item}
+                                />
+                            </View>
+                        );
+                    }
+                }}
                 numColumns={2}
                 contentContainerStyle={{
                     paddingBottom: "15%",
-                    paddingTop: "3%", // Add this line
+                    paddingTop: 85, // Add this line
                 }}
                 style={{
                     flex: 1,
-                    backgroundColor: "#F9F7F7",
-                    paddingTop: "15%",
+                    backgroundColor: styles.colors.lightColor,
                 }}
                 onScroll={Animated.event(
                     [{ nativeEvent: { contentOffset: { y: scrollOffsetY } } }],
@@ -275,6 +285,6 @@ export default function HomeScreen() {
                 ListEmptyComponent={noListingsFromSearchOrFilter}
                 scrollEventThrottle={10}
             />
-        </SafeAreaView>
+        </View>
     );
 }

@@ -3,9 +3,9 @@ import {
     View,
     TouchableOpacity,
     FlatList,
-    SafeAreaView,
     StyleSheet,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { SearchBar } from "@rneui/themed";
 import styles from "../(aux)/StyleSheet";
 import { router } from "expo-router";

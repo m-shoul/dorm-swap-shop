@@ -2,15 +2,19 @@ import {
     Text,
     View,
     FlatList,
-    SafeAreaView,
     //Image,
     ActivityIndicator,
     RefreshControl,
 } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import React, { useState, useEffect } from "react";
 import { getUserSavedListings, getAllUserDataForProfile } from "../../backend/api/user.js";
 import ListingPopup from "../../components/ListingPopup.js";
 import ProfileHeader from "../../components/ProfileHeader.js";
+import styles from "../(aux)/StyleSheet";
+
+//import { create } from 'zustand'
+
 
 export default function ProfileScreen() {
     const [savedListings, setSavedListings] = useState([]);
@@ -55,69 +59,57 @@ export default function ProfileScreen() {
         fetchUserData();
     }
 
-    console.log(user);
+    // console.log(user);
 
     const noSavedListings = () => (
         <Text style={{ textAlign: 'center' }}>No saved listings</Text>
     );
 
-    // Profile image stuff
-    // const [profileImage, setProfileImage] = useState(null);
-    // const pickProfileImage = async () => {
-    //     console.log("Picking profile image.");
-    //     let result = await ImagePicker.launchImageLibraryAsync({
-    //         mediaTypes: ImagePicker.MediaTypeOptions.Images,
-    //         allowsEditing: true,
-    //         selectionLimit: 1,
-    //         aspect: [1, 1],
-    //         quality: 0.1
-    //     });
-
-    //     if (result.assets && result.assets.length > 0) {
-    //         const selectedProfileImage = result.assets[0];
-    //         setProfileImage(selectedProfileImage.uri);
-    //         uploadProfileImage(selectedProfileImage.uri);
-    //     }
-    // };
-
-    // const profileImageUrl = user?.public?.profileImage;
+    const insets = useSafeAreaInsets();
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: '#112D4E' }}>
-
+        <View style={{ flex: 1, paddingTop: insets.top, backgroundColor: styles.colors.darkColor }}>
             {isLoading ? (
-                <ActivityIndicator size="large" color="#112d4e" />
+                <ActivityIndicator size="large" />
             ) : (
                 <FlatList
                     data={savedListings || []}
                     keyExtractor={(item) => item.listingId}
                     renderItem={({ item }) => (
-                        <View style={{ width: "50%", padding: "1%" }}>
-                            <ListingPopup listing={item} />
+                        <View
+                            style={{
+                                width: "50%",
+                                height: 230,
+                                paddingHorizontal: "1%",
+                                marginBottom: "1%"
+                            }}>
+                            <ListingPopup
+                                listing={item}
+                            />
                         </View>
                     )}
                     numColumns={2}
                     contentContainerStyle={{
-                        //flex: 1,
-                        backgroundColor: "#F9F7F7",
-                        //paddingTop: "2%",
+                        backgroundColor: styles.colors.lightColor,
+                        flexGrow: 1
                     }}
-                    onScroll={(e) => {
-                        // scrollY.setValue(e.nativeEvent.contentOffset.y);
+                    style={{
+                        backgroundColor: styles.colors.darkColor,
                     }}
+
                     bounces={true}
                     refreshControl={
                         <RefreshControl
                             refreshing={refreshing}
                             onRefresh={handleRefresh}
-                            tintColor={"#F9F7F7"}
+                            tintColor={styles.colors.lightColor}
                         />
                     }
                     ListEmptyComponent={noSavedListings}
-                    ListHeaderComponent={<ProfileHeader user={user}/>}
-                    style={{height: "100%"}}
+                    ListHeaderComponent={<ProfileHeader user={user} />}
+                //scrollEventThrottle={10}
                 />
             )}
-        </SafeAreaView>
+        </View>
     );
 }

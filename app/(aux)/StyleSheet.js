@@ -1,6 +1,4 @@
 import { StyleSheet, Dimensions } from "react-native";
-import * as Font from "expo-font";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const { width } = Dimensions.get("window");
 const ButtonFontSize = 16;
@@ -16,32 +14,31 @@ SmallHeadText = width / SmallerHeaderFontSize;
 //let insets = useSafeAreaInsets();
 
 const styles = StyleSheet.create({
+    // Colors go from lightest to darkest
+    colors: {
+        lightColor: "#F9F7F7",
+        lightAccentColor: "#DBE2EF",
+        darkAccentColor: "#3F72AF",
+        darkColor: "#112D4E",
+    },
     boldtext: { fontSize: normalText, fontWeight: "bold" },
     normaltext: { fontSize: normalText },
     SmallerHeaderFontSize: { fontSize: SmallHeadText, color: "#F9F7F7" },
+
     background: {
         flex: 1,
         alignItems: "center",
-        //justifyContent: 'center',
         backgroundColor: "#F9F7F7",
-        //paddingTop: insets.top,
     },
+
     forms: {
         width: "80%",
     },
-    loginBtn: {
-        width: "80%",
-        borderRadius: 25, //was 25
-        height: "7%", //was 50
-        alignItems: "center",
-        justifyContent: "center",
-        marginTop: "12%", //was 40
-        backgroundColor: "#3F72AF",
-    },
+
     deleteBtn: {
         width: "80%",
         borderRadius: 25, //was 25
-        height: "7%", //was 50
+        height: 40, //was 50
         alignItems: "center",
         justifyContent: "center",
 
@@ -55,7 +52,7 @@ const styles = StyleSheet.create({
     },
     chatHeader: {
         // paddingTop: "10%",
-        margin: "15%", 
+        margin: "15%",
         fontWeight: "bold",
         fontSize: SmallHeadText,
         alignContent: "center",
@@ -70,7 +67,7 @@ const styles = StyleSheet.create({
     createUserInput: {
         marginBottom: "6%", //was 20
         borderWidth: 1, //was 1
-        borderRadius: 20,
+        borderRadius: 10,
         fontSize: normalText,
         //was 7
         paddingTop: "2%", //was 7
@@ -83,7 +80,7 @@ const styles = StyleSheet.create({
     createUserInputError: {
         marginBottom: "6%", //was 20
         borderWidth: 1, //was 1
-        borderRadius: 20,
+        borderRadius: 10,
         fontSize: normalText,
         paddingTop: "2%", //was 7
         paddingBottom: "2%", //was 7
@@ -105,14 +102,12 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         borderWidth: 1,
         borderColor: "#B3B3B3",
-        paddingTop: "2%", //was 7
-        paddingBottom: "2%", //was 7
-        paddingLeft: "6%",
         marginBottom: "6%",
+        height: 40,
     },
+
     postListingDescription: {
-        height: "20%",
-        //was 20
+        height: 75,
         borderWidth: 1, //was 1
         borderRadius: 20,
         fontSize: normalText,
@@ -124,9 +119,9 @@ const styles = StyleSheet.create({
         borderColor: "#B3B3B3",
         marginBottom: "-3%",
     },
+
     postListingDescriptionError: {
-        height: "20%",
-        //was 20
+        height: 75,
         paddingRight: "6%",
         paddingLeft: "6%",
         borderWidth: 1, //was 1
@@ -183,6 +178,7 @@ const styles = StyleSheet.create({
         fontSize: hintText,
     },
     dividerLine: {
+        justifyContent: "center",
         backgroundColor: "#B3B3B3",
         height: 1,
         width: "90%",
@@ -195,6 +191,14 @@ const styles = StyleSheet.create({
         borderBottomColor: "transparent",
         borderTopColor: "transparent",
         justifyContent: "center",
+    },
+    scanningModalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(255, 255, 255, 0.8)',
+        borderRadius: 10,
+        padding: 20,
     },
 });
 export default styles;

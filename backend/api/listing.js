@@ -1,12 +1,39 @@
 import { database } from '../config/firebaseConfig';
-import { get, ref, set, push, remove } from 'firebase/database';
+import { get, ref, set, push, remove, update } from 'firebase/database';
 import { getStorage, ref as sRef, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { getUserID } from '../dbFunctions';
+import { Alert } from 'react-native';
+
+// NSFW content
+// import { decodeJpeg } from '@tensorflow/tfjs-core';
+// import { decodeJpeg, bundleResourceIO } from "@tensorflow/tfjs-react-native";
+// import '@tensorflow/tfjs-react-native';
+import { load } from 'nsfwjs';
+import * as tf from '@tensorflow/tfjs';
+import { bundleResourceIO, decodeJpeg } from '@tensorflow/tfjs-react-native';
+
 
 // Get a reference to the storage database
 const storage = getStorage();
 
 export async function createListing(userId, title, description, price, category, condition, location, images) {
+
+    // If images are provided, check them first
+    let downloadURLs = [];
+    if (images) {
+        // Process each image and collect the processed URLs
+        downloadURLs = await Promise.all(images.map(image => uploadImageAsync(image)));
+    }
+
+    // Check if any image is unsafe
+    const isUnsafe = downloadURLs.some(url => url === "unsafe");
+
+    // If any image is unsafe, abort listing creation
+    if (isUnsafe) {
+        alert("One or more images contain unsafe content. Listing creation aborted. Please ensure all images are appropriate.");
+        return null;
+    }
+
     // Reference listings in the database
     const listingReference = ref(database, 'dorm_swap_shop/listings');
 
@@ -28,24 +55,24 @@ export async function createListing(userId, title, description, price, category,
         timestamp: new Date().getTime(), // Current timestamp
         location: location,
         reports: [], // Initialize with an empty array of reports
-        images: [], // Initialize with an empty array for images
+        images: downloadURLs, // Initialize with an empty array for images
     };
 
     // Set the listing data
     await set(newListingReference, listingData);
-
-    // If an image is provided, upload it and update the listing
-    if (images) {
-        const imagesRef = ref(database, `dorm_swap_shop/listings/${listingId}/images`);
-        const downloadURLs = await Promise.all(images.map(image => uploadImageAsync(image, imagesRef)));
-        await set(imagesRef, downloadURLs);
-    }
+    alert("Post created! Pull down to refresh.");
 
     return listingId;
 }
 
-async function uploadImageAsync(uri, imagesRef) {
+async function uploadImageAsync(uri) {  
     try {
+        // Initialize TensorFlow.js
+        await tf.ready();
+
+        // Load NSFWJS model
+        const model = await load(bundleResourceIO(require("../../nsfw-model.json"), require("../../nsfw-weights.bin")));
+
         const blob = await new Promise((resolve, reject) => {
             const xhr = new XMLHttpRequest();
             xhr.onload = function () {
@@ -59,14 +86,45 @@ async function uploadImageAsync(uri, imagesRef) {
             xhr.send(null);
         });
 
+        // Upload image to Firebase Storage
         const storageRef = sRef(storage, "test/" + new Date().getTime());
-        await uploadBytesResumable(storageRef, blob);
-        blob.close();
-        const downloadURL = await getDownloadURL(storageRef);
+        console.log("Uploading image to Firebase Storage")
+        const uploadTaskSnapshot = await uploadBytesResumable(storageRef, blob);
+        console.log("Retrieving from firebase storage");
+        const downloadURL = await getDownloadURL(uploadTaskSnapshot.ref);
+
+        // Fetch the uploaded image for processing
+        const response = await fetch(downloadURL);
+        const imageData = await response.arrayBuffer();
+
+        // Convert image to tensor
+        console.log("Converting image to tensor");
+        const imageTensor = decodeJpeg(new Uint8Array(imageData));
+
+        // Classify image for adult content
+        const predictions = await model.classify(imageTensor);
+
+        console.log("Predictions: ", predictions);
+        // Predictions:  [{"className": "Neutral", "probability": 0.53271484375}, 
+        //                {"className": "Drawing", "probability": 0.398193359375}, 
+        //                {"className": "Hentai", "probability": 0.06640625}, 
+        //                {"className": "Porn", "probability": 0.0019817352294921875}, 
+        //                {"className": "Sexy", "probability": 0.00046181678771972656}]
+
+        const threshold = 0.2;
+        // If any of the predictions are above the threshold, mark the image as unsafe
+        const isUnsafe = predictions.some(prediction => 
+            (prediction.className === "Porn" && prediction.probability > threshold) || 
+            (prediction.className === "Hentai" && prediction.probability > threshold)||
+            (prediction.className === "Sexy" && prediction.probability > threshold));
+
+        if (isUnsafe) {   
+            return "unsafe";
+        }
 
         return downloadURL;
     } catch (error) {
-        console.error("Error in uploadImageAsync: ", error);
+        console.error("I know it only accepts JPEG right now... so don't say anything... ", error);
         throw error;
     }
 }
@@ -192,18 +250,53 @@ export async function isListingFavorited(listingId) {
 }
 
 // Function to update listing
-export function updateListing(listingId, title, description, price, category, condition) {
+export async function updateListing(listingId, title, description, price, category, condition, image) {
     const listingRef = ref(database, `dorm_swap_shop/listings/${listingId}`);
 
-    const listingData = {
-        title: title,
-        description: description,
-        price: price,
-        category: category,
-        condition: condition,
-    };
+    try {
+        const snapshot = await get(listingRef);
+        // Check if the listing exists
+        const existingListingData = snapshot.val();
 
-    set(listingRef, listingData, { merge: true });
+        if (!existingListingData) {
+            console.error("Listing not found");
+            return;
+        }
+
+        // Merge the new data with the existing data
+        const updatedListingData = {
+            ...existingListingData,
+            title: title !== undefined ? title : existingListingData.title,
+            description: description !== undefined ? description : existingListingData.description,
+            price: price !== undefined ? price : existingListingData.price,
+            category: category !== undefined ? category : existingListingData.category,
+            condition: condition !== undefined ? condition : existingListingData.condition,
+            images: image !== undefined ? image : existingListingData.image,
+        };
+
+        // Update the listing with the merged data
+        await update(listingRef, updatedListingData);
+        console.log("Listing information updated.");
+    } catch (error) {
+        console.error("Failed to update listing information: ", error);
+    }
+}
+
+export async function getIndividualListing(listingId) {
+    const userId = getUserID();
+    const listingRef = ref(database, `dorm_swap_shop/listings/${listingId}`);
+        
+    // Check for ownership
+    const snapshot = await get(listingRef);
+    const listingData = snapshot.val();
+
+    // Check if the listing belongs to the user
+    if (listingData && listingData.user === userId) {
+        // Return the listing
+        return listingData;
+    } else {
+        console.error(`User ${userId} does not own listing ${listingId}.`);
+    }
 }
 
 // Function to delete listing

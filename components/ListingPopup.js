@@ -4,27 +4,35 @@ import {
     Modal,
     Text,
     View,
-    SafeAreaView,
     TouchableOpacity,
     //Image,
     Dimensions,
     Alert,
 } from "react-native";
+import {
+    SafeAreaView,
+    useSafeAreaInsets,
+} from "react-native-safe-area-context";
 import ListImagesComponent from "../assets/svg/list_images.js";
 import SquareHeader from "./SquareHeader.js";
 import { Image } from "expo-image";
 import styles from "../app/(aux)/StyleSheet.js";
 import Swiper from "react-native-swiper";
-import Xmark from "../assets/svg/xmark.js";
-import ReportComponent from "../assets/svg/report_icon.js";
 import FavouriteIcon from "../assets/svg/favourite_icon.js";
 import SavedListingIcon from "../assets/svg/savedListing_icon.js";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { saveListing, unsaveListing } from "../backend/api/listing.js";
 import { Button } from "./Buttons.js";
-import { getUser, getUserProfileImage, getUsernameByID } from "../backend/api/user.js";
+import {
+    getUser,
+    getUserProfileImage,
+    getUsernameByID,
+} from "../backend/api/user.js";
 import { isListingFavorited } from "../backend/api/listing.js";
+import { createChatThread, getChatThreadId } from "../backend/api/chat.js";
 import CachedImage from "expo-cached-image";
+import { Ionicons } from '@expo/vector-icons';
+import { getUserID } from "../backend/dbFunctions.js";
 
 export default function ListingPopup({ listing }) {
     const [selectedImage, setSelectedImage] = useState(null);
@@ -45,7 +53,7 @@ export default function ListingPopup({ listing }) {
             Alert.alert("Unsaved");
         } else {
             saveListing(listing.listingId);
-            Alert.alert("Favorited");
+            Alert.alert("Saved");
         }
     };
 
@@ -53,9 +61,17 @@ export default function ListingPopup({ listing }) {
         setListingModalVisible(true);
     };
 
-    const closeModal = () => {
+    const closeModal = async () => {
         setListingModalVisible(false);
-        router.push("(chat)/ConversationsScreen");
+        let chatId = await getChatThreadId(listing.user, getUserID());
+        if (!chatId) {
+            chatId = await createChatThread(listing.user, getUserID());
+        }
+    
+        if (chatId)
+            router.push({pathname: "(chat)/ConversationsScreen", params: {chatId: chatId}} );
+        else   
+            console.log("Error creating chat thread");
     };
 
     const listingTitle =
@@ -67,8 +83,8 @@ export default function ListingPopup({ listing }) {
 
     const fetchUser = async () => {
         const username = await getUsernameByID(listing.user);
-        setUsername(username);
         const profileImage = await getUserProfileImage(listing.user);
+        setUsername(username);
         setProfileImage(profileImage);
     };
 
@@ -89,16 +105,18 @@ export default function ListingPopup({ listing }) {
 
     var shortHash = require("short-hash");
 
+    const insets = useSafeAreaInsets();
+
     return (
-        <SafeAreaView>
+        <View>
             <TouchableOpacity onPress={openModal}>
-                <View style={{ backgroundColor: "white" }}>
+                <View style={{ backgroundColor: "white", borderRadius: 20 }}>
                     <TouchableOpacity
                         style={{
-                            flex: 0,
+                            //flex: 0,
                             position: "absolute",
-                            right: "1%",
-                            top: "1%",
+                            right: "2%",
+                            top: "2%",
                             zIndex: 1,
                         }}
                         onPress={simpleAlert}>
@@ -117,14 +135,24 @@ export default function ListingPopup({ listing }) {
                     {Array.isArray(listing.images) ? (
                         <Image
                             source={{ uri: listing.images[0] }}
-                            style={{ width: "100%", height: 200 }}
+                            style={{
+                                width: "100%",
+                                height: 200,
+                                borderTopLeftRadius: 20,
+                                borderTopRightRadius: 20,
+                            }}
                         />
                     ) : (
                         <CachedImage
                             source={{ uri: listing.images }}
                             cacheKey={`listing-${listing.id}-image`}
                             // cacheKey={shortHash(listing.id)} // listing.listingId
-                            style={{ width: "100%", height: 200 }}
+                            style={{
+                                width: "100%",
+                                height: 200,
+                                borderTopLeftRadius: 20,
+                                borderTopRightRadius: 20,
+                            }}
                         />
                     )}
                     <View
@@ -132,6 +160,7 @@ export default function ListingPopup({ listing }) {
                             backgroundColor: "#B3B3B3",
                             height: 1,
                             width: "100%",
+                            marginTop: "2%",
                             marginBottom: "2%",
                         }}
                     />
@@ -140,30 +169,21 @@ export default function ListingPopup({ listing }) {
             </TouchableOpacity>
 
             <Modal visible={listingModalVisible}>
-                <SafeAreaView style={styles.background}>
-                    <SquareHeader height={"15%"} />
+                <View style={[styles.background, { paddingTop: insets.top }]}>
+                    <SquareHeader height={55} />
                     <View
                         style={{
                             flexDirection: "row",
                             marginTop: "1%",
                             justifyContent: "space-between",
                             paddingHorizontal: 20,
-                            height: "5%",
-                            backgroundColor: "#112D4E",
-                            paddingTop: "-8%",
+                            backgroundColor: styles.colors.darkColor,
+                            //paddingTop: "-8%",
                         }}>
                         <TouchableOpacity
                             style={{ flex: 1 }}
                             onPress={() => setListingModalVisible(false)}>
-                            <Xmark
-                                source={require("../assets/svg/xmark.js")}
-                                style={{
-                                    width: 200,
-                                    height: 28,
-                                    stroke: "white",
-                                    strokeWidth: 0.25,
-                                }}
-                            />
+                            <Ionicons name="close" size={32} color="white" />
                         </TouchableOpacity>
 
                         <TouchableOpacity
@@ -172,21 +192,17 @@ export default function ListingPopup({ listing }) {
                                 setListingModalVisible(false);
                                 router.push({
                                     pathname: "ReportScreen",
-                                    params: { image: listing.images, title: listing.title },
+                                    params: {
+                                        image: listing.images,
+                                        title: listing.title,
+                                    },
                                 });
                             }}>
-                            <ReportComponent
-                                style={{
-                                    width: 15,
-                                    height: 15,
-                                    stroke: "white",
-                                    strokeWidth: 0.25,
-                                }}
-                            />
+                            <Ionicons name="alert-circle-outline" size={32} color="white" />
                         </TouchableOpacity>
                     </View>
                     {/* IMAGE */}
-                    <View style={{ height: "50%" }}>
+                    <View style={{ height: 380 }}>
                         {Array.isArray(listing.images) ? (
                             <TouchableOpacity
                                 delayPressIn={100}
@@ -255,7 +271,7 @@ export default function ListingPopup({ listing }) {
                             </ScrollView>
                         </TouchableOpacity>
                     </Modal>
-                    <View style={{ width: "100%", height: "25%" }}>
+                    <View style={{ width: "100%" }}>
                         <View
                             style={{
                                 flexDirection: "row",
@@ -313,16 +329,17 @@ export default function ListingPopup({ listing }) {
                                 marginLeft: "3%",
                             }}>
                             {/* DESCRIPTION */}
-                            <Text style={[styles.normalText, { flex: 1 }]}>
+                            <Text style={{ flex: 1 }}>
                                 {listing.description}
                             </Text>
                         </View>
                         <View
                             style={{
                                 position: "absolute",
+
                                 paddingLeft: "3%",
-                                paddingTop: "3%",
-                                marginTop: "50%",
+                                //paddingTop: "3%",
+                                marginTop: "60%",
                                 flexDirection: "row",
                                 alignItems: "center",
                                 paddingRight: "3%",
@@ -360,11 +377,21 @@ export default function ListingPopup({ listing }) {
                                     )}
                                 </View>
                             </View>
-                            <Text style={styles.boldtext}>{username}</Text>
+
+                            <Text
+                                style={[
+                                    styles.notUserButtonText,
+                                    { width: "55%", flex: 1 },
+                                ]}>
+                                {username}
+                            </Text>
                             <Text
                                 style={[
                                     styles.normaltext,
-                                    { marginLeft: "40%" },
+                                    {
+                                        marginLeft: "5%",
+                                        width: "25%",
+                                    },
                                 ]}>
                                 {timestamp}
                             </Text>
@@ -372,28 +399,28 @@ export default function ListingPopup({ listing }) {
                     </View>
                     <View
                         style={{
+                            position: "absolute",
+                            bottom: "5%",
                             flex: 1,
                             alignItems: "center",
                             justifyContent: "center",
                             padding: 0,
                             width: "80%",
-                            height: "20%",
                         }}>
                         <Button
-                            backgroundColor="#3F72AF"
+                            backgroundColor={styles.colors.darkAccentColor}
                             title="Reply"
                             alignItems="center"
                             justifyContent="center"
-                            borderRadius="25%"
+                            borderRadius={25}
                             width="80%"
-                            height="35%"
                             marginTop="12%"
                             press={closeModal}
                             titleStyle={styles.buttonText}
                         />
                     </View>
-                </SafeAreaView>
+                </View>
             </Modal>
-        </SafeAreaView>
+        </View>
     );
 }

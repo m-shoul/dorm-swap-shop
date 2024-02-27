@@ -3,9 +3,9 @@ import {
     View,
     TextInput,
     TouchableOpacity,
-    SafeAreaView,
     StatusBar
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import React from "react";
 import { useState } from "react";
 import {
@@ -18,6 +18,8 @@ import { router } from "expo-router";
 import { Button } from "../../components/Buttons.js";
 import RoundHeader from "../../components/RoundHeader.js";
 import ResetPasswordIcon from "../../assets/svg/reset_password_icon.js";
+import { ShadowedView } from 'react-native-fast-shadow';
+import { RegExpMatcher, TextCensor, englishDataset, englishRecommendedTransformers, asteriskCensorStrategy } from "obscenity";
 
 export default function ResetPasswordScreen() {
     const [email, setEmail] = useState("");
@@ -42,30 +44,54 @@ export default function ResetPasswordScreen() {
         sendPasswordResetEmail(auth, email)
             .then(() => {
                 alert("Password reset email sent.");
-                router.push("LoginScreen");
+                router.push("/");
             })
             .catch((error) => {
                 console.log("Failed to send password reset email: ", error);
             });
     };
 
+    const matcher = new RegExpMatcher({
+        ...englishDataset.build(),
+        ...englishRecommendedTransformers,
+    });
+    const censor = new TextCensor().setStrategy(asteriskCensorStrategy());
+    const filterOutBadWords = (fieldName, value) => {
+        const matches = matcher.getAllMatches(value);
+        const filteredValue = censor.applyTo(value, matches);
+        switch (fieldName) {
+            case "email":
+                setEmail(filteredValue);
+                break;
+            default:
+                break;
+        }
+    };
+
     return (
         <SafeAreaView style={styles.background}>
             <StatusBar barStyle="light-content" />
-            <RoundHeader height="20%" />
+            <RoundHeader height={150} />
 
-            <ResetPasswordIcon style={{
-                marginTop: "10%", shadowColor: "#000",
-                shadowOffset: {
-                    width: 0,
-                    height: 4,
-                },
-                shadowOpacity: 0.8,
-                shadowRadius: 3.84,
-                elevation: 5,
-            }} />
+            <ShadowedView
+                style={{
+                    marginTop: "10%",
+                    shadowOpacity: 0.8,
+                    shadowRadius: 20,
+                    shadowOffset: {
+                        width: 5,
+                        height: 3,
+                    },
+                    backgroundColor: "white",
+                    borderRadius: 20,
+                }}
+            >
+                <ResetPasswordIcon />
+
+
+            </ShadowedView>
+
             <View>
-
                 <Text style={styles.loginHeader}>Reset Password</Text>
             </View>
             <View style={styles.dividerLine} />
@@ -79,7 +105,13 @@ export default function ResetPasswordScreen() {
                     style={emailStyle}
                     placeholder="Email Address"
                     value={email}
-                    onChangeText={(value) => setEmail(value)}
+                    onChangeText={(value) => {
+                        if (value.trim().length > 0) {
+                            filterOutBadWords("email", value);
+                        } else {
+                            setEmail("");
+                        }
+                    }}
                 />
                 {errorMessageEmail && (
                     <Text
@@ -97,13 +129,13 @@ export default function ResetPasswordScreen() {
             </TouchableOpacity> */}
             <Button
                 width="80%"
-                height="7%"
-                backgroundColor="#3F72AF"
+                backgroundColor={styles.colors.darkAccentColor}
                 title="Reset Password"
                 alignItems="center"
                 justifyContent="center"
                 marginTop="6%"
-                borderRadius="25%"
+                marginBottom="6%"
+                borderRadius={25}
                 press={handleReset}
                 titleStyle={styles.buttonText}
             />
