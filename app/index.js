@@ -76,9 +76,6 @@ export default function LoginScreen() {
             case "email":
                 setEmail(filteredValue);
                 break;
-            case "password":
-                setPassword(filteredValue);
-                break;
             default:
                 break;
         }
@@ -125,13 +122,7 @@ export default function LoginScreen() {
                         style={passwordStyle}
                         secureTextEntry={true}
                         value={password}
-                        onChangeText={(value) => {
-                            if (value.trim().length > 0) {
-                                filterOutBadWords("password", value);
-                            } else {
-                                setPassword("");
-                            }
-                        }}
+                        onChangeText={(value) => setPassword(value)}
                         placeholder="Password"
                         ref={passwordInputRef}
                         blurOnSubmit={false}

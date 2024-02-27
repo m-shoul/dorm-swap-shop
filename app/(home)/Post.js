@@ -9,6 +9,8 @@ import {
     KeyboardAvoidingView,
     //Image,
     Dimensions,
+    ActivityIndicator,
+    Alert
 } from "react-native";
 import {
     useSafeAreaInsets,
@@ -27,6 +29,7 @@ import { Button } from '../../components/Buttons.js';
 import RoundHeader from "../../components/RoundHeader.js";
 import ExpandComponent from "../../assets/svg/expand_icon.js";
 import { ShadowedView } from 'react-native-fast-shadow';
+import ScanningModal from "../../components/ScanningModal.js";
 
 // Obscenity
 import { RegExpMatcher, TextCensor, englishDataset, englishRecommendedTransformers, asteriskCensorStrategy } from "obscenity";
@@ -40,6 +43,7 @@ export default function CreatePostScreen() {
     const [category, setCategory] = useState(null);
     const [condition, setCondition] = useState(null);
     const [location, setLocation] = useState("");
+    const [loading, setLoading] = useState(false);
 
     //For pickers so they can get the right text size
     const { width } = Dimensions.get("window");
@@ -66,10 +70,11 @@ export default function CreatePostScreen() {
     };
 
     // Function to create a listing
-    const CreatePost = () => {
+    const CreatePost = async () => {
+        setLoading(true);
         let userId = getUserID();
         try {
-            createListing(
+            await createListing(
                 userId,
                 title,
                 description,
@@ -82,9 +87,10 @@ export default function CreatePostScreen() {
             console.log("Post created successfully");
         } catch (error) {
             console.error("ERROR --> Failed to create post: ", error);
+        } finally {
+            setLoading(false);
+            router.push("Home");
         }
-
-        router.push("Home");
     };
 
     const [titleStyle, setTitleStyle] = useState(styles.createUserInput);
@@ -242,366 +248,378 @@ export default function CreatePostScreen() {
 
         if (errorCount === 0) {
             CreatePost();
-            console.log("Post created successfully");
+            // console.log("Post created successfully");
         }
     };
 
     return (
         <View style={[styles.background, { paddingTop: insets.top }]}>
-            <RoundHeader height={260} />
-            <View
-                style={{
-                    paddingTop: "5%",
-                    width: "100%",
-                    alignItems: "center",
-                }}>
-                <Text
-                    style={[
-                        styles.postListingHeader,
-                        { marginBottom: "7%", color: styles.colors.lightColor },
-                    ]}>
-                    Post Listing
-                </Text>
-                <View style={styles.dividerLine} />
-            </View>
-
-            {errorMessage && (
-                <Text
-                    style={{
-                        color: "red",
-                        paddingBottom: 10,
-                        marginTop: -15,
-                    }}>
-                    {errorMessage}
-                </Text>
-            )}
-            <KeyboardAvoidingView
-                style={{
-                    flex: 1,
-                    width: "100%",
-                    justifyContent: "center",
-                    alignItems: "center",
-                }}
-                behavior={Platform.OS === "ios" ? "padding" : "height"}>
-                <ScrollView
-                    automaticallyAdjustKeyboardInsets={true}
-                    style={{
-                        flex: 1,
-                        KeyboardAvoidingView: "enabled",
-                        width: "100%",
-                    }}
-                    contentContainerStyle={{
-                        flexGrow: 1,
-                        alignItems: "center",
-                    }}
-                    keyboardShouldPersistTaps="handled">
-                    <View style={{ marginBottom: "2%" }}>
-                        <ShadowedView
-                            style={{
-                                shadowOpacity: 0.8,
-                                shadowRadius: 20,
-                                shadowOffset: {
-                                    width: 5,
-                                    height: 3,
-                                },
-                                backgroundColor: "white",
-                                borderRadius: 20,
-                            }}
-                        >
-                            <TouchableOpacity onPress={() => pickImage()}>
-                                {image ? (
-                                    <Image
-                                        source={{ uri: image[0] }}
-                                        style={{
-                                            width: 200,
-                                            height: 200,
-                                            marginBottom: "2%",
-                                            borderRadius: 20,
-                                        }}
-                                    />
-                                ) : (
-                                    <ListImagesComponent
-                                        style={{
-                                            width: 200,
-                                            height: 28,
-                                        }}
-                                    />
-                                )}
-                            </TouchableOpacity>
-                        </ShadowedView>
-                        <Text style={{ textAlign: "center" }}>Upload Images</Text>
+            {loading ? (
+                // Show loading screen while processing
+                <View style={{ flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: styles.colors.lightColor, opacity: 0.5 }}>
+                    {/* <ActivityIndicator size="large" color={styles.colors.darkAccentColor} /> */}
+                    {/* <Text style={{ marginTop: 10 }}>Hang tight... checking images for inappropriate content...</Text> */}
+                    <ScanningModal loading={loading}/>
+                </View>
+            ) : (
+                <>
+                    <RoundHeader height={260} />
+                    <View
+                        style={{
+                            paddingTop: "5%",
+                            width: "100%",
+                            alignItems: "center",
+                        }}>
+                        <Text
+                            style={[
+                                styles.postListingHeader,
+                                { marginBottom: "7%", color: styles.colors.lightColor },
+                            ]}>
+                            Post Listing
+                        </Text>
+                        <View style={styles.dividerLine} />
                     </View>
 
-                    <View style={styles.forms}>
-                        <TextInput
-                            maxLength={25}
-                            style={titleStyle}
-                            blurOnSubmit={false}
-                            onChangeText={(value) => {
-                                if (value.trim().length > 0) {
-                                    filterOutBadWords("title", value);
-                                } else {
-                                    setTitle("");
-                                }
-                            }}
-                            value={title}
-                            placeholder="Title"
-                            onSubmitEditing={() => {
-                                priceInputRef.current.focus();
-                            }}
-                            ref={titleInputRef}
-                        />
-                        {errorMessageTitle && (
-                            <Text
-                                style={{
-                                    color: "red",
-                                    paddingBottom: 10,
-                                    marginTop: -15,
-                                }}>
-                                {errorMessageTitle}
-                            </Text>
-                        )}
-                        <TextInput
-                            style={priceStyle}
-                            blurOnSubmit={false}
-                            onChangeText={(value) => {
-                                // Define the regular expression for the required format
-                                let regex = /^\d{1,5}(\.\d{0,2})?$/;
-
-                                // Check if the input value matches the required format
-                                if (!regex.test(value)) {
-                                    // If not, correct it
-
-                                    // Check if the input value contains more than one period
-                                    let periodCount = (value.match(/\./g) || [])
-                                        .length;
-                                    if (periodCount > 1) {
-                                        // If it does, remove the extra periods
-                                        let firstPeriodIndex =
-                                            value.indexOf(".");
-                                        value = value.replace(
-                                            /\./g,
-                                            (match, index) =>
-                                                index === firstPeriodIndex
-                                                    ? "."
-                                                    : ""
-                                        );
-                                    }
-
-                                    // Split the value into the part before the period and the part after the period
-                                    let parts = value.split(".");
-
-                                    // Limit the part before the period to 5 characters
-                                    if (parts[0].length > 5) {
-                                        parts[0] = parts[0].substring(0, 5);
-                                    }
-
-                                    // If there is a part after the period, limit it to 2 characters
-                                    if (parts[1] && parts[1].length > 2) {
-                                        parts[1] = parts[1].substring(0, 2);
-                                    }
-
-                                    // Combine the parts back into the corrected value
-                                    value = parts.join(".");
-                                }
-
-                                // Update the price state
-                                setPrice(value);
-                            }}
-                            value={price}
-                            returnKeyType="done"
-                            placeholder="Price"
-                            inputMode="decimal"
-                            ref={priceInputRef}
-                            onBlur={() => {
-                                Keyboard.dismiss();
-                                categoryInputRef.current.togglePicker();
-                            }}
-                            onSubmitEditing={() => {
-                                Keyboard.dismiss();
-                            }}
-                        />
-                        {errorMessagePrice && (
-                            <Text
-                                style={{
-                                    color: "red",
-                                    paddingBottom: 10,
-                                    marginTop: -15,
-                                }}>
-                                {errorMessagePrice}
-                            </Text>
-                        )}
-                        <View style={categoryStyle}>
-                            <RNPickerSelect
-                                returnKeyType="done"
-                                blurOnSubmit={false}
-                                onValueChange={(value) => {
-                                    Keyboard.dismiss();
-                                    setCategory(value);
-                                }}
-                                onDonePress={() => {
-                                    conditionInputRef.current.togglePicker();
-                                }}
-                                placeholder={{
-                                    label: "Select a Category",
-                                    value: null,
-                                }}
-                                onSubmitEditing={() => {
-                                    Keyboard.dismiss();
-                                }}
-                                items={categories}
-                                ref={categoryInputRef}
-                                style={{
-                                    inputIOS: {
-                                        paddingTop: "2%", //was 7
-                                        paddingLeft: "5%",
-                                        fontSize: normalText, // Change this to your desired font size
-                                    },
-                                    inputAndroid: {
-                                        marginTop: -8,
-                                        fontSize: normalText, // Change this to your desired font size
-                                    },
-                                    iconContainer: {
-                                        top: 5,
-                                        right: "3%",
-                                    },
-                                }}
-                                Icon={() => {
-                                    return <ExpandComponent />;
-                                }}
-                            />
-                        </View>
-                        {errorMessageCategory && (
-                            <Text
-                                style={{
-                                    color: "red",
-                                    paddingBottom: 10,
-                                    marginTop: -15,
-                                }}>
-                                {errorMessageCategory}
-                            </Text>
-                        )}
-                        <View style={conditionStyle}>
-                            <RNPickerSelect
-                                returnKeyType="done"
-                                blurOnSubmit={false}
-                                placeholder={{
-                                    label: "Select a Condition",
-                                    value: null,
-                                }}
-                                onBlur={() => {
-                                    Keyboard.dismiss();
-                                }}
-                                onDonePress={() => {
-                                    Keyboard.dismiss();
-                                    setTimeout(() => {
-                                        descriptionInputRef.current.focus();
-                                    }, 100);
-                                }}
-                                onValueChange={(value) => {
-                                    Keyboard.dismiss();
-                                    setCondition(value);
-                                }}
-                                onSubmitEditing={() => {
-                                    Keyboard.dismiss();
-                                }}
-                                ref={conditionInputRef}
-                                items={conditions}
-                                style={{
-                                    inputIOS: {
-                                        paddingTop: "2%", //was 7
-                                        paddingLeft: "5%",
-                                        fontSize: normalText, // Change this to your desired font size
-                                    },
-                                    inputAndroid: {
-                                        marginTop: -8,
-                                        fontSize: normalText, // Change this to your desired font size
-                                    },
-                                    iconContainer: {
-                                        top: 5,
-                                        right: "3%",
-                                    },
-                                }}
-                                Icon={() => {
-                                    return <ExpandComponent />;
-                                }}
-                            />
-                        </View>
-
-                        {errorMessageCondition && (
-                            <Text
-                                style={{
-                                    color: "red",
-                                    paddingBottom: 10,
-                                    marginTop: -15,
-                                }}>
-                                {errorMessageCondition}
-                            </Text>
-                        )}
-
-                        <TextInput
-                            blurOnSubmit={false}
-                            onChangeText={(value) => {
-                                if (value.trim().length > 0) {
-                                    filterOutBadWords("description", value);
-                                } else {
-                                    setDescription("");
-                                }
-                            }}
-                            multiline={true}
-                            value={description}
-                            maxLength={250}
-                            placeholder="Description"
-                            style={descriptionStyle}
-                            ref={descriptionInputRef}
-                        />
-
-                        {errorMessageDescription && (
-                            <Text
-                                style={{
-                                    color: "red",
-                                    paddingBottom: 0,
-                                    marginBottom: -20,
-                                    marginTop: 15,
-                                }}>
-                                {errorMessageDescription}
-                            </Text>
-                        )}
-                        <View
+                    {errorMessage && (
+                        <Text
                             style={{
-                                flexDirection: "row",
-                                marginTop: "10%",
-                                justifyContent: "space-between",
+                                color: "red",
+                                paddingBottom: 10,
+                                marginTop: -15,
                             }}>
-                            {/* Cancel Button */}
-                            <Button
-                                width="35%"
-                                backgroundColor="#B3B3B3"
-                                title="Cancel"
-                                alignItems="center"
-                                justifyContent="center"
-                                borderRadius={25}
-                                press={clearTextInputs}
-                                marginRight="5%"
-                                titleStyle={styles.buttonText}
-                            />
+                            {errorMessage}
+                        </Text>
+                    )}
+                    <KeyboardAvoidingView
+                        style={{
+                            flex: 1,
+                            width: "100%",
+                            justifyContent: "center",
+                            alignItems: "center",
+                        }}
+                        behavior={Platform.OS === "ios" ? "padding" : "height"}>
+                        <ScrollView
+                            automaticallyAdjustKeyboardInsets={true}
+                            style={{
+                                flex: 1,
+                                KeyboardAvoidingView: "enabled",
+                                width: "100%",
+                            }}
+                            contentContainerStyle={{
+                                flexGrow: 1,
+                                alignItems: "center",
+                            }}
+                            keyboardShouldPersistTaps="handled">
+                            <View style={{ marginBottom: "2%" }}>
+                                <ShadowedView
+                                    style={{
+                                        shadowOpacity: 0.8,
+                                        shadowRadius: 20,
+                                        shadowOffset: {
+                                            width: 5,
+                                            height: 3,
+                                        },
+                                        backgroundColor: "white",
+                                        borderRadius: 20,
+                                    }}
+                                >
+                                    <TouchableOpacity onPress={() => pickImage()}>
+                                        {image ? (
+                                            <Image
+                                                source={{ uri: image[0] }}
+                                                style={{
+                                                    width: 200,
+                                                    height: 200,
+                                                    marginBottom: "2%",
+                                                    borderRadius: 20,
+                                                }}
+                                            />
+                                        ) : (
+                                            <ListImagesComponent
+                                                style={{
+                                                    width: 200,
+                                                    height: 28,
+                                                }}
+                                            />
+                                        )}
+                                    </TouchableOpacity>
+                                </ShadowedView>
+                                <Text style={{ textAlign: "center" }}>Upload Images</Text>
+                            </View>
+     
 
-                            {/* Post Button */}
-                            <Button
-                                backgroundColor={styles.colors.darkAccentColor}
-                                title="Post"
-                                alignItems="center"
-                                width="60%"
-                                justifyContent="center"
-                                borderRadius={25}
-                                press={handleValidation}
-                                titleStyle={styles.buttonText}
-                            />
-                            {/* Just for testing purposes 10/6/23 */}
-                        </View>
-                    </View>
-                </ScrollView>
-            </KeyboardAvoidingView>
+                            <View style={styles.forms}>
+                                <TextInput
+                                    maxLength={25}
+                                    style={titleStyle}
+                                    blurOnSubmit={false}
+                                    onChangeText={(value) => {
+                                        if (value.trim().length > 0) {
+                                            filterOutBadWords("title", value);
+                                        } else {
+                                            setTitle("");
+                                        }
+                                    }}
+                                    value={title}
+                                    placeholder="Title"
+                                    onSubmitEditing={() => {
+                                        priceInputRef.current.focus();
+                                    }}
+                                    ref={titleInputRef}
+                                />
+                                {errorMessageTitle && (
+                                    <Text
+                                        style={{
+                                            color: "red",
+                                            paddingBottom: 10,
+                                            marginTop: -15,
+                                        }}>
+                                        {errorMessageTitle}
+                                    </Text>
+                                )}
+                                <TextInput
+                                    style={priceStyle}
+                                    blurOnSubmit={false}
+                                    onChangeText={(value) => {
+                                        // Define the regular expression for the required format
+                                        let regex = /^\d{1,5}(\.\d{0,2})?$/;
+
+                                        // Check if the input value matches the required format
+                                        if (!regex.test(value)) {
+                                            // If not, correct it
+
+                                            // Check if the input value contains more than one period
+                                            let periodCount = (value.match(/\./g) || [])
+                                                .length;
+                                            if (periodCount > 1) {
+                                                // If it does, remove the extra periods
+                                                let firstPeriodIndex =
+                                                    value.indexOf(".");
+                                                value = value.replace(
+                                                    /\./g,
+                                                    (match, index) =>
+                                                        index === firstPeriodIndex
+                                                            ? "."
+                                                            : ""
+                                                );
+                                            }
+
+                                            // Split the value into the part before the period and the part after the period
+                                            let parts = value.split(".");
+
+                                            // Limit the part before the period to 5 characters
+                                            if (parts[0].length > 5) {
+                                                parts[0] = parts[0].substring(0, 5);
+                                            }
+
+                                            // If there is a part after the period, limit it to 2 characters
+                                            if (parts[1] && parts[1].length > 2) {
+                                                parts[1] = parts[1].substring(0, 2);
+                                            }
+
+                                            // Combine the parts back into the corrected value
+                                            value = parts.join(".");
+                                        }
+
+                                        // Update the price state
+                                        setPrice(value);
+                                    }}
+                                    value={price}
+                                    returnKeyType="done"
+                                    placeholder="Price"
+                                    inputMode="decimal"
+                                    ref={priceInputRef}
+                                    onBlur={() => {
+                                        Keyboard.dismiss();
+                                        categoryInputRef.current.togglePicker();
+                                    }}
+                                    onSubmitEditing={() => {
+                                        Keyboard.dismiss();
+                                    }}
+                                />
+                                {errorMessagePrice && (
+                                    <Text
+                                        style={{
+                                            color: "red",
+                                            paddingBottom: 10,
+                                            marginTop: -15,
+                                        }}>
+                                        {errorMessagePrice}
+                                    </Text>
+                                )}
+                                <View style={categoryStyle}>
+                                    <RNPickerSelect
+                                        returnKeyType="done"
+                                        blurOnSubmit={false}
+                                        onValueChange={(value) => {
+                                            Keyboard.dismiss();
+                                            setCategory(value);
+                                        }}
+                                        onDonePress={() => {
+                                            conditionInputRef.current.togglePicker();
+                                        }}
+                                        placeholder={{
+                                            label: "Select a Category",
+                                            value: null,
+                                        }}
+                                        onSubmitEditing={() => {
+                                            Keyboard.dismiss();
+                                        }}
+                                        items={categories}
+                                        ref={categoryInputRef}
+                                        style={{
+                                            inputIOS: {
+                                                paddingTop: "2%", //was 7
+                                                paddingLeft: "5%",
+                                                fontSize: normalText, // Change this to your desired font size
+                                            },
+                                            inputAndroid: {
+                                                marginTop: -8,
+                                                fontSize: normalText, // Change this to your desired font size
+                                            },
+                                            iconContainer: {
+                                                top: 5,
+                                                right: "3%",
+                                            },
+                                        }}
+                                        Icon={() => {
+                                            return <ExpandComponent />;
+                                        }}
+                                    />
+                                </View>
+                                {errorMessageCategory && (
+                                    <Text
+                                        style={{
+                                            color: "red",
+                                            paddingBottom: 10,
+                                            marginTop: -15,
+                                        }}>
+                                        {errorMessageCategory}
+                                    </Text>
+                                )}
+                                <View style={conditionStyle}>
+                                    <RNPickerSelect
+                                        returnKeyType="done"
+                                        blurOnSubmit={false}
+                                        placeholder={{
+                                            label: "Select a Condition",
+                                            value: null,
+                                        }}
+                                        onBlur={() => {
+                                            Keyboard.dismiss();
+                                        }}
+                                        onDonePress={() => {
+                                            Keyboard.dismiss();
+                                            setTimeout(() => {
+                                                descriptionInputRef.current.focus();
+                                            }, 100);
+                                        }}
+                                        onValueChange={(value) => {
+                                            Keyboard.dismiss();
+                                            setCondition(value);
+                                        }}
+                                        onSubmitEditing={() => {
+                                            Keyboard.dismiss();
+                                        }}
+                                        ref={conditionInputRef}
+                                        items={conditions}
+                                        style={{
+                                            inputIOS: {
+                                                paddingTop: "2%", //was 7
+                                                paddingLeft: "5%",
+                                                fontSize: normalText, // Change this to your desired font size
+                                            },
+                                            inputAndroid: {
+                                                marginTop: -8,
+                                                fontSize: normalText, // Change this to your desired font size
+                                            },
+                                            iconContainer: {
+                                                top: 5,
+                                                right: "3%",
+                                            },
+                                        }}
+                                        Icon={() => {
+                                            return <ExpandComponent />;
+                                        }}
+                                    />
+                                </View>
+
+                                {errorMessageCondition && (
+                                    <Text
+                                        style={{
+                                            color: "red",
+                                            paddingBottom: 10,
+                                            marginTop: -15,
+                                        }}>
+                                        {errorMessageCondition}
+                                    </Text>
+                                )}
+
+                                <TextInput
+                                    blurOnSubmit={false}
+                                    onChangeText={(value) => {
+                                        if (value.trim().length > 0) {
+                                            filterOutBadWords("description", value);
+                                        } else {
+                                            setDescription("");
+                                        }
+                                    }}
+                                    multiline={true}
+                                    value={description}
+                                    maxLength={250}
+                                    placeholder="Description"
+                                    style={descriptionStyle}
+                                    ref={descriptionInputRef}
+                                />
+
+                                {errorMessageDescription && (
+                                    <Text
+                                        style={{
+                                            color: "red",
+                                            paddingBottom: 0,
+                                            marginBottom: -20,
+                                            marginTop: 15,
+                                        }}>
+                                        {errorMessageDescription}
+                                    </Text>
+                                )}
+                                <View
+                                    style={{
+                                        flexDirection: "row",
+                                        marginTop: "10%",
+                                        justifyContent: "space-between",
+                                    }}>
+                                    {/* Cancel Button */}
+                                    <Button
+                                        width="35%"
+                                        backgroundColor="#B3B3B3"
+                                        title="Cancel"
+                                        alignItems="center"
+                                        justifyContent="center"
+                                        borderRadius={25}
+                                        press={clearTextInputs}
+                                        marginRight="5%"
+                                        titleStyle={styles.buttonText}
+                                    />
+
+                                    {/* Post Button */}
+                                    <Button
+                                        backgroundColor={styles.colors.darkAccentColor}
+                                        title="Post"
+                                        alignItems="center"
+                                        width="60%"
+                                        justifyContent="center"
+                                        borderRadius={25}
+                                        press={handleValidation}
+                                        titleStyle={styles.buttonText}
+                                    />
+                                    {/* Just for testing purposes 10/6/23 */}
+                                </View>
+                            </View>
+                        </ScrollView>
+                    </KeyboardAvoidingView>
+                </>
+            )}
         </View>
     );
 }

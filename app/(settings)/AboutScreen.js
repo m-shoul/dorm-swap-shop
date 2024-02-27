@@ -23,10 +23,10 @@ import symbolicateStackTrace from "react-native/Libraries/Core/Devtools/symbolic
 export default function About() {
     const [modalVisible, setModalVisible] = useState(false);
 
-    const benHeadshot = process.env.BEN_HEADSHOT;
-    const mikeHeadshot = process.env.MIKE_HEADSHOT;
-    const joeHeadshot = process.env.JOE_HEADSHOT;
-    const joshHeadshot = process.env.JOSH_HEADSHOT;
+    const benHeadshot = "https://firebasestorage.googleapis.com/v0/b/dorm-swap-shop.appspot.com/o/teamHeadshots%2FBenClarke.jpg?alt=media&token=1a9c12e8-52d8-4814-aea8-4bdb426ab460";
+    const mikeHeadshot = "https://firebasestorage.googleapis.com/v0/b/dorm-swap-shop.appspot.com/o/teamHeadshots%2FMikeShoul.jpg?alt=media&token=c219dbc3-227c-470b-ae0b-42b0bf929547";
+    const joeHeadshot = "https://firebasestorage.googleapis.com/v0/b/dorm-swap-shop.appspot.com/o/teamHeadshots%2FJoeMcGillen.jpg?alt=media&token=34ec53a5-a6ee-4ad8-8cfc-b4073193c353";
+    const joshHeadshot = "https://firebasestorage.googleapis.com/v0/b/dorm-swap-shop.appspot.com/o/teamHeadshots%2FJoshPhillips.jpg?alt=media&token=ee93d47e-bb40-4834-9a92-8f0b0cafa74e";
 
     const insets = useSafeAreaInsets();
 
