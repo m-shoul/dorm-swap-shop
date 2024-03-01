@@ -7,7 +7,7 @@ import {
     StyleSheet,
     Modal,
     Animated,
-    RefreshControl
+    RefreshControl,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import SquareHeader from "../../components/SquareHeader.js";
@@ -20,7 +20,7 @@ import SearchBarHeader from "../../components/SearchBar.js";
 import { getUserListings, deleteListing } from "../../backend/api/listing.js";
 import filter from "lodash.filter";
 import { SwipeListView } from "react-native-swipe-list-view";
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons } from "@expo/vector-icons";
 
 const MyListingsScreen = ({ navigation }) => {
     const [search, setSearch] = useState("");
@@ -41,10 +41,15 @@ const MyListingsScreen = ({ navigation }) => {
         }
     };
 
-    useEffect(() => {
-        fetchListingData();
-    }, [/*listingsData*/]); // TODO: This works, but it gets stuck in a never ending loop... work on this
-                            // the delete functionality works. Just need to focus on auto refresh.
+    useEffect(
+        () => {
+            fetchListingData();
+        },
+        [
+            /*listingsData*/
+        ]
+    ); // TODO: This works, but it gets stuck in a never ending loop... work on this
+    // the delete functionality works. Just need to focus on auto refresh.
 
     const handleItemPress = (listing) => {
         //setSelectedListing(listing);
@@ -99,17 +104,23 @@ const MyListingsScreen = ({ navigation }) => {
 
     const handleRefresh = () => {
         fetchListingData();
-    }
-    
+    };
+
     function getTruncatedDescription(item) {
         if (item && item.description && item.description.length > 10) {
-            return item.description.substring(0, 35) + '...';
+            return item.description.substring(0, 35) + "...";
         }
         return item.description;
     }
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: styles.colors.lightColor }}>
+        <SafeAreaView
+            style={{
+                flex: 1,
+                backgroundColor: styles.colors.lightColor,
+
+                paddingBottom: -33,
+            }}>
             {/* Search bar was taken from homescreen, so will not have functionality. */}
             <SquareHeader height={80} />
             <Animated.View
@@ -164,8 +175,7 @@ const MyListingsScreen = ({ navigation }) => {
                 bounces={true}
                 renderItem={({ item }) => {
                     return (
-                        <View
-                            key={item.id}>
+                        <View key={item.id}>
                             <View
                                 style={{
                                     backgroundColor: styles.colors.lightColor,
@@ -205,7 +215,12 @@ const MyListingsScreen = ({ navigation }) => {
                 }
                 ItemSeparatorComponent={() => (
                     <View style={{ alignItems: "center" }}>
-                        <View style={[styles.dividerLine, { marginBottom: 10, marginTop: 10 }]} />
+                        <View
+                            style={[
+                                styles.dividerLine,
+                                { marginBottom: 10, marginTop: 10 },
+                            ]}
+                        />
                     </View>
                 )}
                 renderHiddenItem={({ item }) => (
@@ -224,7 +239,7 @@ const MyListingsScreen = ({ navigation }) => {
                             }}
                             onPress={() => {
                                 //handle editing the listing
-                                handleItemPress(item)
+                                handleItemPress(item);
                             }}>
                             <Ionicons name="pencil" size={24} color="black" />
                         </TouchableOpacity>
@@ -240,7 +255,11 @@ const MyListingsScreen = ({ navigation }) => {
                                 deleteListing(item.listingId);
                                 alert("Deleted");
                             }}>
-                            <Ionicons name="trash-outline" size={32} color="black" />
+                            <Ionicons
+                                name="trash-outline"
+                                size={32}
+                                color="black"
+                            />
                         </TouchableOpacity>
                     </View>
                 )}
@@ -248,7 +267,7 @@ const MyListingsScreen = ({ navigation }) => {
                 rightOpenValue={-150}
                 keyExtractor={(item) => item.listingId}
                 contentContainerStyle={{
-                    paddingBottom: "15%",
+                    paddingBottom: "25%",
                 }}
                 scrollEventThrottle={10}
                 style={{

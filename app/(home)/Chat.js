@@ -20,6 +20,7 @@ export default function ChatScreen() {
     const [readableChatThreads, setReadableChatThreads] = useState([]);
     const [refreshing, setRefreshing] = useState(false);
     useEffect(() => {
+        // setRefreshing(true);
         // This will be used to retrieve the chat threads for the user.
         // The chat threads will be retrieved from the database.
         // The chat threads will be displayed in the SwipeListView.
@@ -27,7 +28,6 @@ export default function ChatScreen() {
             setChatThreads(chatThreads);
         });
         // console.log("*starting useEffect* Chat threads: ", chatThreads);
-
     }, []);
 
     useEffect(() => {
@@ -47,15 +47,16 @@ export default function ChatScreen() {
                     if (messageList.length > 0) {
                         message = messageList[messageList.length - 1].text;
                         // console.log("*chatThreads update useEffect* Most recent message: " + message);
+                    } else {
+                        console.log(
+                            "*chatThreads update useEffect* Chat thread has no messages."
+                        );
                     }
-                    else {
-                        console.log("*chatThreads update useEffect* Chat thread has no messages.");
-                    }
+                } else {
+                    console.log(
+                        "*chatThreads update useEffect* Chat thread is missing messages attribute."
+                    );
                 }
-                else {
-                    console.log("*chatThreads update useEffect* Chat thread is missing messages attribute.");
-                }
-
                 return {
                     readableChatId: chatData.chatId,
                     images: otherProfileImage,
@@ -109,7 +110,8 @@ export default function ChatScreen() {
     }
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: styles.colors.lightColor }}>
+        <SafeAreaView
+            style={{ flex: 1, backgroundColor: styles.colors.lightColor }}>
             {/* Search bar was taken from homescreen, so will not have functionality. */}
             <SquareHeader height={120} />
             <Animated.View
@@ -161,17 +163,27 @@ export default function ChatScreen() {
                                 }}>
                                 {/* <Text style={{ fontWeight: "bold" }}>{"$" + item.price + " - " + item.title}</Text> */}
                                 <Text style={{ fontWeight: "bold" }}>
-                                    {typeof item.name === "string" ? item.name : "Name is not a string"}
+                                    {typeof item.name === "string"
+                                        ? item.name
+                                        : "Name is not a string"}
                                 </Text>
-                                <Text>{typeof item.message === "string" ? item.message : "Message is not a string"}</Text>
+                                <Text>
+                                    {typeof item.message === "string"
+                                        ? item.message
+                                        : "Message is not a string"}
+                                </Text>
                             </View>
                         </View>
                     </TouchableWithoutFeedback>
                 )}
-
                 ItemSeparatorComponent={() => (
                     <View style={{ alignItems: "center" }}>
-                        <View style={[styles.dividerLine, { marginBottom: 10, marginTop: 10 }]} />
+                        <View
+                            style={[
+                                styles.dividerLine,
+                                { marginBottom: 10, marginTop: 10 },
+                            ]}
+                        />
                     </View>
                 )}
                 renderHiddenItem={({ item }) => (
@@ -195,7 +207,11 @@ export default function ChatScreen() {
                                     params: { image: item.images },
                                 });
                             }}>
-                            <Ionicons name="alert-circle-outline" size={32} color="black" />
+                            <Ionicons
+                                name="alert-circle-outline"
+                                size={32}
+                                color="black"
+                            />
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={{
@@ -208,7 +224,11 @@ export default function ChatScreen() {
                                 // Handle the "Delete" action
                                 alert("Chat will be deleted");
                             }}>
-                            <Ionicons name="trash-outline" size={32} color="black" />
+                            <Ionicons
+                                name="trash-outline"
+                                size={32}
+                                color="black"
+                            />
                         </TouchableOpacity>
                     </View>
                 )}

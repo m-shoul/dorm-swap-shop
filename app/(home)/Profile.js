@@ -108,7 +108,6 @@ export default function ProfileScreen() {
                     }
                     ListEmptyComponent={noSavedListings}
                     ListHeaderComponent={<ProfileHeader user={user} />}
-                //scrollEventThrottle={10}
                 />
             )}
         </View>
