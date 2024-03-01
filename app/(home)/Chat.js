@@ -1,6 +1,6 @@
 import {
     Text, View, TouchableWithoutFeedback, TouchableOpacity,
-    SafeAreaView, Animated, /*Image,*/
+    SafeAreaView, Animated, RefreshControl /*Image,*/
 } from "react-native";
 import { Image } from "expo-image";
 import React, { useState, useEffect, useRef } from "react";
@@ -58,7 +58,7 @@ export default function ChatScreen() {
 
                 return {
                     readableChatId: chatData.chatId,
-                    images: "https://reactnative.dev/img/tiny_logo.png",
+                    images: otherProfileImage,
                     name: otherUsername,
                     message: message,
                 };
