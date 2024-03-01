@@ -91,15 +91,16 @@ export default function ProfileScreen() {
                     numColumns={2}
                     contentContainerStyle={{
                         backgroundColor: styles.colors.lightColor,
-                        flexGrow: 1
+                        flexGrow: 1,
                     }}
                     style={{
-                        backgroundColor: styles.colors.darkColor,
+                        backgroundColor: styles.colors.lightColor,
                     }}
 
                     bounces={true}
                     refreshControl={
                         <RefreshControl
+                            style={{ backgroundColor: styles.colors.darkColor }}
                             refreshing={refreshing}
                             onRefresh={handleRefresh}
                             tintColor={styles.colors.lightColor}
