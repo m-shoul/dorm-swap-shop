@@ -28,8 +28,14 @@ import termsOfService from "../../assets/termsOfService.js";
 import { set } from "firebase/database";
 import RoundHeader from "../../components/RoundHeader.js";
 import SimpleLogo from "../../assets/svg/simpleLogo_icon.js";
-import { ShadowedView } from 'react-native-fast-shadow';
-import { RegExpMatcher, TextCensor, englishDataset, englishRecommendedTransformers, asteriskCensorStrategy } from "obscenity";
+import { ShadowedView } from "react-native-fast-shadow";
+import {
+    RegExpMatcher,
+    TextCensor,
+    englishDataset,
+    englishRecommendedTransformers,
+    asteriskCensorStrategy,
+} from "obscenity";
 
 export default function CreateUserScreen() {
     //All of the states that are used to store the actual values of the text inputs
@@ -283,16 +289,10 @@ export default function CreateUserScreen() {
                         },
                         backgroundColor: "white",
                         marginTop: "10%",
-                        borderRadius: 20
-                    }}
-                >
-                    <SimpleLogo
-                        width={119}
-                        height={119}
-                        margin={-2.1}
-                    />
+                        borderRadius: 20,
+                    }}>
+                    <SimpleLogo width={119} height={119} margin={-2.1} />
                 </ShadowedView>
-
 
                 <Text style={styles.registerHeader}> Register </Text>
 
@@ -311,7 +311,7 @@ export default function CreateUserScreen() {
                     style={{
                         width: "100%",
                     }}
-                    behavior={Platform.OS === "ios" ? "padding" : "height"}>
+                    behavior={Platform.OS === "ios" ? "height" : "height"}>
                     <ScrollView
                         style={{
                             KeyboardAvoidingView: "position",
@@ -339,7 +339,6 @@ export default function CreateUserScreen() {
                                         setFirstName("");
                                     }
                                 }}
-
                             />
                             {errorMessageFirst && (
                                 <Text
@@ -453,7 +452,9 @@ export default function CreateUserScreen() {
                                 secureTextEntry={true}
                                 placeholder={"Confirm Password"}
                                 value={passwordCheck}
-                                onChangeText={(value) => setPasswordCheck(value)}
+                                onChangeText={(value) =>
+                                    setPasswordCheck(value)
+                                }
                             />
                             {errorMessageConfirm && (
                                 <Text
