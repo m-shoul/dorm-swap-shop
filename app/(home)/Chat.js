@@ -1,5 +1,7 @@
-import { Text, View, TouchableWithoutFeedback, TouchableOpacity, 
-        SafeAreaView, Animated, /*Image,*/ } from "react-native";
+import {
+    Text, View, TouchableWithoutFeedback, TouchableOpacity,
+    SafeAreaView, Animated, /*Image,*/
+} from "react-native";
 import { Image } from "expo-image";
 import React, { useState, useEffect, useRef } from "react";
 import { SwipeListView } from "react-native-swipe-list-view";
@@ -7,7 +9,7 @@ import SearchBarHeader from "../../components/SearchBar";
 import { router } from "expo-router";
 import { getChatsByUser, readChat } from "../../backend/api/chat.js";
 import SquareHeader from "../../components/SquareHeader.js";
-import { getUsernameByID } from "../../backend/api/user.js";
+import { getUserProfileImage, getUsernameByID } from "../../backend/api/user.js";
 import { getUserID } from "../../backend/dbFunctions.js";
 import styles from "../(aux)/StyleSheet.js";
 import { Ionicons } from "@expo/vector-icons";
@@ -16,6 +18,7 @@ import { Ionicons } from "@expo/vector-icons";
 export default function ChatScreen() {
     const [chatThreads, setChatThreads] = useState([]);
     const [readableChatThreads, setReadableChatThreads] = useState([]);
+    const [refreshing, setRefreshing] = useState(false);
     useEffect(() => {
         // This will be used to retrieve the chat threads for the user.
         // The chat threads will be retrieved from the database.
@@ -30,18 +33,19 @@ export default function ChatScreen() {
     useEffect(() => {
         const fetchChatThreads = async () => {
             const chatThreadsPromises = chatThreads.map(async (chatData) => {
-                let otherUser = chatData.participants.userId_1 === getUserID() 
-                    ? chatData.participants.userId_2 
+                let otherUser = chatData.participants.userId_1 === getUserID()
+                    ? chatData.participants.userId_2
                     : chatData.participants.userId_1;
-    
+
                 const otherUsername = await getUsernameByID(otherUser);
+                const otherProfileImage = await getUserProfileImage(otherUser);
                 let messageList = [];
                 let message = "";
-    
+
                 if (chatData && 'messages' in chatData) {
                     messageList = await readChat(chatData.chatId);
                     if (messageList.length > 0) {
-                        message = messageList[messageList.length-1].text;
+                        message = messageList[messageList.length - 1].text;
                         // console.log("*chatThreads update useEffect* Most recent message: " + message);
                     }
                     else {
@@ -51,7 +55,7 @@ export default function ChatScreen() {
                 else {
                     console.log("*chatThreads update useEffect* Chat thread is missing messages attribute.");
                 }
-                    
+
                 return {
                     readableChatId: chatData.chatId,
                     images: "https://reactnative.dev/img/tiny_logo.png",
@@ -59,11 +63,11 @@ export default function ChatScreen() {
                     message: message,
                 };
             });
-    
+
             const chatObjects = await Promise.all(chatThreadsPromises);
             setReadableChatThreads(chatObjects);
         };
-    
+
         fetchChatThreads();
     }, [chatThreads]);
 
@@ -89,20 +93,25 @@ export default function ChatScreen() {
     const handleSearch = () => {
         null;
     };
+    const handleRefresh = () => {
+        getChatsByUser(getUserID()).then((chatThreads) => {
+            setChatThreads(chatThreads);
+        });
+    }
 
     // const [selectedChat, setSelectedChat] = useState("");
     // const [search, setSearch] = useState("");
-    
+
 
     async function handleItemPress(chat) {
         // console.log("*ChatScreen* Selected chat: ", chat.readableChatId);
-        router.push({pathname: "ConversationsScreen", params: {chatId: chat.readableChatId}} );
+        router.push({ pathname: "ConversationsScreen", params: { chatId: chat.readableChatId } });
     }
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: styles.colors.lightColor }}>
             {/* Search bar was taken from homescreen, so will not have functionality. */}
-            <SquareHeader height={80} />
+            <SquareHeader height={120} />
             <Animated.View
                 style={{
                     zIndex: 1,
@@ -208,18 +217,27 @@ export default function ChatScreen() {
                 keyExtractor={(item) => item.readableChatId}
                 contentContainerStyle={{
                     paddingBottom: "15%", // Add this line
+                    paddingTop: 10,
                 }}
                 scrollEventThrottle={10}
                 style={{
                     flex: 1,
                     backgroundColor: styles.colors.lightColor,
-                    paddingTop: 85,
+                    //paddingTop: 85,
+                    marginTop: 68,
                 }}
                 onScroll={Animated.event(
                     [{ nativeEvent: { contentOffset: { y: scrollOffsetY } } }],
                     { useNativeDriver: false }
                 )}
                 bounces={true}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={handleRefresh}
+                        tintColor={styles.colors.darkColor}
+                    />
+                }
             />
         </SafeAreaView>
     );
