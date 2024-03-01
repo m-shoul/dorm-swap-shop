@@ -94,13 +94,14 @@ export default function ProfileScreen() {
                         flexGrow: 1,
                     }}
                     style={{
-                        backgroundColor: styles.colors.lightColor,
+                        backgroundColor: styles.colors.darkColor,
+                        //backgroundColor: styles.colors.lightColor,
                     }}
 
                     bounces={true}
                     refreshControl={
                         <RefreshControl
-                            style={{ backgroundColor: styles.colors.darkColor }}
+                            // style={{ backgroundColor: styles.colors.darkColor }}
                             refreshing={refreshing}
                             onRefresh={handleRefresh}
                             tintColor={styles.colors.lightColor}

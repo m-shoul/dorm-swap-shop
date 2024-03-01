@@ -4,10 +4,8 @@ import {
     TextInput,
     View,
     TouchableOpacity,
-    // SafeAreaView,
     ScrollView,
     KeyboardAvoidingView,
-    //Image,
     Dimensions,
     ActivityIndicator,
     Alert,
@@ -420,10 +418,7 @@ export default function CreatePostScreen() {
                                                 value = value.replace(
                                                     /\./g,
                                                     (match, index) =>
-                                                        index ===
-                                                        firstPeriodIndex
-                                                            ? "."
-                                                            : ""
+                                                        index === firstPeriodIndex ? "." : ""
                                                 );
                                             }
 
@@ -432,10 +427,7 @@ export default function CreatePostScreen() {
 
                                             // Limit the part before the period to 5 characters
                                             if (parts[0].length > 5) {
-                                                parts[0] = parts[0].substring(
-                                                    0,
-                                                    5
-                                                );
+                                                parts[0] = parts[0].substring(0, 5);
                                             }
 
                                             // If there is a part after the period, limit it to 2 characters
@@ -443,10 +435,7 @@ export default function CreatePostScreen() {
                                                 parts[1] &&
                                                 parts[1].length > 2
                                             ) {
-                                                parts[1] = parts[1].substring(
-                                                    0,
-                                                    2
-                                                );
+                                                parts[1] = parts[1].substring(0, 2);
                                             }
 
                                             // Combine the parts back into the corrected value
@@ -591,10 +580,7 @@ export default function CreatePostScreen() {
                                     blurOnSubmit={false}
                                     onChangeText={(value) => {
                                         if (value.trim().length > 0) {
-                                            filterOutBadWords(
-                                                "description",
-                                                value
-                                            );
+                                            filterOutBadWords("description", value);
                                         } else {
                                             setDescription("");
                                         }

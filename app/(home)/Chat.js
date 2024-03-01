@@ -19,7 +19,6 @@ export default function ChatScreen() {
     const [chatThreads, setChatThreads] = useState([]);
     const [readableChatThreads, setReadableChatThreads] = useState([]);
     const [refreshing, setRefreshing] = useState(false);
-    const [fullData, setFullData] = useState([]);
 
     useEffect(() => {
         // setRefreshing(true);
