@@ -95,13 +95,11 @@ export default function ProfileScreen() {
                     }}
                     style={{
                         backgroundColor: styles.colors.darkColor,
-                        //backgroundColor: styles.colors.lightColor,
                     }}
 
                     bounces={true}
                     refreshControl={
                         <RefreshControl
-                            // style={{ backgroundColor: styles.colors.darkColor }}
                             refreshing={refreshing}
                             onRefresh={handleRefresh}
                             tintColor={styles.colors.lightColor}
@@ -109,7 +107,6 @@ export default function ProfileScreen() {
                     }
                     ListEmptyComponent={noSavedListings}
                     ListHeaderComponent={<ProfileHeader user={user} />}
-                //scrollEventThrottle={10}
                 />
             )}
         </View>
