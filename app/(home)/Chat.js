@@ -1,9 +1,9 @@
 import {
     Text, View, TouchableWithoutFeedback, TouchableOpacity,
-    SafeAreaView, Animated, RefreshControl /*Image,*/
+    SafeAreaView, Animated, RefreshControl, ActivityIndicator, /*Image,*/
 } from "react-native";
 import { Image } from "expo-image";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import { SwipeListView } from "react-native-swipe-list-view";
 import SearchBarHeader from "../../components/SearchBar";
 import { router } from "expo-router";
@@ -17,8 +17,11 @@ import { Ionicons } from "@expo/vector-icons";
 
 export default function ChatScreen() {
     const [chatThreads, setChatThreads] = useState([]);
+
     const [readableChatThreads, setReadableChatThreads] = useState([]);
+    const [fullData, setFullData] = useState([]);
     const [refreshing, setRefreshing] = useState(false);
+
     useEffect(() => {
         // setRefreshing(true);
         // This will be used to retrieve the chat threads for the user.
@@ -26,7 +29,8 @@ export default function ChatScreen() {
         // The chat threads will be displayed in the SwipeListView.
         getChatsByUser(getUserID()).then((chatThreads) => {
             setChatThreads(chatThreads);
-        });
+            setFullData(chatThreads);
+        })
         // console.log("*starting useEffect* Chat threads: ", chatThreads);
     }, []);
 
@@ -63,14 +67,70 @@ export default function ChatScreen() {
                     name: otherUsername,
                     message: message,
                 };
-            });
 
+            });
             const chatObjects = await Promise.all(chatThreadsPromises);
             setReadableChatThreads(chatObjects);
         };
 
         fetchChatThreads();
     }, [chatThreads]);
+
+    const memoizedListingsData = useMemo(
+        () => Object.values(readableChatThreads),
+        [readableChatThreads]
+    );
+
+    const handleSearch = async (query) => {
+        if (typeof fullData !== "object") {
+            console.error("fullData is not an object:", fullData);
+            return;
+        }
+        const formattedQuery = query.toLowerCase();
+        const filteredData = await Promise.all(
+            Object.values(fullData).map(async (chatData) => {
+                let otherUser = chatData.participants.userId_1 === getUserID()
+                    ? chatData.participants.userId_2
+                    : chatData.participants.userId_1;
+                const username = await getUsernameByID(otherUser);
+                console.log("The chats user name is: ", username);
+                if (
+                    username &&
+                    contains(formattedQuery, username.toLowerCase())
+                ) {
+                    return chatData;
+                }
+            })
+        );
+        setChatThreads(filteredData.filter(Boolean)); // Remove undefined values
+    };
+
+    const contains = (
+        query,
+        username
+    ) => {
+        if (
+            username.includes(query)
+        ) {
+            return true;
+        }
+        return false;
+    };
+
+    const noListingsFromSearch = () => (
+        <View style={{ marginTop: "60%", justifyContent: "center", alignItems: "center", paddingHorizontal: "15%" }}>
+            <Text style={[styles.boldtext, { textAlign: "center" }]}>
+                Oops! No chats match that criteria. Refresh to clear results.
+            </Text>
+        </View>
+
+    );
+
+    const handleRefresh = () => {
+        getChatsByUser(getUserID()).then((chatThreads) => {
+            setChatThreads(chatThreads);
+        });
+    }
 
     const minScroll = 200;
 
@@ -90,15 +150,6 @@ export default function ChatScreen() {
         outputRange: [0, -headerHeight],
         extrapolate: "clamp",
     });
-
-    const handleSearch = () => {
-        null;
-    };
-    const handleRefresh = () => {
-        getChatsByUser(getUserID()).then((chatThreads) => {
-            setChatThreads(chatThreads);
-        });
-    }
 
     // const [selectedChat, setSelectedChat] = useState("");
     // const [search, setSearch] = useState("");
@@ -132,13 +183,13 @@ export default function ChatScreen() {
                         backgroundColor: styles.colors.darkColor,
                     }}>
                     <View style={{ justifyContent: "center", width: "100%" }}>
-                        {/* <SearchBarHeader handleSearch={handleSearch} /> */}
-                        <SearchBarHeader />
+                        <SearchBarHeader handleSearch={handleSearch} />
                     </View>
                 </View>
             </Animated.View>
             <SwipeListView
-                data={Object.values(readableChatThreads)}
+                // Object.values(readableChatThreads)
+                data={Object.values(memoizedListingsData)}
                 renderItem={({ item }) => (
                     <TouchableWithoutFeedback
                         style={{ width: "100%" }}
@@ -258,6 +309,7 @@ export default function ChatScreen() {
                         tintColor={styles.colors.darkColor}
                     />
                 }
+                ListEmptyComponent={noListingsFromSearch}
             />
         </SafeAreaView>
     );
