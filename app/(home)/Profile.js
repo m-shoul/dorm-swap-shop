@@ -92,7 +92,7 @@ export default function ProfileScreen() {
                     numColumns={2}
                     contentContainerStyle={{
                         backgroundColor: styles.colors.lightColor,
-                        flexGrow: 1
+                        flexGrow: 1,
                     }}
                     style={{
                         backgroundColor: styles.colors.darkColor,
@@ -108,7 +108,6 @@ export default function ProfileScreen() {
                     }
                     ListEmptyComponent={noSavedListings}
                     ListHeaderComponent={<ProfileHeader user={user} />}
-                //scrollEventThrottle={10}
                 />
             )}
         </View>

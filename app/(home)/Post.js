@@ -4,17 +4,13 @@ import {
     TextInput,
     View,
     TouchableOpacity,
-    // SafeAreaView,
     ScrollView,
     KeyboardAvoidingView,
-    //Image,
     Dimensions,
     ActivityIndicator,
-    Alert
+    Alert,
 } from "react-native";
-import {
-    useSafeAreaInsets,
-} from "react-native-safe-area-context";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Image } from "expo-image";
 import React, { useState, useEffect, useRef } from "react";
 import styles from "../(aux)/StyleSheet.js";
@@ -25,16 +21,21 @@ import ListImagesComponent from "../../assets/svg/list_images.js";
 import RNPickerSelect from "react-native-picker-select";
 import { createListing } from "../../backend/api/listing.js";
 import { router, useNavigation } from "expo-router";
-import { Button } from '../../components/Buttons.js';
+import { Button } from "../../components/Buttons.js";
 import RoundHeader from "../../components/RoundHeader.js";
 import ExpandComponent from "../../assets/svg/expand_icon.js";
-import { ShadowedView } from 'react-native-fast-shadow';
+import { ShadowedView } from "react-native-fast-shadow";
 import ScanningModal from "../../components/ScanningModal.js";
 import { useStore } from "../global.js";
 
 // Obscenity
-import { RegExpMatcher, TextCensor, englishDataset, englishRecommendedTransformers, asteriskCensorStrategy } from "obscenity";
-
+import {
+    RegExpMatcher,
+    TextCensor,
+    englishDataset,
+    englishRecommendedTransformers,
+    asteriskCensorStrategy,
+} from "obscenity";
 
 export default function CreatePostScreen() {
     const navigation = useNavigation();
@@ -144,21 +145,26 @@ export default function CreatePostScreen() {
     };
 
     let validate = 0;
-    useEffect(() => {
-        const unsubscribeBlur = navigation.addListener("blur", () => {
-            // You can put any logic you want to execute when the screen is unfocused here
-            clearTextInputs();
-        });
+    useEffect(
+        () => {
+            const unsubscribeBlur = navigation.addListener("blur", () => {
+                // You can put any logic you want to execute when the screen is unfocused here
+                clearTextInputs();
+            });
 
-        // Trigger form validation when name, email, or password changes
-        if (validate == 1) {
-            validateForm();
-        }
+            // Trigger form validation when name, email, or password changes
+            if (validate == 1) {
+                validateForm();
+            }
 
-        return () => {
-            unsubscribeBlur();
-        };
-    }, [/*title, price, description, navigation*/]);
+            return () => {
+                unsubscribeBlur();
+            };
+        },
+        [
+            /*title, price, description, navigation*/
+        ]
+    );
 
     const handleValidation = () => {
         validateForm();
@@ -262,10 +268,17 @@ export default function CreatePostScreen() {
         <View style={[styles.background, { paddingTop: insets.top }]}>
             {loading ? (
                 // Show loading screen while processing
-                <View style={{ flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: styles.colors.lightColor, opacity: 0.5 }}>
+                <View
+                    style={{
+                        flex: 1,
+                        justifyContent: "center",
+                        alignItems: "center",
+                        backgroundColor: styles.colors.lightColor,
+                        opacity: 0.5,
+                    }}>
                     {/* <ActivityIndicator size="large" color={styles.colors.darkAccentColor} /> */}
                     {/* <Text style={{ marginTop: 10 }}>Hang tight... checking images for inappropriate content...</Text> */}
-                    <ScanningModal loading={loading}/>
+                    <ScanningModal loading={loading} />
                 </View>
             ) : (
                 <>
@@ -279,7 +292,10 @@ export default function CreatePostScreen() {
                         <Text
                             style={[
                                 styles.postListingHeader,
-                                { marginBottom: "7%", color: styles.colors.lightColor },
+                                {
+                                    marginBottom: "7%",
+                                    color: styles.colors.lightColor,
+                                },
                             ]}>
                             Post Listing
                         </Text>
@@ -319,17 +335,19 @@ export default function CreatePostScreen() {
                             <View style={{ marginBottom: "2%" }}>
                                 <ShadowedView
                                     style={{
+                                        height: 200,
                                         shadowOpacity: 0.8,
-                                        shadowRadius: 20,
+                                        shadowRadius: 40,
                                         shadowOffset: {
                                             width: 5,
                                             height: 3,
                                         },
                                         backgroundColor: "white",
                                         borderRadius: 20,
-                                    }}
-                                >
-                                    <TouchableOpacity onPress={() => pickImage()}>
+                                        marginBottom: "2%",
+                                    }}>
+                                    <TouchableOpacity
+                                        onPress={() => pickImage()}>
                                         {image ? (
                                             <Image
                                                 source={{ uri: image[0] }}
@@ -350,9 +368,10 @@ export default function CreatePostScreen() {
                                         )}
                                     </TouchableOpacity>
                                 </ShadowedView>
-                                <Text style={{ textAlign: "center" }}>Upload Images</Text>
+                                <Text style={{ textAlign: "center" }}>
+                                    Upload Images
+                                </Text>
                             </View>
-     
 
                             <View style={styles.forms}>
                                 <TextInput
@@ -395,8 +414,9 @@ export default function CreatePostScreen() {
                                             // If not, correct it
 
                                             // Check if the input value contains more than one period
-                                            let periodCount = (value.match(/\./g) || [])
-                                                .length;
+                                            let periodCount = (
+                                                value.match(/\./g) || []
+                                            ).length;
                                             if (periodCount > 1) {
                                                 // If it does, remove the extra periods
                                                 let firstPeriodIndex =
@@ -404,9 +424,7 @@ export default function CreatePostScreen() {
                                                 value = value.replace(
                                                     /\./g,
                                                     (match, index) =>
-                                                        index === firstPeriodIndex
-                                                            ? "."
-                                                            : ""
+                                                        index === firstPeriodIndex ? "." : ""
                                                 );
                                             }
 
@@ -419,7 +437,10 @@ export default function CreatePostScreen() {
                                             }
 
                                             // If there is a part after the period, limit it to 2 characters
-                                            if (parts[1] && parts[1].length > 2) {
+                                            if (
+                                                parts[1] &&
+                                                parts[1].length > 2
+                                            ) {
                                                 parts[1] = parts[1].substring(0, 2);
                                             }
 
@@ -610,7 +631,9 @@ export default function CreatePostScreen() {
 
                                     {/* Post Button */}
                                     <Button
-                                        backgroundColor={styles.colors.darkAccentColor}
+                                        backgroundColor={
+                                            styles.colors.darkAccentColor
+                                        }
                                         title="Post"
                                         alignItems="center"
                                         width="60%"

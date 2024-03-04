@@ -1,5 +1,7 @@
-import { Text, View, TouchableWithoutFeedback, TouchableOpacity, 
-        SafeAreaView, Animated, /*Image,*/ } from "react-native";
+import {
+    Text, View, TouchableWithoutFeedback, TouchableOpacity,
+    SafeAreaView, Animated,/*Image,*/
+} from "react-native";
 import { Image } from "expo-image";
 import React, { useState, useEffect, useRef } from "react";
 import { SwipeListView } from "react-native-swipe-list-view";
@@ -16,7 +18,9 @@ import { Ionicons } from "@expo/vector-icons";
 export default function ChatScreen() {
     const [chatThreads, setChatThreads] = useState([]);
     const [readableChatThreads, setReadableChatThreads] = useState([]);
+
     useEffect(() => {
+        // setRefreshing(true);
         // This will be used to retrieve the chat threads for the user.
         // The chat threads will be retrieved from the database.
         // The chat threads will be displayed in the SwipeListView.
@@ -24,46 +28,47 @@ export default function ChatScreen() {
             setChatThreads(chatThreads);
         });
         // console.log("*starting useEffect* Chat threads: ", chatThreads);
-
     }, []);
 
     useEffect(() => {
         const fetchChatThreads = async () => {
             const chatThreadsPromises = chatThreads.map(async (chatData) => {
-                let otherUser = chatData.participants.userId_1 === getUserID() 
-                    ? chatData.participants.userId_2 
+                let otherUser = chatData.participants.userId_1 === getUserID()
+                    ? chatData.participants.userId_2
                     : chatData.participants.userId_1;
-    
+
                 const otherUsername = await getUsernameByID(otherUser);
                 let messageList = [];
                 let message = "";
-    
+
                 if (chatData && 'messages' in chatData) {
                     messageList = await readChat(chatData.chatId);
                     if (messageList.length > 0) {
-                        message = messageList[messageList.length-1].text;
+                        message = messageList[messageList.length - 1].text;
                         // console.log("*chatThreads update useEffect* Most recent message: " + message);
+                    } else {
+                        console.log(
+                            "*chatThreads update useEffect* Chat thread has no messages."
+                        );
                     }
-                    else {
-                        console.log("*chatThreads update useEffect* Chat thread has no messages.");
-                    }
+                } else {
+                    console.log(
+                        "*chatThreads update useEffect* Chat thread is missing messages attribute."
+                    );
                 }
-                else {
-                    console.log("*chatThreads update useEffect* Chat thread is missing messages attribute.");
-                }
-                    
+
                 return {
                     readableChatId: chatData.chatId,
-                    images: "https://reactnative.dev/img/tiny_logo.png",
+                    images: "https:reactnative.dev/img/tiny_logo.png",
                     name: otherUsername,
                     message: message,
                 };
             });
-    
+
             const chatObjects = await Promise.all(chatThreadsPromises);
             setReadableChatThreads(chatObjects);
         };
-    
+
         fetchChatThreads();
     }, [chatThreads]);
 
@@ -86,22 +91,22 @@ export default function ChatScreen() {
         extrapolate: "clamp",
     });
 
-    const handleSearch = () => {
-        null;
-    };
-
     // const [selectedChat, setSelectedChat] = useState("");
     // const [search, setSearch] = useState("");
-    
 
     async function handleItemPress(chat) {
         // console.log("*ChatScreen* Selected chat: ", chat.readableChatId);
-        router.push({pathname: "ConversationsScreen", params: {chatId: chat.readableChatId}} );
+        router.push({
+            pathname: "ConversationsScreen",
+            params: { chatId: chat.readableChatId },
+        });
     }
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: styles.colors.lightColor }}>
+        <SafeAreaView
+            style={{ flex: 1, backgroundColor: styles.colors.lightColor }}>
             {/* Search bar was taken from homescreen, so will not have functionality. */}
+            {/* was 80 */}
             <SquareHeader height={80} />
             <Animated.View
                 style={{
@@ -152,17 +157,27 @@ export default function ChatScreen() {
                                 }}>
                                 {/* <Text style={{ fontWeight: "bold" }}>{"$" + item.price + " - " + item.title}</Text> */}
                                 <Text style={{ fontWeight: "bold" }}>
-                                    {typeof item.name === "string" ? item.name : "Name is not a string"}
+                                    {typeof item.name === "string"
+                                        ? item.name
+                                        : "Name is not a string"}
                                 </Text>
-                                <Text>{typeof item.message === "string" ? item.message : "Message is not a string"}</Text>
+                                <Text>
+                                    {typeof item.message === "string"
+                                        ? item.message
+                                        : "Message is not a string"}
+                                </Text>
                             </View>
                         </View>
                     </TouchableWithoutFeedback>
                 )}
-
                 ItemSeparatorComponent={() => (
                     <View style={{ alignItems: "center" }}>
-                        <View style={[styles.dividerLine, { marginBottom: 10, marginTop: 10 }]} />
+                        <View
+                            style={[
+                                styles.dividerLine,
+                                { marginBottom: 10, marginTop: 10 },
+                            ]}
+                        />
                     </View>
                 )}
                 renderHiddenItem={({ item }) => (
@@ -186,7 +201,11 @@ export default function ChatScreen() {
                                     params: { image: item.images },
                                 });
                             }}>
-                            <Ionicons name="alert-circle-outline" size={32} color="black" />
+                            <Ionicons
+                                name="alert-circle-outline"
+                                size={32}
+                                color="black"
+                            />
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={{
@@ -199,7 +218,11 @@ export default function ChatScreen() {
                                 // Handle the "Delete" action
                                 alert("Chat will be deleted");
                             }}>
-                            <Ionicons name="trash-outline" size={32} color="black" />
+                            <Ionicons
+                                name="trash-outline"
+                                size={32}
+                                color="black"
+                            />
                         </TouchableOpacity>
                     </View>
                 )}
@@ -207,7 +230,7 @@ export default function ChatScreen() {
                 rightOpenValue={-150}
                 keyExtractor={(item) => item.readableChatId}
                 contentContainerStyle={{
-                    paddingBottom: "15%", // Add this line
+                    paddingBottom: "25%", // Add this line
                 }}
                 scrollEventThrottle={10}
                 style={{
