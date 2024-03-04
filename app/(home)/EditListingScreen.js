@@ -29,9 +29,13 @@ import ExpandComponent from "../../assets/svg/expand_icon.js";
 import { useLocalSearchParams } from "expo-router";
 import { RegExpMatcher, TextCensor, englishDataset, englishRecommendedTransformers, asteriskCensorStrategy } from "obscenity";
 import { ShadowedView } from 'react-native-fast-shadow';
+import { useStore } from "../global.js";
 
 export default function EditListings() {
     const { listingId } = useLocalSearchParams();
+
+    // Auto refresh
+    const [setGlobalReload] = useStore((state) => [state.setGlobalReload]);
 
     // States
     const navigation = useNavigation();
@@ -108,8 +112,8 @@ export default function EditListings() {
 
     const handleUpdate = async () => {
         await updateListing(listingId, title, description, price, category, condition, image);
-        router.back();
-        console.log("Post updated successfully");
+        setGlobalReload(true);
+        router.push("(home)/MyListingsScreen");
     };
 
     // Clearing input on cancel
