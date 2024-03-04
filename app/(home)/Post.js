@@ -26,6 +26,7 @@ import RoundHeader from "../../components/RoundHeader.js";
 import ExpandComponent from "../../assets/svg/expand_icon.js";
 import { ShadowedView } from "react-native-fast-shadow";
 import ScanningModal from "../../components/ScanningModal.js";
+import { useStore } from "../global.js";
 
 // Obscenity
 import {
@@ -46,10 +47,14 @@ export default function CreatePostScreen() {
     const [location, setLocation] = useState("");
     const [loading, setLoading] = useState(false);
 
+    const [setGlobalReload] = useStore((state) => [state.setGlobalReload]);
+
     //For pickers so they can get the right text size
     const { width } = Dimensions.get("window");
     const NormalFontSize = 20;
     normalText = width / NormalFontSize;
+
+    
     // For uploading images
     const [image, setImage] = useState(null);
 
@@ -90,6 +95,7 @@ export default function CreatePostScreen() {
             console.error("ERROR --> Failed to create post: ", error);
         } finally {
             setLoading(false);
+            setGlobalReload(true);
             router.push("Home");
         }
     };

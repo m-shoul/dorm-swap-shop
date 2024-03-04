@@ -20,7 +20,8 @@ import SearchBarHeader from "../../components/SearchBar.js";
 import { getUserListings, deleteListing } from "../../backend/api/listing.js";
 import filter from "lodash.filter";
 import { SwipeListView } from "react-native-swipe-list-view";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons } from '@expo/vector-icons';
+import { useStore } from "../global.js";
 
 const MyListingsScreen = ({ navigation }) => {
     const [search, setSearch] = useState("");
@@ -30,26 +31,24 @@ const MyListingsScreen = ({ navigation }) => {
     const [fullData, setFullData] = useState([]);
     const [refreshing, setRefreshing] = useState(false);
 
+    // Auto refreshing
+    const [globalReload, setGlobalReload] = useStore((state) => [state.globalReload, state.setGlobalReload]);
+
     const fetchListingData = async () => {
         try {
             const listingsData = await getUserListings();
             setFullData(listingsData);
             setListingsData(listingsData);
             console.log("Got user listings.");
+            setGlobalReload(false);
         } catch (error) {
             console.error("ERROR: Could not get user listings: ", error);
         }
     };
 
-    useEffect(
-        () => {
-            fetchListingData();
-        },
-        [
-            /*listingsData*/
-        ]
-    ); // TODO: This works, but it gets stuck in a never ending loop... work on this
-    // the delete functionality works. Just need to focus on auto refresh.
+    useEffect(() => {
+        fetchListingData();
+    }, [globalReload]);
 
     const handleItemPress = (listing) => {
         //setSelectedListing(listing);
@@ -148,24 +147,6 @@ const MyListingsScreen = ({ navigation }) => {
                     </View>
                 </View>
             </Animated.View>
-            {/* <View
-                style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    width: "100%",
-                    backgroundColor: styles.colors.darkColor,
-                    paddingHorizontal: "5%",
-                }}>
-                <TouchableOpacity onPress={() => router.back()}>
-                    <BackButtonComponent></BackButtonComponent>
-                </TouchableOpacity>
-                <View style={{ width: "95%" }}>
-                    <SearchBarHeader
-                        animHeaderValue={animHeaderValue}
-                        handleSearch={handleSearch}
-                    />
-                </View>
-            </View> */}
             <SwipeListView
                 data={listingsData}
                 onScroll={Animated.event(
@@ -210,7 +191,7 @@ const MyListingsScreen = ({ navigation }) => {
                 refreshControl={
                     <RefreshControl
                         refreshing={refreshing}
-                        onRefresh={handleRefresh} // Handle refresh event
+                        onRefresh={handleRefresh}
                     />
                 }
                 ItemSeparatorComponent={() => (
@@ -238,8 +219,7 @@ const MyListingsScreen = ({ navigation }) => {
                                 justifyContent: "center",
                             }}
                             onPress={() => {
-                                //handle editing the listing
-                                handleItemPress(item);
+                                handleItemPress(item)
                             }}>
                             <Ionicons name="pencil" size={24} color="black" />
                         </TouchableOpacity>
@@ -251,8 +231,8 @@ const MyListingsScreen = ({ navigation }) => {
                                 justifyContent: "center",
                             }}
                             onPress={() => {
-                                // Handle the "Delete" action
                                 deleteListing(item.listingId);
+                                setGlobalReload(true);
                                 alert("Deleted");
                             }}>
                             <Ionicons

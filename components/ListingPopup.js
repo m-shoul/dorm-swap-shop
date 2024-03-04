@@ -33,6 +33,7 @@ import { createChatThread, getChatThreadId } from "../backend/api/chat.js";
 import CachedImage from "expo-cached-image";
 import { Ionicons } from '@expo/vector-icons';
 import { getUserID } from "../backend/dbFunctions.js";
+import { useStore } from "../app/global.js";
 
 export default function ListingPopup({ listing }) {
     const [selectedImage, setSelectedImage] = useState(null);
@@ -42,6 +43,10 @@ export default function ListingPopup({ listing }) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [username, setUsername] = useState("");
     const [profileImage, setProfileImage] = useState("");
+
+    // TODO: Auto update for saving listings
+    // const [globalReload, setGlobalReload] = useStore((state) => [state.globalReload, state.setGlobalReload]);
+
 
     const router = useRouter();
 

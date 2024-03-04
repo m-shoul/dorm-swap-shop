@@ -16,6 +16,7 @@ import { getUsernameByID } from "../../backend/api/user";
 import FilterPopup from "../../components/FilterPopup";
 import SquareHeader from "../../components/SquareHeader";
 import AdPopup from "../../components/AdPopup";
+import { useStore } from "../global";
 
 export default function HomeScreen() {
     const scrollOffsetY = useRef(new Animated.Value(0)).current;
@@ -28,6 +29,8 @@ export default function HomeScreen() {
     const [selectedListing, setSelectedListing] = useState(null); // State to store the selected listing
     const [refreshing, setRefreshing] = useState(false);
 
+    const [globalReload, setGlobalReload] = useStore((state) => [state.globalReload, state.setGlobalReload]);
+
     let timerId;
 
     const fetchListings = async () => {
@@ -37,6 +40,7 @@ export default function HomeScreen() {
             const listingsData = await getAllListings();
             setFullData(listingsData);
             setListingsData(listingsData);
+            setGlobalReload(false);
             setRefreshing(false);
             setIsLoading(false);
         } catch (error) {
@@ -54,7 +58,7 @@ export default function HomeScreen() {
         return () => {
             clearTimeout(timerId);
         };
-    }, []);
+    }, [globalReload]);
 
     const memoizedListingsData = useMemo(
         () => Object.values(listingsData),

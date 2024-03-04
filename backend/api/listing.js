@@ -5,9 +5,6 @@ import { getUserID } from '../dbFunctions';
 import { Alert } from 'react-native';
 
 // NSFW content
-// import { decodeJpeg } from '@tensorflow/tfjs-core';
-// import { decodeJpeg, bundleResourceIO } from "@tensorflow/tfjs-react-native";
-// import '@tensorflow/tfjs-react-native';
 import { load } from 'nsfwjs';
 import * as tf from '@tensorflow/tfjs';
 import { bundleResourceIO, decodeJpeg } from '@tensorflow/tfjs-react-native';
@@ -60,7 +57,7 @@ export async function createListing(userId, title, description, price, category,
 
     // Set the listing data
     await set(newListingReference, listingData);
-    alert("Post created! Pull down to refresh.");
+    alert("Post created!");
 
     return listingId;
 }

@@ -12,9 +12,7 @@ import { getUserSavedListings, getAllUserDataForProfile } from "../../backend/ap
 import ListingPopup from "../../components/ListingPopup.js";
 import ProfileHeader from "../../components/ProfileHeader.js";
 import styles from "../(aux)/StyleSheet";
-
-//import { create } from 'zustand'
-
+import { useStore } from "../global.js";
 
 export default function ProfileScreen() {
     const [savedListings, setSavedListings] = useState([]);
@@ -23,10 +21,13 @@ export default function ProfileScreen() {
     const [isLoading, setIsLoading] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
 
+    const [globalReload, setGlobalReload] = useStore((state) => [state.globalReload, state.setGlobalReload]);
+
     const fetchSavedListings = async () => {
         try {
             const savedListings = await getUserSavedListings();
             setSavedListings(savedListings);
+            setGlobalReload(false);
             setIsLoading(false);
         } catch (error) {
             console.error("ERROR: Could not get saved listings: ", error);
@@ -48,7 +49,7 @@ export default function ProfileScreen() {
     useEffect(() => {
         fetchSavedListings();
         fetchUserData();
-    }, []);
+    }, [globalReload]);
 
     const handleItemPress = (listing) => {
         setSelectedListing(listing);
