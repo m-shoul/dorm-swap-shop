@@ -16,8 +16,9 @@ import { Ionicons } from "@expo/vector-icons";
 // import { HeaderComponent } from "../components/headerComponent.js";
 
 export default function ChatScreen() {
-    const [chatThreads, setChatThreads] = useState([]);
 
+    const [isLoading, setIsLoading] = useState(true); // State to track if the listings are loading
+    const [chatThreads, setChatThreads] = useState([]);
     const [readableChatThreads, setReadableChatThreads] = useState([]);
     const [fullData, setFullData] = useState([]);
     const [refreshing, setRefreshing] = useState(false);
@@ -30,6 +31,7 @@ export default function ChatScreen() {
         getChatsByUser(getUserID()).then((chatThreads) => {
             setChatThreads(chatThreads);
             setFullData(chatThreads);
+            setIsLoading(false);
         })
         // console.log("*starting useEffect* Chat threads: ", chatThreads);
     }, []);
@@ -67,12 +69,10 @@ export default function ChatScreen() {
                     name: otherUsername,
                     message: message,
                 };
-
             });
             const chatObjects = await Promise.all(chatThreadsPromises);
             setReadableChatThreads(chatObjects);
         };
-
         fetchChatThreads();
     }, [chatThreads]);
 
@@ -158,6 +158,14 @@ export default function ChatScreen() {
     async function handleItemPress(chat) {
         // console.log("*ChatScreen* Selected chat: ", chat.readableChatId);
         router.push({ pathname: "ConversationsScreen", params: { chatId: chat.readableChatId } });
+    }
+
+    if (isLoading) {
+        return (
+            <View style={styles.container}>
+                <ActivityIndicator size="large" color={styles.colors.darkColor} />
+            </View>
+        );
     }
 
     return (
