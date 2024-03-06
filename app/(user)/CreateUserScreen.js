@@ -9,7 +9,9 @@ import {
     Modal,
     StatusBar,
     TouchableWithoutFeedback,
+    Dimensions,
 } from "react-native";
+import { Entypo } from "@expo/vector-icons";
 import {
     SafeAreaView,
     useSafeAreaInsets,
@@ -19,7 +21,7 @@ import React from "react";
 import styles from "../(aux)/StyleSheet.js";
 import { useState, useEffect, useRef } from "react";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-// import { writeUserData } from "../../backend/dbFunctions.js";
+
 import { createUser } from "../../backend/api/user.js";
 import { router } from "expo-router";
 import { getUserID } from "../../backend/dbFunctions.js";
@@ -86,6 +88,8 @@ export default function CreateUserScreen() {
 
     const [isSelected, setSelection] = useState(false);
 
+    const { width } = Dimensions.get("window");
+    normalText = width / 20;
     let validate = 0;
     useEffect(() => {
         // Trigger form validation when name, email, or password changes
@@ -437,15 +441,19 @@ export default function CreateUserScreen() {
                                 </Text>
                             )}
                             <View
-                                style={{
-                                    padding: 0,
-                                    flexDirection: "row",
-                                }}>
+                                style={[
+                                    passwordCheckStyle,
+                                    { padding: 0, flexDirection: "row" },
+                                ]}>
                                 <TextInput
                                     onSubmitEditing={() => {
                                         confirmPasswordInputRef.current.focus();
                                     }}
-                                    style={[passwordStyle, { flex: 1 }]}
+                                    style={{
+                                        fontSize: normalText,
+                                        flex: 1,
+                                        marginRight: 30,
+                                    }}
                                     maxLength={254}
                                     ref={passwordInputRef}
                                     blurOnSubmit={false}
@@ -455,17 +463,44 @@ export default function CreateUserScreen() {
                                     onChangeText={(value) => setPassword(value)}
                                 />
                                 <TouchableOpacity
+                                    hitSlop={{
+                                        top: 10,
+                                        bottom: 10,
+                                        left: 10,
+                                        right: 10,
+                                    }}
                                     style={{
+                                        position: "absolute",
                                         justifyContent: "center",
+                                        alignItems: "center",
                                         padding: 1,
                                         paddingBottom: 20,
-                                    }} // Add some style for better appearance
+
+                                        right: 10,
+                                        top: 8,
+                                    }}
                                     onPress={() =>
                                         setIsPasswordVisible(!isPasswordVisible)
                                     }>
-                                    <Text style={{ width: 40 }}>
-                                        {isPasswordVisible ? "Hide" : "Show"}
-                                    </Text>
+                                    <View
+                                        style={{
+                                            justifyContent: "center",
+                                            paddingTop: 1,
+                                        }}>
+                                        {isPasswordVisible ? (
+                                            <Entypo
+                                                name="eye"
+                                                size={18}
+                                                color="black"
+                                            />
+                                        ) : (
+                                            <Entypo
+                                                name="eye-with-line"
+                                                size={18}
+                                                color="black"
+                                            />
+                                        )}
+                                    </View>
                                 </TouchableOpacity>
                             </View>
                             {errorMessagePassword && (
@@ -479,10 +514,10 @@ export default function CreateUserScreen() {
                                 </Text>
                             )}
                             <View
-                                style={{
-                                    padding: 0,
-                                    flexDirection: "row",
-                                }}>
+                                style={[
+                                    passwordCheckStyle,
+                                    { padding: 0, flexDirection: "row" },
+                                ]}>
                                 <TextInput
                                     onSubmitEditing={() => {
                                         Keyboard.dismiss();
@@ -490,7 +525,11 @@ export default function CreateUserScreen() {
                                     maxLength={254}
                                     ref={confirmPasswordInputRef}
                                     blurOnSubmit={false}
-                                    style={[passwordCheckStyle, { flex: 1 }]}
+                                    style={{
+                                        fontSize: normalText,
+                                        flex: 1,
+                                        marginRight: 30,
+                                    }}
                                     secureTextEntry={!isConfirmPasswordVisible}
                                     placeholder={"Confirm Password"}
                                     value={passwordCheck}
@@ -499,21 +538,46 @@ export default function CreateUserScreen() {
                                     }
                                 />
                                 <TouchableOpacity
+                                    hitSlop={{
+                                        top: 10,
+                                        bottom: 10,
+                                        left: 10,
+                                        right: 10,
+                                    }}
                                     style={{
+                                        position: "absolute",
                                         justifyContent: "center",
+                                        alignItems: "center",
                                         padding: 1,
                                         paddingBottom: 20,
-                                    }} // Add some style for better appearance
+
+                                        right: 10,
+                                        top: 8,
+                                    }}
                                     onPress={() =>
                                         setIsConfirmPasswordVisible(
                                             !isConfirmPasswordVisible
                                         )
                                     }>
-                                    <Text style={{ width: 40 }}>
-                                        {isConfirmPasswordVisible
-                                            ? "Hide"
-                                            : "Show"}
-                                    </Text>
+                                    <View
+                                        style={{
+                                            justifyContent: "center",
+                                            paddingTop: 1,
+                                        }}>
+                                        {isConfirmPasswordVisible ? (
+                                            <Entypo
+                                                name="eye"
+                                                size={18}
+                                                color="black"
+                                            />
+                                        ) : (
+                                            <Entypo
+                                                name="eye-with-line"
+                                                size={18}
+                                                color="black"
+                                            />
+                                        )}
+                                    </View>
                                 </TouchableOpacity>
                             </View>
                             {errorMessageConfirm && (
