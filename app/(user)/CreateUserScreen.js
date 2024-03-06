@@ -449,6 +449,11 @@ export default function CreateUserScreen() {
                                     onSubmitEditing={() => {
                                         confirmPasswordInputRef.current.focus();
                                     }}
+                                    keyboardType={
+                                        Platform.OS === "ios"
+                                            ? "ascii-capable"
+                                            : "visible-password"
+                                    }
                                     style={{
                                         fontSize: normalText,
                                         flex: 1,
@@ -522,6 +527,11 @@ export default function CreateUserScreen() {
                                     onSubmitEditing={() => {
                                         Keyboard.dismiss();
                                     }}
+                                    keyboardType={
+                                        Platform.OS === "ios"
+                                            ? "ascii-capable"
+                                            : "visible-password"
+                                    }
                                     maxLength={254}
                                     ref={confirmPasswordInputRef}
                                     blurOnSubmit={false}

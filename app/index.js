@@ -151,6 +151,11 @@ export default function LoginScreen() {
                             onSubmitEditing={() => {
                                 Keyboard.dismiss();
                             }}
+                            keyboardType={
+                                Platform.OS === "ios"
+                                    ? "ascii-capable"
+                                    : "visible-password"
+                            }
                             maxLength={254}
                             ref={passwordInputRef}
                             blurOnSubmit={false}
