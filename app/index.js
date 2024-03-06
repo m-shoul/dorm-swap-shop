@@ -15,6 +15,7 @@ import { router } from "expo-router";
 import { getUserID } from "../backend/dbFunctions";
 import { Button } from "../components/Buttons";
 import LogoV2 from "../assets/svg/logoV2";
+import { Entypo } from "@expo/vector-icons";
 import {
     RegExpMatcher,
     TextCensor,
@@ -32,7 +33,7 @@ export default function LoginScreen() {
     const [passwordStyle, setPasswordStyle] = useState(styles.createUserInput);
     const passwordInputRef = useRef(null);
     const auth = getAuth();
-
+    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     const handleLogin = async () => {
         //Check that user fills out form
         if (!email && !password) {
@@ -128,7 +129,7 @@ export default function LoginScreen() {
                         </Text>
                     )}
 
-                    <TextInput
+                    {/* <TextInput
                         style={passwordStyle}
                         secureTextEntry={true}
                         value={password}
@@ -139,7 +140,71 @@ export default function LoginScreen() {
                         onSubmitEditing={() => {
                             Keyboard.dismiss();
                         }}
-                    />
+                    /> */}
+
+                    <View
+                        style={[
+                            passwordStyle,
+                            { padding: 0, flexDirection: "row" },
+                        ]}>
+                        <TextInput
+                            onSubmitEditing={() => {
+                                Keyboard.dismiss();
+                            }}
+                            maxLength={254}
+                            ref={passwordInputRef}
+                            blurOnSubmit={false}
+                            style={{
+                                fontSize: normalText,
+                                flex: 1,
+                                marginRight: 30,
+                            }}
+                            secureTextEntry={!isPasswordVisible}
+                            placeholder={"Password"}
+                            value={password}
+                            onChangeText={(value) => setPassword(value)}
+                        />
+                        <TouchableOpacity
+                            hitSlop={{
+                                top: 10,
+                                bottom: 10,
+                                left: 10,
+                                right: 10,
+                            }}
+                            style={{
+                                position: "absolute",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                padding: 1,
+                                paddingBottom: 20,
+
+                                right: 10,
+                                top: 8,
+                            }}
+                            onPress={() =>
+                                setIsPasswordVisible(!isPasswordVisible)
+                            }>
+                            <View
+                                style={{
+                                    justifyContent: "center",
+                                    paddingTop: 1,
+                                }}>
+                                {isPasswordVisible ? (
+                                    <Entypo
+                                        name="eye"
+                                        size={18}
+                                        color="black"
+                                    />
+                                ) : (
+                                    <Entypo
+                                        name="eye-with-line"
+                                        size={18}
+                                        color="black"
+                                    />
+                                )}
+                            </View>
+                        </TouchableOpacity>
+                    </View>
 
                     {errorMessage2 && (
                         <Text
