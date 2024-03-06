@@ -42,7 +42,9 @@ export default function CreateUserScreen() {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [username, setUsername] = useState("");
-
+    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+    const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
+        useState(false);
     const [modalVisible, setModalVisible] = useState(false);
     const [agreeTermsOfService, setAgreeTermsOfService] = useState("");
 
@@ -370,7 +372,11 @@ export default function CreateUserScreen() {
                             />
                             {errorMessageLast && (
                                 <Text
-                                    style={{ color: "red", paddingBottom: 10 }}>
+                                    style={{
+                                        color: "red",
+                                        paddingBottom: 10,
+                                        marginTop: -15,
+                                    }}>
                                     {errorMessageLast}
                                 </Text>
                             )}
@@ -394,7 +400,11 @@ export default function CreateUserScreen() {
                             />
                             {errorMessageUsername && (
                                 <Text
-                                    style={{ color: "red", paddingBottom: 10 }}>
+                                    style={{
+                                        color: "red",
+                                        paddingBottom: 10,
+                                        marginTop: -15,
+                                    }}>
                                     {errorMessageUsername}
                                 </Text>
                             )}
@@ -418,47 +428,101 @@ export default function CreateUserScreen() {
                             />
                             {errorMessageEmail && (
                                 <Text
-                                    style={{ color: "red", paddingBottom: 10 }}>
+                                    style={{
+                                        color: "red",
+                                        paddingBottom: 10,
+                                        marginTop: -15,
+                                    }}>
                                     {errorMessageEmail}
                                 </Text>
                             )}
-                            <TextInput
-                                onSubmitEditing={() => {
-                                    confirmPasswordInputRef.current.focus();
-                                }}
-                                maxLength={254}
-                                ref={passwordInputRef}
-                                blurOnSubmit={false}
-                                style={passwordStyle}
-                                secureTextEntry={true}
-                                placeholder="Password"
-                                value={password}
-                                onChangeText={(value) => setPassword(value)}
-                            />
+                            <View
+                                style={{
+                                    padding: 0,
+                                    flexDirection: "row",
+                                }}>
+                                <TextInput
+                                    onSubmitEditing={() => {
+                                        confirmPasswordInputRef.current.focus();
+                                    }}
+                                    style={[passwordStyle, { flex: 1 }]}
+                                    maxLength={254}
+                                    ref={passwordInputRef}
+                                    blurOnSubmit={false}
+                                    secureTextEntry={!isPasswordVisible}
+                                    placeholder="Password"
+                                    value={password}
+                                    onChangeText={(value) => setPassword(value)}
+                                />
+                                <TouchableOpacity
+                                    style={{
+                                        justifyContent: "center",
+                                        padding: 1,
+                                        paddingBottom: 20,
+                                    }} // Add some style for better appearance
+                                    onPress={() =>
+                                        setIsPasswordVisible(!isPasswordVisible)
+                                    }>
+                                    <Text style={{ width: 40 }}>
+                                        {isPasswordVisible ? "Hide" : "Show"}
+                                    </Text>
+                                </TouchableOpacity>
+                            </View>
                             {errorMessagePassword && (
                                 <Text
-                                    style={{ color: "red", paddingBottom: 10 }}>
+                                    style={{
+                                        color: "red",
+                                        paddingBottom: 10,
+                                        marginTop: -15,
+                                    }}>
                                     {errorMessagePassword}
                                 </Text>
                             )}
-                            <TextInput
-                                onSubmitEditing={() => {
-                                    Keyboard.dismiss();
-                                }}
-                                maxLength={254}
-                                ref={confirmPasswordInputRef}
-                                blurOnSubmit={false}
-                                style={passwordCheckStyle}
-                                secureTextEntry={true}
-                                placeholder={"Confirm Password"}
-                                value={passwordCheck}
-                                onChangeText={(value) =>
-                                    setPasswordCheck(value)
-                                }
-                            />
+                            <View
+                                style={{
+                                    padding: 0,
+                                    flexDirection: "row",
+                                }}>
+                                <TextInput
+                                    onSubmitEditing={() => {
+                                        Keyboard.dismiss();
+                                    }}
+                                    maxLength={254}
+                                    ref={confirmPasswordInputRef}
+                                    blurOnSubmit={false}
+                                    style={[passwordCheckStyle, { flex: 1 }]}
+                                    secureTextEntry={!isConfirmPasswordVisible}
+                                    placeholder={"Confirm Password"}
+                                    value={passwordCheck}
+                                    onChangeText={(value) =>
+                                        setPasswordCheck(value)
+                                    }
+                                />
+                                <TouchableOpacity
+                                    style={{
+                                        justifyContent: "center",
+                                        padding: 1,
+                                        paddingBottom: 20,
+                                    }} // Add some style for better appearance
+                                    onPress={() =>
+                                        setIsConfirmPasswordVisible(
+                                            !isConfirmPasswordVisible
+                                        )
+                                    }>
+                                    <Text style={{ width: 40 }}>
+                                        {isConfirmPasswordVisible
+                                            ? "Hide"
+                                            : "Show"}
+                                    </Text>
+                                </TouchableOpacity>
+                            </View>
                             {errorMessageConfirm && (
                                 <Text
-                                    style={{ color: "red", paddingBottom: 0 }}>
+                                    style={{
+                                        color: "red",
+                                        paddingBottom: 10,
+                                        marginTop: -15,
+                                    }}>
                                     {errorMessageConfirm}
                                 </Text>
                             )}

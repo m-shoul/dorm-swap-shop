@@ -15,8 +15,13 @@ import { router } from "expo-router";
 import { getUserID } from "../backend/dbFunctions";
 import { Button } from "../components/Buttons";
 import LogoV2 from "../assets/svg/logoV2";
-import { RegExpMatcher, TextCensor, englishDataset, englishRecommendedTransformers, asteriskCensorStrategy } from "obscenity";
-
+import {
+    RegExpMatcher,
+    TextCensor,
+    englishDataset,
+    englishRecommendedTransformers,
+    asteriskCensorStrategy,
+} from "obscenity";
 
 export default function LoginScreen() {
     const [email, setEmail] = useState("");
@@ -113,7 +118,12 @@ export default function LoginScreen() {
                     />
 
                     {errorMessage && (
-                        <Text style={{ color: "red", paddingBottom: 20 }}>
+                        <Text
+                            style={{
+                                color: "red",
+                                paddingBottom: 20,
+                                marginTop: -15,
+                            }}>
                             {errorMessage}
                         </Text>
                     )}
@@ -132,7 +142,12 @@ export default function LoginScreen() {
                     />
 
                     {errorMessage2 && (
-                        <Text style={{ color: "red", paddingBottom: 20 }}>
+                        <Text
+                            style={{
+                                color: "red",
+                                paddingBottom: 20,
+                                marginTop: -15,
+                            }}>
                             {errorMessage2}
                         </Text>
                     )}
