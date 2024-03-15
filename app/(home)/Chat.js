@@ -28,13 +28,16 @@ export default function ChatScreen() {
         // This will be used to retrieve the chat threads for the user.
         // The chat threads will be retrieved from the database.
         // The chat threads will be displayed in the SwipeListView.
+
         getChatsByUser(getUserID()).then((chatThreads) => {
             setChatThreads(chatThreads);
             setFullData(chatThreads);
-            setIsLoading(false);
-        })
+
+        }).then(() => { setIsLoading(false); })
+        //setIsLoading(false);
         // console.log("*starting useEffect* Chat threads: ", chatThreads);
     }, []);
+
 
     useEffect(() => {
         const fetchChatThreads = async () => {
@@ -75,7 +78,6 @@ export default function ChatScreen() {
         };
         fetchChatThreads();
     }, [chatThreads]);
-
     const memoizedListingsData = useMemo(
         () => Object.values(readableChatThreads),
         [readableChatThreads]
@@ -212,7 +214,7 @@ export default function ChatScreen() {
                             }}>
                             <Image
                                 source={{ uri: item.images }}
-                                style={{ width: 100, height: 100 }}
+                                style={{ width: 100, height: 100, borderRadius: 10 }}
                             />
                             <View
                                 style={{

@@ -45,7 +45,7 @@ export default function ListingPopup({ listing }) {
     const [profileImage, setProfileImage] = useState("");
 
     // TODO: Auto update for saving listings
-    // const [globalReload, setGlobalReload] = useStore((state) => [state.globalReload, state.setGlobalReload]);
+    const [globalReload, setGlobalReload] = useStore((state) => [state.globalReload, state.setGlobalReload]);
 
 
     const router = useRouter();
@@ -72,10 +72,12 @@ export default function ListingPopup({ listing }) {
         if (!chatId) {
             chatId = await createChatThread(listing.user, getUserID());
         }
-    
-        if (chatId)
-            router.push({pathname: "(chat)/ConversationsScreen", params: {chatId: chatId}} );
-        else   
+
+        if (chatId) {
+            setGlobalReload(true);
+            router.push({ pathname: "(chat)/ConversationsScreen", params: { chatId: chatId } });
+        }
+        else
             console.log("Error creating chat thread");
     };
 
@@ -169,7 +171,7 @@ export default function ListingPopup({ listing }) {
                             marginBottom: "2%",
                         }}
                     />
-                    <Text>{"$" + listing.price + " - " + listingTitle}</Text>
+                    <Text style={{ paddingLeft: 10, fontSize: 13 }}>{"$" + listing.price + " - " + listingTitle}</Text>
                 </View>
             </TouchableOpacity>
 

@@ -2,6 +2,7 @@ import {
     Text,
     View,
     TouchableOpacity,
+    StatusBar,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import styles from "../(aux)/StyleSheet.js";
@@ -13,9 +14,11 @@ import { addMessage, readChat, createChatThread, getChatThreadId, getUsersInChat
 import { ref, push, set, get } from "firebase/database";
 import { getUserID } from "../../backend/dbFunctions.js";
 import { getUsernameByID } from "../../backend/api/user.js";
+import SquareHeader from "../../components/SquareHeader.js";
+import { Ionicons } from '@expo/vector-icons';
 
 export default function Conversations() {
-    const {chatId} = useLocalSearchParams();
+    const { chatId } = useLocalSearchParams();
     const [messages, setMessages] = useState([]);
     // const [chatId, setChatId] = useState("");
     const [yourUsername, setYourUsername] = useState("");
@@ -40,7 +43,7 @@ export default function Conversations() {
             }
         };
         fetchChatData();
-    }, [chatId]); 
+    }, [chatId, messages]);
 
 
     const onSend = useCallback((messages = []) => {
@@ -72,12 +75,30 @@ export default function Conversations() {
     }, [chatId])
 
     return (
-        <SafeAreaView style={{flex:1, backgroundColor: "#fff"}}>
-            <View>
-                <TouchableOpacity onPress={() => router.push("(home)/Chat")}>
-                    <Text>&lt; Back</Text>
+        <SafeAreaView style={{ flex: 1, backgroundColor: styles.colors.lightColor }}>
+            <StatusBar barStyle={"light-content"} />
+            <SquareHeader height={80} />
+            <View
+                style={{
+                    flexDirection: "row",
+                    paddingHorizontal: "5%",
+                    width: "100%",
+                    justifyContent: "center",
+                    backgroundColor: styles.colors.darkColor,
+                    height: 68
+                }}>
+                <TouchableOpacity
+                    onPress={() => router.push("(home)/Chat")}
+                    style={{ marginLeft: "-6.5%" }}>
+                    <Ionicons name="chevron-back" size={32} color="white" />
                 </TouchableOpacity>
-                <Text style={styles.chatHeader}>{theirUsername}</Text>
+
+                <View style={{ alignItems: "center", width: "80%" }}>
+                    <Text
+                        style={[styles.postListingHeader, { color: styles.colors.lightColor }]}>
+                        {theirUsername}
+                    </Text>
+                </View>
             </View>
             <GiftedChat
                 messages={messages}
