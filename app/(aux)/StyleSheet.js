@@ -198,10 +198,12 @@ const styles = StyleSheet.create({
     },
     scanningModalContainer: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'rgba(255, 255, 255, 0.8)',
-        borderRadius: 10,
+        justifyContent: "center",
+        alignItems: "center",
+        width: "95%",
+        margin: 10,
+        backgroundColor: "rgba(255, 255, 255, 0.8)",
+        borderRadius: 30,
         padding: 20,
     },
 });

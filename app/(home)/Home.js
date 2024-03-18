@@ -38,6 +38,10 @@ export default function HomeScreen() {
         state.setGlobalReload,
     ]);
 
+    const [isImageLoading, setIsImageLoading] = useStore((state) => [
+        state.isImageLoading,
+        state.setIsImageLoading,
+    ]);
     let timerId;
 
     const fetchListings = async () => {
@@ -267,6 +271,7 @@ export default function HomeScreen() {
                 }}>
                 {/* <ActivityIndicator size="large" color={styles.colors.darkAccentColor} /> */}
                 {/* <Text style={{ marginTop: 10 }}>Hang tight... checking images for inappropriate content...</Text> */}
+                {/* <ScanningModal loading={isImageLoading} /> */}
                 <ScanningModal loading={true} />
             </View>
             {/* Scrollable view displaying all the listings */}
