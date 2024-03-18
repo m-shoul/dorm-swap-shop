@@ -253,21 +253,22 @@ export default function HomeScreen() {
                         <SearchBarHeader handleSearch={handleSearch} />
                     </View>
                     <FilterPopup handleFiltering={handleFiltering} />
-                    <View
-                        style={{
-                            position: "absolute",
-                            backgroundColor: styles.colors.lightColor,
-                            opacity: 1,
-                            right: 0,
-                            top: 630,
-                        }}>
-                        {/* <ActivityIndicator size="large" color={styles.colors.darkAccentColor} /> */}
-                        {/* <Text style={{ marginTop: 10 }}>Hang tight... checking images for inappropriate content...</Text> */}
-                        <ScanningModal loading={true} />
-                    </View>
                 </View>
             </Animated.View>
-
+            <View
+                style={{
+                    position: "absolute",
+                    backgroundColor: styles.colors.lightColor,
+                    opacity: 1,
+                    right: 0,
+                    top: 650,
+                    zIndex: 2,
+                    width: "100%",
+                }}>
+                {/* <ActivityIndicator size="large" color={styles.colors.darkAccentColor} /> */}
+                {/* <Text style={{ marginTop: 10 }}>Hang tight... checking images for inappropriate content...</Text> */}
+                <ScanningModal loading={true} />
+            </View>
             {/* Scrollable view displaying all the listings */}
             <FlatList
                 data={Object.values(memoizedListingsData)}
