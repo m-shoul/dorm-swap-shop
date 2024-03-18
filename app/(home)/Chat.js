@@ -13,15 +13,15 @@ import { getUserProfileImage, getUsernameByID } from "../../backend/api/user.js"
 import { getUserID } from "../../backend/dbFunctions.js";
 import styles from "../(aux)/StyleSheet.js";
 import { Ionicons } from "@expo/vector-icons";
-// import { HeaderComponent } from "../components/headerComponent.js";
+import { useStore } from "../global";
 
 export default function ChatScreen() {
-
     const [isLoading, setIsLoading] = useState(true); // State to track if the listings are loading
     const [chatThreads, setChatThreads] = useState([]);
     const [readableChatThreads, setReadableChatThreads] = useState([]);
     const [fullData, setFullData] = useState([]);
     const [refreshing, setRefreshing] = useState(false);
+    const [globalReload, setGlobalReload] = useStore((state) => [state.globalReload, state.setGlobalReload]);
 
     useEffect(() => {
         // setRefreshing(true);
@@ -32,11 +32,13 @@ export default function ChatScreen() {
         getChatsByUser(getUserID()).then((chatThreads) => {
             setChatThreads(chatThreads);
             setFullData(chatThreads);
-
-        }).then(() => { setIsLoading(false); })
+            setGlobalReload(false);
+        }).then(() => {
+            setIsLoading(false);
+        })
         //setIsLoading(false);
         // console.log("*starting useEffect* Chat threads: ", chatThreads);
-    }, []);
+    }, [globalReload]);
 
 
     useEffect(() => {
@@ -53,9 +55,8 @@ export default function ChatScreen() {
 
                 if (chatData && 'messages' in chatData) {
                     messageList = await readChat(chatData.chatId);
-                    if (messageList.length > 0) {
-                        message = messageList[messageList.length - 1].text;
-                        // console.log("*chatThreads update useEffect* Most recent message: " + message);
+                    if (messageList.messages.length > 0) {
+                        message = messageList.messages[0].text;
                     } else {
                         console.log(
                             "*chatThreads update useEffect* Chat thread has no messages."
@@ -78,6 +79,7 @@ export default function ChatScreen() {
         };
         fetchChatThreads();
     }, [chatThreads]);
+
     const memoizedListingsData = useMemo(
         () => Object.values(readableChatThreads),
         [readableChatThreads]
@@ -222,7 +224,7 @@ export default function ChatScreen() {
                                     justifyContent: "center",
                                     paddingLeft: "3%",
                                 }}>
-                                {/* <Text style={{ fontWeight: "bold" }}>{"$" + item.price + " - " + item.title}</Text> */}
+
                                 <Text style={{ fontWeight: "bold" }}>
                                     {typeof item.name === "string"
                                         ? item.name
