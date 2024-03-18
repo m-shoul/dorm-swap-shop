@@ -52,7 +52,11 @@ const styles = StyleSheet.create({
     },
     chatHeader: {
         // paddingTop: "10%",
-        margin: "15%",
+        //margin: "15%",
+        display: "flex",
+        flexDirection: "row",
+        backgroundColor: "#112D4E",
+        color: "#F9F7F7",
         fontWeight: "bold",
         fontSize: SmallHeadText,
         alignContent: "center",

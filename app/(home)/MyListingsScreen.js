@@ -167,12 +167,12 @@ const MyListingsScreen = ({ navigation }) => {
                                 {Array.isArray(item.images) ? (
                                     <Image
                                         source={{ uri: item.images[0] }}
-                                        style={{ width: 100, height: 100 }}
+                                        style={{ width: 100, height: 100, borderRadius: 10 }}
                                     />
                                 ) : (
                                     <Image
                                         source={{ uri: item.images }}
-                                        style={{ width: 100, height: 100 }}
+                                        style={{ width: 100, height: 100, borderRadius: 10 }}
                                     />
                                 )}
 
