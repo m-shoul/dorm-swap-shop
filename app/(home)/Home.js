@@ -262,17 +262,20 @@ export default function HomeScreen() {
             <View
                 style={{
                     position: "absolute",
-                    backgroundColor: styles.colors.lightColor,
-                    opacity: 1,
+
+                    opacity: 10,
                     right: 0,
-                    top: 650,
+                    top: 660,
                     zIndex: 2,
-                    width: "100%",
+                    width: "97%",
+                    marginRight: "1.5%",
+                    borderRadius: 30,
+                    fontWeight: "bold",
                 }}>
                 {/* <ActivityIndicator size="large" color={styles.colors.darkAccentColor} /> */}
                 {/* <Text style={{ marginTop: 10 }}>Hang tight... checking images for inappropriate content...</Text> */}
-                {/* <ScanningModal loading={isImageLoading} /> */}
-                <ScanningModal loading={true} />
+                <ScanningModal loading={isImageLoading} />
+                {/* <ScanningModal loading={true} /> */}
             </View>
             {/* Scrollable view displaying all the listings */}
             <FlatList

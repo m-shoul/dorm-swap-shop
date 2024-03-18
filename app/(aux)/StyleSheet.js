@@ -200,11 +200,14 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        width: "95%",
-        margin: 10,
-        backgroundColor: "rgba(255, 255, 255, 0.8)",
-        borderRadius: 30,
-        padding: 20,
+
+        flexDirection: "row",
+        alignItems: "center",
+        backgroundColor: "#F9F7F7",
+        borderRadius: 20,
+        paddingLeft: 30,
+        paddingRight: 30,
+        padding: 15,
     },
 });
 export default styles;
