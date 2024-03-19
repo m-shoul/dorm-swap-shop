@@ -24,6 +24,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import * as ImagePicker from "expo-image-picker";
 import { ShadowedView } from 'react-native-fast-shadow';
 import { RegExpMatcher, TextCensor, englishDataset, englishRecommendedTransformers, asteriskCensorStrategy } from "obscenity";
+import { useStore } from "../global.js";
 
 export default function EditProfile() {
     const [user, setUser] = useState(null);
@@ -32,6 +33,8 @@ export default function EditProfile() {
     const [fname, setFname] = useState("");
     const [lname, setLname] = useState("");
     const [profileImageUrl, setProfileImageUrl] = useState(null);
+
+    const [setGlobalReload] = useStore((state) => [state.setGlobalReload]);
 
     const fetchUserData = async () => {
         try {
@@ -69,11 +72,6 @@ export default function EditProfile() {
     useEffect(() => {
         fetchUserData();
     }, []);
-
-    // const profileImageUrl = user?.public?.profileImage;
-
-    // console.log(user);
-    // console.log("on editing user data page");
 
     const matcher = new RegExpMatcher({
         ...englishDataset.build(),
@@ -251,7 +249,7 @@ export default function EditProfile() {
                             borderRadius={40}
                             href="Profile"
                             press={async () =>
-                                await updateUser(username, fname, lname)
+                                {await updateUser(username, fname, lname), setGlobalReload(true)}
                             }
                             titleStyle={[styles.boldtext, { color: "white" }]}
                         />

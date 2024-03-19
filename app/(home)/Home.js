@@ -6,7 +6,10 @@ import {
     RefreshControl,
     ActivityIndicator,
 } from "react-native";
-import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
+import {
+    SafeAreaView,
+    useSafeAreaInsets,
+} from "react-native-safe-area-context";
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import { getAllListings } from "../../backend/api/listing";
 import styles from "../(aux)/StyleSheet";
@@ -16,6 +19,8 @@ import { getUsernameByID } from "../../backend/api/user";
 import FilterPopup from "../../components/FilterPopup";
 import SquareHeader from "../../components/SquareHeader";
 import AdPopup from "../../components/AdPopup";
+import { useStore } from "../global";
+import ScanningModal from "../../components/ScanningModal";
 
 export default function HomeScreen() {
     const scrollOffsetY = useRef(new Animated.Value(0)).current;
@@ -28,6 +33,15 @@ export default function HomeScreen() {
     const [selectedListing, setSelectedListing] = useState(null); // State to store the selected listing
     const [refreshing, setRefreshing] = useState(false);
 
+    const [globalReload, setGlobalReload] = useStore((state) => [
+        state.globalReload,
+        state.setGlobalReload,
+    ]);
+
+    const [isImageLoading, setIsImageLoading] = useStore((state) => [
+        state.isImageLoading,
+        state.setIsImageLoading,
+    ]);
     let timerId;
 
     const fetchListings = async () => {
@@ -37,6 +51,7 @@ export default function HomeScreen() {
             const listingsData = await getAllListings();
             setFullData(listingsData);
             setListingsData(listingsData);
+            setGlobalReload(false);
             setRefreshing(false);
             setIsLoading(false);
         } catch (error) {
@@ -54,7 +69,7 @@ export default function HomeScreen() {
         return () => {
             clearTimeout(timerId);
         };
-    }, []);
+    }, [globalReload]);
 
     const memoizedListingsData = useMemo(
         () => Object.values(listingsData),
@@ -109,7 +124,9 @@ export default function HomeScreen() {
         }
         const filteredData = await Promise.all(
             Object.values(fullData).map(async (listing) => {
-                if (containsFiltering(listing, category, condition, activePrice)) {
+                if (
+                    containsFiltering(listing, category, condition, activePrice)
+                ) {
                     return listing;
                 }
             })
@@ -132,17 +149,19 @@ export default function HomeScreen() {
                 priceMatch = parseFloat(price) < 10;
                 break;
             case "$$":
-                priceMatch = parseFloat(price) >= 10 && parseFloat(price) <= 100;
+                priceMatch =
+                    parseFloat(price) >= 10 && parseFloat(price) <= 100;
                 break;
             case "$$$":
                 priceMatch = parseFloat(price) > 100;
                 break;
         }
 
-        if ((!filteredCategory || category === filteredCategory) &&
+        if (
+            (!filteredCategory || category === filteredCategory) &&
             (!filteredCondition || condition === filteredCondition) &&
-            priceMatch) {
-
+            priceMatch
+        ) {
             return true;
         }
 
@@ -154,18 +173,26 @@ export default function HomeScreen() {
     };
 
     const noListingsFromSearchOrFilter = () => (
-        <View style={{ marginTop: "60%", justifyContent: "center", alignItems: "center", paddingHorizontal: "15%" }}>
+        <View
+            style={{
+                marginTop: "60%",
+                justifyContent: "center",
+                alignItems: "center",
+                paddingHorizontal: "15%",
+            }}>
             <Text style={[styles.boldtext, { textAlign: "center" }]}>
                 Oops! No listings match that criteria. Refresh to clear results.
             </Text>
         </View>
-
     );
 
     if (isLoading) {
         return (
             <View style={styles.container}>
-                <ActivityIndicator size="large" color={styles.colors.darkColor} />
+                <ActivityIndicator
+                    size="large"
+                    color={styles.colors.darkColor}
+                />
             </View>
         );
     }
@@ -201,7 +228,12 @@ export default function HomeScreen() {
     const insets = useSafeAreaInsets();
 
     return (
-        <View style={{ flex: 1, backgroundColor: styles.colors.lightColor, paddingTop: insets.top }}>
+        <View
+            style={{
+                flex: 1,
+                backgroundColor: styles.colors.lightColor,
+                paddingTop: insets.top,
+            }}>
             <SquareHeader height={80} />
             <Animated.View
                 style={{
@@ -227,7 +259,24 @@ export default function HomeScreen() {
                     <FilterPopup handleFiltering={handleFiltering} />
                 </View>
             </Animated.View>
+            <View
+                style={{
+                    position: "absolute",
 
+                    opacity: 10,
+                    right: 0,
+                    top: 660,
+                    zIndex: 2,
+                    width: "97%",
+                    marginRight: "1.5%",
+                    borderRadius: 30,
+                    fontWeight: "bold",
+                }}>
+                {/* <ActivityIndicator size="large" color={styles.colors.darkAccentColor} /> */}
+                {/* <Text style={{ marginTop: 10 }}>Hang tight... checking images for inappropriate content...</Text> */}
+                <ScanningModal loading={isImageLoading} />
+                {/* <ScanningModal loading={true} /> */}
+            </View>
             {/* Scrollable view displaying all the listings */}
             <FlatList
                 data={Object.values(memoizedListingsData)}
@@ -253,11 +302,9 @@ export default function HomeScreen() {
                                     width: "50%",
                                     height: 230,
                                     paddingHorizontal: "1%",
-                                    marginBottom: "1%"
+                                    marginBottom: "1%",
                                 }}>
-                                <ListingPopup
-                                    listing={item}
-                                />
+                                <ListingPopup listing={item} />
                             </View>
                         );
                     }

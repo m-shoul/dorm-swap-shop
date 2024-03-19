@@ -7,7 +7,7 @@ import {
     StyleSheet,
     Modal,
     Animated,
-    RefreshControl
+    RefreshControl,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import SquareHeader from "../../components/SquareHeader.js";
@@ -21,6 +21,7 @@ import { getUserListings, deleteListing } from "../../backend/api/listing.js";
 import filter from "lodash.filter";
 import { SwipeListView } from "react-native-swipe-list-view";
 import { Ionicons } from '@expo/vector-icons';
+import { useStore } from "../global.js";
 
 const MyListingsScreen = ({ navigation }) => {
     const [search, setSearch] = useState("");
@@ -30,12 +31,16 @@ const MyListingsScreen = ({ navigation }) => {
     const [fullData, setFullData] = useState([]);
     const [refreshing, setRefreshing] = useState(false);
 
+    // Auto refreshing
+    const [globalReload, setGlobalReload] = useStore((state) => [state.globalReload, state.setGlobalReload]);
+
     const fetchListingData = async () => {
         try {
             const listingsData = await getUserListings();
             setFullData(listingsData);
             setListingsData(listingsData);
             console.log("Got user listings.");
+            setGlobalReload(false);
         } catch (error) {
             console.error("ERROR: Could not get user listings: ", error);
         }
@@ -43,8 +48,7 @@ const MyListingsScreen = ({ navigation }) => {
 
     useEffect(() => {
         fetchListingData();
-    }, [/*listingsData*/]); // TODO: This works, but it gets stuck in a never ending loop... work on this
-                            // the delete functionality works. Just need to focus on auto refresh.
+    }, [globalReload]);
 
     const handleItemPress = (listing) => {
         //setSelectedListing(listing);
@@ -99,17 +103,23 @@ const MyListingsScreen = ({ navigation }) => {
 
     const handleRefresh = () => {
         fetchListingData();
-    }
-    
+    };
+
     function getTruncatedDescription(item) {
         if (item && item.description && item.description.length > 10) {
-            return item.description.substring(0, 35) + '...';
+            return item.description.substring(0, 35) + "...";
         }
         return item.description;
     }
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: styles.colors.lightColor }}>
+        <SafeAreaView
+            style={{
+                flex: 1,
+                backgroundColor: styles.colors.lightColor,
+
+                paddingBottom: -33,
+            }}>
             {/* Search bar was taken from homescreen, so will not have functionality. */}
             <SquareHeader height={80} />
             <Animated.View
@@ -137,24 +147,6 @@ const MyListingsScreen = ({ navigation }) => {
                     </View>
                 </View>
             </Animated.View>
-            {/* <View
-                style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    width: "100%",
-                    backgroundColor: styles.colors.darkColor,
-                    paddingHorizontal: "5%",
-                }}>
-                <TouchableOpacity onPress={() => router.back()}>
-                    <BackButtonComponent></BackButtonComponent>
-                </TouchableOpacity>
-                <View style={{ width: "95%" }}>
-                    <SearchBarHeader
-                        animHeaderValue={animHeaderValue}
-                        handleSearch={handleSearch}
-                    />
-                </View>
-            </View> */}
             <SwipeListView
                 data={listingsData}
                 onScroll={Animated.event(
@@ -164,8 +156,7 @@ const MyListingsScreen = ({ navigation }) => {
                 bounces={true}
                 renderItem={({ item }) => {
                     return (
-                        <View
-                            key={item.id}>
+                        <View key={item.id}>
                             <View
                                 style={{
                                     backgroundColor: styles.colors.lightColor,
@@ -176,12 +167,12 @@ const MyListingsScreen = ({ navigation }) => {
                                 {Array.isArray(item.images) ? (
                                     <Image
                                         source={{ uri: item.images[0] }}
-                                        style={{ width: 100, height: 100 }}
+                                        style={{ width: 100, height: 100, borderRadius: 10 }}
                                     />
                                 ) : (
                                     <Image
                                         source={{ uri: item.images }}
-                                        style={{ width: 100, height: 100 }}
+                                        style={{ width: 100, height: 100, borderRadius: 10 }}
                                     />
                                 )}
 
@@ -200,12 +191,17 @@ const MyListingsScreen = ({ navigation }) => {
                 refreshControl={
                     <RefreshControl
                         refreshing={refreshing}
-                        onRefresh={handleRefresh} // Handle refresh event
+                        onRefresh={handleRefresh}
                     />
                 }
                 ItemSeparatorComponent={() => (
                     <View style={{ alignItems: "center" }}>
-                        <View style={[styles.dividerLine, { marginBottom: 10, marginTop: 10 }]} />
+                        <View
+                            style={[
+                                styles.dividerLine,
+                                { marginBottom: 10, marginTop: 10 },
+                            ]}
+                        />
                     </View>
                 )}
                 renderHiddenItem={({ item }) => (
@@ -223,7 +219,6 @@ const MyListingsScreen = ({ navigation }) => {
                                 justifyContent: "center",
                             }}
                             onPress={() => {
-                                //handle editing the listing
                                 handleItemPress(item)
                             }}>
                             <Ionicons name="pencil" size={24} color="black" />
@@ -236,11 +231,15 @@ const MyListingsScreen = ({ navigation }) => {
                                 justifyContent: "center",
                             }}
                             onPress={() => {
-                                // Handle the "Delete" action
                                 deleteListing(item.listingId);
+                                setGlobalReload(true);
                                 alert("Deleted");
                             }}>
-                            <Ionicons name="trash-outline" size={32} color="black" />
+                            <Ionicons
+                                name="trash-outline"
+                                size={32}
+                                color="black"
+                            />
                         </TouchableOpacity>
                     </View>
                 )}
@@ -248,7 +247,7 @@ const MyListingsScreen = ({ navigation }) => {
                 rightOpenValue={-150}
                 keyExtractor={(item) => item.listingId}
                 contentContainerStyle={{
-                    paddingBottom: "15%",
+                    paddingBottom: "25%",
                 }}
                 scrollEventThrottle={10}
                 style={{

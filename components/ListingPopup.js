@@ -33,6 +33,7 @@ import { createChatThread, getChatThreadId } from "../backend/api/chat.js";
 import CachedImage from "expo-cached-image";
 import { Ionicons } from '@expo/vector-icons';
 import { getUserID } from "../backend/dbFunctions.js";
+import { useStore } from "../app/global.js";
 
 export default function ListingPopup({ listing }) {
     const [selectedImage, setSelectedImage] = useState(null);
@@ -42,6 +43,10 @@ export default function ListingPopup({ listing }) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [username, setUsername] = useState("");
     const [profileImage, setProfileImage] = useState("");
+
+    // TODO: Auto update for saving listings
+    const [globalReload, setGlobalReload] = useStore((state) => [state.globalReload, state.setGlobalReload]);
+
 
     const router = useRouter();
 
@@ -67,10 +72,12 @@ export default function ListingPopup({ listing }) {
         if (!chatId) {
             chatId = await createChatThread(listing.user, getUserID());
         }
-    
-        if (chatId)
-            router.push({pathname: "(chat)/ConversationsScreen", params: {chatId: chatId}} );
-        else   
+
+        if (chatId) {
+            setGlobalReload(true);
+            router.push({ pathname: "(chat)/ConversationsScreen", params: { chatId: chatId } });
+        }
+        else
             console.log("Error creating chat thread");
     };
 
@@ -164,7 +171,7 @@ export default function ListingPopup({ listing }) {
                             marginBottom: "2%",
                         }}
                     />
-                    <Text>{"$" + listing.price + " - " + listingTitle}</Text>
+                    <Text style={{ paddingLeft: 10, fontSize: 13 }}>{"$" + listing.price + " - " + listingTitle}</Text>
                 </View>
             </TouchableOpacity>
 

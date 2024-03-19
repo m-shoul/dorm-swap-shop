@@ -106,36 +106,43 @@ export default function FilterPopup({ handleFiltering }) {
                                 justifyContent: "space-evenly",
                                 marginBottom: "6%"
                             }}>
-                                <Button
-                                    width="30%"
-                                    backgroundColor={activePrice === "$" ? activeColor : defaultColor}
-                                    title="$"
-                                    alignItems="center"
-                                    justifyContent="center"
-                                    borderRadius={25}
-                                    press={() => setActivePrice('$')}
-                                    titleStyle={styles.buttonText}
-                                />
-                                <Button
-                                    width="30%"
-                                    backgroundColor={activePrice === "$$" ? activeColor : defaultColor}
-                                    title="$$"
-                                    alignItems="center"
-                                    justifyContent="center"
-                                    borderRadius={25}
-                                    press={() => setActivePrice('$$')}
-                                    titleStyle={styles.buttonText}
-                                />
-                                <Button
-                                    width="30%"
-                                    backgroundColor={activePrice === "$$$" ? activeColor : defaultColor}
-                                    title="$$$"
-                                    alignItems="center"
-                                    justifyContent="center"
-                                    borderRadius={25}
-                                    press={() => setActivePrice('$$$')}
-                                    titleStyle={styles.buttonText}
-                                />
+                                <View style={{ width: '30%' }}>
+                                    <Button
+                                        // width="30%"
+                                        backgroundColor={activePrice === "$" ? activeColor : defaultColor}
+                                        title="$"
+                                        alignItems="center"
+                                        justifyContent="center"
+                                        borderRadius={25}
+                                        press={() => setActivePrice('$')}
+                                        titleStyle={styles.buttonText}
+                                    />
+                                    <Text style={{ textAlign: 'center' }}> under $10 </Text>
+                                </View>
+                                <View style={{ width: '30%' }}>
+                                    <Button
+                                        backgroundColor={activePrice === "$$" ? activeColor : defaultColor}
+                                        title="$$"
+                                        alignItems="center"
+                                        justifyContent="center"
+                                        borderRadius={25}
+                                        press={() => setActivePrice('$$')}
+                                        titleStyle={styles.buttonText}
+                                    />
+                                    <Text style={{ textAlign: 'center' }}>$10 to $100</Text>
+                                </View>
+                                <View style={{ width: '30%' }}>
+                                    <Button
+                                        backgroundColor={activePrice === "$$$" ? activeColor : defaultColor}
+                                        title="$$$"
+                                        alignItems="center"
+                                        justifyContent="center"
+                                        borderRadius={25}
+                                        press={() => setActivePrice('$$$')}
+                                        titleStyle={styles.buttonText}
+                                    />
+                                    <Text style={{ textAlign: 'center' }}>Over $100</Text>
+                                </View>
                             </View>
 
 
@@ -186,7 +193,7 @@ export default function FilterPopup({ handleFiltering }) {
                                 <Button
                                     width="40%"
                                     backgroundColor="#B3B3B3"
-                                    title="Cancel"
+                                    title="Clear"
                                     alignItems="center"
                                     justifyContent="center"
                                     borderRadius={25}

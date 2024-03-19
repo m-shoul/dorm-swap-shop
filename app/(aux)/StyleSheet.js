@@ -52,7 +52,11 @@ const styles = StyleSheet.create({
     },
     chatHeader: {
         // paddingTop: "10%",
-        margin: "15%",
+        //margin: "15%",
+        display: "flex",
+        flexDirection: "row",
+        backgroundColor: "#112D4E",
+        color: "#F9F7F7",
         fontWeight: "bold",
         fontSize: SmallHeadText,
         alignContent: "center",
@@ -194,11 +198,16 @@ const styles = StyleSheet.create({
     },
     scanningModalContainer: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'rgba(255, 255, 255, 0.8)',
-        borderRadius: 10,
-        padding: 20,
+        justifyContent: "center",
+        alignItems: "center",
+
+        flexDirection: "row",
+        alignItems: "center",
+        backgroundColor: "#F9F7F7",
+        borderRadius: 20,
+        paddingLeft: 30,
+        paddingRight: 30,
+        padding: 15,
     },
 });
 export default styles;
