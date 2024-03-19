@@ -113,7 +113,6 @@ export default function Conversations() {
                 </View>
             </View>
             <GiftedChat
-
                 renderAvatar={renderAvatar}
                 messages={messages}
                 onSend={messages => onSend(messages)}
@@ -122,8 +121,9 @@ export default function Conversations() {
                     name: yourUsername,
                     avatar: "../../assets/logos/logoV2.png"
                 }}
-                renderInputToolbar={() => (
+                renderInputToolbar={(props) => (
                     <InputToolbar
+                        {...props}
                         containerStyle={{
                             backgroundColor: "#F5F5F5",
                             paddingHorizontal: 12,
