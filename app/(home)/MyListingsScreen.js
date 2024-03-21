@@ -1,11 +1,7 @@
 import {
     Text,
     View,
-    TouchableWithoutFeedback,
     TouchableOpacity,
-    FlatList,
-    StyleSheet,
-    Modal,
     Animated,
     RefreshControl,
 } from "react-native";
@@ -23,13 +19,11 @@ import { SwipeListView } from "react-native-swipe-list-view";
 import { Ionicons } from '@expo/vector-icons';
 import { useStore } from "../global.js";
 
-const MyListingsScreen = ({ navigation }) => {
-    const [search, setSearch] = useState("");
-    const [selectedListing, setSelectedListing] = useState(null);
+const MyListingsScreen = () => {
     const [showProfile, setShowProfile] = useState(false);
     const [listingsData, setListingsData] = useState([]);
     const [fullData, setFullData] = useState([]);
-    const [refreshing, setRefreshing] = useState(false);
+    const refreshing = false;
 
     // Auto refreshing
     const [globalReload, setGlobalReload] = useStore((state) => [state.globalReload, state.setGlobalReload]);
@@ -51,7 +45,6 @@ const MyListingsScreen = ({ navigation }) => {
     }, [globalReload]);
 
     const handleItemPress = (listing) => {
-        //setSelectedListing(listing);
         console.log(listing.listingId);
         router.push({
             pathname: "EditListingScreen",
@@ -120,7 +113,6 @@ const MyListingsScreen = ({ navigation }) => {
 
                 paddingBottom: -33,
             }}>
-            {/* Search bar was taken from homescreen, so will not have functionality. */}
             <SquareHeader height={80} />
             <Animated.View
                 style={{

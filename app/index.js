@@ -35,7 +35,7 @@ export default function LoginScreen() {
     const auth = getAuth();
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     const handleLogin = async () => {
-        //Check that user fills out form
+        // Check that user fills out form
         if (!email && !password) {
             setErrorMessage("Form Empty");
             setErrorMessage2("Form Empty");
@@ -87,11 +87,6 @@ export default function LoginScreen() {
         }
     };
 
-    // Figure out what saves the userId when I go to the register screen
-    // we can use this to sage the state of the user and automatically log in
-    // so user doesnt have to log in every time.
-    console.log("*** IN APP - Login Screen " + getUserID());
-
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
             <SafeAreaView style={styles.background}>
@@ -128,19 +123,6 @@ export default function LoginScreen() {
                             {errorMessage}
                         </Text>
                     )}
-
-                    {/* <TextInput
-                        style={passwordStyle}
-                        secureTextEntry={true}
-                        value={password}
-                        onChangeText={(value) => setPassword(value)}
-                        placeholder="Password"
-                        ref={passwordInputRef}
-                        blurOnSubmit={false}
-                        onSubmitEditing={() => {
-                            Keyboard.dismiss();
-                        }}
-                    /> */}
 
                     <View
                         style={[
@@ -182,7 +164,6 @@ export default function LoginScreen() {
                                 alignItems: "center",
                                 padding: 1,
                                 paddingBottom: 20,
-
                                 right: 10,
                                 top: 8,
                             }}
@@ -234,9 +215,6 @@ export default function LoginScreen() {
                     </Text>
                 </View>
 
-                {/* <TouchableOpacity style={styles.loginBtn} onPress={handleLogin}>
-                    <Text style={styles.buttonText}>Login</Text>
-                </TouchableOpacity> */}
                 <Button
                     width="80%"
                     backgroundColor={styles.colors.darkAccentColor}
