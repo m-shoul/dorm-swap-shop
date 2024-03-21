@@ -176,7 +176,7 @@ export default function ChatScreen() {
         <SafeAreaView
             style={{ flex: 1, backgroundColor: styles.colors.lightColor }}>
             {/* Search bar was taken from homescreen, so will not have functionality. */}
-            <SquareHeader height={120} />
+            <SquareHeader height={80} />
             <Animated.View
                 style={{
                     zIndex: 1,
@@ -306,8 +306,8 @@ export default function ChatScreen() {
                 style={{
                     flex: 1,
                     backgroundColor: styles.colors.lightColor,
-                    //paddingTop: 85,
-                    marginTop: 68,
+                    paddingTop: 85,
+                    //marginTop: 68,
                 }}
                 onScroll={Animated.event(
                     [{ nativeEvent: { contentOffset: { y: scrollOffsetY } } }],
