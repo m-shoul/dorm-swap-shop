@@ -1,12 +1,8 @@
 import { database } from '../config/firebaseConfig';
-import { get, child, ref, set, push, getDatabase, remove, update } from 'firebase/database';
+import { get, ref, set, push, getDatabase, remove, update } from 'firebase/database';
 import { getUserID } from '../dbFunctions';
 import { getAuth, verifyBeforeUpdateEmail, updatePassword, reauthenticateWithCredential, EmailAuthProvider } from 'firebase/auth';
 import { getStorage, ref as sRef, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { getAllListings } from './listing';
-
-// ^^ Import whatever we need for this...
-// NOTE************ add additional parameters when needed!!! This is just a baseline.
 
 // Function to create a new user
 export function createUser(fname, lname, username, email, userId) {
@@ -129,7 +125,7 @@ export async function getUsernameByID(userId) {
         return "Unknown User";
 }
 
-// Get the users saved listings. // TODO
+// Get the users saved listings
 export async function getUserSavedListings() {
     const userId = getUserID();
     const usersRef = ref(database, "dorm_swap_shop/users/");
@@ -228,8 +224,6 @@ export async function deleteUserFromRealtimeDatabase(userId) {
 }
 
 // Function to update a user
-// TODO: Pass additional parameters in as needed
-// and create views for the data in the edit profile
 export async function updateUser(username, fname, lname) {
     console.log("getting user id");
     const userId = await getUserPushIdFromFirebaseRealtime();
@@ -355,4 +349,3 @@ export async function reauthenticate(currentPassword) {
 
     reauthenticateWithCredential(user, cred);
 }
-

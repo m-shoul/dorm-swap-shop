@@ -6,12 +6,10 @@ import {
     StatusBar
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import {
     getAuth,
     sendPasswordResetEmail,
-    fetchSignInMethodsForEmail,
 } from "firebase/auth";
 import styles from "../(aux)/StyleSheet";
 import { router } from "expo-router";
@@ -87,8 +85,6 @@ export default function ResetPasswordScreen() {
                 }}
             >
                 <ResetPasswordIcon />
-
-
             </ShadowedView>
 
             <View>
@@ -117,16 +113,12 @@ export default function ResetPasswordScreen() {
                     <Text
                         style={{
                             color: "red",
-                            //paddingBottom: 10,
                         }}>
                         {errorMessageEmail}
                     </Text>
                 )}
             </View>
-
-            {/* <TouchableOpacity style={styles.loginBtn} onPress={handleReset}>
-                <Text style={styles.buttonText}>Reset Password</Text>
-            </TouchableOpacity> */}
+            
             <Button
                 width="80%"
                 backgroundColor={styles.colors.darkAccentColor}

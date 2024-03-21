@@ -2,7 +2,6 @@ import {
     Text,
     View,
     TouchableOpacity,
-    //Image,
     TextInput,
     TouchableWithoutFeedback,
     Keyboard,
@@ -10,7 +9,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import styles from "../(aux)/StyleSheet";
 import { Image } from "expo-image";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useLocalSearchParams, router } from "expo-router";
 import { Button } from "../../components/Buttons.js";
 import RoundHeader from "../../components/RoundHeader.js";
@@ -28,7 +27,7 @@ import {
 export default function ReportScreen() {
     const { image, title } = useLocalSearchParams();
 
-    // Sending the email to the admin.
+    // Sending the email to the admin
     const [emailSent, setEmailSent] = useState(false);
     const [description, setDescription] = useState("");
 
@@ -73,16 +72,11 @@ export default function ReportScreen() {
         }
     };
 
-    // For the modal that pops up.
-    const [reportModalVisible, setReportModalVisible] = useState(false);
-
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
             <SafeAreaView style={styles.background}>
                 <RoundHeader height={230} />
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
-                    {/* Need to add in the back arrow and the 
-                        functionality of going back on click. */}
                     <TouchableOpacity onPress={() => router.back()}>
                         <Ionicons name="chevron-back" size={32} color="white" />
                     </TouchableOpacity>
@@ -139,7 +133,6 @@ export default function ReportScreen() {
                     {/* Description text field to enter what is wrong with the post */}
                     <TextInput
                         style={{
-                            //width: "80%",
                             height: 200,
                             borderRadius: 20,
                             borderWidth: 1,
@@ -160,8 +153,6 @@ export default function ReportScreen() {
                         placeholder="Description"
                     />
                 </View>
-
-                {/* 2.) Flags the listing as reported... (not yet implemented) */}
 
                 <Button
                     backgroundColor={styles.colors.darkAccentColor}

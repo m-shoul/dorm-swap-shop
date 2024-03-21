@@ -2,7 +2,6 @@ import {
     Text,
     View,
     FlatList,
-    //Image,
     ActivityIndicator,
     RefreshControl,
 } from "react-native";
@@ -16,11 +15,10 @@ import { useStore } from "../global.js";
 
 export default function ProfileScreen() {
     const [savedListings, setSavedListings] = useState([]);
-    const [selectedListing, setSelectedListing] = useState(null);
     const [user, setUser] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
-    const [refreshing, setRefreshing] = useState(false);
-
+    const refreshing = false;
+    
     const [globalReload, setGlobalReload] = useStore((state) => [state.globalReload, state.setGlobalReload]);
 
     const fetchSavedListings = async () => {
@@ -51,16 +49,10 @@ export default function ProfileScreen() {
         fetchUserData();
     }, [globalReload]);
 
-    const handleItemPress = (listing) => {
-        setSelectedListing(listing);
-    };
-
     const handleRefresh = () => {
         fetchSavedListings();
         fetchUserData();
     }
-
-    // console.log(user);
 
     const noSavedListings = () => (
         <Text style={{ textAlign: 'center' }}>No saved listings</Text>

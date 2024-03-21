@@ -1,5 +1,5 @@
 import { database } from '../config/firebaseConfig';
-import { get, child, ref, set, push } from 'firebase/database';
+import { get, ref, set, push } from 'firebase/database';
 import { getUsernameByID } from './user';
 
 // Function to create a new chat thread

@@ -1,6 +1,6 @@
 import { Text, View, TouchableOpacity, } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styles from "../(aux)/StyleSheet.js";
 import { router } from "expo-router";
 import { logoutUser } from "../../backend/dbFunctions.js";
@@ -9,8 +9,6 @@ import SettingsLogo from "../../assets/svg/settings_logo.js";
 import { ShadowedView } from 'react-native-fast-shadow';
 import ChangeEmail from "../../components/ChangeEmailPopup.js";
 import ChangePassword from "../../components/ChangePasswordPopup.js";
-
-// New icons
 import { Ionicons } from "@expo/vector-icons";
 
 export default function SettingsScreen() {
@@ -33,57 +31,16 @@ export default function SettingsScreen() {
                     },
                 }}
             >
-
                 <SettingsLogo />
             </ShadowedView>
-
-
-
-
-            {/* <View
-                style={{
-                    marginTop: "5%",
-                    height: "5%",
-                    width: "100%",
-                    marginBottom: "15%",
-                }}>
-                <SearchBarHeader animHeaderValue={animHeaderValue} handleSearch={handleSearch} />
-            </View> */}
             <View style={{ width: "100%" }}>
                 <View style={{ flexDirection: "row", marginLeft: "5%" }}>
                     <TouchableOpacity
-                        //onPress={() => router.push("(settings)/DeleteAccountScreen")}
-                        style={{
-                            marginBottom: "5%",
-                            marginTop: "3%",
-                            flexDirection: "row",
-                        }}>
-                        <Ionicons
-                            name="notifications-outline"
-                            size={32}
-                            color="black"
-                        />
-                        <Text
-                            style={[
-                                styles.normaltext,
-                                { marginTop: 7, paddingLeft: "2%" },
-                            ]}>
-                            Notifications
-                        </Text>
-                    </TouchableOpacity>
-                </View>
-                <View
-                    style={[
-                        styles.dividerLine,
-                        { width: "83%", marginLeft: "7%" },
-                    ]}
-                />
-                <View style={{ flexDirection: "row", marginLeft: "5%" }}>
-                    <TouchableOpacity
+
                         onPress={() => router.push("(settings)/AboutScreen")}
                         style={{
                             marginBottom: "5%",
-                            marginTop: "-3%",
+                            marginTop: "3%",
                             flexDirection: "row",
                         }}>
                         <Ionicons

@@ -125,7 +125,6 @@ export default function ChangeEmail() {
 
                             <View>
                                 <Button
-                                    //width="40%"
                                     backgroundColor={styles.colors.darkAccentColor}
                                     title="Submit"
                                     alignItems="center"

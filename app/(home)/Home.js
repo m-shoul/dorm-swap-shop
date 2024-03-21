@@ -7,7 +7,6 @@ import {
     ActivityIndicator,
 } from "react-native";
 import {
-    SafeAreaView,
     useSafeAreaInsets,
 } from "react-native-safe-area-context";
 import React, { useState, useEffect, useRef, useMemo } from "react";
@@ -30,7 +29,6 @@ export default function HomeScreen() {
     const [error, setError] = useState(null); // State to track errors
     const [fullData, setFullData] = useState([]); // State to store the full listings data
 
-    const [selectedListing, setSelectedListing] = useState(null); // State to store the selected listing
     const [refreshing, setRefreshing] = useState(false);
 
     const [globalReload, setGlobalReload] = useStore((state) => [
@@ -168,10 +166,6 @@ export default function HomeScreen() {
         return false;
     };
 
-    const handleItemPress = (listing) => {
-        setSelectedListing(listing);
-    };
-
     const noListingsFromSearchOrFilter = () => (
         <View
             style={{
@@ -203,7 +197,6 @@ export default function HomeScreen() {
                 <Text style={styles.text}>
                     Error fetching listings: {error}
                 </Text>
-                {/* remove error details in full release */}
             </View>
         );
     }
@@ -243,7 +236,6 @@ export default function HomeScreen() {
                 <View
                     style={{
                         flexDirection: "row",
-                        //alignItems: "center",
                         justifyContent: "center",
                         width: "100%",
                         paddingHorizontal: "2%",
@@ -272,12 +264,8 @@ export default function HomeScreen() {
                     borderRadius: 30,
                     fontWeight: "bold",
                 }}>
-                {/* <ActivityIndicator size="large" color={styles.colors.darkAccentColor} /> */}
-                {/* <Text style={{ marginTop: 10 }}>Hang tight... checking images for inappropriate content...</Text> */}
                 <ScanningModal loading={isImageLoading} />
-                {/* <ScanningModal loading={true} /> */}
             </View>
-            {/* Scrollable view displaying all the listings */}
             <FlatList
                 data={Object.values(memoizedListingsData)}
                 keyExtractor={(item) => item.listingId}
@@ -312,7 +300,7 @@ export default function HomeScreen() {
                 numColumns={2}
                 contentContainerStyle={{
                     paddingBottom: "15%",
-                    paddingTop: 85, // Add this line
+                    paddingTop: 85,
                 }}
                 style={{
                     flex: 1,

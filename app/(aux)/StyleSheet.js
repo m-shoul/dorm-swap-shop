@@ -11,7 +11,6 @@ headerText = width / HeaderFontSize;
 normalText = width / NormalFontSize;
 hintText = width / HintFontSize;
 SmallHeadText = width / SmallerHeaderFontSize;
-//let insets = useSafeAreaInsets();
 
 const styles = StyleSheet.create({
     // Colors go from lightest to darkest
@@ -24,21 +23,18 @@ const styles = StyleSheet.create({
     boldtext: { fontSize: normalText, fontWeight: "bold" },
     normaltext: { fontSize: normalText },
     SmallerHeaderFontSize: { fontSize: SmallHeadText, color: "#F9F7F7" },
-
     background: {
         flex: 1,
         alignItems: "center",
         backgroundColor: "#F9F7F7",
     },
-
     forms: {
         width: "80%",
     },
-
     deleteBtn: {
         width: "80%",
-        borderRadius: 25, //was 25
-        height: 40, //was 50
+        borderRadius: 25,
+        height: 40,
         alignItems: "center",
         justifyContent: "center",
 
@@ -51,8 +47,6 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
     },
     chatHeader: {
-        // paddingTop: "10%",
-        //margin: "15%",
         display: "flex",
         flexDirection: "row",
         backgroundColor: "#112D4E",
@@ -69,34 +63,30 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     createUserInput: {
-        marginBottom: "6%", //was 20
-        borderWidth: 1, //was 1
+        marginBottom: "6%",
+        borderWidth: 1,
         borderRadius: 10,
         fontSize: normalText,
-        //was 7
-        paddingTop: "2%", //was 7
-        paddingBottom: "2%", //was 7
+        paddingTop: "2%",
+        paddingBottom: "2%",
         paddingLeft: "6%",
         backgroundColor: "white",
         borderColor: "#B3B3B3",
     },
-
     createUserInputError: {
-        marginBottom: "6%", //was 20
-        borderWidth: 1, //was 1
+        marginBottom: "6%", 
+        borderWidth: 1, 
         borderRadius: 10,
         fontSize: normalText,
-        paddingTop: "2%", //was 7
-        paddingBottom: "2%", //was 7
+        paddingTop: "2%", 
+        paddingBottom: "2%", 
         paddingLeft: "6%",
         backgroundColor: "white",
         borderColor: "red",
     },
     postListingHeader: {
         paddingTop: "0%",
-        //was 20
         fontWeight: "bold",
-
         alignContent: "center",
         textAlign: "center",
         fontSize: SmallHeadText,
@@ -109,30 +99,28 @@ const styles = StyleSheet.create({
         marginBottom: "6%",
         height: 40,
     },
-
     postListingDescription: {
         height: 75,
-        borderWidth: 1, //was 1
+        borderWidth: 1,
         borderRadius: 20,
         fontSize: normalText,
-        paddingTop: "2%", //was 7
-        paddingBottom: "2%", //was 7
+        paddingTop: "2%", 
+        paddingBottom: "2%", 
         paddingLeft: "6%",
         paddingRight: "6%",
         backgroundColor: "white",
         borderColor: "#B3B3B3",
         marginBottom: "-3%",
     },
-
     postListingDescriptionError: {
         height: 75,
         paddingRight: "6%",
         paddingLeft: "6%",
-        borderWidth: 1, //was 1
+        borderWidth: 1, 
         borderRadius: 20,
         fontSize: normalText,
-        paddingTop: "2%", //was 7
-        paddingBottom: "2%", //was 7
+        paddingTop: "2%", 
+        paddingBottom: "2%",
         backgroundColor: "white",
         borderColor: "red",
         marginBottom: "-3%",
@@ -142,13 +130,12 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         borderWidth: 1,
         borderColor: "red",
-        paddingTop: "2%", //was 7
-        paddingBottom: "2%", //was 7
+        paddingTop: "2%", //
+        paddingBottom: "2%",
         paddingLeft: "6%",
         marginBottom: "6%",
     },
     loginHeader: {
-        //paddingTop: "45%",
         margin: "5%",
         fontWeight: "bold",
         fontSize: headerText,
@@ -156,7 +143,7 @@ const styles = StyleSheet.create({
         textAlign: "center",
     },
     registerHeader: {
-        marginBottom: "2%", //was 20
+        marginBottom: "2%",
         fontWeight: "bold",
         fontSize: headerText,
         alignContent: "center",
@@ -164,7 +151,7 @@ const styles = StyleSheet.create({
     },
     resetHeader: {
         paddingTop: "35%",
-        margin: "15%", //was 20
+        margin: "15%",
         fontWeight: "bold",
         fontSize: headerText,
         alignContent: "center",
@@ -189,7 +176,6 @@ const styles = StyleSheet.create({
         marginBottom: 25,
         marginTop: 0,
     },
-
     searchContainer: {
         backgroundColor: "transparent",
         borderBottomColor: "transparent",
@@ -200,9 +186,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-
         flexDirection: "row",
-        alignItems: "center",
         backgroundColor: "#F9F7F7",
         borderRadius: 20,
         paddingLeft: 30,

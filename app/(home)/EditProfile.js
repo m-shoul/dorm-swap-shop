@@ -3,7 +3,6 @@ import {
     View,
     TouchableOpacity,
     TextInput,
-    StyleSheet,
     TouchableWithoutFeedback,
     Keyboard,
 } from "react-native";
@@ -18,7 +17,6 @@ import {
     uploadProfileImage,
     updateUser,
 } from "../../backend/api/user.js";
-import CachedImage from "expo-cached-image";
 import { Button } from "../../components/Buttons.js";
 import { ScrollView } from "react-native-gesture-handler";
 import * as ImagePicker from "expo-image-picker";
@@ -142,8 +140,6 @@ export default function EditProfile() {
                                 {profileImageUrl ? (
                                     <Image
                                         source={{ uri: profileImageUrl }}
-                                        // cacheKey={`user-${user.id}-profileImage`}
-                                        // cacheKey={shortHash(user.id)} // this might be user.userId
                                         style={{
                                             width: "100%",
                                             height: "100%",

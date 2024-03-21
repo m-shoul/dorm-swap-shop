@@ -6,9 +6,7 @@ import {
     TouchableOpacity,
     ScrollView,
     KeyboardAvoidingView,
-    Dimensions,
-    ActivityIndicator,
-    Alert,
+    Dimensions
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Image } from "expo-image";
@@ -25,7 +23,6 @@ import { Button } from "../../components/Buttons.js";
 import RoundHeader from "../../components/RoundHeader.js";
 import ExpandComponent from "../../assets/svg/expand_icon.js";
 import { ShadowedView } from "react-native-fast-shadow";
-import ScanningModal from "../../components/ScanningModal.js";
 import { useStore } from "../global.js";
 
 // Obscenity
@@ -46,7 +43,6 @@ export default function CreatePostScreen() {
     const [condition, setCondition] = useState(null);
     const [location, setLocation] = useState("");
     const [loading, setLoading] = useState(false);
-
     const [setGlobalReload] = useStore((state) => [state.setGlobalReload]);
 
     //For pickers so they can get the right text size
@@ -401,8 +397,6 @@ export default function CreatePostScreen() {
 
                                 // Check if the input value matches the required format
                                 if (!regex.test(value)) {
-                                    // If not, correct it
-
                                     // Check if the input value contains more than one period
                                     let periodCount = (value.match(/\./g) || [])
                                         .length;
@@ -435,8 +429,6 @@ export default function CreatePostScreen() {
                                     // Combine the parts back into the corrected value
                                     value = parts.join(".");
                                 }
-
-                                // Update the price state
                                 setPrice(value);
                             }}
                             value={price}
@@ -484,13 +476,13 @@ export default function CreatePostScreen() {
                                 ref={categoryInputRef}
                                 style={{
                                     inputIOS: {
-                                        paddingTop: "2%", //was 7
+                                        paddingTop: "2%",
                                         paddingLeft: "5%",
-                                        fontSize: normalText, // Change this to your desired font size
+                                        fontSize: normalText,
                                     },
                                     inputAndroid: {
                                         marginTop: -8,
-                                        fontSize: normalText, // Change this to your desired font size
+                                        fontSize: normalText,
                                     },
                                     iconContainer: {
                                         top: 5,
@@ -540,13 +532,13 @@ export default function CreatePostScreen() {
                                 items={conditions}
                                 style={{
                                     inputIOS: {
-                                        paddingTop: "2%", //was 7
+                                        paddingTop: "2%",
                                         paddingLeft: "5%",
-                                        fontSize: normalText, // Change this to your desired font size
+                                        fontSize: normalText,
                                     },
                                     inputAndroid: {
                                         marginTop: -8,
-                                        fontSize: normalText, // Change this to your desired font size
+                                        fontSize: normalText,
                                     },
                                     iconContainer: {
                                         top: 5,
@@ -628,7 +620,6 @@ export default function CreatePostScreen() {
                                 press={handleValidation}
                                 titleStyle={styles.buttonText}
                             />
-                            {/* Just for testing purposes 10/6/23 */}
                         </View>
                     </View>
                 </ScrollView>

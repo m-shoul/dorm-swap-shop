@@ -157,20 +157,7 @@ export default function ChangePassword() {
                                     ]}>
                                     Current Password:{" "}
                                 </Text>
-                                {/* <TextInput
-                                    style={currentPasswordStyle}
-                                    secureTextEntry={true}
-                                    value={currentPassword}
-                                    onChangeText={(value) => {
-                                        if (value.trim().length > 0) {
-                                            filterOutBadWords("currentPassword", value);
-                                        } else {
-                                            setCurrentPassword("");
-                                        }
-                                    }}
-                                    placeholder="Enter your current password"
-                                    placeholderTextColor="#585858"
-                                /> */}
+
                                 <View
                                     style={[
                                         currentPasswordStyle,
@@ -266,23 +253,6 @@ export default function ChangePassword() {
                                     ]}>
                                     New Password:{" "}
                                 </Text>
-                                {/* <TextInput
-                                    style={newPasswordStyle}
-                                    secureTextEntry={true}
-                                    value={newPassword}
-                                    onChangeText={(value) => {
-                                        if (value.trim().length > 0) {
-                                            filterOutBadWords(
-                                                "newPassword",
-                                                value
-                                            );
-                                        } else {
-                                            setNewPassword("");
-                                        }
-                                    }}
-                                    placeholder="Enter your new password"
-                                    placeholderTextColor="#585858"
-                                /> */}
 
                                 <View
                                     style={[
@@ -376,7 +346,6 @@ export default function ChangePassword() {
 
                             <View>
                                 <Button
-                                    //width="40%"
                                     backgroundColor={
                                         styles.colors.darkAccentColor
                                     }
