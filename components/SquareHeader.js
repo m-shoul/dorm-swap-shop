@@ -12,14 +12,7 @@ export default function SquareHeader({ height }) {
                 right: 0,
                 height: height,
                 backgroundColor: styles.colors.darkColor,
-                // shadowColor: "#000",
-                // shadowOffset: {
-                //     width: 0,
-                //     height: 4,
-                // },
-                // shadowOpacity: 0.8,
-                // shadowRadius: 3.84,
-                // elevation: 5,
-            }}></View>
+            }}>
+        </View>
     );
 }

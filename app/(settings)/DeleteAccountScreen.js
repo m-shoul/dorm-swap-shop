@@ -9,11 +9,8 @@ import { router } from "expo-router";
 import { deleteUser } from "../../backend/api/user.js";
 import RoundHeader from "../../components/RoundHeader.js";
 import DeleteComponent from "../../assets/svg/delete_icon.js";
-// New icons
 import { Ionicons } from '@expo/vector-icons';
 import { ShadowedView } from 'react-native-fast-shadow';
-
-console.log("******************** On delete screen *******************");
 
 export default function DeleteAccount() {
     return (
@@ -23,10 +20,6 @@ export default function DeleteAccount() {
                 <TouchableOpacity onPress={() => router.back()}>
                     <Ionicons name="chevron-back" size={32} color="white" />
                 </TouchableOpacity>
-
-                {/* <View>
-                    <Text style={[styles.loginHeader, { color: styles.colors.lightColor }]}>Delete Account</Text>
-                </View> */}
             </View>
 
             <ShadowedView
@@ -46,7 +39,6 @@ export default function DeleteAccount() {
             </ShadowedView>
 
             <View style={{ flex: 1, justifyContent: "center", alignItems: "center", width: "80%" }}>
-
                 <Text style={{ fontWeight: "bold", fontSize: 25, marginBottom: "10%", textAlign: "center" }}>
                     Are you sure you want to{'\n'}delete your account?
                 </Text>

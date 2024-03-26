@@ -18,52 +18,11 @@ import { router } from "expo-router";
 import { ShadowedView } from 'react-native-fast-shadow';
 
 export default function ProfileHeader({ user }) {
-    const [isLoading, setIsLoading] = useState(true);
-
-    // const fetchUserData = async () => {
-    //     try {
-    //         const user = await getAllUserDataForProfile();
-    //         setUser(user);
-    //         setIsLoading(false);
-    //     } catch (error) {
-    //         console.error("ERROR: Could not get user data: ", error);
-    //         setIsLoading(false);
-    //     }
-    // }
-
-    // const [profileImage, setProfileImage] = useState(null);
-    // const pickProfileImage = async () => {
-    //     console.log("Picking profile image.");
-    //     let result = await ImagePicker.launchImageLibraryAsync({
-    //         mediaTypes: ImagePicker.MediaTypeOptions.Images,
-    //         allowsEditing: true,
-    //         selectionLimit: 1,
-    //         aspect: [1, 1],
-    //         quality: 0.1
-    //     });
-
-    //     if (result.assets && result.assets.length > 0) {
-    //         const selectedProfileImage = result.assets[0];
-    //         setProfileImage(selectedProfileImage.uri);
-    //         uploadProfileImage(selectedProfileImage.uri);
-    //     }
-    // };
-
     const profileImageUrl = user?.public?.profileImage;
 
-    // useEffect(() => {
-    //     fetchUserData();
-    // }, []);
-
     return (
-        //flex: 1, marginBottom: "10%"
         <View>
-            {/* <RefreshControl
-                refreshing={isLoading}
-                onRefresh={fetchUserData}
-            /> */}
             <RoundHeader height={140} />
-            {/* <View style={{ marginBottom: "5%", alignItems: "center" }}> */}
             <TouchableOpacity
                 style={{
                     alignSelf: "stretch",
@@ -104,7 +63,6 @@ export default function ProfileHeader({ user }) {
                             <Image
                                 source={{ uri: profileImageUrl }}
                                 // cacheKey={`user-${user.id}-profileImage`}
-                                // cacheKey={shortHash(user.id)} // this might be user.userId
                                 style={{
                                     width: "100%",
                                     height: "100%",
@@ -126,24 +84,10 @@ export default function ProfileHeader({ user }) {
                 </ShadowedView>
             </View >
 
-
             <View style={{ width: "100%", alignItems: "center" }}>
                 <Text style={styles.boldtext}>{user && user.public && `${user.public.fname} ${user.public.lname}`}</Text>
             </View>
-            {/* <View>
-        <Text style={styles.boldtext}>{user && user.public && `${"Rating: " + user.public.rating}`}</Text>
-    </View> */}
-            {/* <View>
-        <RatingComponent
-            source={require("../assets/svg/list_images.js")}
-            style={{
-                width: "100%",
-                height: "100%",
-                stroke: "black",
-                strokeWidth: 0.25,
-            }}
-        />
-    </View> */}
+
             <View
                 style={{
                     paddingTop: "5%",

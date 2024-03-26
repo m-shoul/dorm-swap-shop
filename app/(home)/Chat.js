@@ -1,6 +1,6 @@
 import {
     Text, View, TouchableWithoutFeedback, TouchableOpacity,
-    SafeAreaView, Animated, RefreshControl, ActivityIndicator, /*Image,*/
+    SafeAreaView, Animated, RefreshControl, ActivityIndicator,
 } from "react-native";
 import { Image } from "expo-image";
 import React, { useState, useEffect, useRef, useMemo } from "react";
@@ -16,11 +16,12 @@ import { Ionicons } from "@expo/vector-icons";
 import { useStore } from "../global";
 
 export default function ChatScreen() {
-    const [isLoading, setIsLoading] = useState(true); // State to track if the listings are loading
+    const [isLoading, setIsLoading] = useState(true);
     const [chatThreads, setChatThreads] = useState([]);
     const [readableChatThreads, setReadableChatThreads] = useState([]);
     const [fullData, setFullData] = useState([]);
-    const [refreshing, setRefreshing] = useState(false);
+    const refreshing = false;
+    
     const [globalReload, setGlobalReload] = useStore((state) => [state.globalReload, state.setGlobalReload]);
 
     useEffect(() => {

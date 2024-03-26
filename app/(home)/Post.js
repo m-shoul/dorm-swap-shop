@@ -7,8 +7,6 @@ import {
     ScrollView,
     KeyboardAvoidingView,
     Dimensions,
-    ActivityIndicator,
-    Alert,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Image } from "expo-image";
@@ -25,7 +23,6 @@ import { Button } from "../../components/Buttons.js";
 import RoundHeader from "../../components/RoundHeader.js";
 import ExpandComponent from "../../assets/svg/expand_icon.js";
 import { ShadowedView } from "react-native-fast-shadow";
-import ScanningModal from "../../components/ScanningModal.js";
 import { useStore } from "../global.js";
 
 // Obscenity
@@ -39,6 +36,7 @@ import {
 
 export default function CreatePostScreen() {
     const navigation = useNavigation();
+    const [imageChecker, setimageChecker] = useState(false); // Used to check if image has been chosen
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState("");
@@ -46,7 +44,6 @@ export default function CreatePostScreen() {
     const [condition, setCondition] = useState(null);
     const [location, setLocation] = useState("");
     const [loading, setLoading] = useState(false);
-
     const [setGlobalReload] = useStore((state) => [state.setGlobalReload]);
 
     //For pickers so they can get the right text size
@@ -71,6 +68,7 @@ export default function CreatePostScreen() {
         if (result.assets && result.assets.length > 0) {
             const selectedImages = result.assets.map((asset) => asset.uri);
             setImage(selectedImages);
+            setimageChecker(true); // Image has been chosen
         }
     };
 
@@ -114,6 +112,7 @@ export default function CreatePostScreen() {
     );
     const [categoryStyle, setCategoryStyle] = useState(styles.dropdownlists);
     const [conditionStyle, setConditionStyle] = useState(styles.dropdownlists);
+    const [imageStyle, setImageStyle] = useState(styles.postImageStyling);
 
     //All of the states that are used to store the error messages
     const [errorMessage, setErrorMessage] = useState("");
@@ -122,6 +121,7 @@ export default function CreatePostScreen() {
     const [errorMessageCategory, setErrorMessageCategory] = useState("");
     const [errorMessageCondition, setErrorMessageCondition] = useState("");
     const [errorMessageDescription, setErrorMessageDescription] = useState("");
+    const [errorMessageImage, setErrorMessageImage] = useState("");
 
     const titleInputRef = useRef(null);
     const priceInputRef = useRef(null);
@@ -193,7 +193,15 @@ export default function CreatePostScreen() {
         let emptyFields = 0;
         console.log(validate);
         // Validate first name field
-
+        if (!imageChecker) {
+            setErrorMessageImage("Image is required.");
+            setImageStyle(styles.postImageStylingError);
+            emptyFields++;
+            errorCount++;
+        } else {
+            setErrorMessageImage("");
+            setImageStyle(styles.postImageStyling);
+        }
         //validate last name field
         if (!title) {
             setErrorMessageTitle("Title is required.");
@@ -349,18 +357,23 @@ export default function CreatePostScreen() {
                                         }}
                                     />
                                 ) : (
-                                    <ListImagesComponent
-                                        style={{
-                                            width: 200,
-                                            height: 28,
-                                        }}
-                                    />
+                                    <ListImagesComponent style={imageStyle} />
                                 )}
                             </TouchableOpacity>
                         </ShadowedView>
-                        <Text style={{ textAlign: "center" }}>
-                            Upload Images
-                        </Text>
+                        {errorMessageImage ? (
+                            <Text
+                                style={{
+                                    textAlign: "center",
+                                    color: "red",
+                                }}>
+                                {errorMessageImage}
+                            </Text>
+                        ) : (
+                            <Text style={{ textAlign: "center" }}>
+                                Upload Images
+                            </Text>
+                        )}
                     </View>
 
                     <View style={styles.forms}>
@@ -401,8 +414,6 @@ export default function CreatePostScreen() {
 
                                 // Check if the input value matches the required format
                                 if (!regex.test(value)) {
-                                    // If not, correct it
-
                                     // Check if the input value contains more than one period
                                     let periodCount = (value.match(/\./g) || [])
                                         .length;
@@ -435,8 +446,6 @@ export default function CreatePostScreen() {
                                     // Combine the parts back into the corrected value
                                     value = parts.join(".");
                                 }
-
-                                // Update the price state
                                 setPrice(value);
                             }}
                             value={price}
@@ -484,13 +493,13 @@ export default function CreatePostScreen() {
                                 ref={categoryInputRef}
                                 style={{
                                     inputIOS: {
-                                        paddingTop: "2%", //was 7
+                                        paddingTop: "2%",
                                         paddingLeft: "5%",
-                                        fontSize: normalText, // Change this to your desired font size
+                                        fontSize: normalText,
                                     },
                                     inputAndroid: {
                                         marginTop: -8,
-                                        fontSize: normalText, // Change this to your desired font size
+                                        fontSize: normalText,
                                     },
                                     iconContainer: {
                                         top: 5,
@@ -540,13 +549,13 @@ export default function CreatePostScreen() {
                                 items={conditions}
                                 style={{
                                     inputIOS: {
-                                        paddingTop: "2%", //was 7
+                                        paddingTop: "2%",
                                         paddingLeft: "5%",
-                                        fontSize: normalText, // Change this to your desired font size
+                                        fontSize: normalText,
                                     },
                                     inputAndroid: {
                                         marginTop: -8,
-                                        fontSize: normalText, // Change this to your desired font size
+                                        fontSize: normalText,
                                     },
                                     iconContainer: {
                                         top: 5,
@@ -628,7 +637,6 @@ export default function CreatePostScreen() {
                                 press={handleValidation}
                                 titleStyle={styles.buttonText}
                             />
-                            {/* Just for testing purposes 10/6/23 */}
                         </View>
                     </View>
                 </ScrollView>

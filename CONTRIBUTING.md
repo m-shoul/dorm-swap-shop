@@ -29,7 +29,3 @@ Instances of abusive, harassing, or otherwise unacceptable behavior may be repor
 5. Commit and push the changes to the remote repository.
 6. Submit a pull request to merge changes into main.
 7. One of the Dorm Swap and Shop [contributors](https://github.com/m-shoul/dorm-swap-shop?tab=readme-ov-file#contributors) will review the changes and approve accordingly.
-
-
-
-

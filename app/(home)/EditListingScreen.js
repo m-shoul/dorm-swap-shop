@@ -4,14 +4,11 @@ import {
     TextInput,
     View,
     TouchableOpacity,
-    // SafeAreaView,
     ScrollView,
     KeyboardAvoidingView,
-    //Image,
     Dimensions,
 } from "react-native";
 import {
-    SafeAreaView,
     useSafeAreaInsets,
 } from "react-native-safe-area-context";
 import { Image } from "expo-image";
@@ -22,11 +19,10 @@ import * as ImagePicker from "expo-image-picker";
 import ListImagesComponent from "../../assets/svg/list_images.js";
 import RNPickerSelect from "react-native-picker-select";
 import { updateListing, getIndividualListing } from "../../backend/api/listing.js";
-import { router, useNavigation } from "expo-router";
+import { router, useNavigation, useLocalSearchParams } from "expo-router";
 import { Button } from '../../components/Buttons.js';
 import RoundHeader from "../../components/RoundHeader.js";
 import ExpandComponent from "../../assets/svg/expand_icon.js";
-import { useLocalSearchParams } from "expo-router";
 import { RegExpMatcher, TextCensor, englishDataset, englishRecommendedTransformers, asteriskCensorStrategy } from "obscenity";
 import { ShadowedView } from 'react-native-fast-shadow';
 import { useStore } from "../global.js";
@@ -37,17 +33,14 @@ export default function EditListings() {
     // Auto refresh
     const [setGlobalReload] = useStore((state) => [state.setGlobalReload]);
 
-    // States
     const navigation = useNavigation();
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState("");
     const [category, setCategory] = useState(null);
     const [condition, setCondition] = useState(null);
-    const [location, setLocation] = useState("");
     const [isLoading, setIsLoading] = useState(true);
 
-    // Styling 
     const [titleStyle, setTitleStyle] = useState(styles.createUserInput);
     const [priceStyle, setPriceStyle] = useState(styles.createUserInput);
     const [descriptionStyle, setDescriptionStyle] = useState(
@@ -62,10 +55,8 @@ export default function EditListings() {
     const categoryInputRef = useRef(null);
     const conditionInputRef = useRef(null);
 
-    // Padding
     const insets = useSafeAreaInsets();
 
-    //For pickers so they can get the right text size
     const { width } = Dimensions.get("window");
     const NormalFontSize = 20;
     const normalText = width / NormalFontSize;

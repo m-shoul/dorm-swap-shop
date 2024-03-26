@@ -1,13 +1,11 @@
-import { View, Text, Pressable, Modal, TouchableOpacity, Dimensions, Platform, TouchableWithoutFeedback } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { View, Text, Modal, TouchableOpacity, Platform, TouchableWithoutFeedback } from "react-native";
 import FilterComponent from "../assets/svg/filter_icon";
 import ExpandComponent from "../assets/svg/expand_icon";
 import styles from "../app/(aux)/StyleSheet";
 import { Button } from "../components/Buttons";
 import RNPickerSelect from "react-native-picker-select";
 import { categories, conditions } from "./Enums";
-import React, { useState, useRef, useEffect } from "react";
-import { normalizeText } from "@rneui/base";
+import React, { useState, useRef } from "react";
 
 export default function FilterPopup({ handleFiltering }) {
     const [modalVisible, setModalVisible] = useState(false);
@@ -18,8 +16,6 @@ export default function FilterPopup({ handleFiltering }) {
     const categoryInputRef = useRef(null);
     const defaultColor = "#B3B3B3";
     const activeColor = styles.colors.darkAccentColor;
-
-    const insets = useSafeAreaInsets();
 
     return (
         <View style={{ justifyContent: "center" }}>
@@ -108,7 +104,6 @@ export default function FilterPopup({ handleFiltering }) {
                             }}>
                                 <View style={{ width: '30%' }}>
                                     <Button
-                                        // width="30%"
                                         backgroundColor={activePrice === "$" ? activeColor : defaultColor}
                                         title="$"
                                         alignItems="center"
@@ -144,7 +139,6 @@ export default function FilterPopup({ handleFiltering }) {
                                     <Text style={{ textAlign: 'center' }}>Over $100</Text>
                                 </View>
                             </View>
-
 
                             <Text style={[styles.normaltext, { marginBottom: "2%" }]}>Condition</Text>
                             <View style={styles.dropdownlists}>

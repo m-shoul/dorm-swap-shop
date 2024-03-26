@@ -6,7 +6,7 @@ import {
     ScrollView,
     StatusBar,
 } from "react-native";
-import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useState } from "react";
 import styles from "../(aux)/StyleSheet";
 import { router } from "expo-router";
@@ -18,7 +18,6 @@ import HeadShot from "../../components/HeadShot.js";
 import SquareHeader from "../../components/SquareHeader.js";
 import { Ionicons } from '@expo/vector-icons';
 import { ShadowedView } from 'react-native-fast-shadow';
-import symbolicateStackTrace from "react-native/Libraries/Core/Devtools/symbolicateStackTrace";
 
 export default function About() {
     const [modalVisible, setModalVisible] = useState(false);
@@ -81,10 +80,7 @@ export default function About() {
                         <SimpleLogo width={133} height={143} margin={-20} />
                     </ShadowedView>
                 </View>
-
-
-
-
+                
                 <View style={{ paddingHorizontal: "10%" }}>
                     <View style={{ marginBottom: "5%" }}>
                         <Text
@@ -232,7 +228,6 @@ export default function About() {
                             Contact Us
                         </Text>
                         <View style={{ flexDirection: "row" }}>
-                            {/* <EmailComponent /> */}
                             <Ionicons name="mail-outline" size={32} color="black" />
                             <Text
                                 style={[

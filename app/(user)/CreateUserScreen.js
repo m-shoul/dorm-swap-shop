@@ -13,7 +13,6 @@ import {
 } from "react-native";
 import { Entypo } from "@expo/vector-icons";
 import {
-    SafeAreaView,
     useSafeAreaInsets,
 } from "react-native-safe-area-context";
 import { Checkbox } from "expo-checkbox";
@@ -24,10 +23,8 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 import { createUser } from "../../backend/api/user.js";
 import { router } from "expo-router";
-import { getUserID } from "../../backend/dbFunctions.js";
 import { Button } from "../../components/Buttons.js";
 import termsOfService from "../../assets/termsOfService.js";
-import { set } from "firebase/database";
 import RoundHeader from "../../components/RoundHeader.js";
 import SimpleLogo from "../../assets/svg/simpleLogo_icon.js";
 import { ShadowedView } from "react-native-fast-shadow";
@@ -45,8 +42,7 @@ export default function CreateUserScreen() {
     const [lastName, setLastName] = useState("");
     const [username, setUsername] = useState("");
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-    const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
-        useState(false);
+    const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
     const [agreeTermsOfService, setAgreeTermsOfService] = useState("");
 
@@ -56,8 +52,6 @@ export default function CreateUserScreen() {
     const [passwordCheck, setPasswordCheck] = useState("");
 
     //All of the states that are used to store the styles
-    const [agreeTermsOfServiceStyle, setAgreeTermsOfServiceStyle] =
-        useState("");
     const [firstNameStyle, setFirstNameStyle] = useState(
         styles.createUserInput
     );
@@ -77,8 +71,7 @@ export default function CreateUserScreen() {
     const [errorMessageEmail, setErrorMessageEmail] = useState("");
     const [errorMessagePassword, setErrorMessagePassword] = useState("");
     const [errorMessageConfirm, setErrorMessageConfirm] = useState("");
-    const [errorMessageTermsOfService, setErrorMessageTermsOfService] =
-        useState("");
+    const [errorMessageTermsOfService, setErrorMessageTermsOfService] = useState("");
     const firstNameInputRef = useRef(null);
     const lastNameInputRef = useRef(null);
     const userNameInputRef = useRef(null);
@@ -91,8 +84,8 @@ export default function CreateUserScreen() {
     const { width } = Dimensions.get("window");
     normalText = width / 20;
     let validate = 0;
+    
     useEffect(() => {
-        // Trigger form validation when name, email, or password changes
         if (validate == 1) {
             validateForm();
         }
@@ -214,11 +207,8 @@ export default function CreateUserScreen() {
             createUser(firstName, lastName, username, email, userId);
             router.push("/");
         }
-        // Set the errors and update form validity
-        // setErrors(errors);
     };
 
-    // const auth = initializeAuth();
     const auth = getAuth();
 
     // Creates a new user account
@@ -249,9 +239,6 @@ export default function CreateUserScreen() {
         }
     };
     const insets = useSafeAreaInsets();
-
-    // Called when 'registration' button is pressed to create the user into
-    // Firebase auth, write the data to Realtime db, and direct user to login
 
     const matcher = new RegExpMatcher({
         ...englishDataset.build(),
@@ -656,10 +643,10 @@ export default function CreateUserScreen() {
                         </TouchableOpacity>
                         <Button
                             width="80%"
-                            borderRadius={25} //was 25
+                            borderRadius={25}
                             alignItems="center"
                             justifyContent="center"
-                            marginTop="5%" //was 40
+                            marginTop="5%"
                             marginBottom="10%"
                             marginRight="20%"
                             marginLeft="10%"

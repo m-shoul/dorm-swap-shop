@@ -1,21 +1,5 @@
-import { database, auth } from './config/firebaseConfig';
-import { get, child, ref } from 'firebase/database';
+import { auth } from './config/firebaseConfig';
 import { signOut } from "firebase/auth";
-
-// Read data from database
-export async function readData(path) {
-    return await get(child(ref(database), path))
-        .then((snapshot) => {
-            if (snapshot.exists()) {
-                return snapshot.val();
-            } else {
-                console.log("No data available");
-            }
-        })
-        .catch((error) => {
-            console.error(error);
-        });
-}
 
 export const getUserID = () => {
     var uid = "User ID not found";
@@ -30,8 +14,3 @@ export const getUserID = () => {
 export const logoutUser = () => {
     signOut(auth)
 }
-
-
-
-
-

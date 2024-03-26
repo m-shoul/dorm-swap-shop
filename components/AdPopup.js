@@ -1,4 +1,4 @@
-import { View, Text, Pressable, Modal, TouchableOpacity, Dimensions, Platform } from "react-native";
+import { View, Text, Modal, TouchableOpacity } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import styles from "../app/(aux)/StyleSheet";
 import SquareHeader from "./SquareHeader.js";
@@ -7,14 +7,8 @@ import { Ionicons } from '@expo/vector-icons';
 
 export default function AdPopup() {
     const [modalVisible, setModalVisible] = useState(false);
-    const [category, setCategory] = useState(null);
-    const [condition, setCondition] = useState(null);
-    const [activePrice, setActivePrice] = useState(null);
-    const conditionInputRef = useRef(null);
-    const categoryInputRef = useRef(null);
-    const defaultColor = "#B3B3B3";
-    const activeColor = styles.colors.darkAccentColor;
     const insets = useSafeAreaInsets();
+
     return (
         <View style={{ justifyContent: "center" }}>
             <TouchableOpacity onPress={() => setModalVisible(true)}>
@@ -30,7 +24,6 @@ export default function AdPopup() {
                             justifyContent: "space-between",
                             paddingHorizontal: 20,
                             backgroundColor: styles.colors.darkColor,
-                            //paddingTop: "-8%",
                         }}>
                         <TouchableOpacity
                             style={{ flex: 1 }}

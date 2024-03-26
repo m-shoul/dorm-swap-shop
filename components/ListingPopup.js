@@ -5,12 +5,10 @@ import {
     Text,
     View,
     TouchableOpacity,
-    //Image,
     Dimensions,
     Alert,
 } from "react-native";
 import {
-    SafeAreaView,
     useSafeAreaInsets,
 } from "react-native-safe-area-context";
 import ListImagesComponent from "../assets/svg/list_images.js";
@@ -20,15 +18,13 @@ import styles from "../app/(aux)/StyleSheet.js";
 import Swiper from "react-native-swiper";
 import FavouriteIcon from "../assets/svg/favourite_icon.js";
 import SavedListingIcon from "../assets/svg/savedListing_icon.js";
-import { useRouter, useLocalSearchParams } from "expo-router";
-import { saveListing, unsaveListing } from "../backend/api/listing.js";
+import { useRouter } from "expo-router";
 import { Button } from "./Buttons.js";
 import {
-    getUser,
     getUserProfileImage,
     getUsernameByID,
 } from "../backend/api/user.js";
-import { isListingFavorited } from "../backend/api/listing.js";
+import { saveListing, unsaveListing, isListingFavorited} from "../backend/api/listing.js";
 import { createChatThread, getChatThreadId } from "../backend/api/chat.js";
 import CachedImage from "expo-cached-image";
 import { Ionicons } from '@expo/vector-icons';
@@ -46,7 +42,6 @@ export default function ListingPopup({ listing }) {
 
     // TODO: Auto update for saving listings
     const [globalReload, setGlobalReload] = useStore((state) => [state.globalReload, state.setGlobalReload]);
-
 
     const router = useRouter();
 
@@ -99,8 +94,6 @@ export default function ListingPopup({ listing }) {
         const favorited = await isListingFavorited(listing.listingId);
         setIsFavorited(favorited);
     };
-    const [user, setUser] = useState(null);
-    const profileImageUrl = user?.public?.profileImage;
 
     useEffect(() => {
         fetchUser();
@@ -110,8 +103,6 @@ export default function ListingPopup({ listing }) {
     const timestamp = new Date(listing.timestamp).toLocaleDateString("en-US");
     const [nestedModalImage, setNestedModalImage] = useState(false);
 
-    var shortHash = require("short-hash");
-
     const insets = useSafeAreaInsets();
 
     return (
@@ -120,7 +111,6 @@ export default function ListingPopup({ listing }) {
                 <View style={{ backgroundColor: "white", borderRadius: 20 }}>
                     <TouchableOpacity
                         style={{
-                            //flex: 0,
                             position: "absolute",
                             right: "2%",
                             top: "2%",
@@ -153,7 +143,6 @@ export default function ListingPopup({ listing }) {
                         <CachedImage
                             source={{ uri: listing.images }}
                             cacheKey={`listing-${listing.id}-image`}
-                            // cacheKey={shortHash(listing.id)} // listing.listingId
                             style={{
                                 width: "100%",
                                 height: 200,
@@ -185,7 +174,6 @@ export default function ListingPopup({ listing }) {
                             justifyContent: "space-between",
                             paddingHorizontal: 20,
                             backgroundColor: styles.colors.darkColor,
-                            //paddingTop: "-8%",
                         }}>
                         <TouchableOpacity
                             style={{ flex: 1 }}
@@ -343,9 +331,7 @@ export default function ListingPopup({ listing }) {
                         <View
                             style={{
                                 position: "absolute",
-
                                 paddingLeft: "3%",
-                                //paddingTop: "3%",
                                 marginTop: "60%",
                                 flexDirection: "row",
                                 alignItems: "center",
