@@ -74,12 +74,12 @@ const styles = StyleSheet.create({
         borderColor: "#B3B3B3",
     },
     createUserInputError: {
-        marginBottom: "6%", 
-        borderWidth: 1, 
+        marginBottom: "6%",
+        borderWidth: 1,
         borderRadius: 10,
         fontSize: normalText,
-        paddingTop: "2%", 
-        paddingBottom: "2%", 
+        paddingTop: "2%",
+        paddingBottom: "2%",
         paddingLeft: "6%",
         backgroundColor: "white",
         borderColor: "red",
@@ -99,13 +99,22 @@ const styles = StyleSheet.create({
         marginBottom: "6%",
         height: 40,
     },
+
+    dropDownListsError: {
+        backgroundColor: "white",
+        borderRadius: 20,
+        borderWidth: 1,
+        borderColor: "red",
+        height: 40,
+        marginBottom: "6%",
+    },
     postListingDescription: {
         height: 75,
         borderWidth: 1,
         borderRadius: 20,
         fontSize: normalText,
-        paddingTop: "2%", 
-        paddingBottom: "2%", 
+        paddingTop: "2%",
+        paddingBottom: "2%",
         paddingLeft: "6%",
         paddingRight: "6%",
         backgroundColor: "white",
@@ -116,25 +125,16 @@ const styles = StyleSheet.create({
         height: 75,
         paddingRight: "6%",
         paddingLeft: "6%",
-        borderWidth: 1, 
+        borderWidth: 1,
         borderRadius: 20,
         fontSize: normalText,
-        paddingTop: "2%", 
+        paddingTop: "2%",
         paddingBottom: "2%",
         backgroundColor: "white",
         borderColor: "red",
         marginBottom: "-3%",
     },
-    dropDownListsError: {
-        backgroundColor: "white",
-        borderRadius: 20,
-        borderWidth: 1,
-        borderColor: "red",
-        paddingTop: "2%", //
-        paddingBottom: "2%",
-        paddingLeft: "6%",
-        marginBottom: "6%",
-    },
+
     loginHeader: {
         margin: "5%",
         fontWeight: "bold",
@@ -192,6 +192,17 @@ const styles = StyleSheet.create({
         paddingLeft: 30,
         paddingRight: 30,
         padding: 15,
+    },
+
+    postImageStyling: {
+        width: 200,
+        height: 28,
+    },
+    postImageStylingError: {
+        width: 200,
+        height: 28,
+        borderColor: "red",
+        borderRadius: 20,
     },
 });
 export default styles;
