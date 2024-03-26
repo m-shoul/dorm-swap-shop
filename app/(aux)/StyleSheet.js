@@ -99,6 +99,15 @@ const styles = StyleSheet.create({
         marginBottom: "6%",
         height: 40,
     },
+
+    dropDownListsError: {
+        backgroundColor: "white",
+        borderRadius: 20,
+        borderWidth: 1,
+        borderColor: "red",
+        height: 40,
+        marginBottom: "6%",
+    },
     postListingDescription: {
         height: 75,
         borderWidth: 1,
@@ -125,16 +134,7 @@ const styles = StyleSheet.create({
         borderColor: "red",
         marginBottom: "-3%",
     },
-    dropDownListsError: {
-        backgroundColor: "white",
-        borderRadius: 20,
-        borderWidth: 1,
-        borderColor: "red",
-        paddingTop: "2%", //
-        paddingBottom: "2%",
-        paddingLeft: "6%",
-        marginBottom: "6%",
-    },
+
     loginHeader: {
         margin: "5%",
         fontWeight: "bold",

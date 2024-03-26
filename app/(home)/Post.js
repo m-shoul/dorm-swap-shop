@@ -269,7 +269,6 @@ export default function CreatePostScreen() {
             setErrorMessageCategory("");
             setErrorMessageCondition("");
             setErrorMessageDescription("");
-            setErrorMessageImage("");
         } else {
             setErrorMessage("");
         }
