@@ -6,7 +6,7 @@ import {
     TouchableOpacity,
     ScrollView,
     KeyboardAvoidingView,
-    Dimensions
+    Dimensions,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Image } from "expo-image";
@@ -36,6 +36,7 @@ import {
 
 export default function CreatePostScreen() {
     const navigation = useNavigation();
+    const [imageChecker, setimageChecker] = useState(false); // Used to check if image has been chosen
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState("");
@@ -67,6 +68,7 @@ export default function CreatePostScreen() {
         if (result.assets && result.assets.length > 0) {
             const selectedImages = result.assets.map((asset) => asset.uri);
             setImage(selectedImages);
+            setimageChecker(true); // Image has been chosen
         }
     };
 
@@ -110,6 +112,7 @@ export default function CreatePostScreen() {
     );
     const [categoryStyle, setCategoryStyle] = useState(styles.dropdownlists);
     const [conditionStyle, setConditionStyle] = useState(styles.dropdownlists);
+    const [imageStyle, setImageStyle] = useState(styles.postImageStyling);
 
     //All of the states that are used to store the error messages
     const [errorMessage, setErrorMessage] = useState("");
@@ -118,6 +121,7 @@ export default function CreatePostScreen() {
     const [errorMessageCategory, setErrorMessageCategory] = useState("");
     const [errorMessageCondition, setErrorMessageCondition] = useState("");
     const [errorMessageDescription, setErrorMessageDescription] = useState("");
+    const [errorMessageImage, setErrorMessageImage] = useState("");
 
     const titleInputRef = useRef(null);
     const priceInputRef = useRef(null);
@@ -189,7 +193,15 @@ export default function CreatePostScreen() {
         let emptyFields = 0;
         console.log(validate);
         // Validate first name field
-
+        if (!imageChecker) {
+            setErrorMessageImage("Image is required.");
+            setImageStyle(styles.postImageStylingError);
+            emptyFields++;
+            errorCount++;
+        } else {
+            setErrorMessageImage("");
+            setImageStyle(styles.postImageStyling);
+        }
         //validate last name field
         if (!title) {
             setErrorMessageTitle("Title is required.");
@@ -257,6 +269,7 @@ export default function CreatePostScreen() {
             setErrorMessageCategory("");
             setErrorMessageCondition("");
             setErrorMessageDescription("");
+            setErrorMessageImage("");
         } else {
             setErrorMessage("");
         }
@@ -345,18 +358,23 @@ export default function CreatePostScreen() {
                                         }}
                                     />
                                 ) : (
-                                    <ListImagesComponent
-                                        style={{
-                                            width: 200,
-                                            height: 28,
-                                        }}
-                                    />
+                                    <ListImagesComponent style={imageStyle} />
                                 )}
                             </TouchableOpacity>
                         </ShadowedView>
-                        <Text style={{ textAlign: "center" }}>
-                            Upload Images
-                        </Text>
+                        {errorMessageImage ? (
+                            <Text
+                                style={{
+                                    textAlign: "center",
+                                    color: "red",
+                                }}>
+                                {errorMessageImage}
+                            </Text>
+                        ) : (
+                            <Text style={{ textAlign: "center" }}>
+                                Upload Images
+                            </Text>
+                        )}
                     </View>
 
                     <View style={styles.forms}>
