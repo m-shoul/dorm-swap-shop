@@ -39,49 +39,86 @@ export default function ProfileHeader({ user }) {
                 marginBottom: "5%",
                 alignItems: "center",
             }}>
-                <ShadowedView
-                    style={{
-                        shadowOpacity: 0.8,
-                        shadowRadius: 20,
-                        shadowOffset: {
-                            width: 5,
-                            height: 3,
-                        },
-                        backgroundColor: "white",
-                        borderRadius: 200,
-                    }}
-                >
-                    <View
+                {Platform.OS === "ios" ? (
+                    <ShadowedView
                         style={{
-                            width: 190,
-                            height: 190,
+                            shadowOpacity: 0.8,
+                            shadowRadius: 20,
+                            shadowOffset: {
+                                width: 5,
+                                height: 3,
+                            },
+                            backgroundColor: "white",
                             borderRadius: 200,
-                            overflow: "hidden",
-                            justifyContent: "center",
-                        }}>
-                        {profileImageUrl ? (
-                            <Image
-                                source={{ uri: profileImageUrl }}
-                                // cacheKey={`user-${user.id}-profileImage`}
-                                style={{
-                                    width: "100%",
-                                    height: "100%",
-                                }}
-                            />
-                        ) : (
-                            <ListImagesComponent
-                                source={require("../assets/svg/list_images.js")}
-                                style={{
-                                    width: "100%",
-                                    height: "100%",
-                                    stroke: "black",
-                                    strokeWidth: 0.25,
-                                    borderBlockColor: "white",
-                                }}
-                            />
-                        )}
+                        }}
+                    >
+                        <View
+                            style={{
+                                width: 190,
+                                height: 190,
+                                borderRadius: 200,
+                                overflow: "hidden",
+                                justifyContent: "center",
+                            }}>
+                            {profileImageUrl ? (
+                                <Image
+                                    source={{ uri: profileImageUrl }}
+                                    // cacheKey={`user-${user.id}-profileImage`}
+                                    style={{
+                                        width: "100%",
+                                        height: "100%",
+                                    }}
+                                />
+                            ) : (
+                                <ListImagesComponent
+                                    source={require("../assets/svg/list_images.js")}
+                                    style={{
+                                        width: "100%",
+                                        height: "100%",
+                                        stroke: "black",
+                                        strokeWidth: 0.25,
+                                        borderBlockColor: "white",
+                                    }}
+                                />
+                            )}
+                        </View>
+                    </ShadowedView>
+                ) :
+
+                    <View style={{ backgroundColor: "white", borderRadius: 200 }}>
+                        <View
+                            style={{
+                                width: 190,
+                                height: 190,
+                                borderRadius: 200,
+                                overflow: "hidden",
+                                justifyContent: "center",
+                            }}>
+                            {profileImageUrl ? (
+                                <Image
+                                    source={{ uri: profileImageUrl }}
+                                    // cacheKey={`user-${user.id}-profileImage`}
+                                    style={{
+                                        width: "100%",
+                                        height: "100%",
+                                    }}
+                                />
+                            ) : (
+                                <ListImagesComponent
+                                    source={require("../assets/svg/list_images.js")}
+                                    style={{
+                                        width: "100%",
+                                        height: "100%",
+                                        stroke: "black",
+                                        strokeWidth: 0.25,
+                                        borderBlockColor: "white",
+                                    }}
+                                />
+                            )}
+                        </View>
                     </View>
-                </ShadowedView>
+
+                }
             </View >
 
             <View style={{ width: "100%", alignItems: "center" }}>

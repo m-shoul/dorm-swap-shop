@@ -332,35 +332,56 @@ export default function CreatePostScreen() {
                     }}
                     keyboardShouldPersistTaps="handled">
                     <View style={{ marginBottom: "2%" }}>
-                        <ShadowedView
-                            style={{
-                                height: 200,
-                                shadowOpacity: 0.8,
-                                shadowRadius: 40,
-                                shadowOffset: {
-                                    width: 5,
-                                    height: 3,
-                                },
-                                backgroundColor: "white",
-                                borderRadius: 20,
-                                marginBottom: "2%",
-                            }}>
-                            <TouchableOpacity onPress={() => pickImage()}>
-                                {image ? (
-                                    <Image
-                                        source={{ uri: image[0] }}
-                                        style={{
-                                            width: 200,
-                                            height: 200,
-                                            marginBottom: "2%",
-                                            borderRadius: 20,
-                                        }}
-                                    />
-                                ) : (
-                                    <ListImagesComponent style={imageStyle} />
-                                )}
-                            </TouchableOpacity>
-                        </ShadowedView>
+                        {Platform.OS === "ios" ? (
+                            <ShadowedView
+                                style={{
+                                    height: 200,
+                                    shadowOpacity: 0.8,
+                                    shadowRadius: 40,
+                                    shadowOffset: {
+                                        width: 5,
+                                        height: 3,
+                                    },
+                                    backgroundColor: "white",
+                                    borderRadius: 20,
+                                    marginBottom: "2%",
+                                }}>
+                                <TouchableOpacity onPress={() => pickImage()}>
+                                    {image ? (
+                                        <Image
+                                            source={{ uri: image[0] }}
+                                            style={{
+                                                width: 200,
+                                                height: 200,
+                                                marginBottom: "2%",
+                                                borderRadius: 20,
+                                            }}
+                                        />
+                                    ) : (
+                                        <ListImagesComponent style={imageStyle} />
+                                    )}
+                                </TouchableOpacity>
+                            </ShadowedView>
+                        ) :
+                            <View style={{ height: 200, margin: "2%" }}>
+                                <TouchableOpacity onPress={() => pickImage()}>
+                                    {image ? (
+                                        <Image
+                                            source={{ uri: image[0] }}
+                                            style={{
+                                                width: 200,
+                                                height: 200,
+                                                marginBottom: "2%",
+                                                borderRadius: 20,
+                                            }}
+                                        />
+                                    ) : (
+                                        <ListImagesComponent style={imageStyle} />
+                                    )}
+                                </TouchableOpacity>
+                            </View>
+
+                        }
                         {errorMessageImage ? (
                             <Text
                                 style={{

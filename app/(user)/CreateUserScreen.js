@@ -10,6 +10,7 @@ import {
     StatusBar,
     TouchableWithoutFeedback,
     Dimensions,
+    Platform
 } from "react-native";
 import { Entypo } from "@expo/vector-icons";
 import {
@@ -272,20 +273,30 @@ export default function CreateUserScreen() {
                 <StatusBar barStyle={"light-content"} />
                 <RoundHeader height={150} />
 
-                <ShadowedView
-                    style={{
-                        shadowOpacity: 0.8,
-                        shadowRadius: 20,
-                        shadowOffset: {
-                            width: 5,
-                            height: 3,
-                        },
-                        backgroundColor: "white",
-                        marginTop: "10%",
-                        borderRadius: 20,
-                    }}>
-                    <SimpleLogo width={119} height={119} margin={-2.1} />
-                </ShadowedView>
+
+                {Platform.OS === "ios" ? (
+                    <ShadowedView
+                        style={{
+                            shadowOpacity: 0.8,
+                            shadowRadius: 20,
+                            shadowOffset: {
+                                width: 5,
+                                height: 3,
+                            },
+                            backgroundColor: "white",
+                            marginTop: "10%",
+                            borderRadius: 20,
+                        }}>
+                        <SimpleLogo width={119} height={119} margin={-2.1} />
+                    </ShadowedView>
+                ) :
+
+                    <View style={{ marginTop: "10%" }}>
+                        <SimpleLogo width={119} height={119} />
+                    </View>
+
+                }
+
 
                 <Text style={styles.registerHeader}> Register </Text>
 

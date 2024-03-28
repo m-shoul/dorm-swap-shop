@@ -65,22 +65,28 @@ export default function About() {
                     marginTop: "12%",
                     marginBottom: "5%"
                 }}>
-                    <ShadowedView
-                        style={{
-                            backgroundColor: "white",
-                            shadowOpacity: 0.8,
-                            shadowRadius: 30,
-                            shadowOffset: {
-                                width: 5,
-                                height: 3,
-                            },
+                    {Platform.OS === "ios" ? (
+                        <ShadowedView
+                            style={{
+                                backgroundColor: "white",
+                                shadowOpacity: 0.8,
+                                shadowRadius: 30,
+                                shadowOffset: {
+                                    width: 5,
+                                    height: 3,
+                                },
 
-                        }}
-                    >
-                        <SimpleLogo width={133} height={143} margin={-20} />
-                    </ShadowedView>
+                            }}
+                        >
+                            <SimpleLogo width={133} height={143} margin={-20} />
+                        </ShadowedView>
+                    ) :
+                        <View style={{ backgroundColor: "white" }}>
+                            <SimpleLogo width={133} height={143} margin={-20} />
+                        </View>
+                    }
                 </View>
-                
+
                 <View style={{ paddingHorizontal: "10%" }}>
                     <View style={{ marginBottom: "5%" }}>
                         <Text

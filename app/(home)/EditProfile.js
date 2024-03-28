@@ -115,49 +115,86 @@ export default function EditProfile() {
                     />
 
                     <TouchableOpacity onPress={pickProfileImage}>
-                        <ShadowedView
-                            style={{
-                                shadowOpacity: 0.8,
-                                shadowRadius: 20,
-                                shadowOffset: {
-                                    width: 5,
-                                    height: 3,
-                                },
-                                backgroundColor: "white",
-                                borderRadius: 200,
-                            }}
-                        >
-                            <View
+                        {Platform.OS === "ios" ? (
+                            <ShadowedView
                                 style={{
-                                    width: 190,
-                                    height: 190,
-                                    borderRadius: 200,
-                                    overflow: "hidden",
-                                    //borderWidth: 2,
-                                    justifyContent: "center",
+                                    shadowOpacity: 0.8,
+                                    shadowRadius: 20,
+                                    shadowOffset: {
+                                        width: 5,
+                                        height: 3,
+                                    },
                                     backgroundColor: "white",
-                                }}>
-                                {profileImageUrl ? (
-                                    <Image
-                                        source={{ uri: profileImageUrl }}
-                                        style={{
-                                            width: "100%",
-                                            height: "100%",
-                                        }}
-                                    />
-                                ) : (
-                                    <ListImagesComponent
-                                        source={require("../../assets/svg/list_images.js")}
-                                        style={{
-                                            width: "100%",
-                                            height: "100%",
-                                            stroke: "black",
-                                            strokeWidth: 0.25,
-                                        }}
-                                    />
-                                )}
+                                    borderRadius: 200,
+                                }}
+                            >
+                                <View
+                                    style={{
+                                        width: 190,
+                                        height: 190,
+                                        borderRadius: 200,
+                                        overflow: "hidden",
+                                        //borderWidth: 2,
+                                        justifyContent: "center",
+                                        backgroundColor: "white",
+                                    }}>
+                                    {profileImageUrl ? (
+                                        <Image
+                                            source={{ uri: profileImageUrl }}
+                                            style={{
+                                                width: "100%",
+                                                height: "100%",
+                                            }}
+                                        />
+                                    ) : (
+                                        <ListImagesComponent
+                                            source={require("../../assets/svg/list_images.js")}
+                                            style={{
+                                                width: "100%",
+                                                height: "100%",
+                                                stroke: "black",
+                                                strokeWidth: 0.25,
+                                            }}
+                                        />
+                                    )}
+                                </View>
+                            </ShadowedView>
+                        ) :
+
+                            <View style={{ backgroundColor: "white", borderRadius: 200, }}>
+                                <View
+                                    style={{
+                                        width: 190,
+                                        height: 190,
+                                        borderRadius: 200,
+                                        overflow: "hidden",
+                                        //borderWidth: 2,
+                                        justifyContent: "center",
+                                        backgroundColor: "white",
+                                    }}>
+                                    {profileImageUrl ? (
+                                        <Image
+                                            source={{ uri: profileImageUrl }}
+                                            style={{
+                                                width: "100%",
+                                                height: "100%",
+                                            }}
+                                        />
+                                    ) : (
+                                        <ListImagesComponent
+                                            source={require("../../assets/svg/list_images.js")}
+                                            style={{
+                                                width: "100%",
+                                                height: "100%",
+                                                stroke: "black",
+                                                strokeWidth: 0.25,
+                                            }}
+                                        />
+                                    )}
+                                </View>
                             </View>
-                        </ShadowedView>
+
+                        }
                     </TouchableOpacity>
                 </View>
 
@@ -244,8 +281,7 @@ export default function EditProfile() {
                             justifyContent="center"
                             borderRadius={40}
                             href="Profile"
-                            press={async () =>
-                                {await updateUser(username, fname, lname), setGlobalReload(true)}
+                            press={async () => { await updateUser(username, fname, lname), setGlobalReload(true) }
                             }
                             titleStyle={[styles.boldtext, { color: "white" }]}
                         />

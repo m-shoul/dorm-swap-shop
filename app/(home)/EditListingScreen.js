@@ -48,6 +48,7 @@ export default function EditListings() {
     );
     const [categoryStyle, setCategoryStyle] = useState(styles.dropdownlists);
     const [conditionStyle, setConditionStyle] = useState(styles.dropdownlists);
+    const [imageStyle, setImageStyle] = useState(styles.postImageStyling);
 
     const titleInputRef = useRef(null);
     const priceInputRef = useRef(null);
@@ -178,39 +179,55 @@ export default function EditListings() {
                     }}
                     keyboardShouldPersistTaps="handled">
                     <View style={{ marginBottom: "2%" }}>
-                        <ShadowedView
-                            style={{
-                                shadowOpacity: 0.8,
-                                shadowRadius: 20,
-                                shadowOffset: {
-                                    width: 5,
-                                    height: 3,
-                                },
-                                backgroundColor: "white",
-                                borderRadius: 20,
-                            }}
-                        >
-                            <TouchableOpacity onPress={() => pickImage()}>
-                                {image ? (
-                                    <Image
-                                        source={{ uri: image[0] }}
-                                        style={{
-                                            width: 200,
-                                            height: 200,
-                                            marginBottom: "2%",
-                                            borderRadius: 20,
-                                        }}
-                                    />
-                                ) : (
-                                    <ListImagesComponent
-                                        style={{
-                                            width: 200,
-                                            height: 28,
-                                        }}
-                                    />
-                                )}
-                            </TouchableOpacity>
-                        </ShadowedView>
+                        {Platform.OS === "ios" ? (
+                            <ShadowedView
+                                style={{
+                                    height: 200,
+                                    shadowOpacity: 0.8,
+                                    shadowRadius: 40,
+                                    shadowOffset: {
+                                        width: 5,
+                                        height: 3,
+                                    },
+                                    backgroundColor: "white",
+                                    borderRadius: 20,
+                                    marginBottom: "2%",
+                                }}>
+                                <TouchableOpacity onPress={() => pickImage()}>
+                                    {image ? (
+                                        <Image
+                                            source={{ uri: image[0] }}
+                                            style={{
+                                                width: 200,
+                                                height: 200,
+                                                marginBottom: "2%",
+                                                borderRadius: 20,
+                                            }}
+                                        />
+                                    ) : (
+                                        <ListImagesComponent style={imageStyle} />
+                                    )}
+                                </TouchableOpacity>
+                            </ShadowedView>
+                        ) :
+                            <View style={{ height: 200, margin: "2%" }}>
+                                <TouchableOpacity onPress={() => pickImage()}>
+                                    {image ? (
+                                        <Image
+                                            source={{ uri: image[0] }}
+                                            style={{
+                                                width: 200,
+                                                height: 200,
+                                                marginBottom: "2%",
+                                                borderRadius: 20,
+                                            }}
+                                        />
+                                    ) : (
+                                        <ListImagesComponent style={imageStyle} />
+                                    )}
+                                </TouchableOpacity>
+                            </View>
+                        }
                         <Text style={{ textAlign: "center" }}>Change Image</Text>
                     </View>
 
