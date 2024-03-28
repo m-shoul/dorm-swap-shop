@@ -81,7 +81,7 @@ export default function ChatScreen() {
 
                     return {
                         readableChatId: chatData.chatId,
-                        images: "https:reactnative.dev/img/tiny_logo.png",
+                        images: otherProfileImage,
                         name: otherUsername,
                         message: message,
                     };
