@@ -1,15 +1,15 @@
 import {
     Text, View, TouchableWithoutFeedback, TouchableOpacity,
-    SafeAreaView, Animated, RefreshControl, ActivityIndicator,
+    SafeAreaView, Animated, RefreshControl, ActivityIndicator, Alert
 } from "react-native";
 import { Image } from "expo-image";
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import { SwipeListView } from "react-native-swipe-list-view";
 import SearchBarHeader from "../../components/SearchBar";
 import { router } from "expo-router";
-import { getChatsByUser, readChat } from "../../backend/api/chat.js";
+import { getChatsByUser, getChatsByUserWithHidden, readChat } from "../../backend/api/chat.js";
 import SquareHeader from "../../components/SquareHeader.js";
-import { getUserProfileImage, getUsernameByID } from "../../backend/api/user.js";
+import { getUserProfileImage, cleanUserChats, getUsernameByID, removeChatThread } from "../../backend/api/user.js";
 import { getUserID } from "../../backend/dbFunctions.js";
 import styles from "../(aux)/StyleSheet.js";
 import { Ionicons } from "@expo/vector-icons";
@@ -29,56 +29,74 @@ export default function ChatScreen() {
         // This will be used to retrieve the chat threads for the user.
         // The chat threads will be retrieved from the database.
         // The chat threads will be displayed in the SwipeListView.
-
-        getChatsByUser(getUserID()).then((chatThreads) => {
-            setChatThreads(chatThreads);
-            setFullData(chatThreads);
-            setGlobalReload(false);
-        }).then(() => {
-            setIsLoading(false);
+        cleanUserChats(getUserID()).then(() => {
+            getChatsByUser(getUserID()).then((fetchedChatThreads) => {
+                console.log("*starting useEffect* Chat threads fetched: ", fetchedChatThreads);
+                setChatThreads(fetchedChatThreads);
+                setFullData(fetchedChatThreads);
+                setGlobalReload(false);
+            }).then(() => {
+                setIsLoading(false);
+            })
+            .catch((error) => {
+                console.log("*starting useEffect* Error fetching chat threads: ", error);
+            });
         })
-        //setIsLoading(false);
-        // console.log("*starting useEffect* Chat threads: ", chatThreads);
-    }, [globalReload]);
-
+        .catch((error) => {
+            console.log("*starting useEffect* Error cleaning chat threads: ", error);
+        });
+        
+        console.log("*starting useEffect* Chat threads: ", chatThreads);
+    }, []); 
 
     useEffect(() => {
-        const fetchChatThreads = async () => {
-            const chatThreadsPromises = chatThreads.map(async (chatData) => {
-                let otherUser = chatData.participants.userId_1 === getUserID()
-                    ? chatData.participants.userId_2
-                    : chatData.participants.userId_1;
+        console.log("*chatThreads update useEffect* Chat threads: ", chatThreads);
+        const fetchChatData = async () => {
+            if (chatThreads) {
+                const chatThreadsPromises = chatThreads.map(async (chatData) => {
+                    let otherUser = chatData.participants.userId_1 === getUserID()
+                        ? chatData.participants.userId_2
+                        : chatData.participants.userId_1;
 
                 const otherUsername = await getUsernameByID(otherUser);
                 const otherProfileImage = await getUserProfileImage(otherUser);
                 let messageList = [];
                 let message = "";
 
-                if (chatData && 'messages' in chatData) {
-                    messageList = await readChat(chatData.chatId);
-                    if (messageList.messages.length > 0) {
-                        message = messageList.messages[0].text;
+                    if (chatData && 'messages' in chatData) {
+                        messageList = await readChat(chatData.chatId);
+                        if (messageList.length > 0) {
+                            message = messageList[messageList.length - 1].text;
+                            // console.log("*chatThreads update useEffect* Most recent message: " + message);
+                        } else {
+                            console.log(
+                                "*chatThreads update useEffect* Chat thread has no messages."
+                            );
+                        }
                     } else {
                         console.log(
-                            "*chatThreads update useEffect* Chat thread has no messages."
+                            "*chatThreads update useEffect* Chat thread is missing messages attribute."
                         );
                     }
-                } else {
-                    console.log(
-                        "*chatThreads update useEffect* Chat thread is missing messages attribute."
-                    );
-                }
-                return {
-                    readableChatId: chatData.chatId,
-                    images: otherProfileImage,
-                    name: otherUsername,
-                    message: message,
-                };
-            });
-            const chatObjects = await Promise.all(chatThreadsPromises);
-            setReadableChatThreads(chatObjects);
+
+                    return {
+                        readableChatId: chatData.chatId,
+                        images: otherProfileImage,
+                        name: otherUsername,
+                        message: message,
+                    };
+                });
+                
+                const chatObjects = await Promise.all(chatThreadsPromises);
+                setReadableChatThreads(chatObjects);
+            }
+            else 
+            {
+                console.log("*chatThreads update useEffect* Chat threads is null.");
+            }
         };
-        fetchChatThreads();
+
+        fetchChatData();
     }, [chatThreads]);
 
     const memoizedListingsData = useMemo(
@@ -286,7 +304,23 @@ export default function ChatScreen() {
                             }}
                             onPress={() => {
                                 // Handle the "Delete" action
-                                alert("Chat will be deleted");
+                                Alert.alert("Chat will be deleted", "This action cannot be reversed", [
+                                    {
+                                        text: "Cancel",
+                                        onPress: () => console.log("Cancel Pressed"),
+                                        style: "cancel",
+                                    },
+                                    {
+                                        text: "OK",
+                                        onPress: () => {
+                                            console.log("OK Pressed")
+                                            removeChatThread(getUserID(), item.readableChatId);
+                                    },
+                                    },
+                                    ],
+                                    { cancelable: true }
+                                );
+
                             }}>
                             <Ionicons
                                 name="trash-outline"

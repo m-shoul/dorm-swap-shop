@@ -75,6 +75,9 @@ export default function Conversations() {
 
             // Add the message to the Firebase database
             addMessage(chatId, messageData, newMessageReference);
+
+            console.log("*onSend* Message sent: ", messageData);
+
         }
     }, [chatId])
 
@@ -136,7 +139,6 @@ export default function Conversations() {
                         }}
                     />
                 )}
-
             />
         </View>
     )
