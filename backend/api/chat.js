@@ -1,13 +1,22 @@
 import { database } from '../config/firebaseConfig';
-import { get, child, ref, set, push } from 'firebase/database';
-import { getUsernameByID } from './user';
+import { get, ref, set, push } from 'firebase/database';
+import { getUsernameByID, addChatThreadToUser, getUserPushIdFromFirebaseRealtime } from './user';
 
 // Function to create a new chat thread
 export async function createChatThread(userId_1, userId_2) {
-    // The "Reply", button will most likely call this method and then
-    // navigate to the chat screen.
 
     const chatReference = ref(database, 'dorm_swap_shop/chats');
+    const snapshot = await get(chatReference);
+    let chatData = snapshot.val();
+
+    for (let chatId in chatData) {
+        if( (chatData[chatId].participants.userId_1 === userId_1 && chatData[chatId].participants.userId_2 === userId_2) ||
+            (chatData[chatId].participants.userId_1 === userId_2 && chatData[chatId].participants.userId_2 === userId_1)   )
+        {
+            console.log("*API - createChatThread* Chat already exists: " + chatId);
+            return chatId;
+        }
+    }
 
     const newChatReference = push(chatReference);
 
@@ -21,16 +30,20 @@ export async function createChatThread(userId_1, userId_2) {
         userId_2: userId_2
     };
 
-    const chatData = {
+    const newChatData = {
         chatId: chatId,
         participants: participants,
         reported: false, 
         messages: []
     };
 
-    await set(newChatReference, chatData); 
+    await set(newChatReference, newChatData); 
 
-    // console.log("*API - createChatThread* Chat created with id: " + chatId);
+    await addChatThreadToUser(userId_1, chatId);
+    await addChatThreadToUser(userId_2, chatId);
+
+    console.log("*API - createChatThread* Chat created with id: " + chatId);
+    
 
     return chatId;
 }
@@ -53,6 +66,10 @@ export async function getChatThreadId(uid1, uid2) {
                 }
             }
         }
+        else
+        {
+            console.log("*API - getChatThreadId* No chat threads found.");
+        }
         console.log("*API - getChatThreadId* Chat thread ID not found.");
         return null;
     } catch (error) {
@@ -62,27 +79,27 @@ export async function getChatThreadId(uid1, uid2) {
 }
 
 // Function to get chat data from a chat ID
-// export async function getChatData(chatId) {
-//     try {
-//         const chatReference = ref(database, `dorm_swap_shop/chats/${chatId}`);
-//         const snapshot = await get(chatReference);
+export async function getChatData(chatId) {
+    try {
+        const chatReference = ref(database, `dorm_swap_shop/chats/${chatId}`);
+        const snapshot = await get(chatReference);
 
-//         if (snapshot.exists()) {
-//             const chatData = snapshot.val();
-//             console.log("*API - getChatData* Chat data found");
-//             console.log("*API - getChatData* participants: " + chatData.participants.userId_1 + " " + chatData.participants.userId_2);
-//             return chatData;
-//         }
-//         console.log("*API - getChatData* Chat data not found.");
-//         return null;
-//     } catch (error) {
-//         console.error('*API - getChatData* Error retrieving chat data:', error);
-//         throw error;
-//     }
-// }
+        if (snapshot.exists()) {
+            const chatData = snapshot.val();
+            console.log("*API - getChatData* Chat data found");
+            console.log("*API - getChatData* participants: " + chatData.participants.userId_1 + " " + chatData.participants.userId_2);
+            return chatData;
+        }
+        console.log("*API - getChatData* Chat data not found.");
+        return null;
+    } catch (error) {
+        console.error('*API - getChatData* Error retrieving chat data:', error);
+        throw error;
+    }
+}
 
 //get all chat threads for a user
-export async function getChatsByUser(userId) {
+export async function getChatsByUserWithHidden(userId) {
     try {
         const chatReference = ref(database, 'dorm_swap_shop/chats');
         const snapshot = await get(chatReference);
@@ -92,6 +109,73 @@ export async function getChatsByUser(userId) {
             let chatThreads = [];
 
             for (let chatId in chats) {
+                if (!chats[chatId]) {
+                    console.log("*API - getChatsByUserWithHidden* No chat found for chatId: " + chatId);
+                    continue;
+                }
+                
+                console.log("*API - getChatsByUser* chatId: " + chatId);
+
+                const participants = chats[chatId].participants;
+                if (!participants) {
+                    console.log("*API - getChatsByUserWithHidden* No participants found for chat: " + chatId);
+                    continue;
+                }
+
+                if (participants.userId_1 === userId || participants.userId_2 === userId) {
+                    chatThreads.push(chats[chatId]);
+                    console.log("*API - getChatsByUserWithHidden* Chat found for current user: " + chatId + 
+                                " with other user: " + (participants.userId_1 === userId ? participants.userId_2 : participants.userId_1));
+                } 
+                else {
+                    console.log("*API - getChatsByUserWithHidden* Chat found without current user ");
+                }
+            }
+
+            console.log("*API - getChatsByUserWithHidden* Chat threads found: " + chatThreads);
+            return chatThreads;
+        }
+        console.log("*API - getChatsByUserWithHidden* No chat threads found.");
+        return null;
+    } catch (error) {
+        console.error('*API - getChatsByUserWithHidden* Error retrieving chat threads:', error);
+        throw error;
+    }
+}
+
+//get all visible chat threads for a user
+export async function getChatsByUser(userId) {
+    try {
+        let databaseUserId = await getUserPushIdFromFirebaseRealtime(userId);
+        const chatReference = ref(database, 'dorm_swap_shop/chats');
+        const userReference = ref(database, `dorm_swap_shop/users/${databaseUserId}/private/chats`);
+        const snapshot = await get(chatReference);
+        const userSnapshot = await get(userReference);
+
+        console.log("*API - getChatsByUser* snapshot exists: " + snapshot.exists());
+        console.log("*API - getChatsByUser* userSnapshot exists: " + userSnapshot.exists());
+        
+        if (snapshot.exists() && userSnapshot.exists()) {
+            const chats = snapshot.val();
+            const userChats = userSnapshot.val();
+            let chatThreads = [];
+
+            for (let chatId in chats) {
+                let chatInUserList = false;
+                for (let userChatId of userChats) {
+                    console.log("*API - getChatsByUser* User chat: " + userChatId);
+                    console.log("*API - getChatsByUser* Chat: " + chatId);
+                    if (chatId === userChatId) {
+                        chatInUserList = true;
+                        break;
+                    }
+                }
+
+                if (!chatInUserList) {
+                    console.log("*API - getChatsByUser* Chat not found in user list: " + chatId);
+                    continue;
+                }
+
                 if (!chats[chatId]) {
                     console.log("*API - getChatsByUser* No chat found for chatId: " + chatId);
                     continue;
@@ -170,6 +254,14 @@ export async function addMessage(chatId, messageData, messageReference) {
 
         await set(messageReference, messageData);
 
+        const threadData = snapshot.val();
+        const user1 = threadData.participants.userId_1;
+        const user2 = threadData.participants.userId_2;
+
+        // const otherUserId = messageData.user._id === snapshot.val().participants.userId_1 ? snapshot.val().participants.userId_2 : snapshot.val().participants.userId_1;
+
+        await addChatThreadToUser(user1, chatId);
+        await addChatThreadToUser(user2, chatId);
         // console.log("Message added to chat: " + chatId + ": " + messageData.text);
 
         return messageReference.key;

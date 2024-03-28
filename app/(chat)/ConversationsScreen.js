@@ -12,7 +12,7 @@ import { GiftedChat } from 'react-native-gifted-chat';
 import { addMessage, readChat, createChatThread, getChatThreadId, getUsersInChat } from "../../backend/api/chat.js";
 import { ref, push, set, get } from "firebase/database";
 import { getUserID } from "../../backend/dbFunctions.js";
-import { getUsernameByID } from "../../backend/api/user.js";
+import { getUsernameByID, addChatThreadToUser } from "../../backend/api/user.js";
 
 export default function Conversations() {
     const {chatId} = useLocalSearchParams();
@@ -20,6 +20,7 @@ export default function Conversations() {
     // const [chatId, setChatId] = useState("");
     const [yourUsername, setYourUsername] = useState("");
     const [theirUsername, setTheirUsername] = useState("");
+    const [theirID, setTheirID] = useState("");
     const yourID = getUserID();
 
     // This useEffect hook runs whenever chatId changes
@@ -31,6 +32,7 @@ export default function Conversations() {
                 if (chatData && chatData.participants) {
                     setMessages(chatData.messages);
                     const participants = chatData.participants;
+                    setTheirID(participants.userId_1 === yourID ? participants.userId_2 : participants.userId_1);
                     setYourUsername(await getUsernameByID(yourID));
                     setTheirUsername(await getUsernameByID(participants.userId_1 === yourID ? participants.userId_2 : participants.userId_1));
                 }
@@ -68,6 +70,11 @@ export default function Conversations() {
 
             // Add the message to the Firebase database
             addMessage(chatId, messageData, newMessageReference);
+
+            console.log("*onSend* Message sent: ", messageData);
+            addChatThreadToUser(theirID, chatId);
+            addChatThreadToUser(yourID, chatId);
+
         }
     }, [chatId])
 
