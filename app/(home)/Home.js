@@ -6,7 +6,9 @@ import {
     RefreshControl,
     ActivityIndicator,
 } from "react-native";
-import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
+import {
+    useSafeAreaInsets,
+} from "react-native-safe-area-context";
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import { getAllListings } from "../../backend/api/listing";
 import styles from "../(aux)/StyleSheet";
@@ -17,6 +19,7 @@ import FilterPopup from "../../components/FilterPopup";
 import SquareHeader from "../../components/SquareHeader";
 import AdPopup from "../../components/AdPopup";
 import { useStore } from "../global";
+import ScanningModal from "../../components/ScanningModal";
 
 export default function HomeScreen() {
     const scrollOffsetY = useRef(new Animated.Value(0)).current;
@@ -26,11 +29,17 @@ export default function HomeScreen() {
     const [error, setError] = useState(null); // State to track errors
     const [fullData, setFullData] = useState([]); // State to store the full listings data
 
-    const [selectedListing, setSelectedListing] = useState(null); // State to store the selected listing
     const [refreshing, setRefreshing] = useState(false);
 
-    const [globalReload, setGlobalReload] = useStore((state) => [state.globalReload, state.setGlobalReload]);
+    const [globalReload, setGlobalReload] = useStore((state) => [
+        state.globalReload,
+        state.setGlobalReload,
+    ]);
 
+    const [isImageLoading, setIsImageLoading] = useStore((state) => [
+        state.isImageLoading,
+        state.setIsImageLoading,
+    ]);
     let timerId;
 
     const fetchListings = async () => {
@@ -113,7 +122,9 @@ export default function HomeScreen() {
         }
         const filteredData = await Promise.all(
             Object.values(fullData).map(async (listing) => {
-                if (containsFiltering(listing, category, condition, activePrice)) {
+                if (
+                    containsFiltering(listing, category, condition, activePrice)
+                ) {
                     return listing;
                 }
             })
@@ -136,40 +147,46 @@ export default function HomeScreen() {
                 priceMatch = parseFloat(price) < 10;
                 break;
             case "$$":
-                priceMatch = parseFloat(price) >= 10 && parseFloat(price) <= 100;
+                priceMatch =
+                    parseFloat(price) >= 10 && parseFloat(price) <= 100;
                 break;
             case "$$$":
                 priceMatch = parseFloat(price) > 100;
                 break;
         }
 
-        if ((!filteredCategory || category === filteredCategory) &&
+        if (
+            (!filteredCategory || category === filteredCategory) &&
             (!filteredCondition || condition === filteredCondition) &&
-            priceMatch) {
-
+            priceMatch
+        ) {
             return true;
         }
 
         return false;
     };
 
-    const handleItemPress = (listing) => {
-        setSelectedListing(listing);
-    };
-
     const noListingsFromSearchOrFilter = () => (
-        <View style={{ marginTop: "60%", justifyContent: "center", alignItems: "center", paddingHorizontal: "15%" }}>
+        <View
+            style={{
+                marginTop: "60%",
+                justifyContent: "center",
+                alignItems: "center",
+                paddingHorizontal: "15%",
+            }}>
             <Text style={[styles.boldtext, { textAlign: "center" }]}>
                 Oops! No listings match that criteria. Refresh to clear results.
             </Text>
         </View>
-
     );
 
     if (isLoading) {
         return (
             <View style={styles.container}>
-                <ActivityIndicator size="large" color={styles.colors.darkColor} />
+                <ActivityIndicator
+                    size="large"
+                    color={styles.colors.darkColor}
+                />
             </View>
         );
     }
@@ -180,7 +197,6 @@ export default function HomeScreen() {
                 <Text style={styles.text}>
                     Error fetching listings: {error}
                 </Text>
-                {/* remove error details in full release */}
             </View>
         );
     }
@@ -205,7 +221,12 @@ export default function HomeScreen() {
     const insets = useSafeAreaInsets();
 
     return (
-        <View style={{ flex: 1, backgroundColor: styles.colors.lightColor, paddingTop: insets.top }}>
+        <View
+            style={{
+                flex: 1,
+                backgroundColor: styles.colors.lightColor,
+                paddingTop: insets.top,
+            }}>
             <SquareHeader height={80} />
             <Animated.View
                 style={{
@@ -215,7 +236,6 @@ export default function HomeScreen() {
                 <View
                     style={{
                         flexDirection: "row",
-                        //alignItems: "center",
                         justifyContent: "center",
                         width: "100%",
                         paddingHorizontal: "2%",
@@ -231,8 +251,21 @@ export default function HomeScreen() {
                     <FilterPopup handleFiltering={handleFiltering} />
                 </View>
             </Animated.View>
+            <View
+                style={{
+                    position: "absolute",
 
-            {/* Scrollable view displaying all the listings */}
+                    opacity: 10,
+                    right: 0,
+                    top: 660,
+                    zIndex: 2,
+                    width: "97%",
+                    marginRight: "1.5%",
+                    borderRadius: 30,
+                    fontWeight: "bold",
+                }}>
+                <ScanningModal loading={isImageLoading} />
+            </View>
             <FlatList
                 data={Object.values(memoizedListingsData)}
                 keyExtractor={(item) => item.listingId}
@@ -257,11 +290,9 @@ export default function HomeScreen() {
                                     width: "50%",
                                     height: 230,
                                     paddingHorizontal: "1%",
-                                    marginBottom: "1%"
+                                    marginBottom: "1%",
                                 }}>
-                                <ListingPopup
-                                    listing={item}
-                                />
+                                <ListingPopup listing={item} />
                             </View>
                         );
                     }
@@ -269,7 +300,7 @@ export default function HomeScreen() {
                 numColumns={2}
                 contentContainerStyle={{
                     paddingBottom: "15%",
-                    paddingTop: 85, // Add this line
+                    paddingTop: 85,
                 }}
                 style={{
                     flex: 1,

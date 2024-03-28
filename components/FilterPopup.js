@@ -1,13 +1,11 @@
-import { View, Text, Pressable, Modal, TouchableOpacity, Dimensions, Platform, TouchableWithoutFeedback } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { View, Text, Modal, TouchableOpacity, Platform, TouchableWithoutFeedback } from "react-native";
 import FilterComponent from "../assets/svg/filter_icon";
 import ExpandComponent from "../assets/svg/expand_icon";
 import styles from "../app/(aux)/StyleSheet";
 import { Button } from "../components/Buttons";
 import RNPickerSelect from "react-native-picker-select";
 import { categories, conditions } from "./Enums";
-import React, { useState, useRef, useEffect } from "react";
-import { normalizeText } from "@rneui/base";
+import React, { useState, useRef } from "react";
 
 export default function FilterPopup({ handleFiltering }) {
     const [modalVisible, setModalVisible] = useState(false);
@@ -18,8 +16,6 @@ export default function FilterPopup({ handleFiltering }) {
     const categoryInputRef = useRef(null);
     const defaultColor = "#B3B3B3";
     const activeColor = styles.colors.darkAccentColor;
-
-    const insets = useSafeAreaInsets();
 
     return (
         <View style={{ justifyContent: "center" }}>
@@ -106,38 +102,43 @@ export default function FilterPopup({ handleFiltering }) {
                                 justifyContent: "space-evenly",
                                 marginBottom: "6%"
                             }}>
-                                <Button
-                                    width="30%"
-                                    backgroundColor={activePrice === "$" ? activeColor : defaultColor}
-                                    title="$"
-                                    alignItems="center"
-                                    justifyContent="center"
-                                    borderRadius={25}
-                                    press={() => setActivePrice('$')}
-                                    titleStyle={styles.buttonText}
-                                />
-                                <Button
-                                    width="30%"
-                                    backgroundColor={activePrice === "$$" ? activeColor : defaultColor}
-                                    title="$$"
-                                    alignItems="center"
-                                    justifyContent="center"
-                                    borderRadius={25}
-                                    press={() => setActivePrice('$$')}
-                                    titleStyle={styles.buttonText}
-                                />
-                                <Button
-                                    width="30%"
-                                    backgroundColor={activePrice === "$$$" ? activeColor : defaultColor}
-                                    title="$$$"
-                                    alignItems="center"
-                                    justifyContent="center"
-                                    borderRadius={25}
-                                    press={() => setActivePrice('$$$')}
-                                    titleStyle={styles.buttonText}
-                                />
+                                <View style={{ width: '30%' }}>
+                                    <Button
+                                        backgroundColor={activePrice === "$" ? activeColor : defaultColor}
+                                        title="$"
+                                        alignItems="center"
+                                        justifyContent="center"
+                                        borderRadius={25}
+                                        press={() => setActivePrice('$')}
+                                        titleStyle={styles.buttonText}
+                                    />
+                                    <Text style={{ textAlign: 'center' }}> under $10 </Text>
+                                </View>
+                                <View style={{ width: '30%' }}>
+                                    <Button
+                                        backgroundColor={activePrice === "$$" ? activeColor : defaultColor}
+                                        title="$$"
+                                        alignItems="center"
+                                        justifyContent="center"
+                                        borderRadius={25}
+                                        press={() => setActivePrice('$$')}
+                                        titleStyle={styles.buttonText}
+                                    />
+                                    <Text style={{ textAlign: 'center' }}>$10 to $100</Text>
+                                </View>
+                                <View style={{ width: '30%' }}>
+                                    <Button
+                                        backgroundColor={activePrice === "$$$" ? activeColor : defaultColor}
+                                        title="$$$"
+                                        alignItems="center"
+                                        justifyContent="center"
+                                        borderRadius={25}
+                                        press={() => setActivePrice('$$$')}
+                                        titleStyle={styles.buttonText}
+                                    />
+                                    <Text style={{ textAlign: 'center' }}>Over $100</Text>
+                                </View>
                             </View>
-
 
                             <Text style={[styles.normaltext, { marginBottom: "2%" }]}>Condition</Text>
                             <View style={styles.dropdownlists}>
@@ -186,7 +187,7 @@ export default function FilterPopup({ handleFiltering }) {
                                 <Button
                                     width="40%"
                                     backgroundColor="#B3B3B3"
-                                    title="Cancel"
+                                    title="Clear"
                                     alignItems="center"
                                     justifyContent="center"
                                     borderRadius={25}

@@ -9,9 +9,10 @@ import {
     Modal,
     StatusBar,
     TouchableWithoutFeedback,
+    Dimensions,
 } from "react-native";
+import { Entypo } from "@expo/vector-icons";
 import {
-    SafeAreaView,
     useSafeAreaInsets,
 } from "react-native-safe-area-context";
 import { Checkbox } from "expo-checkbox";
@@ -19,13 +20,11 @@ import React from "react";
 import styles from "../(aux)/StyleSheet.js";
 import { useState, useEffect, useRef } from "react";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-// import { writeUserData } from "../../backend/dbFunctions.js";
+
 import { createUser } from "../../backend/api/user.js";
 import { router } from "expo-router";
-import { getUserID } from "../../backend/dbFunctions.js";
 import { Button } from "../../components/Buttons.js";
 import termsOfService from "../../assets/termsOfService.js";
-import { set } from "firebase/database";
 import RoundHeader from "../../components/RoundHeader.js";
 import SimpleLogo from "../../assets/svg/simpleLogo_icon.js";
 import { ShadowedView } from "react-native-fast-shadow";
@@ -42,7 +41,8 @@ export default function CreateUserScreen() {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [username, setUsername] = useState("");
-
+    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+    const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
     const [agreeTermsOfService, setAgreeTermsOfService] = useState("");
 
@@ -52,8 +52,6 @@ export default function CreateUserScreen() {
     const [passwordCheck, setPasswordCheck] = useState("");
 
     //All of the states that are used to store the styles
-    const [agreeTermsOfServiceStyle, setAgreeTermsOfServiceStyle] =
-        useState("");
     const [firstNameStyle, setFirstNameStyle] = useState(
         styles.createUserInput
     );
@@ -73,8 +71,7 @@ export default function CreateUserScreen() {
     const [errorMessageEmail, setErrorMessageEmail] = useState("");
     const [errorMessagePassword, setErrorMessagePassword] = useState("");
     const [errorMessageConfirm, setErrorMessageConfirm] = useState("");
-    const [errorMessageTermsOfService, setErrorMessageTermsOfService] =
-        useState("");
+    const [errorMessageTermsOfService, setErrorMessageTermsOfService] = useState("");
     const firstNameInputRef = useRef(null);
     const lastNameInputRef = useRef(null);
     const userNameInputRef = useRef(null);
@@ -84,9 +81,11 @@ export default function CreateUserScreen() {
 
     const [isSelected, setSelection] = useState(false);
 
+    const { width } = Dimensions.get("window");
+    normalText = width / 20;
     let validate = 0;
+    
     useEffect(() => {
-        // Trigger form validation when name, email, or password changes
         if (validate == 1) {
             validateForm();
         }
@@ -208,11 +207,8 @@ export default function CreateUserScreen() {
             createUser(firstName, lastName, username, email, userId);
             router.push("/");
         }
-        // Set the errors and update form validity
-        // setErrors(errors);
     };
 
-    // const auth = initializeAuth();
     const auth = getAuth();
 
     // Creates a new user account
@@ -243,9 +239,6 @@ export default function CreateUserScreen() {
         }
     };
     const insets = useSafeAreaInsets();
-
-    // Called when 'registration' button is pressed to create the user into
-    // Firebase auth, write the data to Realtime db, and direct user to login
 
     const matcher = new RegExpMatcher({
         ...englishDataset.build(),
@@ -370,7 +363,11 @@ export default function CreateUserScreen() {
                             />
                             {errorMessageLast && (
                                 <Text
-                                    style={{ color: "red", paddingBottom: 10 }}>
+                                    style={{
+                                        color: "red",
+                                        paddingBottom: 10,
+                                        marginTop: -15,
+                                    }}>
                                     {errorMessageLast}
                                 </Text>
                             )}
@@ -394,7 +391,11 @@ export default function CreateUserScreen() {
                             />
                             {errorMessageUsername && (
                                 <Text
-                                    style={{ color: "red", paddingBottom: 10 }}>
+                                    style={{
+                                        color: "red",
+                                        paddingBottom: 10,
+                                        marginTop: -15,
+                                    }}>
                                     {errorMessageUsername}
                                 </Text>
                             )}
@@ -418,47 +419,171 @@ export default function CreateUserScreen() {
                             />
                             {errorMessageEmail && (
                                 <Text
-                                    style={{ color: "red", paddingBottom: 10 }}>
+                                    style={{
+                                        color: "red",
+                                        paddingBottom: 10,
+                                        marginTop: -15,
+                                    }}>
                                     {errorMessageEmail}
                                 </Text>
                             )}
-                            <TextInput
-                                onSubmitEditing={() => {
-                                    confirmPasswordInputRef.current.focus();
-                                }}
-                                maxLength={254}
-                                ref={passwordInputRef}
-                                blurOnSubmit={false}
-                                style={passwordStyle}
-                                secureTextEntry={true}
-                                placeholder="Password"
-                                value={password}
-                                onChangeText={(value) => setPassword(value)}
-                            />
+                            <View
+                                style={[
+                                    passwordCheckStyle,
+                                    { padding: 0, flexDirection: "row" },
+                                ]}>
+                                <TextInput
+                                    onSubmitEditing={() => {
+                                        confirmPasswordInputRef.current.focus();
+                                    }}
+                                    keyboardType={
+                                        Platform.OS === "ios"
+                                            ? "ascii-capable"
+                                            : "visible-password"
+                                    }
+                                    style={{
+                                        fontSize: normalText,
+                                        flex: 1,
+                                        marginRight: 30,
+                                    }}
+                                    maxLength={254}
+                                    ref={passwordInputRef}
+                                    blurOnSubmit={false}
+                                    secureTextEntry={!isPasswordVisible}
+                                    placeholder="Password"
+                                    value={password}
+                                    onChangeText={(value) => setPassword(value)}
+                                />
+                                <TouchableOpacity
+                                    hitSlop={{
+                                        top: 10,
+                                        bottom: 10,
+                                        left: 10,
+                                        right: 10,
+                                    }}
+                                    style={{
+                                        position: "absolute",
+                                        justifyContent: "center",
+                                        alignItems: "center",
+                                        padding: 1,
+                                        paddingBottom: 20,
+
+                                        right: 10,
+                                        top: 8,
+                                    }}
+                                    onPress={() =>
+                                        setIsPasswordVisible(!isPasswordVisible)
+                                    }>
+                                    <View
+                                        style={{
+                                            justifyContent: "center",
+                                            paddingTop: 1,
+                                        }}>
+                                        {isPasswordVisible ? (
+                                            <Entypo
+                                                name="eye"
+                                                size={18}
+                                                color="black"
+                                            />
+                                        ) : (
+                                            <Entypo
+                                                name="eye-with-line"
+                                                size={18}
+                                                color="black"
+                                            />
+                                        )}
+                                    </View>
+                                </TouchableOpacity>
+                            </View>
                             {errorMessagePassword && (
                                 <Text
-                                    style={{ color: "red", paddingBottom: 10 }}>
+                                    style={{
+                                        color: "red",
+                                        paddingBottom: 10,
+                                        marginTop: -15,
+                                    }}>
                                     {errorMessagePassword}
                                 </Text>
                             )}
-                            <TextInput
-                                onSubmitEditing={() => {
-                                    Keyboard.dismiss();
-                                }}
-                                maxLength={254}
-                                ref={confirmPasswordInputRef}
-                                blurOnSubmit={false}
-                                style={passwordCheckStyle}
-                                secureTextEntry={true}
-                                placeholder={"Confirm Password"}
-                                value={passwordCheck}
-                                onChangeText={(value) =>
-                                    setPasswordCheck(value)
-                                }
-                            />
+                            <View
+                                style={[
+                                    passwordCheckStyle,
+                                    { padding: 0, flexDirection: "row" },
+                                ]}>
+                                <TextInput
+                                    onSubmitEditing={() => {
+                                        Keyboard.dismiss();
+                                    }}
+                                    keyboardType={
+                                        Platform.OS === "ios"
+                                            ? "ascii-capable"
+                                            : "visible-password"
+                                    }
+                                    maxLength={254}
+                                    ref={confirmPasswordInputRef}
+                                    blurOnSubmit={false}
+                                    style={{
+                                        fontSize: normalText,
+                                        flex: 1,
+                                        marginRight: 30,
+                                    }}
+                                    secureTextEntry={!isConfirmPasswordVisible}
+                                    placeholder={"Confirm Password"}
+                                    value={passwordCheck}
+                                    onChangeText={(value) =>
+                                        setPasswordCheck(value)
+                                    }
+                                />
+                                <TouchableOpacity
+                                    hitSlop={{
+                                        top: 10,
+                                        bottom: 10,
+                                        left: 10,
+                                        right: 10,
+                                    }}
+                                    style={{
+                                        position: "absolute",
+                                        justifyContent: "center",
+                                        alignItems: "center",
+                                        padding: 1,
+                                        paddingBottom: 20,
+
+                                        right: 10,
+                                        top: 8,
+                                    }}
+                                    onPress={() =>
+                                        setIsConfirmPasswordVisible(
+                                            !isConfirmPasswordVisible
+                                        )
+                                    }>
+                                    <View
+                                        style={{
+                                            justifyContent: "center",
+                                            paddingTop: 1,
+                                        }}>
+                                        {isConfirmPasswordVisible ? (
+                                            <Entypo
+                                                name="eye"
+                                                size={18}
+                                                color="black"
+                                            />
+                                        ) : (
+                                            <Entypo
+                                                name="eye-with-line"
+                                                size={18}
+                                                color="black"
+                                            />
+                                        )}
+                                    </View>
+                                </TouchableOpacity>
+                            </View>
                             {errorMessageConfirm && (
                                 <Text
-                                    style={{ color: "red", paddingBottom: 0 }}>
+                                    style={{
+                                        color: "red",
+                                        paddingBottom: 10,
+                                        marginTop: -15,
+                                    }}>
                                     {errorMessageConfirm}
                                 </Text>
                             )}
@@ -518,10 +643,10 @@ export default function CreateUserScreen() {
                         </TouchableOpacity>
                         <Button
                             width="80%"
-                            borderRadius={25} //was 25
+                            borderRadius={25}
                             alignItems="center"
                             justifyContent="center"
-                            marginTop="5%" //was 40
+                            marginTop="5%"
                             marginBottom="10%"
                             marginRight="20%"
                             marginLeft="10%"

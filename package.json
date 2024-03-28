@@ -44,8 +44,8 @@
     "react-native": "0.72.10",
     "react-native-dotenv": "^3.4.9",
     "react-native-dropdown-picker": "^5.4.6",
-    "react-native-fs": "^2.20.0",
     "react-native-fast-shadow": "^0.1.0",
+    "react-native-fs": "^2.20.0",
     "react-native-gesture-handler": "~2.12.0",
     "react-native-gifted-chat": "^2.4.0",
     "react-native-image-picker": "^7.0.2",
@@ -57,7 +57,7 @@
     "react-native-swiper": "^1.6.0",
     "react-native-web": "~0.19.6",
     "short-hash": "^1.0.0",
-    "zustand": "^4.5.0"
+    "zustand": "^4.5.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

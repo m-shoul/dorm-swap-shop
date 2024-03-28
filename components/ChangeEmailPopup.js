@@ -118,14 +118,13 @@ export default function ChangeEmail() {
                                             setNewEmail("");
                                         }
                                     }}
-                                    placeholder="Enter your current email"
+                                    placeholder="Enter your new email"
                                     placeholderTextColor="#585858"
                                 />
                             </View>
 
                             <View>
                                 <Button
-                                    //width="40%"
                                     backgroundColor={styles.colors.darkAccentColor}
                                     title="Submit"
                                     alignItems="center"

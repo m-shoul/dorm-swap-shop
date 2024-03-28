@@ -2,14 +2,11 @@ import {
     Text,
     View,
     TouchableOpacity,
-    FlatList,
-    StyleSheet,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { SearchBar } from "@rneui/themed";
 import styles from "../(aux)/StyleSheet";
 import { router } from "expo-router";
-
 
 export default function RecentSearches() {
     return (
@@ -24,7 +21,6 @@ export default function RecentSearches() {
                     borderWidth: 1, borderBottomWidth: 1, borderColor: "#B3B3B3"
                 }}
                 onChangeText={setSearch}
-                //onClear={(text) => searchFilterFunction("")}
                 placeholder="Search"
                 value={search}
             />
