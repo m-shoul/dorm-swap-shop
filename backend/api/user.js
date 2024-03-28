@@ -355,44 +355,6 @@ export async function reauthenticate(currentPassword) {
     reauthenticateWithCredential(user, cred);
 }
 
-// export async function addChatThreadToUser(userId, chatId) {
-//     const databaseUserId = await getUserPushIdFromFirebaseRealtime(userId);
-//     const userReference = ref(database, `dorm_swap_shop/users/${databaseUserId}/private/chats`);
-//     let userChats = await get(userReference);
-    
-//     if (!userChats.exists()) {
-//         console.log("*User API - addChatThreadToUser* User chats not found");
-//         await update(userReference, [chatId]);
-//         userChats = await get(userReference);
-//     }
-    
-//     let foundChat = false;
-//     let userChatsData = userChats.val();
-    
-//     if (userChats.exists())
-//     {
-//         for (let userChatId of userChatsData)
-//         {
-//             if (userChatId == chatId)
-//             {
-//                 foundChat = true;
-//             }
-//         }
-//     }
-
-//     if (foundChat)
-//     {
-//         console.log(`User API - addChatThreadToUser: Chat thread already in user list`);
-//     }
-//     else
-//     {
-//         userChatsData.push(chatId);
-//         const userDocReference = ref(database, `dorm_swap_shop/users/${databaseUserId}/private`);
-//         await update(userDocReference, { chats: userChatsData });
-//         console.log(`User API - addChatThreadToUser: Chat thread ${chatId} added to user ${userId}`);
-//     }
-// }
-
 export async function addChatThreadToUser(userId, chatId) {
     const databaseUserId = await getUserPushIdFromFirebaseRealtime(userId);
     const userReference = ref(database, `dorm_swap_shop/users/${databaseUserId}/private/chats`);
@@ -420,33 +382,6 @@ export async function addChatThreadToUser(userId, chatId) {
         console.log(`User API - addChatThreadToUser: Chat thread ${chatId} added to user ${userId}`);
     }
 }
-
-// export async function removeChatThread(userId, chatId) {
-//     const databaseUserId = await getUserPushIdFromFirebaseRealtime(userId);
-//     const userReference = ref(database, `dorm_swap_shop/users/${databaseUserId}/private/chats`);
-//     const userChats = await get(userReference);
-    
-//     if (userChats.exists()) {
-//         let userChatsData = userChats.val();
-//         if (Array.isArray(userChatsData)) {
-//             const chatIndex = userChatsData.indexOf(chatId);
-            
-//             if (chatIndex > -1) {
-//                 userChatsData.splice(chatIndex, 1);
-//                 await update(userReference, { chats: userChatsData });
-//                 console.log("user api - removeChatThread: Chat thread " + chatId + " removed from user " + userId);
-//             } else {
-//                 console.log("user api - removeChatThread: Chat thread " + chatId + " not found for user " + userId);
-//             }
-//         }
-//         else
-//         {
-//             console.log("user api - removeChatThread: User chats data is not an array");
-//         }
-//     } else {
-//         console.log("user api - removeChatThread: No chats found for user " + userId);
-//     }
-// }
 
 export async function removeChatThread(userId, chatId) {
     const databaseUserId = await getUserPushIdFromFirebaseRealtime(userId);

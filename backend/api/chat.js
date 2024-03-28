@@ -238,27 +238,14 @@ export async function addMessage(chatId, messageData, messageReference) {
         const snapshot = await get(chatRef);
 
         if (!snapshot.exists()) {
-            // await createChatThread(userId, userId_2);
             throw new Error('Chat does not exist.');
         }
-
-        // const messagesRef = ref(database, `dorm_swap_shop/chats/${chatId}/messages`);
-        // const newMessageReference = push(messagesRef);
-
-        // const messageData = {
-        //     id: newMessageReference.key,
-        //     message: message,
-        //     timestamp: new Date().toISOString(),
-        //     user: {_id: userId, name: getUsernameByID(userId)}
-        // };
 
         await set(messageReference, messageData);
 
         const threadData = snapshot.val();
         const user1 = threadData.participants.userId_1;
         const user2 = threadData.participants.userId_2;
-
-        // const otherUserId = messageData.user._id === snapshot.val().participants.userId_1 ? snapshot.val().participants.userId_2 : snapshot.val().participants.userId_1;
 
         await addChatThreadToUser(user1, chatId);
         await addChatThreadToUser(user2, chatId);

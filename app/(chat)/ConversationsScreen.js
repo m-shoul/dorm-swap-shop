@@ -37,7 +37,6 @@ export default function Conversations() {
                 if (chatData && chatData.participants) {
                     setMessages(chatData.messages);
                     const participants = chatData.participants;
-                    setTheirID(participants.userId_1 === yourID ? participants.userId_2 : participants.userId_1);
                     setYourUsername(await getUsernameByID(yourID));
                     setTheirUsername(await getUsernameByID(participants.userId_1 === yourID ? participants.userId_2 : participants.userId_1));
                     setTheirProfileImage(await getUserProfileImage(participants.userId_1 === yourID ? participants.userId_2 : participants.userId_1));
@@ -78,8 +77,6 @@ export default function Conversations() {
             addMessage(chatId, messageData, newMessageReference);
 
             console.log("*onSend* Message sent: ", messageData);
-            addChatThreadToUser(theirID, chatId);
-            addChatThreadToUser(yourID, chatId);
 
         }
     }, [chatId])
@@ -142,7 +139,6 @@ export default function Conversations() {
                         }}
                     />
                 )}
-
             />
         </View>
     )
