@@ -3,13 +3,14 @@ import {
     View,
     TouchableOpacity,
     StatusBar,
-    Image
+    Image,
+    Icon,
 } from "react-native";
 import styles from "../(aux)/StyleSheet.js";
 import { router, useLocalSearchParams } from "expo-router";
 import { database } from "../../backend/config/firebaseConfig";
 import React, { useState, useCallback, useEffect } from 'react';
-import { GiftedChat, InputToolbar } from 'react-native-gifted-chat';
+import { GiftedChat, InputToolbar, Bubble } from 'react-native-gifted-chat';
 import { addMessage, readChat } from "../../backend/api/chat.js";
 import { ref, push } from "firebase/database";
 import { getUserID } from "../../backend/dbFunctions.js";
@@ -18,9 +19,10 @@ import SquareHeader from "../../components/SquareHeader.js";
 import { Ionicons } from '@expo/vector-icons';
 import { useStore } from "../global.js";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { image } from "@tensorflow/tfjs-node";
 
 export default function Conversations() {
-    const { chatId } = useLocalSearchParams();
+    const { chatId, listingImage } = useLocalSearchParams();
     const [messages, setMessages] = useState([]);
     const [yourUsername, setYourUsername] = useState("");
     const [theirUsername, setTheirUsername] = useState("");
@@ -33,7 +35,6 @@ export default function Conversations() {
         const fetchChatData = async () => {
             if (chatId) {
                 const chatData = await readChat(chatId);
-                // console.log("*Conversations* Chat data: ", chatData);
                 if (chatData && chatData.participants) {
                     setMessages(chatData.messages);
                     const participants = chatData.participants;
@@ -57,6 +58,8 @@ export default function Conversations() {
             return;
         }
 
+        // console.log("*onSend*" + listingImage)
+
         setMessages(previousMessages =>
             GiftedChat.append(previousMessages, messages),
         )
@@ -71,12 +74,13 @@ export default function Conversations() {
                 text,
                 user,
                 createdAt: createdAt.getTime(), // Convert date to timestamp
+                image: listingImage
             };
 
             // Add the message to the Firebase database
             addMessage(chatId, messageData, newMessageReference);
 
-            console.log("*onSend* Message sent: ", messageData);
+            // console.log("*onSend* Message sent: ", messageData);
 
         }
     }, [chatId])
@@ -115,6 +119,19 @@ export default function Conversations() {
             </View>
             <GiftedChat
                 renderAvatar={renderAvatar}
+                renderBubble={props => {
+                    return (
+                        <Bubble
+                            {...props}
+                            wrapperStyle={{
+                                right: {
+                                    backgroundColor: styles.colors.darkColor
+                                },
+                            }}
+                            renderCustomView={() => <Image source={{ uri: listingImage }} style={{ width: 200, height: 200 }} />}
+                        />
+                    );
+                }}
                 messages={messages}
                 onSend={messages => onSend(messages)}
                 user={{

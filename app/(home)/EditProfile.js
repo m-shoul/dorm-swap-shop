@@ -270,7 +270,7 @@ export default function EditProfile() {
                             marginRight="5%"
                             borderRadius={40}
                             href="Profile"
-                            titleStyle={[styles.boldtext, { color: "white" }]}
+                            titleStyle={styles.buttonText}
                         />
 
                         <Button
@@ -283,7 +283,7 @@ export default function EditProfile() {
                             href="Profile"
                             press={async () => { await updateUser(username, fname, lname), setGlobalReload(true) }
                             }
-                            titleStyle={[styles.boldtext, { color: "white" }]}
+                            titleStyle={styles.buttonText}
                         />
                     </View>
                 </ScrollView>
