@@ -14,7 +14,7 @@ export function createUser(fname, lname, username, email, userId) {
         lname: lname,
         username: username,
         rating: 0,
-        profileImage: "",
+        profileImage: "https://firebasestorage.googleapis.com/v0/b/dorm-swap-shop.appspot.com/o/profileImages%2FdefaultPfp.jpg?alt=media&token=871d82a1-7959-4061-a3ce-3191552c188e",
         bio: "",
         listings: []
     };
