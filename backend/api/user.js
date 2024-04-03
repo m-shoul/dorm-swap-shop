@@ -118,7 +118,7 @@ export async function getUserPushIdFromFirebaseRealtime(userId) {
 
 export async function getMyUserPushIdFromFirebaseRealtime() {
     const userId = getUserID();
-    getUserPushIdFromFirebaseRealtime(userId);
+    await getUserPushIdFromFirebaseRealtime(userId);
 }
 
 export async function getUsernameByID(userId) {
@@ -250,7 +250,7 @@ export async function updateUser(username, fname, lname) {
         });
 }
 
-export async function uploadProfileImage(uri) {
+export async function uploadProfileImage(uri, uid) {
     try {
         const blob = await new Promise((resolve, reject) => {
             const xhr = new XMLHttpRequest();
@@ -265,7 +265,7 @@ export async function uploadProfileImage(uri) {
             xhr.send(null);
         });
 
-        const userId = await getMyUserPushIdFromFirebaseRealtime();
+        const userId = await getUserPushIdFromFirebaseRealtime(uid);
         console.log("DATABASE: " + userId);
 
         if (userId) {
