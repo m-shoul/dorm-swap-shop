@@ -66,7 +66,7 @@ export default function ChatScreen() {
                     if (chatData && 'messages' in chatData) {
                         messageList = await readChat(chatData.chatId);
                         if (messageList.length > 0) {
-                            message = messageList[messageList.length - 1].text;
+                            message = messageList.messages[0].text;
                             // console.log("*chatThreads update useEffect* Most recent message: " + message);
                         } else {
                             console.log(
