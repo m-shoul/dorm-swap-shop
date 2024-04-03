@@ -62,7 +62,7 @@ export default function EditProfile() {
         if (result.assets && result.assets.length > 0) {
             const selectedProfileImage = result.assets[0];
             setProfileImage(selectedProfileImage.uri);
-            uploadProfileImage(selectedProfileImage.uri);
+            uploadProfileImage(selectedProfileImage.uri, user.private.userId);
             setProfileImageUrl(selectedProfileImage.uri);
         }
     };

@@ -14,7 +14,7 @@ export function createUser(fname, lname, username, email, userId) {
         lname: lname,
         username: username,
         rating: 0,
-        profileImage: "",
+        profileImage: "https://firebasestorage.googleapis.com/v0/b/dorm-swap-shop.appspot.com/o/profileImages%2FdefaultPfp.jpg?alt=media&token=871d82a1-7959-4061-a3ce-3191552c188e",
         bio: "",
         listings: []
     };
@@ -118,7 +118,7 @@ export async function getUserPushIdFromFirebaseRealtime(userId) {
 
 export async function getMyUserPushIdFromFirebaseRealtime() {
     const userId = getUserID();
-    getUserPushIdFromFirebaseRealtime(userId);
+    await getUserPushIdFromFirebaseRealtime(userId);
 }
 
 export async function getUsernameByID(userId) {
@@ -250,7 +250,7 @@ export async function updateUser(username, fname, lname) {
         });
 }
 
-export async function uploadProfileImage(uri) {
+export async function uploadProfileImage(uri, uid) {
     try {
         const blob = await new Promise((resolve, reject) => {
             const xhr = new XMLHttpRequest();
@@ -265,7 +265,7 @@ export async function uploadProfileImage(uri) {
             xhr.send(null);
         });
 
-        const userId = await getMyUserPushIdFromFirebaseRealtime();
+        const userId = await getUserPushIdFromFirebaseRealtime(uid);
         console.log("DATABASE: " + userId);
 
         if (userId) {
