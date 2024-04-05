@@ -2,17 +2,12 @@ import {
     Text,
     View,
     TouchableOpacity,
-    StyleSheet,
-    RefreshControl
 } from "react-native";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Image } from 'expo-image';
 import ListImagesComponent from "../assets/svg/list_images.js";
 import styles from "../app/(aux)/StyleSheet.js";
-import * as ImagePicker from "expo-image-picker";
 import { Button } from "./Buttons.js";
-import { getAllUserDataForProfile, uploadProfileImage } from "../backend/api/user.js";
-import CachedImage from "expo-cached-image";
 import RoundHeader from "./RoundHeader.js";
 import { router } from "expo-router";
 import { ShadowedView } from 'react-native-fast-shadow';

@@ -13,7 +13,7 @@ import styles from "../(aux)/StyleSheet.js";
 import RoundHeader from "../../components/RoundHeader";
 import ListImagesComponent from "../../assets/svg/list_images.js";
 import {
-    getAllUserDataForProfile,
+    getMyUserData,
     uploadProfileImage,
     updateUser,
 } from "../../backend/api/user.js";
@@ -36,7 +36,7 @@ export default function EditProfile() {
 
     const fetchUserData = async () => {
         try {
-            const user = await getAllUserDataForProfile();
+            const user = await getMyUserData();
             setUser(user);
             setUsername(user?.public?.username);
             setFname(user?.public?.fname);

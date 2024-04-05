@@ -7,7 +7,7 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import React, { useState, useEffect } from "react";
-import { getUserSavedListings, getAllUserDataForProfile } from "../../backend/api/user.js";
+import { getUserSavedListings, getMyUserData } from "../../backend/api/user.js";
 import ListingPopup from "../../components/ListingPopup.js";
 import ProfileHeader from "../../components/ProfileHeader.js";
 import styles from "../(aux)/StyleSheet";
@@ -35,7 +35,7 @@ export default function ProfileScreen() {
 
     const fetchUserData = async () => {
         try {
-            const user = await getAllUserDataForProfile();
+            const user = await getMyUserData();
             setUser(user);
             setIsLoading(false);
         } catch (error) {
