@@ -4,7 +4,6 @@ import { getUsernameByID, addChatThreadToUser, getUserPushIdFromFirebaseRealtime
 
 // Function to create a new chat thread
 export async function createChatThread(userId_1, userId_2) {
-
     const chatReference = ref(database, 'dorm_swap_shop/chats');
     const snapshot = await get(chatReference);
     let chatData = snapshot.val();
@@ -84,8 +83,8 @@ export async function getChatData(chatId) {
 
         if (snapshot.exists()) {
             const chatData = snapshot.val();
-            console.log("*API - getChatData* Chat data found");
-            console.log("*API - getChatData* participants: " + chatData.participants.userId_1 + " " + chatData.participants.userId_2);
+            // console.log("*API - getChatData* Chat data found");
+            // console.log("*API - getChatData* participants: " + chatData.participants.userId_1 + " " + chatData.participants.userId_2);
             return chatData;
         }
         console.log("*API - getChatData* Chat data not found.");
@@ -108,7 +107,7 @@ export async function getChatsByUserWithHidden(userId) {
 
             for (let chatId in chats) {
                 if (!chats[chatId]) {
-                    console.log("*API - getChatsByUserWithHidden* No chat found for chatId: " + chatId);
+                    // console.log("*API - getChatsByUserWithHidden* No chat found for chatId: " + chatId);
                     continue;
                 }
 
@@ -116,21 +115,21 @@ export async function getChatsByUserWithHidden(userId) {
 
                 const participants = chats[chatId].participants;
                 if (!participants) {
-                    console.log("*API - getChatsByUserWithHidden* No participants found for chat: " + chatId);
+                    // console.log("*API - getChatsByUserWithHidden* No participants found for chat: " + chatId);
                     continue;
                 }
 
                 if (participants.userId_1 === userId || participants.userId_2 === userId) {
                     chatThreads.push(chats[chatId]);
-                    console.log("*API - getChatsByUserWithHidden* Chat found for current user: " + chatId +
-                        " with other user: " + (participants.userId_1 === userId ? participants.userId_2 : participants.userId_1));
+                    // console.log("*API - getChatsByUserWithHidden* Chat found for current user: " + chatId + 
+                    //             " with other user: " + (participants.userId_1 === userId ? participants.userId_2 : participants.userId_1));
                 }
                 else {
-                    console.log("*API - getChatsByUserWithHidden* Chat found without current user ");
+                    // console.log("*API - getChatsByUserWithHidden* Chat found without current user ");
                 }
             }
 
-            console.log("*API - getChatsByUserWithHidden* Chat threads found: " + chatThreads);
+            // console.log("*API - getChatsByUserWithHidden* Chat threads found: " + chatThreads);
             return chatThreads;
         }
         console.log("*API - getChatsByUserWithHidden* No chat threads found.");
@@ -149,10 +148,9 @@ export async function getChatsByUser(userId) {
         const userReference = ref(database, `dorm_swap_shop/users/${databaseUserId}/private/chats`);
         const snapshot = await get(chatReference);
         const userSnapshot = await get(userReference);
-
-        console.log("*API - getChatsByUser* snapshot exists: " + snapshot.exists());
-        console.log("*API - getChatsByUser* userSnapshot exists: " + userSnapshot.exists());
-
+        // console.log("*API - getChatsByUser* snapshot exists: " + snapshot.exists());
+        // console.log("*API - getChatsByUser* userSnapshot exists: " + userSnapshot.exists());
+     
         if (snapshot.exists() && userSnapshot.exists()) {
             const chats = snapshot.val();
             const userChats = userSnapshot.val();
@@ -161,8 +159,8 @@ export async function getChatsByUser(userId) {
             for (let chatId in chats) {
                 let chatInUserList = false;
                 for (let userChatId of userChats) {
-                    console.log("*API - getChatsByUser* User chat: " + userChatId);
-                    console.log("*API - getChatsByUser* Chat: " + chatId);
+                    // console.log("*API - getChatsByUser* User chat: " + userChatId);
+                    // console.log("*API - getChatsByUser* Chat: " + chatId);
                     if (chatId === userChatId) {
                         chatInUserList = true;
                         break;
@@ -170,34 +168,33 @@ export async function getChatsByUser(userId) {
                 }
 
                 if (!chatInUserList) {
-                    console.log("*API - getChatsByUser* Chat not found in user list: " + chatId);
+                    // console.log("*API - getChatsByUser* Chat not found in user list: " + chatId);
                     continue;
                 }
 
                 if (!chats[chatId]) {
-                    console.log("*API - getChatsByUser* No chat found for chatId: " + chatId);
+                    // console.log("*API - getChatsByUser* No chat found for chatId: " + chatId);
                     continue;
-                }
-
-                console.log("*API - getChatsByUser* chatId: " + chatId);
+                }                
+                // console.log("*API - getChatsByUser* chatId: " + chatId);
 
                 const participants = chats[chatId].participants;
                 if (!participants) {
-                    console.log("*API - getChatsByUser* No participants found for chat: " + chatId);
+                    // console.log("*API - getChatsByUser* No participants found for chat: " + chatId);
                     continue;
                 }
 
                 if (participants.userId_1 === userId || participants.userId_2 === userId) {
                     chatThreads.push(chats[chatId]);
-                    console.log("*API - getChatsByUser* Chat found for current user: " + chatId +
-                        " with other user: " + (participants.userId_1 === userId ? participants.userId_2 : participants.userId_1));
-                }
+                    // console.log("*API - getChatsByUser* Chat found for current user: " + chatId + 
+                    //             " with other user: " + (participants.userId_1 === userId ? participants.userId_2 : participants.userId_1));
+                } 
                 else {
-                    console.log("*API - getChatsByUser* Chat found without current user ");
+                    // console.log("*API - getChatsByUser* Chat found without current user ");
                 }
             }
 
-            console.log("*API - getChatsByUser* Chat threads found: " + chatThreads);
+            // console.log("*API - getChatsByUser* Chat threads found: " + chatThreads);
             return chatThreads;
         }
         console.log("*API - getChatsByUser* No chat threads found.");
@@ -207,25 +204,6 @@ export async function getChatsByUser(userId) {
         throw error;
     }
 }
-
-// export async function getUsersInChat(chatId) {
-//     try {
-//         const chatReference = ref(database, `dorm_swap_shop/chats/${chatId}`);
-//         const snapshot = await get(chatReference);
-
-//         if (snapshot.exists()) {
-//             const chatData = snapshot.val();
-//             const participants = chatData.participants;
-//             console.log("*API - getUsersInChat* Participants found: " + participants.userId_1 + " " + participants.userId_2);
-//             return participants;
-//         }
-//         console.log("*API - getUsersInChat* Participants not found.");
-//         return null;
-//     } catch (error) {
-//         console.error('*API - getUsersInChat* Error retrieving participants:', error);
-//         throw error;
-//     }
-// }
 
 export async function addMessage(chatId, messageData, messageReference) {
     try {
@@ -304,20 +282,40 @@ export async function readChat(chatId) {
 }
 
 
-// Function to update a chat
-export function updateChat(chatId, chatData) {
-    // We might not actually need this... I just had it here for CRUD consistency.
-}
+// Unused functions - may be needed for full deployment
 
-// Function to delete a chat
-export function deleteChat(chatId) {
-    // Implement the functionality to delete a chat. 
-    // This will be used when a user wants to delete a chat.
-    // But we need to remember that if the user deletes a chat, it only deletes
-    // from THEIR account. so the one that is tied to the specific User id from the
-    // current user.
+// export async function getUsersInChat(chatId) {
+//     try {
+//         const chatReference = ref(database, `dorm_swap_shop/chats/${chatId}`);
+//         const snapshot = await get(chatReference);
 
-    // Now we also want the chat between both users to delete after a certain
-    // amount of time to save storage in the database. This might be a separate
-    // function hmm... think about this.
-}
+//         if (snapshot.exists()) {
+//             const chatData = snapshot.val();
+//             const participants = chatData.participants;
+//             console.log("*API - getUsersInChat* Participants found: " + participants.userId_1 + " " + participants.userId_2);
+//             return participants;
+//         }
+//         console.log("*API - getUsersInChat* Participants not found.");
+//         return null;
+//     } catch (error) {
+//         console.error('*API - getUsersInChat* Error retrieving participants:', error);
+//         throw error;
+//     }
+// }
+
+// export function updateChat(chatId, chatData) {
+//     // This function is not used in the current implementation
+//     // It is here for future reference
+//     // May not be necessary
+// }
+
+// export function deleteChat(chatId) {
+//     // This function is not used in the current implementation
+//     // It is here for future reference
+// }
+
+// export function cleanUnusedChats() {
+//     // This function is not used in the current implementation
+//     // It is here for future reference
+//     // would search for chats where both users have deleted the chat and call deleteChat
+// }

@@ -7,7 +7,7 @@ import React, { useState, useEffect, useRef, useMemo } from "react";
 import { SwipeListView } from "react-native-swipe-list-view";
 import SearchBarHeader from "../../components/SearchBar";
 import { router } from "expo-router";
-import { getChatsByUser, getChatsByUserWithHidden, readChat } from "../../backend/api/chat.js";
+import { getChatsByUser, readChat } from "../../backend/api/chat.js";
 import SquareHeader from "../../components/SquareHeader.js";
 import { getUserProfileImage, cleanUserChats, getUsernameByID, removeChatThread } from "../../backend/api/user.js";
 import { getUserID } from "../../backend/dbFunctions.js";
@@ -24,13 +24,12 @@ export default function ChatScreen() {
     const [globalChatReload, setGlobalChatReload] = useStore((state) => [state.globalChatReload, state.setGlobalChatReload]);
 
     useEffect(() => {
-        // setRefreshing(true);
         // This will be used to retrieve the chat threads for the user.
         // The chat threads will be retrieved from the database.
         // The chat threads will be displayed in the SwipeListView.
         cleanUserChats(getUserID()).then(() => {
             getChatsByUser(getUserID()).then((fetchedChatThreads) => {
-                console.log("*starting useEffect* Chat threads fetched: ", fetchedChatThreads);
+                // console.log("*starting useEffect* Chat threads fetched: ", fetchedChatThreads);
                 setChatThreads(fetchedChatThreads);
                 setFullData(fetchedChatThreads);
                 setGlobalChatReload(false);
@@ -44,12 +43,11 @@ export default function ChatScreen() {
             .catch((error) => {
                 console.log("*starting useEffect* Error cleaning chat threads: ", error);
             });
-
-        console.log("*starting useEffect* Chat threads: ", chatThreads);
+        // console.log("*starting useEffect* Chat threads: ", chatThreads);
     }, [globalChatReload]);
 
     useEffect(() => {
-        console.log("*chatThreads update useEffect* Chat threads: ", chatThreads);
+        // console.log("*chatThreads update useEffect* Chat threads: ", chatThreads);
         const fetchChatData = async () => {
             if (chatThreads) {
                 const chatThreadsPromises = chatThreads.map(async (chatData) => {
@@ -171,10 +169,6 @@ export default function ChatScreen() {
         extrapolate: "clamp",
     });
 
-    // const [selectedChat, setSelectedChat] = useState("");
-    // const [search, setSearch] = useState("");
-
-
     async function handleItemPress(chat) {
         // console.log("*ChatScreen* Selected chat: ", chat.readableChatId);
         router.push({ pathname: "ConversationsScreen", params: { chatId: chat.readableChatId } });
@@ -216,7 +210,6 @@ export default function ChatScreen() {
                 </View>
             </Animated.View>
             <SwipeListView
-                // Object.values(readableChatThreads)
                 data={Object.values(memoizedListingsData)}
                 renderItem={({ item }) => (
                     <TouchableWithoutFeedback
@@ -331,7 +324,7 @@ export default function ChatScreen() {
                 rightOpenValue={-150}
                 keyExtractor={(item) => item.readableChatId}
                 contentContainerStyle={{
-                    paddingBottom: "15%", // Add this line
+                    paddingBottom: "15%",
                     paddingTop: 10,
                 }}
                 scrollEventThrottle={10}

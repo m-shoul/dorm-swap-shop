@@ -36,13 +36,13 @@ export function createUser(fname, lname, username, email, userId) {
     set(newUserReference, userData);
 }
 
-export function getUser() {
+export async function getMyUserData() {
     const userId = getUserID();
-    getUserByID(userId);
+    return getUserDataByID(userId);
 }
 
 // Function to read user data
-export function getUserByID(userId) {
+export async function getUserDataByID(userId) {
     const db = getDatabase();
     const usersRef = ref(db, "dorm_swap_shop/users/");
 
@@ -52,26 +52,6 @@ export function getUserByID(userId) {
             const data = childSnapshot.val();
             if (data.private.userId === userId) {
                 userData = data;
-            }
-        });
-        return userData;
-    }).catch((error) => {
-        console.error(error);
-    });
-}
-
-export async function getAllUserDataForProfile() {
-    const db = getDatabase();
-    const userId = getUserID();
-    const usersRef = ref(db, "dorm_swap_shop/users/");
-
-    return get(usersRef).then((snapshot) => {
-        let userData;
-        snapshot.forEach((childSnapshot) => {
-            const data = childSnapshot.val();
-            if (data.private.userId === userId) {
-                userData = data;
-
             }
         });
         return userData;
@@ -97,6 +77,11 @@ export async function getUserProfileImage(userId) {
     });
 }
 
+export async function getMyUserPushIdFromFirebaseRealtime() {
+    const userId = getUserID();
+    await getUserPushIdFromFirebaseRealtime(userId);
+}
+
 export async function getUserPushIdFromFirebaseRealtime(userId) {
     const usersRef = ref(database, "dorm_swap_shop/users/");
 
@@ -108,7 +93,7 @@ export async function getUserPushIdFromFirebaseRealtime(userId) {
                 pushId = childSnapshot.key;
             }
         });
-        console.log("UID: " + userId + "\nDatabase ID: " + pushId);
+        // console.log("UID: " + userId + "\nDatabase ID: " + pushId);
         return pushId;
     }).catch((error) => {
         console.error(error);
@@ -116,13 +101,8 @@ export async function getUserPushIdFromFirebaseRealtime(userId) {
     });
 }
 
-export async function getMyUserPushIdFromFirebaseRealtime() {
-    const userId = getUserID();
-    await getUserPushIdFromFirebaseRealtime(userId);
-}
-
 export async function getUsernameByID(userId) {
-    const user = await getUserByID(userId);
+    const user = await getUserDataByID(userId);
 
     if (user != null && user.public.fname != null && user.public.lname != null)
         return user.public.fname + " " + user.public.lname;
@@ -130,7 +110,7 @@ export async function getUsernameByID(userId) {
         return "Unknown User";
 }
 
-// Get the users saved listings
+// Get the current user's saved listings
 export async function getUserSavedListings() {
     const userId = getUserID();
     const usersRef = ref(database, "dorm_swap_shop/users/");
@@ -165,7 +145,6 @@ export async function getUserSavedListings() {
     });
 }
 
-// Function to delete a user
 export function deleteUser() {
     const user = getAuth().currentUser;
     const userId = user.uid;
@@ -228,13 +207,11 @@ export async function deleteUserFromRealtimeDatabase(userId) {
     });
 }
 
-// Function to update a user
+// Function to update a user's information
 export async function updateUser(username, fname, lname) {
-    console.log("getting user id");
     const userId = await getMyUserPushIdFromFirebaseRealtime();
     const userReference = ref(database, `dorm_swap_shop/users/${userId}/public`);
 
-    // Add more data as needed
     const updatedInfo = {
         username: username,
         fname: fname,
@@ -243,10 +220,10 @@ export async function updateUser(username, fname, lname) {
 
     update(userReference, updatedInfo)
         .then(() => {
-            console.log("Updated user information testing");
+            console.log("User API - updateUser: Updated user information successfully.");
         })
         .catch((error) => {
-            console.error("Failed to update user information: ", error);
+            console.error("User API - updateUser: Failed to update user information: ", error);
         });
 }
 
@@ -266,7 +243,7 @@ export async function uploadProfileImage(uri, uid) {
         });
 
         const userId = await getUserPushIdFromFirebaseRealtime(uid);
-        console.log("DATABASE: " + userId);
+        // console.log("DATABASE: " + userId);
 
         if (userId) {
             const storage = getStorage();
@@ -277,7 +254,7 @@ export async function uploadProfileImage(uri, uid) {
             const downloadURL = await getDownloadURL(storageRef);
             const profileImageRef = ref(database, `dorm_swap_shop/users/${userId}/public/profileImage`);
             await set(profileImageRef, downloadURL);
-            console.log("DATABASE: " + downloadURL);
+            // console.log("DATABASE: " + downloadURL);
         } else {
             console.error("DATABASE: User ID is undefined or null");
         }
@@ -291,7 +268,7 @@ export async function updateOldEmail(email, newEmail) {
 
     // Get the push ID from realtime database
     const userId = await getMyUserPushIdFromFirebaseRealtime();
-    // Get reference to the user that has the particular ID
+    // Get reference to user with that ID
     const userReference = ref(database, `dorm_swap_shop/users/${userId}/private/`);
 
     const updatedEmail = {
@@ -308,7 +285,7 @@ export async function updateOldEmail(email, newEmail) {
             update(userReference, updatedEmail);
             // Update the email in the AUTH
             verifyBeforeUpdateEmail(user, newEmail).then(() => {
-                console.log("Updated email");
+                console.log("User API - updateOldEmail: Updated email");
             }).catch((error) => {
                 console.error("Error updating email: ", error);
             });
@@ -321,7 +298,6 @@ export async function updateOldEmail(email, newEmail) {
 }
 
 export async function updateOldPassword(newPassword, currentPassword) {
-    console.log("new password: ", newPassword);
     try {
         await reauthenticate(currentPassword).then(() => {
             console.log("user verified ");
@@ -345,10 +321,8 @@ export async function updateOldPassword(newPassword, currentPassword) {
 }
 
 export async function reauthenticate(currentPassword) {
-    console.log("current password: ", currentPassword);
     // Gets current user from auth
     const user = getAuth().currentUser;
-    console.log("email: ", user.email);
     // prompts user to re-enter their current password for validation
     const cred = EmailAuthProvider.credential(user.email, currentPassword);
 
@@ -395,24 +369,23 @@ export async function removeChatThread(userId, chatId) {
             
             if (chatIndex > -1) {
                 userChatsData.splice(chatIndex, 1);
-                await set(userReference, userChatsData); // Use set instead of update
-                console.log("user api - removeChatThread: Chat thread " + chatId + " removed from user " + userId);
+                await set(userReference, userChatsData);
+                console.log("User API - removeChatThread: Chat thread " + chatId + " removed from user " + userId);
             } else {
-                console.log("user api - removeChatThread: Chat thread " + chatId + " not found for user " + userId);
+                console.log("User API - removeChatThread: Chat thread " + chatId + " not found for user " + userId);
             }
         }
         else
         {
-            console.log("user api - removeChatThread: User chats data is not an array");
+            console.log("User API - removeChatThread: User chats data is not an array");
         }
     } else {
-        console.log("user api - removeChatThread: No chats found for user " + userId);
+        console.log("User API - removeChatThread: No chats found for user " + userId);
     }
 }
 
 export async function cleanUserChats(userId) {
-    // const userId = getUserID();
-    const user = await getUserByID(userId);
+    const user = await getUserDataByID(userId);
     const userChats = user.private.chats;
 
     if (!userChats) {
@@ -439,8 +412,3 @@ export async function cleanUserChats(userId) {
         }
     }
 }
-
-// export async function chatIsInUsersList(userId, chatId) {
-//     const user = await getUserByID(userId);
-//     return user.private.chats.includes(chatId);
-// }
