@@ -96,27 +96,47 @@ export default function ReportScreen() {
                         height: 200,
                         marginBottom: "2%",
                     }}>
-                    <ShadowedView
-                        style={{
-                            shadowOpacity: 0.8,
-                            shadowRadius: 20,
-                            shadowOffset: {
-                                width: 5,
-                                height: 3,
-                            },
-                            backgroundColor: "white",
-                            borderRadius: 20,
-                        }}>
-                        <Image
-                            source={{ uri: image }}
+                    {Platform.OS === "ios" ? (
+                        <ShadowedView
                             style={{
-                                width: "100%",
-                                height: "100%",
+                                shadowOpacity: 0.8,
+                                shadowRadius: 20,
+                                shadowOffset: {
+                                    width: 5,
+                                    height: 3,
+                                },
+                                backgroundColor: "white",
                                 borderRadius: 20,
-                            }}
-                            key={image}
-                        />
-                    </ShadowedView>
+                            }}>
+                            <Image
+                                source={{ uri: image }}
+                                style={{
+                                    width: "100%",
+                                    height: "100%",
+                                    borderRadius: 20,
+                                }}
+                                key={image}
+                            />
+                        </ShadowedView>
+                    ) :
+
+                        <View
+                            style={{
+                                backgroundColor: "white",
+                                borderRadius: 20,
+                            }}>
+                            <Image
+                                source={{ uri: image }}
+                                style={{
+                                    width: "100%",
+                                    height: "100%",
+                                    borderRadius: 20,
+                                }}
+                                key={image}
+                            />
+                        </View>
+
+                    }
                 </View>
 
                 <View>

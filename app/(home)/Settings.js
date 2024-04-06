@@ -19,20 +19,27 @@ export default function SettingsScreen() {
                 <Text style={[styles.postListingHeader, { color: styles.colors.lightColor }]}>Settings</Text>
             </View>
 
-            <ShadowedView
-                style={{
-                    backgroundColor: "white",
-                    borderRadius: 20,
-                    shadowOpacity: 0.8,
-                    shadowRadius: 20,
-                    shadowOffset: {
-                        width: 5,
-                        height: 3,
-                    },
-                }}
-            >
-                <SettingsLogo />
-            </ShadowedView>
+            {Platform.OS === "ios" ? (
+                <ShadowedView
+                    style={{
+                        backgroundColor: "white",
+                        borderRadius: 20,
+                        shadowOpacity: 0.8,
+                        shadowRadius: 20,
+                        shadowOffset: {
+                            width: 5,
+                            height: 3,
+                        },
+                    }}
+                >
+                    <SettingsLogo />
+                </ShadowedView>
+            ) :
+                <View style={{ backgroundColor: "white", borderRadius: 20 }}>
+                    <SettingsLogo />
+                </View>
+            }
+
             <View style={{ width: "100%" }}>
                 <View style={{ flexDirection: "row", marginLeft: "5%" }}>
                     <TouchableOpacity
