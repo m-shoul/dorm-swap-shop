@@ -21,8 +21,7 @@ export default function ChatScreen() {
     const [readableChatThreads, setReadableChatThreads] = useState([]);
     const [fullData, setFullData] = useState([]);
     const refreshing = false;
-
-    const [globalReload, setGlobalReload] = useStore((state) => [state.globalReload, state.setGlobalReload]);
+    const [globalChatReload, setGlobalChatReload] = useStore((state) => [state.globalChatReload, state.setGlobalChatReload]);
 
     useEffect(() => {
         // setRefreshing(true);
@@ -34,7 +33,7 @@ export default function ChatScreen() {
                 console.log("*starting useEffect* Chat threads fetched: ", fetchedChatThreads);
                 setChatThreads(fetchedChatThreads);
                 setFullData(fetchedChatThreads);
-                setGlobalReload(false);
+                setGlobalChatReload(false);
             }).then(() => {
                 setIsLoading(false);
             })
@@ -47,7 +46,7 @@ export default function ChatScreen() {
             });
 
         console.log("*starting useEffect* Chat threads: ", chatThreads);
-    }, [globalReload]);
+    }, [globalChatReload]);
 
     useEffect(() => {
         console.log("*chatThreads update useEffect* Chat threads: ", chatThreads);
@@ -67,7 +66,6 @@ export default function ChatScreen() {
                         messageList = await readChat(chatData.chatId);
                         if (messageList.messages.length > 0) {
                             message = messageList.messages[0].text;
-                            // console.log("*chatThreads update useEffect* Most recent message: " + message);
                         } else {
                             console.log(
                                 "*chatThreads update useEffect* Chat thread has no messages."
