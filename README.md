@@ -11,8 +11,8 @@
 | 1.0.04  | 2023-12-01 | Searching and saving listings.
 | 1.0.05  | 2024-02-02 | Design refresh and enhanced backend CRUD functionality.
 | 1.0.06  | 2024-02-23 | Ad integration and content monitoring.
-| 1.0.07  | 2024-03-15 | TBD.
-| 1.0.08  | 2024-04-05 | TBD.
+| 1.0.07  | 2024-03-15 | User acceptance testing and incorporating feeback.
+| 1.0.08  | 2024-04-05 | Fixing bugs and polishing app features.
 | 1.0.09  | 2024-04-26 | Final deployment.
 
 ## Contents
