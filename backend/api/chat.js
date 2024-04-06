@@ -9,9 +9,8 @@ export async function createChatThread(userId_1, userId_2) {
     let chatData = snapshot.val();
 
     for (let chatId in chatData) {
-        if( (chatData[chatId].participants.userId_1 === userId_1 && chatData[chatId].participants.userId_2 === userId_2) ||
-            (chatData[chatId].participants.userId_1 === userId_2 && chatData[chatId].participants.userId_2 === userId_1)   )
-        {
+        if ((chatData[chatId].participants.userId_1 === userId_1 && chatData[chatId].participants.userId_2 === userId_2) ||
+            (chatData[chatId].participants.userId_1 === userId_2 && chatData[chatId].participants.userId_2 === userId_1)) {
             console.log("*API - createChatThread* Chat already exists: " + chatId);
             return chatId;
         }
@@ -32,17 +31,17 @@ export async function createChatThread(userId_1, userId_2) {
     const newChatData = {
         chatId: chatId,
         participants: participants,
-        reported: false, 
+        reported: false,
         messages: []
     };
 
-    await set(newChatReference, newChatData); 
+    await set(newChatReference, newChatData);
 
     await addChatThreadToUser(userId_1, chatId);
     await addChatThreadToUser(userId_2, chatId);
 
     console.log("*API - createChatThread* Chat created with id: " + chatId);
-    
+
 
     return chatId;
 }
@@ -65,8 +64,7 @@ export async function getChatThreadId(uid1, uid2) {
                 }
             }
         }
-        else
-        {
+        else {
             console.log("*API - getChatThreadId* No chat threads found.");
         }
         console.log("*API - getChatThreadId* Chat thread ID not found.");
@@ -112,7 +110,7 @@ export async function getChatsByUserWithHidden(userId) {
                     // console.log("*API - getChatsByUserWithHidden* No chat found for chatId: " + chatId);
                     continue;
                 }
-                
+
                 console.log("*API - getChatsByUser* chatId: " + chatId);
 
                 const participants = chats[chatId].participants;
@@ -125,7 +123,7 @@ export async function getChatsByUserWithHidden(userId) {
                     chatThreads.push(chats[chatId]);
                     // console.log("*API - getChatsByUserWithHidden* Chat found for current user: " + chatId + 
                     //             " with other user: " + (participants.userId_1 === userId ? participants.userId_2 : participants.userId_1));
-                } 
+                }
                 else {
                     // console.log("*API - getChatsByUserWithHidden* Chat found without current user ");
                 }
@@ -150,10 +148,9 @@ export async function getChatsByUser(userId) {
         const userReference = ref(database, `dorm_swap_shop/users/${databaseUserId}/private/chats`);
         const snapshot = await get(chatReference);
         const userSnapshot = await get(userReference);
-
         // console.log("*API - getChatsByUser* snapshot exists: " + snapshot.exists());
         // console.log("*API - getChatsByUser* userSnapshot exists: " + userSnapshot.exists());
-        
+     
         if (snapshot.exists() && userSnapshot.exists()) {
             const chats = snapshot.val();
             const userChats = userSnapshot.val();
@@ -178,8 +175,7 @@ export async function getChatsByUser(userId) {
                 if (!chats[chatId]) {
                     // console.log("*API - getChatsByUser* No chat found for chatId: " + chatId);
                     continue;
-                }
-                
+                }                
                 // console.log("*API - getChatsByUser* chatId: " + chatId);
 
                 const participants = chats[chatId].participants;
@@ -211,7 +207,7 @@ export async function getChatsByUser(userId) {
 
 export async function addMessage(chatId, messageData, messageReference) {
     try {
-        if (typeof(chatId) != "string" || !chatId) {
+        if (typeof (chatId) != "string" || !chatId) {
             throw new Error('Chat ID is required.');
         }
         const chatRef = ref(database, `dorm_swap_shop/chats/${chatId}`);
@@ -243,7 +239,8 @@ export async function readChat(chatId) {
     // console.log("*API - readChat* Reading chat: " + chatId);
 
     const chatRef = ref(database, `dorm_swap_shop/chats/${chatId}`);
-    
+
+    // Return the Promise created by get(chatRef).then(...)
     return get(chatRef).then((snapshot) => {
         if (snapshot.exists()) {
             const chatData = snapshot.val();
@@ -255,14 +252,15 @@ export async function readChat(chatId) {
                 const message = chatData.messages[messageId];
                 let userId = message.user._id;
                 let name = getUsernameByID(userId);
-                if (typeof(name) != "string") {
+                if (typeof (name) != "string") {
                     name = "Unknown";
                 }
                 messages.push({
                     _id: message._id,
                     text: message.text,
+                    image: message.image,
                     createdAt: new Date(message.createdAt),
-                    user: 
+                    user:
                     {
                         _id: userId,
                         name: name
@@ -273,7 +271,7 @@ export async function readChat(chatId) {
             // console.log("*API - readChat* Messages found: " + messages);
 
             // Return the messages
-            return { messages: messages.reverse(), participants: participants};
+            return { messages: messages.reverse(), participants: participants };
         } else {
             throw new Error('*API - readChat* Chat does not exist.');
         }

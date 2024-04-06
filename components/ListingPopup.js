@@ -24,7 +24,7 @@ import {
     getUserProfileImage,
     getUsernameByID,
 } from "../backend/api/user.js";
-import { saveListing, unsaveListing, isListingFavorited} from "../backend/api/listing.js";
+import { saveListing, unsaveListing, isListingFavorited } from "../backend/api/listing.js";
 import { createChatThread, getChatThreadId } from "../backend/api/chat.js";
 import CachedImage from "expo-cached-image";
 import { Ionicons } from '@expo/vector-icons';
@@ -70,7 +70,7 @@ export default function ListingPopup({ listing }) {
 
         if (chatId) {
             setGlobalReload(true);
-            router.push({ pathname: "(chat)/ConversationsScreen", params: { chatId: chatId } });
+            router.push({ pathname: "(chat)/ConversationsScreen", params: { chatId: chatId, listingImage: listingImage } });
         }
         else
             console.log("Error creating chat thread");
@@ -82,6 +82,8 @@ export default function ListingPopup({ listing }) {
                 ? listing.title.substring(0, 13) + "..."
                 : listing.title
             : "";
+
+    const listingImage = listing.images[0]
 
     const fetchUser = async () => {
         const username = await getUsernameByID(listing.user);

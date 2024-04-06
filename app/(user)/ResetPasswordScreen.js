@@ -71,21 +71,29 @@ export default function ResetPasswordScreen() {
             <StatusBar barStyle="light-content" />
             <RoundHeader height={150} />
 
-            <ShadowedView
-                style={{
-                    marginTop: "10%",
-                    shadowOpacity: 0.8,
-                    shadowRadius: 20,
-                    shadowOffset: {
-                        width: 5,
-                        height: 3,
-                    },
-                    backgroundColor: "white",
-                    borderRadius: 20,
-                }}
-            >
-                <ResetPasswordIcon />
-            </ShadowedView>
+            {Platform.OS === "ios" ? (
+                <ShadowedView
+                    style={{
+                        marginTop: "10%",
+                        shadowOpacity: 0.8,
+                        shadowRadius: 20,
+                        shadowOffset: {
+                            width: 5,
+                            height: 3,
+                        },
+                        backgroundColor: "white",
+                        borderRadius: 20,
+                    }}
+                >
+                    <ResetPasswordIcon />
+                </ShadowedView>
+            ) :
+
+                <View style={{ marginTop: "10%" }}>
+                    <ResetPasswordIcon />
+                </View>
+
+            }
 
             <View>
                 <Text style={styles.loginHeader}>Reset Password</Text>
@@ -118,7 +126,7 @@ export default function ResetPasswordScreen() {
                     </Text>
                 )}
             </View>
-            
+
             <Button
                 width="80%"
                 backgroundColor={styles.colors.darkAccentColor}

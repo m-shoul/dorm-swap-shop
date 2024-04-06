@@ -21,8 +21,7 @@ export default function ChatScreen() {
     const [readableChatThreads, setReadableChatThreads] = useState([]);
     const [fullData, setFullData] = useState([]);
     const refreshing = false;
-    
-    const [globalReload, setGlobalReload] = useStore((state) => [state.globalReload, state.setGlobalReload]);
+    const [globalChatReload, setGlobalChatReload] = useStore((state) => [state.globalChatReload, state.setGlobalChatReload]);
 
     useEffect(() => {
         // This will be used to retrieve the chat threads for the user.
@@ -33,20 +32,19 @@ export default function ChatScreen() {
                 // console.log("*starting useEffect* Chat threads fetched: ", fetchedChatThreads);
                 setChatThreads(fetchedChatThreads);
                 setFullData(fetchedChatThreads);
-                setGlobalReload(false);
+                setGlobalChatReload(false);
             }).then(() => {
                 setIsLoading(false);
             })
-            .catch((error) => {
-                console.log("*starting useEffect* Error fetching chat threads: ", error);
-            });
+                .catch((error) => {
+                    console.log("*starting useEffect* Error fetching chat threads: ", error);
+                });
         })
-        .catch((error) => {
-            console.log("*starting useEffect* Error cleaning chat threads: ", error);
-        });
-        
+            .catch((error) => {
+                console.log("*starting useEffect* Error cleaning chat threads: ", error);
+            });
         // console.log("*starting useEffect* Chat threads: ", chatThreads);
-    }, []); 
+    }, [globalChatReload]);
 
     useEffect(() => {
         // console.log("*chatThreads update useEffect* Chat threads: ", chatThreads);
@@ -57,16 +55,15 @@ export default function ChatScreen() {
                         ? chatData.participants.userId_2
                         : chatData.participants.userId_1;
 
-                const otherUsername = await getUsernameByID(otherUser);
-                const otherProfileImage = await getUserProfileImage(otherUser);
-                let messageList = [];
-                let message = "";
+                    const otherUsername = await getUsernameByID(otherUser);
+                    const otherProfileImage = await getUserProfileImage(otherUser);
+                    let messageList = [];
+                    let message = "";
 
                     if (chatData && 'messages' in chatData) {
                         messageList = await readChat(chatData.chatId);
-                        if (messageList.length > 0) {
+                        if (messageList.messages.length > 0) {
                             message = messageList.messages[0].text;
-                            // console.log("*chatThreads update useEffect* Most recent message: " + message);
                         } else {
                             console.log(
                                 "*chatThreads update useEffect* Chat thread has no messages."
@@ -85,12 +82,11 @@ export default function ChatScreen() {
                         message: message,
                     };
                 });
-                
+
                 const chatObjects = await Promise.all(chatThreadsPromises);
                 setReadableChatThreads(chatObjects);
             }
-            else 
-            {
+            else {
                 console.log("*chatThreads update useEffect* Chat threads is null.");
             }
         };
@@ -142,7 +138,7 @@ export default function ChatScreen() {
     const noListingsFromSearch = () => (
         <View style={{ marginTop: "60%", justifyContent: "center", alignItems: "center", paddingHorizontal: "15%" }}>
             <Text style={[styles.boldtext, { textAlign: "center" }]}>
-                Oops! No chats match that criteria. Refresh to clear results.
+                Oops! No chats.
             </Text>
         </View>
 
@@ -190,7 +186,7 @@ export default function ChatScreen() {
         <SafeAreaView
             style={{ flex: 1, backgroundColor: styles.colors.lightColor }}>
             {/* Search bar was taken from homescreen, so will not have functionality. */}
-            <SquareHeader height={120} />
+            <SquareHeader height={80} />
             <Animated.View
                 style={{
                     zIndex: 1,
@@ -309,9 +305,9 @@ export default function ChatScreen() {
                                         onPress: () => {
                                             console.log("OK Pressed")
                                             removeChatThread(getUserID(), item.readableChatId);
+                                        },
                                     },
-                                    },
-                                    ],
+                                ],
                                     { cancelable: true }
                                 );
 
@@ -335,8 +331,8 @@ export default function ChatScreen() {
                 style={{
                     flex: 1,
                     backgroundColor: styles.colors.lightColor,
-                    //paddingTop: 85,
-                    marginTop: 68,
+                    paddingTop: 85,
+                    //marginTop: 68,
                 }}
                 onScroll={Animated.event(
                     [{ nativeEvent: { contentOffset: { y: scrollOffsetY } } }],

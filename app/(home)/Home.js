@@ -276,7 +276,7 @@ export default function HomeScreen() {
                                 style={{
                                     width: "50%",
                                     height: 230,
-                                    paddingHorizontal: "1%",
+                                    paddingHorizontal: "10%",
                                     marginBottom: "1%",
                                     justifyContent: "center",
                                 }}>

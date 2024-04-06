@@ -4,5 +4,7 @@ export const useStore = create((set) => ({
     globalReload: false,
     setGlobalReload: (newVal) => set(() => ({ globalReload: newVal })),
     isImageLoading: false,
-    setIsImageLoading: (value) => set(() => ({ isImageLoading: value })),
+    setIsImageLoading: (value) => set(() => ({ isImageLoading: value })),   
+    globalChatReload: false,
+    setGlobalChatReload: (newVal) => set(() => ({ globalChatReload: newVal })),
 }));
