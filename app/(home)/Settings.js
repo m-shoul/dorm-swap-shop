@@ -15,7 +15,7 @@ export default function SettingsScreen() {
     return (
         <SafeAreaView style={styles.background}>
             <RoundHeader height={220} />
-            <View style={{ marginTop: "1%", marginBottom: "6%" }}>
+            <View style={{ marginBottom: "6%" }}>
                 <Text
                     style={[
                         styles.loginHeader,
