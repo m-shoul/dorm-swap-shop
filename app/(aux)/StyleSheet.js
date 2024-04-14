@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     deleteBtn: {
         width: "80%",
         borderRadius: 25,
-        height: 40,
+        height: 55,
         alignItems: "center",
         justifyContent: "center",
 

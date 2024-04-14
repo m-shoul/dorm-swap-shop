@@ -1,4 +1,4 @@
-import { Text, View, TouchableOpacity, } from "react-native";
+import { Text, View, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import React from "react";
 import styles from "../(aux)/StyleSheet.js";
@@ -6,7 +6,7 @@ import { router } from "expo-router";
 import { logoutUser } from "../../backend/dbFunctions.js";
 import RoundHeader from "../../components/RoundHeader";
 import SettingsLogo from "../../assets/svg/settings_logo.js";
-import { ShadowedView } from 'react-native-fast-shadow';
+import { ShadowedView } from "react-native-fast-shadow";
 import ChangeEmail from "../../components/ChangeEmailPopup.js";
 import ChangePassword from "../../components/ChangePasswordPopup.js";
 import { Ionicons } from "@expo/vector-icons";
@@ -15,8 +15,14 @@ export default function SettingsScreen() {
     return (
         <SafeAreaView style={styles.background}>
             <RoundHeader height={220} />
-            <View style={{ marginTop: "10%", marginBottom: "10%" }}>
-                <Text style={[styles.postListingHeader, { color: styles.colors.lightColor }]}>Settings</Text>
+            <View style={{ marginBottom: "6%" }}>
+                <Text
+                    style={[
+                        styles.loginHeader,
+                        { color: styles.colors.lightColor },
+                    ]}>
+                    Settings
+                </Text>
             </View>
 
             {Platform.OS === "ios" ? (
@@ -30,20 +36,18 @@ export default function SettingsScreen() {
                             width: 5,
                             height: 3,
                         },
-                    }}
-                >
+                    }}>
                     <SettingsLogo />
                 </ShadowedView>
-            ) :
+            ) : (
                 <View style={{ backgroundColor: "white", borderRadius: 20 }}>
                     <SettingsLogo />
                 </View>
-            }
+            )}
 
             <View style={{ width: "100%" }}>
                 <View style={{ flexDirection: "row", marginLeft: "5%" }}>
                     <TouchableOpacity
-
                         onPress={() => router.push("(settings)/AboutScreen")}
                         style={{
                             marginBottom: "5%",
