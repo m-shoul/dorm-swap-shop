@@ -8,9 +8,7 @@ import {
     KeyboardAvoidingView,
     Dimensions,
 } from "react-native";
-import {
-    useSafeAreaInsets,
-} from "react-native-safe-area-context";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Image } from "expo-image";
 import React, { useState, useEffect, useRef } from "react";
 import styles from "../(aux)/StyleSheet.js";
@@ -18,13 +16,22 @@ import { categories, conditions } from "../../components/Enums.js";
 import * as ImagePicker from "expo-image-picker";
 import ListImagesComponent from "../../assets/svg/list_images.js";
 import RNPickerSelect from "react-native-picker-select";
-import { updateListing, getIndividualListing } from "../../backend/api/listing.js";
+import {
+    updateListing,
+    getIndividualListing,
+} from "../../backend/api/listing.js";
 import { router, useNavigation, useLocalSearchParams } from "expo-router";
-import { Button } from '../../components/Buttons.js';
+import { Button } from "../../components/Buttons.js";
 import RoundHeader from "../../components/RoundHeader.js";
 import ExpandComponent from "../../assets/svg/expand_icon.js";
-import { RegExpMatcher, TextCensor, englishDataset, englishRecommendedTransformers, asteriskCensorStrategy } from "obscenity";
-import { ShadowedView } from 'react-native-fast-shadow';
+import {
+    RegExpMatcher,
+    TextCensor,
+    englishDataset,
+    englishRecommendedTransformers,
+    asteriskCensorStrategy,
+} from "obscenity";
+import { ShadowedView } from "react-native-fast-shadow";
 import { useStore } from "../global.js";
 
 export default function EditListings() {
@@ -103,7 +110,15 @@ export default function EditListings() {
     }, []);
 
     const handleUpdate = async () => {
-        await updateListing(listingId, title, description, price, category, condition, image);
+        await updateListing(
+            listingId,
+            title,
+            description,
+            price,
+            category,
+            condition,
+            image
+        );
         setGlobalReload(true);
         router.push("(home)/MyListingsScreen");
     };
@@ -145,13 +160,12 @@ export default function EditListings() {
             <RoundHeader height={260} />
             <View
                 style={{
-                    paddingTop: "5%",
                     width: "100%",
                     alignItems: "center",
                 }}>
                 <Text
                     style={[
-                        styles.postListingHeader,
+                        styles.loginHeader,
                         { marginBottom: "7%", color: styles.colors.lightColor },
                     ]}>
                     Edit Listing
@@ -205,11 +219,13 @@ export default function EditListings() {
                                             }}
                                         />
                                     ) : (
-                                        <ListImagesComponent style={imageStyle} />
+                                        <ListImagesComponent
+                                            style={imageStyle}
+                                        />
                                     )}
                                 </TouchableOpacity>
                             </ShadowedView>
-                        ) :
+                        ) : (
                             <View style={{ height: 200, margin: "2%" }}>
                                 <TouchableOpacity onPress={() => pickImage()}>
                                     {image ? (
@@ -223,12 +239,16 @@ export default function EditListings() {
                                             }}
                                         />
                                     ) : (
-                                        <ListImagesComponent style={imageStyle} />
+                                        <ListImagesComponent
+                                            style={imageStyle}
+                                        />
                                     )}
                                 </TouchableOpacity>
                             </View>
-                        }
-                        <Text style={{ textAlign: "center" }}>Change Image</Text>
+                        )}
+                        <Text style={{ textAlign: "center" }}>
+                            Change Image
+                        </Text>
                     </View>
 
                     <View style={styles.forms}>
@@ -407,7 +427,9 @@ export default function EditListings() {
                             }}
                             multiline={true}
                             maxLength={250}
-                            placeholder={description ? description : "Description"}
+                            placeholder={
+                                description ? description : "Description"
+                            }
                             value={description}
                             style={descriptionStyle}
                             ref={descriptionInputRef}
@@ -448,4 +470,4 @@ export default function EditListings() {
             </KeyboardAvoidingView>
         </View>
     );
-};
+}
