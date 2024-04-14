@@ -12,13 +12,14 @@ import ListingPopup from "../../components/ListingPopup.js";
 import ProfileHeader from "../../components/ProfileHeader.js";
 import styles from "../(aux)/StyleSheet";
 import { useStore } from "../global.js";
+import SquareHeader from "../../components/SquareHeader.js";
 
 export default function ProfileScreen() {
     const [savedListings, setSavedListings] = useState([]);
     const [user, setUser] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const refreshing = false;
-    
+
     const [globalReload, setGlobalReload] = useStore((state) => [state.globalReload, state.setGlobalReload]);
 
     const fetchSavedListings = async () => {
@@ -61,7 +62,8 @@ export default function ProfileScreen() {
     const insets = useSafeAreaInsets();
 
     return (
-        <View style={{ flex: 1, paddingTop: insets.top, backgroundColor: styles.colors.darkColor }}>
+        <View style={{ flex: 1, paddingTop: insets.top, backgroundColor: styles.colors.lightColor }}>
+            <SquareHeader height={'50%'} />
             {isLoading ? (
                 <ActivityIndicator size="large" />
             ) : (
@@ -84,16 +86,15 @@ export default function ProfileScreen() {
                     numColumns={2}
                     contentContainerStyle={{
                         backgroundColor: styles.colors.lightColor,
-                        flexGrow: 1,
+                        flexGrow: 1
                     }}
                     style={{
-                        backgroundColor: styles.colors.lightColor,
+                        flex: 1,
                     }}
 
                     bounces={true}
                     refreshControl={
                         <RefreshControl
-                            style={{ backgroundColor: styles.colors.darkColor }}
                             refreshing={refreshing}
                             onRefresh={handleRefresh}
                             tintColor={styles.colors.lightColor}
