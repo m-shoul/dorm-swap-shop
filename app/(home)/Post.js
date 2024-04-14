@@ -284,13 +284,12 @@ export default function CreatePostScreen() {
             <RoundHeader height={260} />
             <View
                 style={{
-                    paddingTop: "5%",
                     width: "100%",
                     alignItems: "center",
                 }}>
                 <Text
                     style={[
-                        styles.postListingHeader,
+                        styles.loginHeader,
                         {
                             marginBottom: "7%",
                             color: styles.colors.lightColor,
@@ -358,11 +357,13 @@ export default function CreatePostScreen() {
                                             }}
                                         />
                                     ) : (
-                                        <ListImagesComponent style={imageStyle} />
+                                        <ListImagesComponent
+                                            style={imageStyle}
+                                        />
                                     )}
                                 </TouchableOpacity>
                             </ShadowedView>
-                        ) :
+                        ) : (
                             <View style={{ height: 200, margin: "2%" }}>
                                 <TouchableOpacity onPress={() => pickImage()}>
                                     {image ? (
@@ -376,12 +377,13 @@ export default function CreatePostScreen() {
                                             }}
                                         />
                                     ) : (
-                                        <ListImagesComponent style={imageStyle} />
+                                        <ListImagesComponent
+                                            style={imageStyle}
+                                        />
                                     )}
                                 </TouchableOpacity>
                             </View>
-
-                        }
+                        )}
                         {errorMessageImage ? (
                             <Text
                                 style={{

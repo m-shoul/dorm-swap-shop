@@ -8,9 +8,7 @@ import {
     Dimensions,
     Alert,
 } from "react-native";
-import {
-    useSafeAreaInsets,
-} from "react-native-safe-area-context";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import ListImagesComponent from "../assets/svg/list_images.js";
 import SquareHeader from "./SquareHeader.js";
 import { Image } from "expo-image";
@@ -20,14 +18,15 @@ import FavouriteIcon from "../assets/svg/favourite_icon.js";
 import SavedListingIcon from "../assets/svg/savedListing_icon.js";
 import { useRouter } from "expo-router";
 import { Button } from "./Buttons.js";
+import { getUserProfileImage, getUsernameByID } from "../backend/api/user.js";
 import {
-    getUserProfileImage,
-    getUsernameByID,
-} from "../backend/api/user.js";
-import { saveListing, unsaveListing, isListingFavorited } from "../backend/api/listing.js";
+    saveListing,
+    unsaveListing,
+    isListingFavorited,
+} from "../backend/api/listing.js";
 import { createChatThread, getChatThreadId } from "../backend/api/chat.js";
 import CachedImage from "expo-cached-image";
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons } from "@expo/vector-icons";
 import { getUserID } from "../backend/dbFunctions.js";
 import { useStore } from "../app/global.js";
 
@@ -41,7 +40,10 @@ export default function ListingPopup({ listing }) {
     const [profileImage, setProfileImage] = useState("");
 
     // TODO: Auto update for saving listings
-    const [globalReload, setGlobalReload] = useStore((state) => [state.globalReload, state.setGlobalReload]);
+    const [globalReload, setGlobalReload] = useStore((state) => [
+        state.globalReload,
+        state.setGlobalReload,
+    ]);
 
     const router = useRouter();
 
@@ -70,10 +72,11 @@ export default function ListingPopup({ listing }) {
 
         if (chatId) {
             setGlobalReload(true);
-            router.push({ pathname: "(chat)/ConversationsScreen", params: { chatId: chatId, listingImage: listingImage } });
-        }
-        else
-            console.log("Error creating chat thread");
+            router.push({
+                pathname: "(chat)/ConversationsScreen",
+                params: { chatId: chatId, listingImage: listingImage },
+            });
+        } else console.log("Error creating chat thread");
     };
 
     const listingTitle =
@@ -83,7 +86,7 @@ export default function ListingPopup({ listing }) {
                 : listing.title
             : "";
 
-    const listingImage = listing.images[0]
+    const listingImage = listing.images[0];
 
     const fetchUser = async () => {
         const username = await getUsernameByID(listing.user);
@@ -162,7 +165,9 @@ export default function ListingPopup({ listing }) {
                             marginBottom: "2%",
                         }}
                     />
-                    <Text style={{ paddingLeft: 10, fontSize: 13 }}>{"$" + listing.price + " - " + listingTitle}</Text>
+                    <Text style={{ paddingLeft: 10, fontSize: 13 }}>
+                        {"$" + listing.price + " - " + listingTitle}
+                    </Text>
                 </View>
             </TouchableOpacity>
 
@@ -195,7 +200,11 @@ export default function ListingPopup({ listing }) {
                                     },
                                 });
                             }}>
-                            <Ionicons name="alert-circle-outline" size={32} color="white" />
+                            <Ionicons
+                                name="alert-circle-outline"
+                                size={32}
+                                color="white"
+                            />
                         </TouchableOpacity>
                     </View>
                     {/* IMAGE */}
@@ -326,7 +335,7 @@ export default function ListingPopup({ listing }) {
                                 marginLeft: "3%",
                             }}>
                             {/* DESCRIPTION */}
-                            <Text style={{ flex: 1 }}>
+                            <Text style={{ flex: 1, marginRight: "3%" }}>
                                 {listing.description}
                             </Text>
                         </View>

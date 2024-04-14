@@ -112,7 +112,7 @@ export default function FilterPopup({ handleFiltering }) {
                                         press={() => setActivePrice('$')}
                                         titleStyle={styles.buttonText}
                                     />
-                                    <Text style={{ textAlign: 'center' }}> under $10 </Text>
+                                    <Text style={{ textAlign: 'center' }}> Under $10 </Text>
                                 </View>
                                 <View style={{ width: '30%' }}>
                                     <Button
