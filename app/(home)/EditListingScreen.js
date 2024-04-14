@@ -332,6 +332,7 @@ export default function EditListings() {
                         />
                         <View style={categoryStyle}>
                             <RNPickerSelect
+                                value={category}
                                 returnKeyType="done"
                                 blurOnSubmit={false}
                                 onValueChange={(value) => {
@@ -343,7 +344,6 @@ export default function EditListings() {
                                 }}
                                 placeholder={{
                                     label: "Select a Category",
-                                    value: null,
                                 }}
                                 onSubmitEditing={() => {
                                     Keyboard.dismiss();
@@ -372,11 +372,11 @@ export default function EditListings() {
                         </View>
                         <View style={conditionStyle}>
                             <RNPickerSelect
+                                value={condition}
                                 returnKeyType="done"
                                 blurOnSubmit={false}
                                 placeholder={{
-                                    label: "Select a Condition",
-                                    value: null,
+                                    label:"Select a Condition",
                                 }}
                                 onBlur={() => {
                                     Keyboard.dismiss();
@@ -400,11 +400,11 @@ export default function EditListings() {
                                     inputIOS: {
                                         paddingTop: "2%", //was 7
                                         paddingLeft: "5%",
-                                        fontSize: normalText, // Change this to your desired font size
+                                        fontSize: normalText,
                                     },
                                     inputAndroid: {
                                         marginTop: -8,
-                                        fontSize: normalText, // Change this to your desired font size
+                                        fontSize: normalText,
                                     },
                                     iconContainer: {
                                         top: 5,
