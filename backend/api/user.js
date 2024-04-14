@@ -209,7 +209,8 @@ export async function deleteUserFromRealtimeDatabase(userId) {
 
 // Function to update a user's information
 export async function updateUser(username, fname, lname) {
-    const userId = await getMyUserPushIdFromFirebaseRealtime();
+    const uid = await getUserID();
+    const userId = await getUserPushIdFromFirebaseRealtime(uid);
     const userReference = ref(database, `dorm_swap_shop/users/${userId}/public`);
 
     const updatedInfo = {
