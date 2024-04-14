@@ -98,8 +98,6 @@ export default function ChangePassword() {
             <TouchableOpacity
                 onPress={() => setModalVisible(true)}
                 style={{
-                    marginBottom: "5%",
-                    marginTop: "-3%",
                     flexDirection: "row",
                 }}>
                 <Ionicons name="lock-closed-outline" size={32} color="black" />

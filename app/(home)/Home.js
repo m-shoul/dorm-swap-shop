@@ -230,7 +230,7 @@ export default function HomeScreen() {
             <SquareHeader height={80} />
             <Animated.View
                 style={{
-                    zIndex: 1,
+                    zIndex: 2,
                     transform: [{ translateY: animatedHeaderHeight }],
                 }}>
                 <View
@@ -254,11 +254,10 @@ export default function HomeScreen() {
             <View
                 style={{
                     position: "absolute",
-
                     opacity: 10,
                     right: 0,
                     top: 660,
-                    zIndex: 2,
+                    zIndex: 1,
                     width: "97%",
                     marginRight: "1.5%",
                     borderRadius: 30,

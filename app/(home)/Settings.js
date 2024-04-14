@@ -41,13 +41,10 @@ export default function SettingsScreen() {
             }
 
             <View style={{ width: "100%" }}>
-                <View style={{ flexDirection: "row", marginLeft: "5%" }}>
+                <View style={{ marginLeft: "5%", marginBottom: "2%", marginTop: "3%", }}>
                     <TouchableOpacity
-
                         onPress={() => router.push("(settings)/AboutScreen")}
                         style={{
-                            marginBottom: "5%",
-                            marginTop: "3%",
                             flexDirection: "row",
                         }}>
                         <Ionicons
@@ -70,7 +67,7 @@ export default function SettingsScreen() {
                         { width: "83%", marginLeft: "7%" },
                     ]}
                 />
-                <View style={{ flexDirection: "row", marginLeft: "5%" }}>
+                <View style={{ marginLeft: "5%", marginBottom: "2%", marginTop: "-3%" }}>
                     <ChangeEmail />
                 </View>
                 <View
@@ -79,7 +76,7 @@ export default function SettingsScreen() {
                         { width: "83%", marginLeft: "7%" },
                     ]}
                 />
-                <View style={{ flexDirection: "row", marginLeft: "5%" }}>
+                <View style={{ marginLeft: "5%", marginBottom: "2%", marginTop: "-3%" }}>
                     <ChangePassword />
                 </View>
                 <View
@@ -88,15 +85,13 @@ export default function SettingsScreen() {
                         { width: "83%", marginLeft: "7%" },
                     ]}
                 />
-                <View style={{ flexDirection: "row", marginLeft: "5%" }}>
+                <View style={{ marginLeft: "5%", marginBottom: "2%", marginTop: "-3%", }}>
                     <TouchableOpacity
                         onPress={() => {
                             logoutUser();
                             router.push("/");
                         }}
                         style={{
-                            marginBottom: "5%",
-                            marginTop: "-3%",
                             flexDirection: "row",
                         }}>
                         <Ionicons
@@ -119,14 +114,12 @@ export default function SettingsScreen() {
                         { width: "83%", marginLeft: "7%" },
                     ]}
                 />
-                <View style={{ flexDirection: "row", marginLeft: "5%" }}>
+                <View style={{ marginLeft: "5%", marginBottom: "5%", marginTop: "-3%", }}>
                     <TouchableOpacity
                         onPress={() =>
                             router.push("(settings)/DeleteAccountScreen")
                         }
                         style={{
-                            marginBottom: "5%",
-                            marginTop: "-3%",
                             flexDirection: "row",
                         }}>
                         <Ionicons name="skull-outline" size={32} color="red" />
