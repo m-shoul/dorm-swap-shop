@@ -65,9 +65,10 @@ export default function ListingPopup({ listing }) {
 
     const closeModal = async () => {
         setListingModalVisible(false);
-        let chatId = await getChatThreadId(listing.user, getUserID());
+        const uid = getUserID();
+        let chatId = await getChatThreadId(listing.user, uid);
         if (!chatId) {
-            chatId = await createChatThread(listing.user, getUserID());
+            chatId = await createChatThread(listing.user, uid);
         }
 
         if (chatId) {

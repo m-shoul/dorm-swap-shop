@@ -37,11 +37,10 @@ export async function createChatThread(userId_1, userId_2) {
 
     await set(newChatReference, newChatData);
 
-    await addChatThreadToUser(userId_1, chatId);
-    await addChatThreadToUser(userId_2, chatId);
+    addChatThreadToUser(userId_1, chatId);
+    addChatThreadToUser(userId_2, chatId);
 
     console.log("*API - createChatThread* Chat created with id: " + chatId);
-
 
     return chatId;
 }
