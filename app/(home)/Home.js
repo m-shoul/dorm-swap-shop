@@ -21,6 +21,45 @@ import AdPopup from "../../components/AdPopup";
 import { useStore } from "../global";
 import ScanningModal from "../../components/ScanningModal";
 
+const Ads = [
+    {
+        listingId: '1',
+        title: 'Prayer Circle',
+        description: 'United in Faith, Pray in Community',
+        image: require("../../assets/logos/prayerCircle.png"),
+    },
+    {
+        listingId: '2',
+        title: 'Recipe for Success',
+        description: 'Recipe for success is a cooking app designed to help new chefs improve their cooking skills while also providing a useful tool for experienced chefs.',
+        image: require("../../assets/logos/recipeLogo.png"),
+    },
+    {
+        listingId: '3',
+        title: 'Ad Title',
+        description: 'To rent out Ad space contact: dormswapnshop@gmail.com',
+        image: "",
+    },
+    {
+        listingId: '4',
+        title: 'Ad tittle',
+        description: 'To rent out Ad space contact: dormswapnshop@gmail.com',
+        image: "",
+    },
+    {
+        listingId: '5',
+        title: 'Ad Title',
+        description: 'To rent out Ad space contact: dormswapnshop@gmail.com',
+        image: "",
+    },
+    {
+        listingId: '6',
+        title: 'Ad Title',
+        description: 'To rent out Ad space contact: dormswapnshop@gmail.com',
+        image: "",
+    },
+];
+
 export default function HomeScreen() {
     const scrollOffsetY = useRef(new Animated.Value(0)).current;
 
@@ -220,6 +259,18 @@ export default function HomeScreen() {
     });
     const insets = useSafeAreaInsets();
 
+    let data = [];
+    let adIndex = 0;
+    for (let i = 0; i < memoizedListingsData.length; i++) {
+
+        if ((i + 1) % 6 === 0) {
+            data.push({ type: 'ad', item: Ads[adIndex] });
+            adIndex++;
+        }
+        data.push(memoizedListingsData[i]);
+
+    }
+    console.log(data);
     return (
         <View
             style={{
@@ -266,20 +317,20 @@ export default function HomeScreen() {
                 <ScanningModal loading={isImageLoading} />
             </View>
             <FlatList
-                data={Object.values(memoizedListingsData)}
+                data={data}
                 keyExtractor={(item) => item.listingId}
                 renderItem={({ item, index }) => {
-                    if ((index + 1) % 6 === 0) {
+                    if (item.type === 'ad') {
                         return (
                             <View
                                 style={{
                                     width: "50%",
                                     height: 230,
-                                    paddingHorizontal: "10%",
+                                    paddingHorizontal: "1%",
                                     marginBottom: "1%",
                                     justifyContent: "center",
                                 }}>
-                                <AdPopup />
+                                <AdPopup Ad={item.item} />
                             </View>
                         );
                     } else {

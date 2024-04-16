@@ -1,18 +1,47 @@
-import { View, Text, Modal, TouchableOpacity } from "react-native";
+import { View, Text, Modal, TouchableOpacity, Dimensions, Image } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import styles from "../app/(aux)/StyleSheet";
 import SquareHeader from "./SquareHeader.js";
 import React, { useState, useRef, useEffect } from "react";
 import { Ionicons } from '@expo/vector-icons';
 
-export default function AdPopup() {
+
+export default function AdPopup({ Ad }) {
+    const { width, height } = Dimensions.get("window");
     const [modalVisible, setModalVisible] = useState(false);
     const insets = useSafeAreaInsets();
 
     return (
-        <View style={{ justifyContent: "center" }}>
+        <View>
             <TouchableOpacity onPress={() => setModalVisible(true)}>
-                <Text style={{ textAlign: "center" }}>Click here to rent out Ad space</Text>
+                <View style={{ backgroundColor: "white", borderRadius: 20 }}>
+                    {Ad.image ? <Image
+                        source={Ad.image}
+                        style={{
+                            width: "100%",
+                            height: 200,
+                            borderTopLeftRadius: 20,
+                            borderTopRightRadius: 20,
+                        }}
+                    /> : <View style={{
+                        width: "100%",
+                        height: 200,
+                        justifyContent: "center",
+                    }}><Text style={{ textAlign: "center" }}>Click here to rent out Ad space</Text></View>}
+
+                    <View
+                        style={{
+                            backgroundColor: "#B3B3B3",
+                            height: 1,
+                            width: "100%",
+                            marginTop: "2%",
+                            marginBottom: "2%",
+                        }}
+                    />
+                    <Text style={{ paddingLeft: 10, fontSize: 13 }}>
+                        {Ad.title}
+                    </Text>
+                </View>
             </TouchableOpacity>
             <Modal visible={modalVisible}>
                 <View style={[styles.background, { paddingTop: insets.top }]}>
@@ -38,8 +67,8 @@ export default function AdPopup() {
                                 router.push({
                                     pathname: "ReportScreen",
                                     params: {
-                                        image: listing.images,
-                                        title: listing.title,
+                                        image: Ad.images,
+                                        title: Ad.title,
                                     },
                                 });
                             }}>
@@ -48,7 +77,9 @@ export default function AdPopup() {
                     </View>
                     {/* IMAGE */}
                     <View style={{ height: 380, justifyContent: "center" }}>
-                        <Text>Ad Image</Text>
+
+                        {Ad.image ? <Image source={Ad.image} style={{ width: width, height: 375 }} /> : <Text>Ad Image</Text>}
+                        {/* <Text>Ad Image</Text> */}
                     </View>
                     <View style={{ width: "100%" }}>
                         <View
@@ -60,7 +91,7 @@ export default function AdPopup() {
                             }}>
                             {/* TITLE */}
                             <Text style={[styles.boldtext, { flex: 1 }]}>
-                                Ad Company
+                                {Ad.title}
                             </Text>
                         </View>
                         <View
@@ -71,7 +102,7 @@ export default function AdPopup() {
                             }}>
                             {/* DESCRIPTION */}
                             <Text style={{ flex: 1 }}>
-                                To rent out Ad space contact: dormswapnshop@gmail.com
+                                {Ad.description}
                             </Text>
                         </View>
                     </View>
