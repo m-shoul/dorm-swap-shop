@@ -270,7 +270,7 @@ export default function HomeScreen() {
         data.push(memoizedListingsData[i]);
 
     }
-    console.log(data);
+
     return (
         <View
             style={{
