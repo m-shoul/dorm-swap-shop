@@ -12,7 +12,6 @@ import styles from "./(aux)/StyleSheet";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { getAuth } from "firebase/auth";
 import { router } from "expo-router";
-import { getUserID } from "../backend/dbFunctions";
 import { Button } from "../components/Buttons";
 import LogoV2 from "../assets/svg/logoV2";
 import { Entypo } from "@expo/vector-icons";
@@ -34,6 +33,7 @@ export default function LoginScreen() {
     const passwordInputRef = useRef(null);
     const auth = getAuth();
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
     const handleLogin = async () => {
         // Check that user fills out form
         if (!email && !password) {
@@ -60,6 +60,10 @@ export default function LoginScreen() {
                 setErrorMessage2("");
                 setEmailStyle(styles.createUserInput);
                 setPasswordStyle(styles.createUserInput);
+
+                setEmail("");
+                setPassword("");
+
             } catch (error) {
                 setErrorMessage("Invalid Email or Password");
                 setErrorMessage2("Invalid Email or Password");
